@@ -19,5 +19,6 @@ public class OfferListActivity extends VolontuloBaseActivity {
         setContentView(R.layout.activity_offers_list);
 
         offers.setLayoutManager(new LinearLayoutManager(this));
+        offers.setAdapter(new OffersAdapter());
     }
 }

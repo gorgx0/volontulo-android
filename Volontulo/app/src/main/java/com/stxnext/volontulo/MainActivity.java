@@ -1,7 +1,10 @@
 package com.stxnext.volontulo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import com.stxnext.volontulo.ui.offers.OfferListActivity;
 
 import butterknife.OnClick;
 
@@ -16,6 +19,7 @@ public class MainActivity extends VolontuloBaseActivity {
     @OnClick(R.id.button_action_list)
     public void gotoActionList() {
         Toast.makeText(this, "ACTION LIST", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, OfferListActivity.class));
     }
 
     @OnClick(R.id.button_volunteer_list)
