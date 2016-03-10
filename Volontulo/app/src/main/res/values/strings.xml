@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Volontulo</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
     <string name="action_list_title">Lista akcji</string>
     <string name="volunteer_list_title">Lista wolontariuszy</string>
     <string name="communicator_title">Komunikator</string>
