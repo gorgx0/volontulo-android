@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.model.Offer;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +16,12 @@ public class OffersAdapter extends RecyclerView.Adapter<OfferViewHolder> {
     private List<Offer> offerList = new ArrayList<>();
 
     public OffersAdapter() {
-        offerList.add(new Offer("Xxx"));
-        offerList.add(new Offer("Xyy"));
-        offerList.add(new Offer("Yxx"));
-        offerList.add(new Offer("Iee"));
-        offerList.add(new Offer("Pee"));
+        offerList.add(Offer.mockOffer("Oferta 1", "Poznań", DateTime.now(), DateTime.now().plusDays(7), R.drawable.apple));
+        offerList.add(Offer.mockOffer("Oferta 2", "Polska", DateTime.now().plusMonths(3), DateTime.now().plusMonths(3).plusDays(7), R.drawable.breakfast_free));
+        offerList.add(Offer.mockOffer("Oferta 3", "Warszawa", DateTime.now(), DateTime.now().plusDays(7), R.drawable.cookie));
+        offerList.add(Offer.mockOffer("Oferta 4", "Leszno", DateTime.now().minusDays(1), DateTime.now().plusDays(7), R.drawable.ice));
+        offerList.add(Offer.mockOffer("Oferta 5", "Wrocław", DateTime.now().minusDays(1), DateTime.now().plusDays(7), R.drawable.join));
+        offerList.add(Offer.mockOffer("Oferta 6", "Poznań", DateTime.now().minusWeeks(1), DateTime.now().plusWeeks(2), R.drawable.oscar));
     }
 
     @Override
@@ -29,7 +32,11 @@ public class OffersAdapter extends RecyclerView.Adapter<OfferViewHolder> {
     @Override
     public void onBindViewHolder(final OfferViewHolder holder, int position) {
         final Offer offerModel = offerList.get(position);
+        holder.offerImage.setImageResource(offerModel.getOfferImageResource());
         holder.offerName.setText(offerModel.getOfferName());
+        holder.offerPlace.setText(offerModel.getOfferPlace());
+        holder.offerStart.setText(offerModel.getFormattedStartTime());
+        holder.offerEnd.setText(offerModel.getFormattedEndTime());
     }
 
     @Override
