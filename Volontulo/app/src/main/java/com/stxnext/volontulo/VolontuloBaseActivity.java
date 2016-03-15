@@ -19,11 +19,12 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity {
     }
 
     protected void init(int resourceTitle) {
-        toolbar.setTitle(resourceTitle);
+        init(getString(resourceTitle));
     }
 
     protected void init(String stringTitle) {
         toolbar.setTitle(stringTitle);
+        setSupportActionBar(toolbar);
     }
 
     @Override

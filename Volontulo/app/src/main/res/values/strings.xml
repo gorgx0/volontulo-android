@@ -11,4 +11,6 @@
     <string name="hint_activity_login_password">Password</string>
     <string name="text_activity_login_button">Zaloguj</string>
     <string name="error_wrong_email_or_password">Niepoprawny użytkownik lub hasło.</string>
+
+    <string name="add_offer">Dodaj akcję</string>
 </resources>
