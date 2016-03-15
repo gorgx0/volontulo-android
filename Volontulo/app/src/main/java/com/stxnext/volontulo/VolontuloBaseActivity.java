@@ -5,10 +5,12 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public abstract class VolontuloBaseActivity extends AppCompatActivity {
 
+    @Bind(R.id.toolbar)
     protected Toolbar toolbar;
 
     @Override
@@ -16,17 +18,11 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    protected void init() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-    }
-
     protected void init(int resourceTitle) {
-        init();
         toolbar.setTitle(resourceTitle);
     }
 
     protected void init(String stringTitle) {
-        init();
         toolbar.setTitle(stringTitle);
     }
 
