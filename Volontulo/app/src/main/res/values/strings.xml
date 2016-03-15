@@ -6,4 +6,9 @@
     <string name="volunteer_list_title">Lista wolontariuszy</string>
     <string name="communicator_title">Komunikator</string>
     <string name="settings_title">Ustawienia</string>
+    <string name="title_activity_login">Logowanie</string>
+    <string name="hint_activity_login_email">Email:</string>
+    <string name="hint_activity_login_password">Password</string>
+    <string name="text_activity_login_button">Zaloguj</string>
+    <string name="error_wrong_email_or_password">Niepoprawny użytkownik lub hasło.</string>
 </resources>
