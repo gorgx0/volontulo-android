@@ -13,4 +13,10 @@
     <string name="error_wrong_email_or_password">Niepoprawny użytkownik lub hasło.</string>
 
     <string name="add_offer">Dodaj akcję</string>
+    <string name="offer_name">Tytuł oferty</string>
+    <string name="offer_place">Miejsce odbywania wolontariatu</string>
+    <string name="offer_description">Description</string>
+    <string name="offer_time_requirement">Wymagania czasowe</string>
+    <string name="offer_benefits">Korzyści</string>
+    <string name="offer_save">Zapisz</string>
 </resources>

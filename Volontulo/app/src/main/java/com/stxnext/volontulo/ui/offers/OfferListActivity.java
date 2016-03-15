@@ -1,11 +1,11 @@
 package com.stxnext.volontulo.ui.offers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
@@ -36,7 +36,7 @@ public class OfferListActivity extends VolontuloBaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_offer:
-                Toast.makeText(this, "NEW ACTION/OFFER", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, AddOfferActivity.class));
                 return true;
 
             default:

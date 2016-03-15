@@ -10,6 +10,6 @@ public class AddOfferActivity extends VolontuloBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_add);
-        init("Dodaj ofertę");
+        init(R.string.add_offer);
     }
 }
