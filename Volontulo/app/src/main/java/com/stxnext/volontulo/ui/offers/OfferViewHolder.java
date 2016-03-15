@@ -2,6 +2,7 @@ package com.stxnext.volontulo.ui.offers;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,9 @@ import butterknife.OnClick;
 class OfferViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.offer_avatar)
     protected ImageView offerImage;
+
+    @Bind(R.id.offer_join)
+    protected ImageButton offerJoinButton;
 
     @Bind(R.id.offer_name)
     protected TextView offerName;
@@ -40,6 +44,13 @@ class OfferViewHolder extends RecyclerView.ViewHolder {
         offerPlace.setText(item.getOfferPlace());
         offerStart.setText(item.getFormattedStartTime());
         offerEnd.setText(item.getFormattedEndTime());
+        if (item.isUserJoined()) {
+            offerJoinButton.setImageResource(R.drawable.ic_offer_joined);
+            offerJoinButton.setEnabled(false);
+        } else {
+            offerJoinButton.setImageResource(R.drawable.ic_offer_join);
+            offerJoinButton.setEnabled(true);
+        }
     }
 
     @OnClick(R.id.offer_content)

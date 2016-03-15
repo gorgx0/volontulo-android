@@ -12,16 +12,18 @@ public class Offer {
     private long offerStartTime;
     private long offerEndTime;
     private int offerImageResource;
+    private boolean isUserJoined;
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("dd-MM-yyyy, HH:mm");
 
-    public static Offer mockOffer(String name, String place, DateTime startTime, DateTime endTime, @DrawableRes int imageResource) {
+    public static Offer mockOffer(String name, String place, DateTime startTime, DateTime endTime, @DrawableRes int imageResource, boolean isJoined) {
         final Offer result = new Offer();
         result.offerName = name;
         result.offerPlace = place;
         result.offerStartTime = startTime.getMillis();
         result.offerEndTime = endTime.getMillis();
         result.offerImageResource = imageResource;
+        result.isUserJoined = isJoined;
         return result;
     }
 
@@ -49,5 +51,9 @@ public class Offer {
 
     public int getOfferImageResource() {
         return offerImageResource;
+    }
+
+    public boolean isUserJoined() {
+        return isUserJoined;
     }
 }
