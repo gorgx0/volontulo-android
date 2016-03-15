@@ -59,26 +59,27 @@ public class AddOfferActivity extends VolontuloBaseActivity {
     }
 
     private boolean validateFields() {
+        boolean result = true;
         if (TextUtils.isEmpty(offerName.getText())) {
             offerNameLayout.setError("Określ, jak oferta będzie nazywać się w systemie, staraj się być dokładnym.");
-            return false;
+            result = false;
         }
         if (TextUtils.isEmpty(offerPlace.getText())) {
             offerPlaceLayout.setError("Określ, w jakim miejscu odbywać się będzie wolontariat.");
-            return false;
+            result = false;
         }
         if (TextUtils.isEmpty(offerDescription.getText())) {
             offerDescriptionLayout.setError("Postaraj się dokładnie opisać akcję.");
-            return false;
+            result = false;
         }
         if (TextUtils.isEmpty(offerTimeRequirement.getText())) {
             offerTimeRequirementLayout.setError("Określ wymagania czasowe - ile godzin pracy w ciągu dnia wymaga dana akcja.");
-            return false;
+            result = false;
         }
         if (TextUtils.isEmpty(offerBenefits.getText())) {
             offerBenefitsLayout.setError("Określ korzyści płynące z udziału w akcji.");
-            return false;
+            result = false;
         }
-        return true;
+        return result;
     }
 }
