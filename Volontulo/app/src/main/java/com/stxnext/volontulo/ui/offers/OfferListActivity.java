@@ -11,7 +11,7 @@ import butterknife.Bind;
 
 public class OfferListActivity extends VolontuloBaseActivity {
     @Bind(R.id.offers)
-    RecyclerView offers;
+    protected RecyclerView offers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,6 @@ public class OfferListActivity extends VolontuloBaseActivity {
         setContentView(R.layout.activity_offers_list);
 
         offers.setLayoutManager(new LinearLayoutManager(this));
-        offers.setAdapter(new OffersAdapter());
+        offers.setAdapter(new MockOffersAdapter());
     }
 }

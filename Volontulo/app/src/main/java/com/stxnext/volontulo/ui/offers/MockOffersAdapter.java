@@ -12,10 +12,10 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OffersAdapter extends RecyclerView.Adapter<OfferViewHolder> {
+class MockOffersAdapter extends RecyclerView.Adapter<OfferViewHolder> {
     private List<Offer> offerList = new ArrayList<>();
 
-    public OffersAdapter() {
+    public MockOffersAdapter() {
         offerList.add(Offer.mockOffer("Oferta 1", "Poznań", DateTime.now(), DateTime.now().plusDays(7), R.drawable.apple));
         offerList.add(Offer.mockOffer("Oferta 2", "Polska", DateTime.now().plusMonths(3), DateTime.now().plusMonths(3).plusDays(7), R.drawable.breakfast_free));
         offerList.add(Offer.mockOffer("Oferta 3", "Warszawa", DateTime.now(), DateTime.now().plusDays(7), R.drawable.cookie));
@@ -32,11 +32,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OfferViewHolder> {
     @Override
     public void onBindViewHolder(final OfferViewHolder holder, int position) {
         final Offer offerModel = offerList.get(position);
-        holder.offerImage.setImageResource(offerModel.getOfferImageResource());
-        holder.offerName.setText(offerModel.getOfferName());
-        holder.offerPlace.setText(offerModel.getOfferPlace());
-        holder.offerStart.setText(offerModel.getFormattedStartTime());
-        holder.offerEnd.setText(offerModel.getFormattedEndTime());
+        holder.update(offerModel);
     }
 
     @Override

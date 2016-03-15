@@ -13,7 +13,7 @@ public class Offer {
     private long offerEndTime;
     private int offerImageResource;
 
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("dd MM yyyy, HH:mm");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("dd-MM-yyyy, HH:mm");
 
     public static Offer mockOffer(String name, String place, DateTime startTime, DateTime endTime, @DrawableRes int imageResource) {
         final Offer result = new Offer();
