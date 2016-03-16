@@ -24,6 +24,9 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".ui.offers.OfferListActivity" />
         <activity
+            android:name=".ui.offers.AddOfferActivity"
+            android:theme="@style/AppTheme.BorderlessButtons" />
+        <activity
             android:name=".ui.offers.OffersDetailsActivity"
             android:label="@string/title_activity_offers_details"
             android:theme="@style/AppTheme">
