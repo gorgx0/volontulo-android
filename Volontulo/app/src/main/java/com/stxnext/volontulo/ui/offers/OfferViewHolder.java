@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.model.Offer;
 
@@ -41,7 +42,11 @@ class OfferViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void update(final Offer item) {
-        offerImage.setImageResource(item.getOfferImageResource());
+        Picasso.with(offerImage.getContext())
+            .load(item.getOfferImageResource())
+            .fit()
+            .centerCrop()
+            .into(offerImage);
         offerName.setText(item.getOfferName());
         offerPlace.setText(item.getOfferPlace());
         offerStart.setText(item.getFormattedStartTime());

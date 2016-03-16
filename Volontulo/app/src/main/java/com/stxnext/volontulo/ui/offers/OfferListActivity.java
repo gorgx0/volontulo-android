@@ -23,6 +23,7 @@ public class OfferListActivity extends VolontuloBaseActivity {
         init(R.string.action_list_title);
 
         offers.setLayoutManager(new LinearLayoutManager(this));
+        offers.setHasFixedSize(true);
         offers.setAdapter(new MockOffersAdapter());
     }
 
