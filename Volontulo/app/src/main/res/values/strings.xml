@@ -19,4 +19,5 @@
     <string name="offer_time_requirement">Wymagania czasowe</string>
     <string name="offer_benefits">Korzyści</string>
     <string name="offer_save">Zapisz</string>
+    <string name="title_activity_offers_details">OffersDetailsActivity</string>
 </resources>
