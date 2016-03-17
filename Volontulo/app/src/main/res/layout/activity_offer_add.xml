@@ -16,6 +16,7 @@
         android:layout_weight="1">
 
         <LinearLayout
+            android:id="@+id/offer_add_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -90,6 +91,11 @@
                     android:inputType="textMultiLine"
                     android:lines="3" />
             </android.support.design.widget.TextInputLayout>
+
+            <include
+                layout="@layout/view_offer_add_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 

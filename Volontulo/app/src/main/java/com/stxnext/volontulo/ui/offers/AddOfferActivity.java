@@ -15,9 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
+
+import java.io.File;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -26,6 +30,7 @@ public class AddOfferActivity extends VolontuloBaseActivity implements LoaderMan
     private static final int REQUEST_IMAGE = 0x1011;
     private static final int LOADER_CONTENT_IMAGE = 0x1000;
     private static final String[] filePathColumn = { MediaStore.Images.Media.DATA };
+    private static final String KEY_URI_STRIG = "uri";
 
     @Bind(R.id.offer_name_layout)
     TextInputLayout offerNameLayout;
@@ -56,6 +61,15 @@ public class AddOfferActivity extends VolontuloBaseActivity implements LoaderMan
 
     @Bind(R.id.offer_benefits)
     EditText offerBenefits;
+
+    @Bind(R.id.offer_thumbnail_card)
+    View offerThumbnailCard;
+
+    @Bind(R.id.offer_thumbnail)
+    ImageView offerThumbnail;
+
+    @Bind(R.id.offer_thumbnail_name)
+    TextView offerThumbnailName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +102,7 @@ public class AddOfferActivity extends VolontuloBaseActivity implements LoaderMan
         if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK && data != null) {
             final Uri selectedImage = data.getData();
             final Bundle args = new Bundle();
-            args.putString("uri", selectedImage.toString());
+            args.putString(KEY_URI_STRIG, selectedImage.toString());
             getSupportLoaderManager().initLoader(LOADER_CONTENT_IMAGE, args, this);
         }
     }
@@ -130,7 +144,7 @@ public class AddOfferActivity extends VolontuloBaseActivity implements LoaderMan
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         switch (id) {
             case LOADER_CONTENT_IMAGE:
-                final Uri imageDataUri = Uri.parse(args.getString("uri"));
+                final Uri imageDataUri = Uri.parse(args.getString(KEY_URI_STRIG));
                 return new CursorLoader(this, imageDataUri, filePathColumn, null, null, null);
 
             default:
@@ -140,12 +154,24 @@ public class AddOfferActivity extends VolontuloBaseActivity implements LoaderMan
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        data.moveToFirst();
         final int columnIndex = data.getColumnIndex(filePathColumn[0]);
         final String imageFilePath = data.getString(columnIndex);
-        Log.i("Loader", String.format("Attachment path: %s", imageFilePath));
+        final File fileImage = new File(imageFilePath);
+        offerThumbnailName.setText(fileImage.getName());
+        offerThumbnail.setImageURI(Uri.parse(imageFilePath));
+        offerThumbnailCard.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        Log.w("Loader", "Reset");
+    }
+
+    @OnClick(R.id.offer_thumbnail_delete)
+    void onThumbnailDelete(View clicked) {
+        offerThumbnail.setImageDrawable(null);
+        offerThumbnailName.setText("");
+        offerThumbnailCard.setVisibility(View.GONE);
     }
 }
