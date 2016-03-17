@@ -6,11 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,19 +14,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
-
-import java.io.File;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class AddOfferActivity extends VolontuloBaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AddOfferActivity extends VolontuloBaseActivity {
     private static final int REQUEST_IMAGE = 0x1011;
-    private static final int LOADER_CONTENT_IMAGE = 0x1000;
-    private static final String[] filePathColumn = { MediaStore.Images.Media.DATA };
-    private static final String KEY_URI_STRIG = "uri";
 
     @Bind(R.id.offer_name_layout)
     TextInputLayout offerNameLayout;
@@ -88,7 +80,9 @@ public class AddOfferActivity extends VolontuloBaseActivity implements LoaderMan
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_attach_file:
-                startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), REQUEST_IMAGE);
+                startActivityForResult(
+                    new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI),
+                    REQUEST_IMAGE);
                 return true;
 
             default:
@@ -101,10 +95,32 @@ public class AddOfferActivity extends VolontuloBaseActivity implements LoaderMan
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK && data != null) {
             final Uri selectedImage = data.getData();
-            final Bundle args = new Bundle();
-            args.putString(KEY_URI_STRIG, selectedImage.toString());
-            getSupportLoaderManager().initLoader(LOADER_CONTENT_IMAGE, args, this);
+            Picasso.with(this)
+                    .load(selectedImage)
+                    .fit()
+                    .into(offerThumbnail);
+            offerThumbnailName.setText(extractNameFromUri(selectedImage));
+            offerThumbnailCard.setVisibility(View.VISIBLE);
         }
+    }
+
+    private CharSequence extractNameFromUri(final Uri selectedImage) {
+        if ("file".equals(selectedImage.getScheme())) {
+            return selectedImage.getLastPathSegment();
+        } else if ("content".equals(selectedImage.getScheme())) {
+            final String[] projection = { MediaStore.Images.Media.TITLE };
+            final Cursor cursor = getContentResolver().query(selectedImage, projection, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    return cursor.getString(cursor.getColumnIndexOrThrow(projection[0]));
+                }
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+        return "";
     }
 
     @OnClick(R.id.add_offer)
@@ -138,34 +154,6 @@ public class AddOfferActivity extends VolontuloBaseActivity implements LoaderMan
             result = false;
         }
         return result;
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        switch (id) {
-            case LOADER_CONTENT_IMAGE:
-                final Uri imageDataUri = Uri.parse(args.getString(KEY_URI_STRIG));
-                return new CursorLoader(this, imageDataUri, filePathColumn, null, null, null);
-
-            default:
-                return null;
-        }
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        data.moveToFirst();
-        final int columnIndex = data.getColumnIndex(filePathColumn[0]);
-        final String imageFilePath = data.getString(columnIndex);
-        final File fileImage = new File(imageFilePath);
-        offerThumbnailName.setText(fileImage.getName());
-        offerThumbnail.setImageURI(Uri.parse(imageFilePath));
-        offerThumbnailCard.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        Log.w("Loader", "Reset");
     }
 
     @OnClick(R.id.offer_thumbnail_delete)
