@@ -49,6 +49,7 @@ public class Offer {
         return "";
     }
 
+    @DrawableRes
     public int getOfferImageResource() {
         return offerImageResource;
     }

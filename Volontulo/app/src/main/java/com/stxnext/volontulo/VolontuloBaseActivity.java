@@ -31,5 +31,6 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity {
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
+        toolbar.setTitle(R.string.app_name);
     }
 }

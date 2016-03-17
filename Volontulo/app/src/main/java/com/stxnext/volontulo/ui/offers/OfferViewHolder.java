@@ -1,5 +1,7 @@
 package com.stxnext.volontulo.ui.offers;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
@@ -7,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.model.Offer;
 
@@ -39,7 +42,11 @@ class OfferViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void update(final Offer item) {
-        offerImage.setImageResource(item.getOfferImageResource());
+        Picasso.with(offerImage.getContext())
+            .load(item.getOfferImageResource())
+            .fit()
+            .centerCrop()
+            .into(offerImage);
         offerName.setText(item.getOfferName());
         offerPlace.setText(item.getOfferPlace());
         offerStart.setText(item.getFormattedStartTime());
@@ -55,7 +62,10 @@ class OfferViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.offer_content)
     void onItemClick(View clicked) {
-        Toast.makeText(clicked.getContext(), "DETAILS ACTION/OFFER", Toast.LENGTH_SHORT).show();
+        Context context = clicked.getContext();
+        Toast.makeText(context, "DETAILS ACTION/OFFER", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(context, OffersDetailsActivity.class);
+        context.startActivity(intent);
     }
 
     @OnClick(R.id.offer_join)
