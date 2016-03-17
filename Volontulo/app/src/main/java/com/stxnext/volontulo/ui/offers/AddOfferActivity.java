@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -24,50 +25,37 @@ import butterknife.OnClick;
 public class AddOfferActivity extends VolontuloBaseActivity {
     private static final int REQUEST_IMAGE = 0x1011;
 
-    @Bind(R.id.offer_name_layout)
-    TextInputLayout offerNameLayout;
-
-    @Bind(R.id.offer_name)
-    EditText offerName;
-
-    @Bind(R.id.offer_place_layout)
-    TextInputLayout offerPlaceLayout;
-
-    @Bind(R.id.offer_place)
-    EditText offerPlace;
-
-    @Bind(R.id.offer_description_layout)
-    TextInputLayout offerDescriptionLayout;
-
-    @Bind(R.id.offer_description)
-    EditText offerDescription;
-
-    @Bind(R.id.offer_time_requirement_layout)
-    TextInputLayout offerTimeRequirementLayout;
-
-    @Bind(R.id.offer_time_requirement)
-    EditText offerTimeRequirement;
-
-    @Bind(R.id.offer_benefits_layout)
-    TextInputLayout offerBenefitsLayout;
-
-    @Bind(R.id.offer_benefits)
-    EditText offerBenefits;
-
-    @Bind(R.id.offer_thumbnail_card)
-    View offerThumbnailCard;
-
-    @Bind(R.id.offer_thumbnail)
-    ImageView offerThumbnail;
-
-    @Bind(R.id.offer_thumbnail_name)
-    TextView offerThumbnailName;
+    @Bind(R.id.offer_name_layout) TextInputLayout offerNameLayout;
+    @Bind(R.id.offer_name) EditText offerName;
+    @Bind(R.id.offer_place_layout) TextInputLayout offerPlaceLayout;
+    @Bind(R.id.offer_place) EditText offerPlace;
+    @Bind(R.id.offer_description_layout) TextInputLayout offerDescriptionLayout;
+    @Bind(R.id.offer_description) EditText offerDescription;
+    @Bind(R.id.offer_time_requirement_layout) TextInputLayout offerTimeRequirementLayout;
+    @Bind(R.id.offer_time_requirement) EditText offerTimeRequirement;
+    @Bind(R.id.offer_benefits_layout) TextInputLayout offerBenefitsLayout;
+    @Bind(R.id.offer_benefits) EditText offerBenefits;
+    @Bind(R.id.offer_thumbnail_card) View offerThumbnailCard;
+    @Bind(R.id.offer_thumbnail) ImageView offerThumbnail;
+    @Bind(R.id.offer_thumbnail_name) TextView offerThumbnailName;
+    @Bind(R.id.scroller) ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_add);
         init(R.string.add_offer);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(View.FOCUS_DOWN);
+            }
+        });
     }
 
     @Override
