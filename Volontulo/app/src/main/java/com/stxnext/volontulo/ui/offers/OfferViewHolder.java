@@ -64,7 +64,7 @@ class OfferViewHolder extends RecyclerView.ViewHolder {
     void onItemClick(View clicked) {
         Context context = clicked.getContext();
         Toast.makeText(context, "DETAILS ACTION/OFFER", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(context, OffersDetailsActivity.class);
+        Intent intent = new Intent(context, OfferDetailsActivity.class);
         context.startActivity(intent);
     }
 
