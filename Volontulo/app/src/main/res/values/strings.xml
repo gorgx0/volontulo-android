@@ -24,4 +24,10 @@
     <string name="offer_image_chooser">Wybierz obraz do akcji</string>
     <string name="offer_thumbnail">Miniaturka grafiki dołączonej do akcji</string>
     <string name="offer_thumbnail_delete">Usuń miniaturkę</string>
+
+    <string name="offer_name_validate">Określ, jak oferta będzie nazywać się w systemie, staraj się być dokładnym.</string>
+    <string name="offer_place_validate">Określ, w jakim miejscu odbywać się będzie wolontariat.</string>
+    <string name="offer_description_validate">Postaraj się dokładnie opisać akcję.</string>
+    <string name="offer_time_requirement_validate">Określ wymagania czasowe - ile godzin pracy w ciągu dnia wymaga dana akcja.</string>
+    <string name="offer_benefits_validate">Określ korzyści płynące z udziału w akcji.</string>
 </resources>
