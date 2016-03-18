@@ -114,6 +114,7 @@
                         android:id="@+id/offer_thumbnail"
                         android:layout_width="match_parent"
                         android:layout_height="160dp"
+                        android:layout_centerHorizontal="true"
                         android:contentDescription="@string/offer_thumbnail"
                         android:scaleType="centerCrop"
                         tools:src="@drawable/cookie" />

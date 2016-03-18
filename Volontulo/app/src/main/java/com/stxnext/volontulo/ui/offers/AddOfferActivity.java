@@ -5,7 +5,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.IdRes;
 import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.stxnext.volontulo.BaseTextWatcher;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
 import com.stxnext.volontulo.model.Offer;
@@ -65,6 +68,16 @@ public class AddOfferActivity extends VolontuloBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_add);
         init(R.string.add_offer);
+    }
+
+    @Override
+    protected void init(int resourceTitle) {
+        super.init(resourceTitle);
+        offerName.addTextChangedListener(new OfferObjectUpdater(offerName.getId(), formState));
+        offerPlace.addTextChangedListener(new OfferObjectUpdater(offerPlace.getId(), formState));
+        offerDescription.addTextChangedListener(new OfferObjectUpdater(offerDescription.getId(), formState));
+        offerBenefits.addTextChangedListener(new OfferObjectUpdater(offerBenefits.getId(), formState));
+        offerTimeRequirement.addTextChangedListener(new OfferObjectUpdater(offerTimeRequirement.getId(), formState));
     }
 
     @Override
@@ -130,6 +143,7 @@ public class AddOfferActivity extends VolontuloBaseActivity {
         if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK && data != null) {
             final Uri selectedImage = data.getData();
             loadImageFromUri(selectedImage);
+            formState.setImagePath(selectedImage);
         }
     }
 
@@ -203,5 +217,41 @@ public class AddOfferActivity extends VolontuloBaseActivity {
         offerThumbnail.setImageDrawable(null);
         offerThumbnailName.setText("");
         offerThumbnailCard.setVisibility(View.GONE);
+    }
+
+    private static class OfferObjectUpdater extends BaseTextWatcher {
+        @IdRes private final int editTextId;
+        private final Offer updated;
+
+        OfferObjectUpdater(@IdRes int id, Offer model) {
+            editTextId = id;
+            updated = model;
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            final String result = s.toString();
+            switch (editTextId) {
+                case R.id.offer_name:
+                    updated.setName(result);
+                    break;
+
+                case R.id.offer_place:
+                    updated.setPlace(result);
+                    break;
+
+                case R.id.offer_description:
+                    updated.setDescription(result);
+                    break;
+
+                case R.id.offer_benefits:
+                    updated.setBenefits(result);
+                    break;
+
+                case R.id.offer_time_requirement:
+                    updated.setTimeRequirement(result);
+                    break;
+            }
+        }
     }
 }

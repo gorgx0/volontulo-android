@@ -1,5 +1,6 @@
 package com.stxnext.volontulo.model;
 
+import android.net.Uri;
 import android.support.annotation.DrawableRes;
 
 import org.joda.time.DateTime;
@@ -33,6 +34,26 @@ public class Offer {
         result.imageResource = imageResource;
         result.isUserJoined = isJoined;
         return result;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setTimeRequirement(String timeRequirement) {
+        this.timeRequirement = timeRequirement;
+    }
+
+    public void setBenefits(String benefits) {
+        this.benefits = benefits;
     }
 
     public String getName() {
@@ -80,5 +101,9 @@ public class Offer {
 
     public String getImagePath() {
         return imagePath;
+    }
+
+    public void setImagePath(Uri path) {
+        this.imagePath = path.toString();
     }
 }
