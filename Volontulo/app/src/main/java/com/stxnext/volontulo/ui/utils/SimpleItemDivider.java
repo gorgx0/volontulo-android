@@ -1,4 +1,4 @@
-package com.stxnext.volontulo;
+package com.stxnext.volontulo.ui.utils;
 
 import android.content.Context;
 import android.content.res.TypedArray;

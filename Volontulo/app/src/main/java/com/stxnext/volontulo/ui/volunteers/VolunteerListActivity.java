@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.SimpleItemDivider;
+import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 import com.stxnext.volontulo.VolontuloBaseActivity;
 
 import butterknife.Bind;
