@@ -43,12 +43,12 @@ class OfferViewHolder extends RecyclerView.ViewHolder {
 
     public void update(final Offer item) {
         Picasso.with(offerImage.getContext())
-            .load(item.getOfferImageResource())
+            .load(item.getImageResource())
             .fit()
             .centerCrop()
             .into(offerImage);
-        offerName.setText(item.getOfferName());
-        offerPlace.setText(item.getOfferPlace());
+        offerName.setText(item.getName());
+        offerPlace.setText(item.getPlace());
         offerStart.setText(item.getFormattedStartTime());
         offerEnd.setText(item.getFormattedEndTime());
         if (item.isUserJoined()) {
