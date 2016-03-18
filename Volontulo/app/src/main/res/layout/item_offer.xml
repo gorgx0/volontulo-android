@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/offer_avatar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/offer_item_size"
+            android:layout_height="@dimen/offer_item_height"
             android:scaleType="centerCrop"
             tools:src="@drawable/ice" />
 

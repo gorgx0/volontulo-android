@@ -9,7 +9,7 @@ import com.stxnext.volontulo.VolontuloBaseActivity;
 
 import butterknife.OnClick;
 
-public class OffersDetailsActivity extends VolontuloBaseActivity {
+public class OfferDetailsActivity extends VolontuloBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +17,6 @@ public class OffersDetailsActivity extends VolontuloBaseActivity {
         setContentView(R.layout.activity_offers_details);
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.button_step_out)
     public void doStepOut(View view) {
         Snackbar.make(view, "Zgłosiłeś się!!!", Snackbar.LENGTH_SHORT).show();
