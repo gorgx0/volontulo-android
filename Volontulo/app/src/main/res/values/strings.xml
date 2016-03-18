@@ -20,4 +20,6 @@
     <string name="offer_benefits">Korzyści</string>
     <string name="offer_save">Zapisz</string>
     <string name="title_activity_offers_details">OffersDetailsActivity</string>
+
+    <string name="volunteer_avatar">Awatar wolontariusza</string>
 </resources>

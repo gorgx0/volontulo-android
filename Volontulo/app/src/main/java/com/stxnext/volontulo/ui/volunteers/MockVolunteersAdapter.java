@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.model.Volunteer;
 
 import java.util.ArrayList;
@@ -13,17 +14,17 @@ class MockVolunteersAdapter extends RecyclerView.Adapter<VolunteerViewHolder> {
     private List<Volunteer> volunteers = new ArrayList<>();
 
     public MockVolunteersAdapter() {
-        volunteers.add(Volunteer.mock("Jan", "Nowak", 0));
-        volunteers.add(Volunteer.mock("Jan", "Nowak", 0));
-        volunteers.add(Volunteer.mock("Jan", "Nowak", 0));
-        volunteers.add(Volunteer.mock("Jan", "Nowak", 0));
-        volunteers.add(Volunteer.mock("Jan", "Nowak", 0));
-        volunteers.add(Volunteer.mock("Jan", "Nowak", 0));
+        volunteers.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
+        volunteers.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
+        volunteers.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
+        volunteers.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
+        volunteers.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
+        volunteers.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
     }
 
     @Override
     public VolunteerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new VolunteerViewHolder(LayoutInflater.from(parent.getContext()).inflate(0, parent, false));
+        return new VolunteerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer, parent, false));
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.stxnext.volontulo.R;
+import com.stxnext.volontulo.SimpleItemDivider;
 import com.stxnext.volontulo.VolontuloBaseActivity;
 
 import butterknife.Bind;
@@ -20,6 +21,7 @@ public class VolunteerListActivity extends VolontuloBaseActivity {
         init(R.string.volunteer_list_title);
 
         volunteers.setLayoutManager(new LinearLayoutManager(this));
+        volunteers.addItemDecoration(new SimpleItemDivider(this));
         volunteers.setHasFixedSize(true);
         volunteers.setAdapter(new MockVolunteersAdapter());
     }
