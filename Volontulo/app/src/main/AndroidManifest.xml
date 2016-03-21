@@ -39,6 +39,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.offers.OfferListActivity" />
         </activity>
+        <activity android:name=".ui.volunteers.VolunteerListActivity" />
     </application>
 
 </manifest>

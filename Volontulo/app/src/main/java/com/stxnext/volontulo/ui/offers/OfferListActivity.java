@@ -35,7 +35,7 @@ public class OfferListActivity extends VolontuloBaseActivity implements Navigati
 
         offers.setLayoutManager(new LinearLayoutManager(this));
         offers.setHasFixedSize(true);
-        offers.setAdapter(new MockOffersAdapter());
+        offers.setAdapter(new MockOffersAdapter(this));
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         navigationMenu.setNavigationItemSelectedListener(this);

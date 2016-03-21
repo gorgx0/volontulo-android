@@ -25,7 +25,7 @@ public class Offer {
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("dd-MM-yyyy, HH:mm");
 
-    public static Offer mockOffer(String name, String place, DateTime startTime, DateTime endTime, @DrawableRes int imageResource, boolean isJoined) {
+    public static Offer mock(String name, String place, DateTime startTime, DateTime endTime, @DrawableRes int imageResource, boolean isJoined) {
         final Offer result = new Offer();
         result.name = name;
         result.place = place;
