@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.stxnext.volontulo">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".VolontuloApp"
         android:allowBackup="true"
@@ -29,6 +31,7 @@
         <activity
             android:name=".ui.offers.OfferDetailsActivity"
             android:label="@string/title_activity_offers_details"
+            android:theme="@style/AppTheme" />
             android:theme="@style/AppTheme" />
 
         <activity android:name=".ui.volunteers.VolunteerListActivity" />
