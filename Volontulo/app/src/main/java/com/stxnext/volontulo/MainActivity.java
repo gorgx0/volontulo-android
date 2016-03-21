@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.stxnext.volontulo.ui.offers.OfferListActivity;
+import com.stxnext.volontulo.ui.offers.OfferActivity;
 import com.stxnext.volontulo.ui.volunteers.VolunteerListActivity;
 
 import butterknife.OnClick;
@@ -20,7 +20,7 @@ public class MainActivity extends VolontuloBaseActivity {
 
     @OnClick(R.id.button_action_list)
     public void gotoActionList() {
-        startActivity(new Intent(this, OfferListActivity.class));
+        startActivity(new Intent(this, OfferActivity.class));
     }
 
     @OnClick(R.id.button_volunteer_list)

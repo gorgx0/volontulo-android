@@ -22,22 +22,22 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ui.offers.OfferListActivity" />
+        <activity android:name=".ui.offers.OfferActivity" />
         <activity
             android:name=".ui.offers.AddOfferActivity"
             android:theme="@style/AppTheme.BorderlessButtons"
-            android:parentActivityName=".ui.offers.OfferListActivity">
+            android:parentActivityName=".ui.offers.OfferActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.offers.OfferListActivity" />
+                android:value=".ui.offers.OfferActivity" />
         </activity>
         <activity
             android:name=".ui.offers.OfferDetailsActivity"
             android:label="@string/title_activity_offers_details"
-            android:parentActivityName=".ui.offers.OfferListActivity">
+            android:parentActivityName=".ui.offers.OfferActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.offers.OfferListActivity" />
+                android:value=".ui.offers.OfferActivity" />
         </activity>
         <activity android:name=".ui.volunteers.VolunteerListActivity" />
     </application>
