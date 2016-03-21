@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.stxnext.volontulo.ui.login.LoginActivity;
+
 public class SplashActivity extends AppCompatActivity {
     private static final int SPLASH_TIMEOUT = 3000;
 

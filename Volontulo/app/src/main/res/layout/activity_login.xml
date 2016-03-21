@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.stxnext.volontulo.LoginActivity">
-
-    <include layout="@layout/app_bar" android:id="@+id/appbar" />
+    tools:context=".ui.login.LoginActivity">
 
     <LinearLayout
         android:layout_centerVertical="true"

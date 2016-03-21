@@ -19,7 +19,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.stxnext.volontulo.BaseTextWatcher;
+import com.stxnext.volontulo.ui.utils.BaseTextWatcher;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
 import com.stxnext.volontulo.model.Offer;

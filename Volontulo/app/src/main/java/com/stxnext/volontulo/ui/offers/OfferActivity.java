@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
@@ -61,9 +62,11 @@ public class OfferActivity extends VolontuloBaseActivity implements NavigationVi
                 break;
 
             case R.id.menu_communicator:
+                Toast.makeText(this, "COMMUNICATOR", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.menu_settings:
+                Toast.makeText(this, "SETTINGS", Toast.LENGTH_SHORT).show();
                 break;
 
             default:

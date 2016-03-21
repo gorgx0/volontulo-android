@@ -1,10 +1,12 @@
-package com.stxnext.volontulo;
+package com.stxnext.volontulo.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.stxnext.volontulo.R;
+import com.stxnext.volontulo.VolontuloBaseActivity;
 import com.stxnext.volontulo.ui.offers.OfferActivity;
 
 import butterknife.Bind;
@@ -22,10 +24,8 @@ public class LoginActivity extends VolontuloBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        init(R.string.title_activity_login);
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.button_login)
     public void doLogin() {
         if (editTextEmail.getText().toString().equals("test") && editTextPassword.getText().toString().equals("test")) {
