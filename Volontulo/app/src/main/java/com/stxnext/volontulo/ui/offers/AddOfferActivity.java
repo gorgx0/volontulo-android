@@ -71,8 +71,8 @@ public class AddOfferActivity extends VolontuloBaseActivity {
     }
 
     @Override
-    protected void init(int resourceTitle) {
-        super.init(resourceTitle);
+    protected void init(String stringTitle) {
+        super.init(stringTitle);
         offerName.addTextChangedListener(new OfferObjectUpdater(offerName.getId(), formState));
         offerPlace.addTextChangedListener(new OfferObjectUpdater(offerPlace.getId(), formState));
         offerDescription.addTextChangedListener(new OfferObjectUpdater(offerDescription.getId(), formState));

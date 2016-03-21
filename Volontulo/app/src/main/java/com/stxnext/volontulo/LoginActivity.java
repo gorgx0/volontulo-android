@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.stxnext.volontulo.ui.offers.OfferListActivity;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -27,7 +29,7 @@ public class LoginActivity extends VolontuloBaseActivity {
     @OnClick(R.id.button_login)
     public void doLogin() {
         if (editTextEmail.getText().toString().equals("test") && editTextPassword.getText().toString().equals("test")) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, OfferListActivity.class);
             startActivity(intent);
         } else {
             Toast.makeText(LoginActivity.this, R.string.error_wrong_email_or_password, Toast.LENGTH_SHORT).show();
