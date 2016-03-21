@@ -21,6 +21,8 @@
     <string name="offer_benefits">Korzyści</string>
     <string name="offer_save">Zapisz</string>
     <string name="title_activity_offers_details">OffersDetailsActivity</string>
+
+    <string name="volunteer_avatar">Awatar wolontariusza</string>
     <string name="offer_image_chooser">Wybierz obraz do akcji</string>
     <string name="offer_thumbnail">Miniaturka grafiki dołączonej do akcji</string>
     <string name="offer_thumbnail_delete">Usuń miniaturkę</string>
