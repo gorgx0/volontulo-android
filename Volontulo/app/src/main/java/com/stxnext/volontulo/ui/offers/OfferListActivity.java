@@ -24,7 +24,7 @@ public class OfferListActivity extends VolontuloBaseActivity {
 
         offers.setLayoutManager(new LinearLayoutManager(this));
         offers.setHasFixedSize(true);
-        offers.setAdapter(new MockOffersAdapter());
+        offers.setAdapter(new MockOffersAdapter(this));
     }
 
     @Override

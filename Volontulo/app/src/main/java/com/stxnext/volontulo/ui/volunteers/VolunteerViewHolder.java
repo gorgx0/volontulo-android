@@ -1,6 +1,5 @@
 package com.stxnext.volontulo.ui.volunteers;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,14 +7,14 @@ import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.model.Volunteer;
+import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
 import java.util.Locale;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-class VolunteerViewHolder extends RecyclerView.ViewHolder {
+class VolunteerViewHolder extends BaseViewHolder<Volunteer> {
     @Bind(R.id.volunteer_name)
     TextView volunteerName;
 
@@ -24,10 +23,10 @@ class VolunteerViewHolder extends RecyclerView.ViewHolder {
 
     public VolunteerViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
     }
 
-    public void update(Volunteer model) {
+    @Override
+    public void onBind(Volunteer model) {
         volunteerName.setText(String.format("%s %s", model.getName(), model.getSurname()));
         volunteerAvatar.setImageResource(model.getAvatarResouce());
     }

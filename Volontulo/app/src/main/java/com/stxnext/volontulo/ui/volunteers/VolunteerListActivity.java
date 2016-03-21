@@ -23,6 +23,6 @@ public class VolunteerListActivity extends VolontuloBaseActivity {
         volunteers.setLayoutManager(new LinearLayoutManager(this));
         volunteers.addItemDecoration(new SimpleItemDivider(this));
         volunteers.setHasFixedSize(true);
-        volunteers.setAdapter(new MockVolunteersAdapter());
+        volunteers.setAdapter(new MockVolunteersAdapter(this));
     }
 }

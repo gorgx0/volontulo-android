@@ -1,40 +1,26 @@
 package com.stxnext.volontulo.ui.volunteers;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.content.Context;
+import android.view.View;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.model.Volunteer;
+import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
+class MockVolunteersAdapter extends BaseMockAdapter<Volunteer, VolunteerViewHolder> {
 
-class MockVolunteersAdapter extends RecyclerView.Adapter<VolunteerViewHolder> {
-    private List<Volunteer> volunteers = new ArrayList<>();
-
-    public MockVolunteersAdapter() {
-        volunteers.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
-        volunteers.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
-        volunteers.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
-        volunteers.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
-        volunteers.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
-        volunteers.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
+    public MockVolunteersAdapter(Context context) {
+        super(context, R.layout.item_volunteer);
+        objects.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
+        objects.add(Volunteer.mock("Jan", "Kowalski", R.drawable.ic_user_placeholder));
+        objects.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
+        objects.add(Volunteer.mock("Michał", "Kowalski", R.drawable.ic_user_placeholder));
+        objects.add(Volunteer.mock("Michał", "Nowak", R.drawable.ic_user_placeholder));
+        objects.add(Volunteer.mock("Paweł", "Nowak", R.drawable.ic_user_placeholder));
     }
 
     @Override
-    public VolunteerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new VolunteerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer, parent, false));
-    }
-
-    @Override
-    public void onBindViewHolder(VolunteerViewHolder holder, int position) {
-        final Volunteer model = volunteers.get(position);
-        holder.update(model);
-    }
-
-    @Override
-    public int getItemCount() {
-        return volunteers.size();
+    protected VolunteerViewHolder createViewHolder(View item) {
+        return new VolunteerViewHolder(item);
     }
 }
