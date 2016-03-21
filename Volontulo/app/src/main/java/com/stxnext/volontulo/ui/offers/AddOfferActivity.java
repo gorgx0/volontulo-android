@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -126,6 +127,10 @@ public class AddOfferActivity extends VolontuloBaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+
             case R.id.action_attach_file:
                 startActivityForResult(
                         new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI),
