@@ -10,11 +10,11 @@ public class VolunteerListActivity extends VolontuloBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_offer);
+        setContentView(R.layout.activity_drawer);
         init(R.string.app_name);
         final FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.content, new VolunteerListFragment())
+                .replace(R.id.content, new VolunteerListFragment())
                 .commit();
     }
 }

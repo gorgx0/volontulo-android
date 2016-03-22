@@ -24,22 +24,22 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.offers.OfferActivity" />
+        <activity android:name=".ui.MainHostActivity" />
         <activity
             android:name=".ui.offers.AddOfferActivity"
-            android:parentActivityName=".ui.offers.OfferActivity"
+            android:parentActivityName=".ui.MainHostActivity"
             android:theme="@style/AppTheme.BorderlessButtons">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.offers.OfferActivity" />
+                android:value=".ui.MainHostActivity" />
         </activity>
         <activity
             android:name=".ui.offers.OfferDetailsActivity"
             android:label="@string/title_activity_offers_details"
-            android:parentActivityName=".ui.offers.OfferActivity">
+            android:parentActivityName=".ui.MainHostActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.offers.OfferActivity" />
+                android:value=".ui.MainHostActivity" />
         </activity>
         <activity android:name=".ui.volunteers.VolunteerListActivity" />
     </application>

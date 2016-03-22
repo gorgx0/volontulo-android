@@ -1,4 +1,4 @@
-package com.stxnext.volontulo.ui.offers;
+package com.stxnext.volontulo.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,11 +11,12 @@ import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
+import com.stxnext.volontulo.ui.offers.OfferListFragment;
 import com.stxnext.volontulo.ui.volunteers.VolunteerListFragment;
 
 import butterknife.Bind;
 
-public class OfferActivity extends VolontuloBaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainHostActivity extends VolontuloBaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     @Bind(R.id.navigation_menu)
     protected NavigationView navigationMenu;
 
@@ -27,7 +28,7 @@ public class OfferActivity extends VolontuloBaseActivity implements NavigationVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_offer);
+        setContentView(R.layout.activity_drawer);
         init(R.string.app_name);
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
@@ -44,7 +45,6 @@ public class OfferActivity extends VolontuloBaseActivity implements NavigationVi
     protected void onPostResume() {
         super.onPostResume();
         toggle.syncState();
-        invalidateOptionsMenu();
     }
 
     @Override
@@ -76,7 +76,6 @@ public class OfferActivity extends VolontuloBaseActivity implements NavigationVi
             fragmentManager.beginTransaction()
                 .replace(R.id.content, fragment)
                 .commit();
-            invalidateOptionsMenu();
             return true;
         }
         return false;
