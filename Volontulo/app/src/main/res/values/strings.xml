@@ -11,6 +11,8 @@
     <string name="hint_activity_login_password">Password</string>
     <string name="text_activity_login_button">Zaloguj</string>
     <string name="error_wrong_email_or_password">Niepoprawny użytkownik lub hasło.</string>
+    <string name="drawer_open">Rozwiń</string>
+    <string name="drawer_close">Zwiń</string>
 
     <string name="add_offer">Dodaj akcję</string>
     <string name="attach_image">Dodaj obraz</string>

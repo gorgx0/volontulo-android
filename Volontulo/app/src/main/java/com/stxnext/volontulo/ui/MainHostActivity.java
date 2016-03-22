@@ -31,7 +31,7 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
         setContentView(R.layout.activity_drawer);
         init(R.string.app_name);
 
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
         navigationMenu.setNavigationItemSelectedListener(this);
         navigationMenu.setCheckedItem(R.id.menu_action_list);
 
