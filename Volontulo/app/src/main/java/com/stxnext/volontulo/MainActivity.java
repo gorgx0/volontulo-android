@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.stxnext.volontulo.ui.offers.OfferListActivity;
+import com.stxnext.volontulo.ui.volunteers.VolunteerDetailsActivity;
 import com.stxnext.volontulo.ui.volunteers.VolunteerListActivity;
 
 import butterknife.OnClick;
@@ -30,6 +31,7 @@ public class MainActivity extends VolontuloBaseActivity {
 
     @OnClick(R.id.button_communicator)
     public void gotoCommunicator() {
+        startActivity(new Intent(this, VolunteerDetailsActivity.class));
         Toast.makeText(this, "COMMUNICATOR", Toast.LENGTH_SHORT).show();
     }
 
