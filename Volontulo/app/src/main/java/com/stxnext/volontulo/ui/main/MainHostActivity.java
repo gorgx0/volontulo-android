@@ -1,4 +1,4 @@
-package com.stxnext.volontulo.ui;
+package com.stxnext.volontulo.ui.main;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -7,12 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
 import com.stxnext.volontulo.ui.offers.OfferListFragment;
-import com.stxnext.volontulo.ui.volunteers.VolunteerListFragment;
 
 import butterknife.Bind;
 
@@ -51,27 +49,7 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
     public boolean onNavigationItemSelected(MenuItem item) {
         drawerLayout.closeDrawers();
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = null;
-        switch (item.getItemId()) {
-            case R.id.menu_action_list:
-                fragment = new OfferListFragment();
-                break;
-
-            case R.id.menu_volunteer_list:
-                fragment = new VolunteerListFragment();
-                break;
-
-            case R.id.menu_communicator:
-                Toast.makeText(this, "COMMUNICATOR", Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.menu_settings:
-                Toast.makeText(this, "SETTINGS", Toast.LENGTH_SHORT).show();
-                break;
-
-            default:
-                return false;
-        }
+        final Fragment fragment = FragmentFactory.create(item.getItemId());
         if (fragment != null) {
             fragmentManager.beginTransaction()
                 .replace(R.id.content, fragment)

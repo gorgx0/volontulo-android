@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
-import com.stxnext.volontulo.ui.MainHostActivity;
+import com.stxnext.volontulo.ui.main.MainHostActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
