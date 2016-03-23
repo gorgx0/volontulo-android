@@ -21,7 +21,7 @@ public class VolunteerListFragment extends VolontuloBaseFragment {
 
     @Override
     protected void onPostCreateView(View root) {
-        setTitle(R.string.volunteer_list_title);
+        setToolbarTitle(R.string.volunteer_list_title);
         volunteers.setLayoutManager(new LinearLayoutManager(getActivity()));
         volunteers.addItemDecoration(new SimpleItemDivider(getActivity()));
         volunteers.setHasFixedSize(true);

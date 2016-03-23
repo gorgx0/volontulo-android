@@ -21,11 +21,11 @@ public abstract class VolontuloBaseFragment extends Fragment {
     protected void onPostCreateView(final View root) {
     }
 
-    protected final void setTitle(final @StringRes int titleResource) {
-        setTitle(getString(titleResource));
+    protected final void setToolbarTitle(final @StringRes int titleResource) {
+        setToolbarTitle(getString(titleResource));
     }
 
-    protected final void setTitle(final CharSequence title) {
+    protected final void setToolbarTitle(final CharSequence title) {
         final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(title);

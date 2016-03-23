@@ -28,7 +28,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        setTitle(R.string.action_list_title);
+        setToolbarTitle(R.string.action_list_title);
     }
 
     @Override
