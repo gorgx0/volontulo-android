@@ -1,5 +1,7 @@
 package com.stxnext.volontulo.ui.volunteers;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -7,6 +9,7 @@ import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.model.Volunteer;
+import com.stxnext.volontulo.ui.offers.OfferDetailsActivity;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
 import java.util.Locale;
@@ -33,9 +36,9 @@ class VolunteerViewHolder extends BaseViewHolder<Volunteer> {
 
     @OnClick(R.id.volunteer)
     void onItemClick(View clicked) {
-        Toast.makeText(clicked.getContext(),
-            String.format(Locale.getDefault(), "SELECTED VOLUNTEER %d", getAdapterPosition() + 1),
-            Toast.LENGTH_SHORT
-        ).show();
+        Context context = clicked.getContext();
+        Toast.makeText(context, "DETAILS VOLUNTEER", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(context, VolunteerDetailsActivity.class);
+        context.startActivity(intent);
     }
 }

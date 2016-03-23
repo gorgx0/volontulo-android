@@ -45,4 +45,5 @@
     <string name="button_send_text">Wyślij</string>
     <string name="volunteer_contact_name">Twoje imię i nazwisko</string>
     <string name="volunteer_contact_email">Twój email</string>
+    <string name="volunteer_detail_title">Profil Wolontariusza</string>
 </resources>

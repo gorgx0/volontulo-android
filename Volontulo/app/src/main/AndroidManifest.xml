@@ -41,10 +41,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainHostActivity" />
         </activity>
-            android:theme="@style/AppTheme" />
-        android:theme="@style/AppTheme" />
         <activity android:name=".ui.volunteers.VolunteerListActivity" />
-        <activity android:name=".ui.volunteers.VolunteerDetailsActivity"></activity>
+        <activity
+            android:name=".ui.volunteers.VolunteerDetailsActivity"
+            android:label="@string/title_activity_offers_details"
+            android:parentActivityName=".ui.volunteers.VolunteerListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.volunteers.VolunteerListActivity" />
+        </activity>
+
     </application>
 
 </manifest>
