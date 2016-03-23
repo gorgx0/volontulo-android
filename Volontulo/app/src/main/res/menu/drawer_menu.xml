@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_action_list"
+            android:icon="@drawable/ic_add_offer"
+            android:title="@string/action_list_title" />
+        <item
+            android:id="@+id/menu_volunteer_list"
+            android:icon="@drawable/ic_attach_file"
+            android:title="@string/volunteer_list_title" />
+        <item
+            android:id="@+id/menu_communicator"
+            android:icon="@drawable/ic_offer_join"
+            android:title="@string/communicator_title" />
+        <item
+            android:id="@+id/menu_settings"
+            android:icon="@drawable/ic_offer_joined"
+            android:title="@string/settings_title" />
+    </group>
+</menu>
