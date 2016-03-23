@@ -1,15 +1,17 @@
-package com.stxnext.volontulo;
+package com.stxnext.volontulo.ui.login;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.stxnext.volontulo.R;
+import com.stxnext.volontulo.VolontuloBaseFragment;
+import com.stxnext.volontulo.ui.main.MainHostActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class LoginActivity extends VolontuloBaseActivity {
-
+public class LoginFragment extends VolontuloBaseFragment {
     @Bind(R.id.edit_text_email)
     EditText editTextEmail;
 
@@ -17,21 +19,18 @@ public class LoginActivity extends VolontuloBaseActivity {
     EditText editTextPassword;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        init(R.string.title_activity_login);
+    protected int getLayoutResource() {
+        return R.layout.fragment_login;
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.button_login)
     public void doLogin() {
         if (editTextEmail.getText().toString().equals("test") && editTextPassword.getText().toString().equals("test")) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(getActivity(), MainHostActivity.class);
             startActivity(intent);
+            getActivity().finish();
         } else {
-            Toast.makeText(LoginActivity.this, R.string.error_wrong_email_or_password, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.error_wrong_email_or_password, Toast.LENGTH_SHORT).show();
         }
     }
-
 }
