@@ -67,6 +67,43 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         offerTimeRequirement.addTextChangedListener(new OfferObjectUpdater(offerTimeRequirement.getId(), formState));
     }
 
+    private static class OfferObjectUpdater extends BaseTextWatcher {
+        @IdRes
+        private final int editTextId;
+        private final Offer updated;
+
+        OfferObjectUpdater(@IdRes int id, Offer model) {
+            editTextId = id;
+            updated = model;
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            final String result = s.toString();
+            switch (editTextId) {
+                case R.id.offer_name:
+                    updated.setName(result);
+                    break;
+
+                case R.id.offer_place:
+                    updated.setPlace(result);
+                    break;
+
+                case R.id.offer_description:
+                    updated.setDescription(result);
+                    break;
+
+                case R.id.offer_benefits:
+                    updated.setBenefits(result);
+                    break;
+
+                case R.id.offer_time_requirement:
+                    updated.setTimeRequirement(result);
+                    break;
+            }
+        }
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -137,7 +174,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     }
 
     @OnClick(R.id.offer_thumbnail_delete)
-    void onThumbnailDelete(View clicked) {
+    void onThumbnailDelete() {
         unloadImage();
     }
 
@@ -148,7 +185,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     }
 
     @OnClick(R.id.add_offer)
-    void onOfferAdd(View clicked) {
+    void onOfferAdd() {
         if (!validateFields()) {
             return;
         }
@@ -206,42 +243,5 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             }
         }
         return "";
-    }
-
-    private static class OfferObjectUpdater extends BaseTextWatcher {
-        @IdRes
-        private final int editTextId;
-        private final Offer updated;
-
-        OfferObjectUpdater(@IdRes int id, Offer model) {
-            editTextId = id;
-            updated = model;
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            final String result = s.toString();
-            switch (editTextId) {
-                case R.id.offer_name:
-                    updated.setName(result);
-                    break;
-
-                case R.id.offer_place:
-                    updated.setPlace(result);
-                    break;
-
-                case R.id.offer_description:
-                    updated.setDescription(result);
-                    break;
-
-                case R.id.offer_benefits:
-                    updated.setBenefits(result);
-                    break;
-
-                case R.id.offer_time_requirement:
-                    updated.setTimeRequirement(result);
-                    break;
-            }
-        }
     }
 }
