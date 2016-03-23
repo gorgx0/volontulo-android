@@ -49,7 +49,7 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
     public boolean onNavigationItemSelected(MenuItem item) {
         drawerLayout.closeDrawers();
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        final Fragment fragment = FragmentFactory.create(item.getItemId());
+        final Fragment fragment = NavigationDrawerFragmentFactory.create(item.getItemId());
         if (fragment != null) {
             fragmentManager.beginTransaction()
                 .replace(R.id.content, fragment)

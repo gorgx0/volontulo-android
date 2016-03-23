@@ -7,7 +7,7 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.ui.offers.OfferListFragment;
 import com.stxnext.volontulo.ui.volunteers.VolunteerListFragment;
 
-final class FragmentFactory {
+final class NavigationDrawerFragmentFactory {
     public static Fragment create(@IdRes int itemId) {
         switch (itemId) {
             case R.id.menu_action_list:
