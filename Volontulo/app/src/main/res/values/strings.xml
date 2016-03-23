@@ -34,4 +34,16 @@
     <string name="offer_description_validate">Postaraj się dokładnie opisać akcję.</string>
     <string name="offer_time_requirement_validate">Określ wymagania czasowe - ile godzin pracy w ciągu dnia wymaga dana akcja.</string>
     <string name="offer_benefits_validate">Określ korzyści płynące z udziału w akcji.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="volunteer_data_name">Nazwa</string>
+    <string name="volunteer_data_address">Adres</string>
+    <string name="volunteer_data_description">Opis</string>
+    <string name="volunteer_contact_phone">Telefon</string>
+    <string name="volunteer_contact_desc">Opis</string>
+    <string name="button_send_text">Wyślij</string>
+    <string name="volunteer_contact_name">Twoje imię i nazwisko</string>
+    <string name="volunteer_contact_email">Twój email</string>
+    <string name="volunteer_detail_title">Profil Wolontariusza</string>
 </resources>
