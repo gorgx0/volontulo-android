@@ -19,7 +19,7 @@ public class LoginFragment extends VolontuloBaseFragment {
     EditText editTextPassword;
 
     @Override
-    protected int fragmentLayoutResource() {
+    protected int getLayoutResource() {
         return R.layout.fragment_login;
     }
 

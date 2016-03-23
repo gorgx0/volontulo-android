@@ -15,7 +15,7 @@ public class VolunteerListFragment extends VolontuloBaseFragment {
     protected RecyclerView volunteers;
 
     @Override
-    protected int fragmentLayoutResource() {
+    protected int getLayoutResource() {
         return R.layout.fragment_list;
     }
 

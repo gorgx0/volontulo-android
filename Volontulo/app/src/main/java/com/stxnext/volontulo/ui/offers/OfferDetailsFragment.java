@@ -10,7 +10,7 @@ import butterknife.OnClick;
 
 public class OfferDetailsFragment extends VolontuloBaseFragment {
     @Override
-    protected int fragmentLayoutResource() {
+    protected int getLayoutResource() {
         return R.layout.fragment_offers_details;
     }
 

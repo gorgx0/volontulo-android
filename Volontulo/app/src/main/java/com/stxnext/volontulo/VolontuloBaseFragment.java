@@ -16,9 +16,7 @@ import butterknife.ButterKnife;
 public abstract class VolontuloBaseFragment extends Fragment {
 
     @LayoutRes
-    protected int fragmentLayoutResource() {
-        return 0;
-    }
+    protected abstract int getLayoutResource();
 
     protected void onPostCreateView(final View root) {
     }
@@ -37,7 +35,7 @@ public abstract class VolontuloBaseFragment extends Fragment {
     @Nullable
     @Override
     public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View root = inflater.inflate(fragmentLayoutResource(), container, false);
+        final View root = inflater.inflate(getLayoutResource(), container, false);
         ButterKnife.bind(this, root);
         onPostCreateView(root);
         return root;

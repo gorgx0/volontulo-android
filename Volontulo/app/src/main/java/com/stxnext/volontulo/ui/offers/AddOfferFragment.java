@@ -53,7 +53,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     private Offer formState = new Offer();
 
     @Override
-    protected int fragmentLayoutResource() {
+    protected int getLayoutResource() {
         return R.layout.fragment_offer_add;
     }
 

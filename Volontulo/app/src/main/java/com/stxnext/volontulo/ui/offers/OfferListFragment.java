@@ -20,7 +20,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
     protected RecyclerView offers;
 
     @Override
-    protected int fragmentLayoutResource() {
+    protected int getLayoutResource() {
         return R.layout.fragment_list;
     }
 
