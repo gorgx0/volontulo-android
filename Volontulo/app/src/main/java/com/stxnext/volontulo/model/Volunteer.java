@@ -2,10 +2,20 @@ package com.stxnext.volontulo.model;
 
 import android.support.annotation.DrawableRes;
 
-public class Volunteer {
+import org.parceler.Parcel;
+
+import io.realm.RealmObject;
+import io.realm.VolunteerRealmProxy;
+import io.realm.annotations.Ignore;
+
+@Parcel(implementations = { VolunteerRealmProxy.class },
+        value = Parcel.Serialization.BEAN,
+        analyze = { Volunteer.class })
+public class Volunteer extends RealmObject {
     private String name;
     private String surname;
-    private int avatarResouce;
+
+    @Ignore private int avatarResouce;
 
     public static Volunteer mock(String name, String surname, @DrawableRes int imageRes) {
         final Volunteer result = new Volunteer();
