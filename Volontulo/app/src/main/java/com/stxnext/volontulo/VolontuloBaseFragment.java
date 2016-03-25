@@ -1,6 +1,7 @@
 package com.stxnext.volontulo;
 
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -30,6 +31,9 @@ public abstract class VolontuloBaseFragment extends Fragment {
         if (actionBar != null) {
             actionBar.setTitle(title);
         }
+        if (hasCollapsedImage()) {
+
+        }
     }
 
     @Nullable
@@ -45,5 +49,14 @@ public abstract class VolontuloBaseFragment extends Fragment {
     public void onDestroyView() {
         ButterKnife.unbind(this);
         super.onDestroyView();
+    }
+
+    @DrawableRes
+    public int getImageResource() {
+        return 0;
+    }
+
+    public boolean hasCollapsedImage() {
+        return getImageResource() != 0;
     }
 }
