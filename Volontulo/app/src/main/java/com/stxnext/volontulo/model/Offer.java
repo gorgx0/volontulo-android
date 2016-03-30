@@ -8,8 +8,14 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.parceler.Parcel;
 
-@Parcel
-public class Offer {
+import io.realm.OfferRealmProxy;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+
+@Parcel(implementations = { OfferRealmProxy.class },
+        value = Parcel.Serialization.BEAN,
+        analyze = { Offer.class })
+public class Offer extends RealmObject {
     private String name;
     private String place;
     private String description;
@@ -20,11 +26,11 @@ public class Offer {
     private long endTime;
     private boolean isUserJoined;
 
-    private int imageResource;
+    @Ignore private int imageResource;
     private String imagePath;
 
-    private static final DateTimeFormatter DATE_FORMAT_LONG = DateTimeFormat.forPattern("dd-MM-yyyy, HH:mm");
-    private static final DateTimeFormatter DATE_FORMAT_SHORT = DateTimeFormat.forPattern("dd/MM/yy");
+    @Ignore private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormat.forPattern("dd-MM-yyyy, HH:mm");
+    @Ignore private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("dd/MM/yy");
 
     public static Offer mock(String name, String place, DateTime startTime, DateTime endTime, @DrawableRes int imageResource, boolean isJoined) {
         final Offer result = new Offer();
@@ -67,28 +73,28 @@ public class Offer {
 
     public String getFormattedStartTime() {
         if (startTime > 0) {
-            return new DateTime(startTime).toString(DATE_FORMAT_LONG);
+            return new DateTime(startTime).toString(DATE_TIME_FORMAT);
         }
         return "";
     }
 
     public String getFormattedEndTime() {
         if (endTime > 0) {
-            return new DateTime(endTime).toString(DATE_FORMAT_LONG);
+            return new DateTime(endTime).toString(DATE_TIME_FORMAT);
         }
         return "";
     }
 
     public String getFormattedStartDay() {
         if (startTime > 0) {
-            return new DateTime(startTime).toString(DATE_FORMAT_SHORT);
+            return new DateTime(startTime).toString(DATE_FORMAT);
         }
         return "";
     }
 
     public String getFormattedEndDay() {
         if (endTime > 0) {
-            return new DateTime(endTime).toString(DATE_FORMAT_SHORT);
+            return new DateTime(endTime).toString(DATE_FORMAT);
         }
         return "";
     }
