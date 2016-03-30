@@ -20,6 +20,7 @@ import io.realm.annotations.Ignore;
         analyze = { Offer.class })
 public class Offer extends RealmObject {
 
+    @Ignore
     public static String IMAGE_RESOURCE = "IMAGE-RESOURCE";
 
     private String name;
