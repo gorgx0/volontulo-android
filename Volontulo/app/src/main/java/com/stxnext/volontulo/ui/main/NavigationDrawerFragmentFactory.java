@@ -4,11 +4,12 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 
 import com.stxnext.volontulo.R;
+import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.ui.offers.OfferListFragment;
 import com.stxnext.volontulo.ui.volunteers.VolunteerListFragment;
 
 final class NavigationDrawerFragmentFactory {
-    public static Fragment create(@IdRes int itemId) {
+    public static VolontuloBaseFragment create(@IdRes int itemId) {
         switch (itemId) {
             case R.id.menu_action_list:
                 return new OfferListFragment();
