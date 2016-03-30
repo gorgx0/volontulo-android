@@ -30,6 +30,9 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
     @Bind(R.id.collapsing_image)
     protected ImageView collapsingImage;
 
+    @Bind(R.id.appbar)
+    protected View appbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +48,6 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
         fragmentManager.beginTransaction()
             .replace(R.id.content, fragment)
             .commit();
-        serveCollapsingToolbar(fragment);
-
     }
 
     @Override
@@ -64,24 +65,10 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
             fragmentManager.beginTransaction()
                 .replace(R.id.content, fragment)
                 .commit();
-            serveCollapsingToolbar(fragment);
+
             return true;
         }
         return false;
     }
 
-    private void serveCollapsingToolbar(VolontuloBaseFragment fragment) {
-        View appbar = findViewById(R.id.appbar);
-        ViewGroup.LayoutParams layoutParams = appbar.getLayoutParams();
-        if (fragment.hasCollapsedImage()) {
-            collapsingImage.setVisibility(View.VISIBLE);
-            collapsingImage.setImageResource(fragment.getImageResource());
-            layoutParams.height = R.dimen.app_bar_height;
-        } else {
-            collapsingImage.setVisibility(View.GONE);
-            collapsingImage.setImageResource(0);
-            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        }
-        appbar.setLayoutParams(layoutParams);
-    }
 }
