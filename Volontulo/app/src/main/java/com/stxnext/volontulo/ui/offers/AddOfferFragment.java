@@ -19,7 +19,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
@@ -49,6 +61,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     @Bind(R.id.offer_thumbnail) ImageView offerThumbnail;
     @Bind(R.id.offer_thumbnail_name) TextView offerThumbnailName;
     @Bind(R.id.scroller) ScrollView scrollView;
+    @Bind(R.id.place_autocomplete_result_switcher) ViewSwitcher placeAutocompleteResultSwitcher;
 
     private Offer formState = new Offer();
 
@@ -65,6 +78,21 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         offerDescription.addTextChangedListener(new OfferObjectUpdater(offerDescription.getId(), formState));
         offerBenefits.addTextChangedListener(new OfferObjectUpdater(offerBenefits.getId(), formState));
         offerTimeRequirement.addTextChangedListener(new OfferObjectUpdater(offerTimeRequirement.getId(), formState));
+        final SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        final SupportPlaceAutocompleteFragment placeFragment = (SupportPlaceAutocompleteFragment) getChildFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        placeFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(final Place place) {
+                formState.setPlaceNameAndPosition(place);
+                mapFragment.getMapAsync(new ThumbnailMap(place.getLatLng(), place.getName()));
+                placeAutocompleteResultSwitcher.showNext();
+            }
+
+            @Override
+            public void onError(Status status) {
+                Toast.makeText(getActivity(), String.format("Error@place selector: %s", status), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private static class OfferObjectUpdater extends BaseTextWatcher {
@@ -117,6 +145,12 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             final Uri selectedImage = data.getData();
             loadImageFromUri(selectedImage);
             formState.setImagePath(selectedImage);
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.fullScroll(View.FOCUS_DOWN);
+                }
+            });
         }
     }
 
@@ -135,17 +169,6 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        scrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                scrollView.fullScroll(View.FOCUS_DOWN);
-            }
-        });
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(KEY_OFFER_FORM, Parcels.wrap(formState));
@@ -160,7 +183,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         }
     }
 
-    private void fillFormFrom(Offer formState) {
+    private void fillFormFrom(final Offer formState) {
         offerName.setText(formState.getName());
         offerPlace.setText(formState.getPlace());
         offerDescription.setText(formState.getDescription());
@@ -170,6 +193,12 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             loadImageFromUri(Uri.parse(formState.getImagePath()));
         } else {
             unloadImage();
+        }
+        if (!TextUtils.isEmpty(formState.getPlaceName())) {
+            final LatLng position = new LatLng(formState.getPlaceLatitude(), formState.getPlaceLongitude());
+            final SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+            mapFragment.getMapAsync(new ThumbnailMap(position, formState.getPlaceName()));
+            placeAutocompleteResultSwitcher.showNext();
         }
     }
 
@@ -243,5 +272,23 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             }
         }
         return "";
+    }
+}
+
+class ThumbnailMap implements OnMapReadyCallback {
+    private LatLng position;
+    private CharSequence positionTitle;
+
+    ThumbnailMap(LatLng marker, CharSequence markerTitle) {
+        position = marker;
+        positionTitle = markerTitle;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15));
+        googleMap.addMarker(new MarkerOptions()
+            .position(position)
+            .title(String.valueOf(positionTitle)));
     }
 }
