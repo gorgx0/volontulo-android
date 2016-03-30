@@ -15,9 +15,8 @@
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/offer_details_height"
-        android:orientation="vertical"
-        android:background="@drawable/ice">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"

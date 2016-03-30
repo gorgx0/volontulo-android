@@ -2,6 +2,7 @@ package com.stxnext.volontulo.ui.offers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -35,6 +36,8 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
     @Bind(R.id.offer_end_time)
     protected TextView offerEnd;
 
+    private int imageResource;
+
     public OfferViewHolder(View itemView) {
         super(itemView);
     }
@@ -44,6 +47,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
         Context context = clicked.getContext();
         Toast.makeText(context, "DETAILS ACTION/OFFER", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, OfferDetailsActivity.class);
+        intent.putExtra(Offer.IMAGE_RESOURCE, imageResource);
         context.startActivity(intent);
     }
 
@@ -63,6 +67,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
         offerPlace.setText(item.getPlace());
         offerStart.setText(item.getFormattedStartTime());
         offerEnd.setText(item.getFormattedEndTime());
+        imageResource = item.getImageResource();
         if (item.isUserJoined()) {
             offerJoinButton.setImageResource(R.drawable.ic_offer_joined);
             offerJoinButton.setEnabled(false);
