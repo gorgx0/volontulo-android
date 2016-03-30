@@ -19,6 +19,10 @@ import io.realm.annotations.Ignore;
         value = Parcel.Serialization.BEAN,
         analyze = { Offer.class })
 public class Offer extends RealmObject {
+
+    @Ignore
+    public static String IMAGE_RESOURCE = "IMAGE-RESOURCE";
+
     private String name;
     private String place;
     private String description;
