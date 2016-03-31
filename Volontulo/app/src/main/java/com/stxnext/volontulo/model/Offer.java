@@ -3,6 +3,7 @@ package com.stxnext.volontulo.model;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
 
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.joda.time.DateTime;
@@ -18,14 +19,18 @@ import io.realm.annotations.Ignore;
         value = Parcel.Serialization.BEAN,
         analyze = { Offer.class })
 public class Offer extends RealmObject {
+
+    @Ignore
+    public static String IMAGE_RESOURCE = "IMAGE-RESOURCE";
+
     private String name;
     private String place;
     private String description;
     private String timeRequirement;
     private String benefits;
 
-    private double latitude;
-    private double longitude;
+    private double placeLongitude;
+    private double placeLatitude;
     private String placeName;
 
     private long startTime;
@@ -51,18 +56,33 @@ public class Offer extends RealmObject {
 
     public static Offer mockPlace(String name, String place, LatLng position, DateTime startTime, DateTime endTime, @DrawableRes int imageResource, boolean isJoined) {
         final Offer result = mock(name, place, startTime, endTime, imageResource, isJoined);
-        result.longitude = position.longitude;
-        result.latitude = position.latitude;
+        result.placeLongitude = position.longitude;
+        result.placeLatitude = position.latitude;
         result.placeName = place;
         return result;
+    }
+
+    public void setPlaceNameAndPosition(Place place) {
+        LatLng position = place.getLatLng();
+        placeName = String.valueOf(place.getName());
+        placeLongitude = position.longitude;
+        placeLatitude = position.latitude;
     }
 
     public String getPlaceName() {
         return placeName;
     }
 
+    public double getPlaceLongitude() {
+        return placeLongitude;
+    }
+
+    public double getPlaceLatitude() {
+        return placeLatitude;
+    }
+
     public LatLng getPlacePosition() {
-        return new LatLng(latitude, longitude);
+        return new LatLng(placeLatitude, placeLongitude);
     }
 
     public void setName(String name) {

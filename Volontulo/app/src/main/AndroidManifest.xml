@@ -14,6 +14,10 @@
         android:theme="@style/AppTheme">
 
         <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA45z_ZDZLq_wLWGqjj91yc3puxlhyo8uQ" />
 
@@ -34,7 +38,8 @@
         <activity
             android:name=".ui.offers.AddOfferActivity"
             android:parentActivityName=".ui.main.MainHostActivity"
-            android:theme="@style/AppTheme.BorderlessButtons">
+            android:theme="@style/AppTheme.BorderlessButtons"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainHostActivity" />

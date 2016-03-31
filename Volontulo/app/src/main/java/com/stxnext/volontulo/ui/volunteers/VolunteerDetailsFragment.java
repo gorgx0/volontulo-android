@@ -31,6 +31,11 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
     }
 
     @Override
+    public int getImageResource() {
+        return R.drawable.apple;
+    }
+
+    @Override
     protected void onPostCreateView(View root) {
         name.setText("Fundacja Małych Wielkich Rzeczy");
         email.setText("bohater@gmail.com ");

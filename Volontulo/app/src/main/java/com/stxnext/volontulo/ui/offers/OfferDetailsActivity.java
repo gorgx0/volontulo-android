@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
+import com.stxnext.volontulo.model.Offer;
 
 public class OfferDetailsActivity extends VolontuloBaseActivity {
 
@@ -15,9 +16,16 @@ public class OfferDetailsActivity extends VolontuloBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nodrawer);
         init(R.string.title_activity_offers_details);
+
+        int imageResource = getIntent().getExtras().getInt("IMAGE-RESOURCE", 0);
+        Bundle args = new Bundle();
+        args.putInt(Offer.IMAGE_RESOURCE, imageResource);
+
         final FragmentManager fragmentManager = getSupportFragmentManager();
+        OfferDetailsFragment fragment = new OfferDetailsFragment();
+        fragment.setArguments(args);
         fragmentManager.beginTransaction()
-            .replace(R.id.content, new OfferDetailsFragment())
+            .replace(R.id.content, fragment)
             .commit();
     }
 

@@ -5,4 +5,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="offer_item_height">160dp</dimen>
     <dimen name="offer_details_height">180dp</dimen>
+    <dimen name="app_bar_height">256dp</dimen>
 </resources>
