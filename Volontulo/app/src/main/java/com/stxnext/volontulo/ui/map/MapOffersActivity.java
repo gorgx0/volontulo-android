@@ -22,6 +22,8 @@ import com.stxnext.volontulo.model.Offer;
 import com.stxnext.volontulo.ui.offers.OfferDetailsActivity;
 
 public class MapOffersActivity extends VolontuloBaseActivity implements OnMapReadyCallback {
+    public static final int REQUEST_LOCATION_PERMISSION = 100;
+    public static final String[] PERMISSIONS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
     private SupportMapFragment mapFragment;
     private MockOffersMapAdapter mapAdapter;
 
@@ -61,9 +63,13 @@ public class MapOffersActivity extends VolontuloBaseActivity implements OnMapRea
                 startActivity(new Intent(MapOffersActivity.this, OfferDetailsActivity.class));
             }
         });
+        enableMyLocation(googleMap);
+    }
+
+    private void enableMyLocation(GoogleMap googleMap) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_LOCATION_PERMISSION);
             return;
         }
         googleMap.setMyLocationEnabled(true);
@@ -72,8 +78,20 @@ public class MapOffersActivity extends VolontuloBaseActivity implements OnMapRea
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100 && grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+        if (canProcessPermissionResult(requestCode, grantResults)) {
             mapFragment.getMapAsync(this);
         }
+    }
+
+    private boolean canProcessPermissionResult(int requestCode, @NonNull int[] grantResults) {
+        return requestCode == REQUEST_LOCATION_PERMISSION && hasPermissionResults(grantResults) && isPermissionGranted(grantResults);
+    }
+
+    private boolean hasPermissionResults(@NonNull int[] grantResults) {
+        return grantResults.length > 0;
+    }
+
+    private boolean isPermissionGranted(@NonNull int[] grantResults) {
+        return grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED;
     }
 }
