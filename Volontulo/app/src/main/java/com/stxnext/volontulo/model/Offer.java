@@ -3,6 +3,8 @@ package com.stxnext.volontulo.model;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -21,6 +23,10 @@ public class Offer extends RealmObject {
     private String description;
     private String timeRequirement;
     private String benefits;
+
+    private double latitude;
+    private double longitude;
+    private String placeName;
 
     private long startTime;
     private long endTime;
@@ -41,6 +47,22 @@ public class Offer extends RealmObject {
         result.imageResource = imageResource;
         result.isUserJoined = isJoined;
         return result;
+    }
+
+    public static Offer mockPlace(String name, String place, LatLng position, DateTime startTime, DateTime endTime, @DrawableRes int imageResource, boolean isJoined) {
+        final Offer result = mock(name, place, startTime, endTime, imageResource, isJoined);
+        result.longitude = position.longitude;
+        result.latitude = position.latitude;
+        result.placeName = place;
+        return result;
+    }
+
+    public String getPlaceName() {
+        return placeName;
+    }
+
+    public LatLng getPlacePosition() {
+        return new LatLng(latitude, longitude);
     }
 
     public void setName(String name) {
