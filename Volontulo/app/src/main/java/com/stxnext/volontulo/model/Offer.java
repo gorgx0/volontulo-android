@@ -54,6 +54,14 @@ public class Offer extends RealmObject {
         return result;
     }
 
+    public static Offer mockPlace(String name, String place, LatLng position, DateTime startTime, DateTime endTime, @DrawableRes int imageResource, boolean isJoined) {
+        final Offer result = mock(name, place, startTime, endTime, imageResource, isJoined);
+        result.placeLongitude = position.longitude;
+        result.placeLatitude = position.latitude;
+        result.placeName = place;
+        return result;
+    }
+
     public void setPlaceNameAndPosition(Place place) {
         LatLng position = place.getLatLng();
         placeName = String.valueOf(place.getName());
@@ -65,12 +73,16 @@ public class Offer extends RealmObject {
         return placeName;
     }
 
+    public double getPlaceLongitude() {
+        return placeLongitude;
+    }
+
     public double getPlaceLatitude() {
         return placeLatitude;
     }
 
-    public double getPlaceLongitude() {
-        return placeLongitude;
+    public LatLng getPlacePosition() {
+        return new LatLng(placeLatitude, placeLongitude);
     }
 
     public void setName(String name) {
