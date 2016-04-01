@@ -23,6 +23,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
@@ -46,11 +48,13 @@ import butterknife.OnClick;
 public class AddOfferFragment extends VolontuloBaseFragment {
     private static final int REQUEST_IMAGE = 0x1011;
     private static final String KEY_OFFER_FORM = "offer-form";
+    public static final LatLngBounds POLAND_BOUNDING_BOX = new LatLngBounds(
+            new LatLng(48.9089926, 24.2709887),
+            new LatLng(54.7344539, 14.0381971)
+    );
 
     @Bind(R.id.offer_name_layout) TextInputLayout offerNameLayout;
     @Bind(R.id.offer_name) EditText offerName;
-    @Bind(R.id.offer_place_layout) TextInputLayout offerPlaceLayout;
-    @Bind(R.id.offer_place) EditText offerPlace;
     @Bind(R.id.offer_description_layout) TextInputLayout offerDescriptionLayout;
     @Bind(R.id.offer_description) EditText offerDescription;
     @Bind(R.id.offer_time_requirement_layout) TextInputLayout offerTimeRequirementLayout;
@@ -62,6 +66,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     @Bind(R.id.offer_thumbnail_name) TextView offerThumbnailName;
     @Bind(R.id.scroller) ScrollView scrollView;
     @Bind(R.id.place_autocomplete_result_switcher) ViewSwitcher placeAutocompleteResultSwitcher;
+    private SupportPlaceAutocompleteFragment placeFragment;
 
     private Offer formState = new Offer();
 
@@ -74,12 +79,14 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     protected void onPostCreateView(View root) {
         setHasOptionsMenu(true);
         offerName.addTextChangedListener(new OfferObjectUpdater(offerName.getId(), formState));
-        offerPlace.addTextChangedListener(new OfferObjectUpdater(offerPlace.getId(), formState));
         offerDescription.addTextChangedListener(new OfferObjectUpdater(offerDescription.getId(), formState));
         offerBenefits.addTextChangedListener(new OfferObjectUpdater(offerBenefits.getId(), formState));
         offerTimeRequirement.addTextChangedListener(new OfferObjectUpdater(offerTimeRequirement.getId(), formState));
         final SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        final SupportPlaceAutocompleteFragment placeFragment = (SupportPlaceAutocompleteFragment) getChildFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        placeFragment = (SupportPlaceAutocompleteFragment) getChildFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        placeFragment.setHint(getString(R.string.offer_place));
+        placeFragment.setBoundsBias(POLAND_BOUNDING_BOX);
+        placeFragment.setFilter(new AutocompleteFilter.Builder().setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS).build());
         placeFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(final Place place) {
@@ -111,10 +118,6 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             switch (editTextId) {
                 case R.id.offer_name:
                     updated.setName(result);
-                    break;
-
-                case R.id.offer_place:
-                    updated.setPlace(result);
                     break;
 
                 case R.id.offer_description:
@@ -185,7 +188,8 @@ public class AddOfferFragment extends VolontuloBaseFragment {
 
     private void fillFormFrom(final Offer formState) {
         offerName.setText(formState.getName());
-        offerPlace.setText(formState.getPlace());
+        placeFragment.setText(formState.getPlaceName());
+        placeFragment.setText(formState.getPlaceName());
         offerDescription.setText(formState.getDescription());
         offerTimeRequirement.setText(formState.getTimeRequirement());
         offerBenefits.setText(formState.getBenefits());
@@ -200,6 +204,11 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             mapFragment.getMapAsync(new ThumbnailMap(position, formState.getPlaceName()));
             placeAutocompleteResultSwitcher.showNext();
         }
+    }
+
+    @OnClick(R.id.close_map)
+    void onMapClose() {
+        placeAutocompleteResultSwitcher.showNext();
     }
 
     @OnClick(R.id.offer_thumbnail_delete)
@@ -227,10 +236,10 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             offerNameLayout.setError(getString(R.string.offer_name_validate));
             result = false;
         }
-        if (TextUtils.isEmpty(offerPlace.getText())) {
-            offerPlaceLayout.setError(getString(R.string.offer_place_validate));
-            result = false;
-        }
+//        if (TextUtils.isEmpty()) {
+////            offerPlaceLayout.setError(getString(R.string.offer_place_validate));
+//            result = false;
+//        }
         if (TextUtils.isEmpty(offerDescription.getText())) {
             offerDescriptionLayout.setError(getString(R.string.offer_description_validate));
             result = false;
