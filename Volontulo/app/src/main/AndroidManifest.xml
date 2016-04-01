@@ -3,6 +3,7 @@
     package="com.stxnext.volontulo">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".VolontuloApp"
@@ -59,6 +60,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.volunteers.VolunteerListActivity" />
+        </activity>
+        <activity
+            android:name=".ui.map.MapOffersActivity"
+            android:parentActivityName=".ui.main.MainHostActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.MainHostActivity" />
         </activity>
 
     </application>

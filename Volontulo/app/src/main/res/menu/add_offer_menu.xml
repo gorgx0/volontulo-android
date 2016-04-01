@@ -6,4 +6,9 @@
         android:icon="@drawable/ic_add_offer"
         android:title="@string/add_offer"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_map_offers"
+        android:icon="@drawable/ic_action_map"
+        android:title="@string/map_offers"
+        app:showAsAction="always" />
 </menu>

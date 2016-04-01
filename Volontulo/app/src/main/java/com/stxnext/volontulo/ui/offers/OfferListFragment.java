@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
+import com.stxnext.volontulo.ui.map.MapOffersActivity;
 
 import butterknife.Bind;
 
@@ -49,6 +50,10 @@ public class OfferListFragment extends VolontuloBaseFragment {
         switch (item.getItemId()) {
             case R.id.action_add_offer:
                 startActivity(new Intent(getActivity(), AddOfferActivity.class));
+                return true;
+
+            case R.id.action_map_offers:
+                startActivity(new Intent(getActivity(), MapOffersActivity.class));
                 return true;
 
             default:
