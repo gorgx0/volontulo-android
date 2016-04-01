@@ -236,10 +236,10 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             offerNameLayout.setError(getString(R.string.offer_name_validate));
             result = false;
         }
-//        if (TextUtils.isEmpty()) {
-////            offerPlaceLayout.setError(getString(R.string.offer_place_validate));
-//            result = false;
-//        }
+        if (TextUtils.isEmpty(formState.getPlaceName())) {
+            Toast.makeText(getActivity(), getString(R.string.offer_place_validate), Toast.LENGTH_LONG).show();
+            result = false;
+        }
         if (TextUtils.isEmpty(offerDescription.getText())) {
             offerDescriptionLayout.setError(getString(R.string.offer_description_validate));
             result = false;
