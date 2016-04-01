@@ -1,12 +1,17 @@
 package com.stxnext.volontulo;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,7 +31,11 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
 
     @Nullable
     @Bind(R.id.appbar)
-    protected View appbar;
+    protected AppBarLayout appbar;
+
+    @Nullable
+    @Bind(R.id.collapsing_toolbar)
+    protected CollapsingToolbarLayout collapsingToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +46,28 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
         init(getString(resourceTitle));
     }
 
+    @Override
+    public void setTitle(int titleId) {
+        setTitle(getString(titleId));
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        if (collapsingToolbar != null) {
+            collapsingToolbar.setTitle(title);
+        }
+    }
+
     protected void init(String stringTitle) {
         if (toolbar != null) {
-            toolbar.setTitle(stringTitle);
             setSupportActionBar(toolbar);
         }
-
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        setTitle(stringTitle);
     }
 
     @Override
@@ -57,20 +78,19 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
 
     @Override
     public void wantCollapse(@DrawableRes int imageResource) {
-        if (appbar == null) {
+        if (appbar == null || collapsingImage == null) {
             return;
         }
         boolean collapse = imageResource != 0;
-        ViewGroup.LayoutParams layoutParams = appbar.getLayoutParams();
         if (collapse) {
             collapsingImage.setVisibility(View.VISIBLE);
             collapsingImage.setImageResource(imageResource);
-            layoutParams.height = getResources().getDimensionPixelSize(R.dimen.app_bar_height);
+            appbar.setExpanded(true);
         } else {
             collapsingImage.setVisibility(View.GONE);
             collapsingImage.setImageResource(0);
-            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            appbar.setExpanded(false);
+            appbar.setActivated(false);
         }
-        appbar.setLayoutParams(layoutParams);
     }
 }
