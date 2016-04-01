@@ -31,7 +31,6 @@ public class Offer extends RealmObject {
 
     private double placeLongitude;
     private double placeLatitude;
-    private String placeName;
 
     private long startTime;
     private long endTime;
@@ -58,19 +57,18 @@ public class Offer extends RealmObject {
         final Offer result = mock(name, place, startTime, endTime, imageResource, isJoined);
         result.placeLongitude = position.longitude;
         result.placeLatitude = position.latitude;
-        result.placeName = place;
         return result;
     }
 
     public void setPlaceNameAndPosition(Place place) {
-        LatLng position = place.getLatLng();
-        placeName = String.valueOf(place.getName());
+        final LatLng position = place.getLatLng();
         placeLongitude = position.longitude;
         placeLatitude = position.latitude;
+        this.place = String.valueOf(place.getName());
     }
 
     public String getPlaceName() {
-        return placeName;
+        return place;
     }
 
     public double getPlaceLongitude() {
@@ -89,10 +87,6 @@ public class Offer extends RealmObject {
         this.name = name;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -107,10 +101,6 @@ public class Offer extends RealmObject {
 
     public String getName() {
         return name;
-    }
-
-    public String getPlace() {
-        return place;
     }
 
     public String getFormattedStartTime() {
