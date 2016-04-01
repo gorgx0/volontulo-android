@@ -39,9 +39,9 @@ public class AttendViewHolder extends BaseViewHolder<Offer> {
                 .centerCrop()
                 .into(image);
         title.setText(item.getName());
-        location.setText(item.getPlace());
-        String text = item.getFormattedStartDay() + " - " + item.getFormattedEndDay();
-        time.setText(text);
+        location.setText(item.getPlaceName());
+        startTime.setText(item.getFormattedStartDay());
+        endTime.setText(item.getFormattedEndDay());
     }
 
 }
