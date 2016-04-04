@@ -12,13 +12,18 @@ import android.view.View;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
+import com.stxnext.volontulo.model.Offer;
 import com.stxnext.volontulo.ui.map.MapOffersActivity;
 
 import butterknife.Bind;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class OfferListFragment extends VolontuloBaseFragment {
     @Bind(R.id.list)
     protected RecyclerView offers;
+
+    private Realm realm;
 
     @Override
     protected int getLayoutResource() {
@@ -33,10 +38,28 @@ public class OfferListFragment extends VolontuloBaseFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        realm = Realm.getDefaultInstance();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
+    }
+
+    @Override
     protected void onPostCreateView(View root) {
         offers.setLayoutManager(new LinearLayoutManager(getActivity()));
         offers.setHasFixedSize(true);
-        offers.setAdapter(new MockOffersAdapter(getActivity()));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final RealmResults<Offer> offerResults = realm.where(Offer.class).findAll();
+        offers.setAdapter(new OffersRealmAdapter(getActivity(), offerResults));
     }
 
     @Override

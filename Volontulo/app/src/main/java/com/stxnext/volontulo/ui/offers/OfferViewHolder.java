@@ -2,7 +2,6 @@ package com.stxnext.volontulo.ui.offers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -58,11 +57,19 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
 
     @Override
     public void onBind(Offer item) {
-        Picasso.with(offerImage.getContext())
-                .load(item.getImageResource())
-                .fit()
-                .centerCrop()
-                .into(offerImage);
+        if (item.getImageResource() > 0) {
+            Picasso.with(offerImage.getContext())
+                    .load(item.getImageResource())
+                    .fit()
+                    .centerCrop()
+                    .into(offerImage);
+        } else {
+            Picasso.with(offerImage.getContext())
+                    .load(item.getImagePath())
+                    .fit()
+                    .centerCrop()
+                    .into(offerImage);
+        }
         offerName.setText(item.getName());
         offerPlace.setText(item.getPlace());
         offerStart.setText(item.getFormattedStartTime());
