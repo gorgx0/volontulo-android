@@ -25,8 +25,11 @@ public class AttendViewHolder extends BaseViewHolder<Offer> {
     @Bind(R.id.location)
     TextView location;
 
-    @Bind(R.id.time)
-    TextView time;
+    @Bind(R.id.start_time)
+    TextView startTime;
+
+    @Bind(R.id.end_time)
+    TextView endTime;
 
     @Override
     public void onBind(Offer item) {
@@ -37,8 +40,8 @@ public class AttendViewHolder extends BaseViewHolder<Offer> {
                 .into(image);
         title.setText(item.getName());
         location.setText(item.getPlaceName());
-        String text = item.getFormattedStartDay() + " - " + item.getFormattedEndDay();
-        time.setText(text);
+        startTime.setText(item.getFormattedStartDay());
+        endTime.setText(item.getFormattedEndDay());
     }
 
 }
