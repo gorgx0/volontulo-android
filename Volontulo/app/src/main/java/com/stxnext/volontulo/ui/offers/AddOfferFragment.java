@@ -44,6 +44,7 @@ import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 public class AddOfferFragment extends VolontuloBaseFragment {
     private static final int REQUEST_IMAGE = 0x1011;
@@ -227,7 +228,16 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         if (!validateFields()) {
             return;
         }
+        saveOffer(formState);
         getActivity().finish();
+    }
+
+    private void saveOffer(Offer formState) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.copyToRealm(formState);
+        realm.commitTransaction();
+        realm.close();
     }
 
     private boolean validateFields() {

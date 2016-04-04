@@ -57,11 +57,19 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
 
     @Override
     public void onBind(Offer item) {
-        Picasso.with(offerImage.getContext())
-                .load(item.getImageResource())
-                .fit()
-                .centerCrop()
-                .into(offerImage);
+        if (item.getImageResource() > 0) {
+            Picasso.with(offerImage.getContext())
+                    .load(item.getImageResource())
+                    .fit()
+                    .centerCrop()
+                    .into(offerImage);
+        } else {
+            Picasso.with(offerImage.getContext())
+                    .load(item.getImagePath())
+                    .fit()
+                    .centerCrop()
+                    .into(offerImage);
+        }
         offerName.setText(item.getName());
         offerPlace.setText(item.getPlaceName());
         offerStart.setText(item.getFormattedStartTime());
