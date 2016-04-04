@@ -6,10 +6,12 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +34,8 @@ public abstract class VolontuloBaseFragment extends Fragment {
     }
 
     protected final void setToolbarTitle(final CharSequence title) {
-        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(title);
-        }
+        VolontuloBaseActivity activity = (VolontuloBaseActivity) getActivity();
+        activity.setTitle(title);
     }
 
     @Override

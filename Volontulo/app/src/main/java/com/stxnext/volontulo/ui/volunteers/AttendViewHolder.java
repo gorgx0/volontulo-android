@@ -9,9 +9,6 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.model.Offer;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import butterknife.Bind;
 
 public class AttendViewHolder extends BaseViewHolder<Offer> {
@@ -28,8 +25,11 @@ public class AttendViewHolder extends BaseViewHolder<Offer> {
     @Bind(R.id.location)
     TextView location;
 
-    @Bind(R.id.time)
-    TextView time;
+    @Bind(R.id.start_time)
+    TextView startTime;
+
+    @Bind(R.id.end_time)
+    TextView endTime;
 
     @Override
     public void onBind(Offer item) {
@@ -39,9 +39,9 @@ public class AttendViewHolder extends BaseViewHolder<Offer> {
                 .centerCrop()
                 .into(image);
         title.setText(item.getName());
-        location.setText(item.getPlace());
-        String text = item.getFormattedStartDay() + " - " + item.getFormattedEndDay();
-        time.setText(text);
+        location.setText(item.getPlaceName());
+        startTime.setText(item.getFormattedStartDay());
+        endTime.setText(item.getFormattedEndDay());
     }
 
 }

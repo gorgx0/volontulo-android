@@ -71,7 +71,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
                     .into(offerImage);
         }
         offerName.setText(item.getName());
-        offerPlace.setText(item.getPlace());
+        offerPlace.setText(item.getPlaceName());
         offerStart.setText(item.getFormattedStartTime());
         offerEnd.setText(item.getFormattedEndTime());
         imageResource = item.getImageResource();
