@@ -49,7 +49,6 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
 
     @Override
     public void setTitle(CharSequence title) {
-        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         if (collapsingToolbar != null) {
             collapsingToolbar.setTitle(title);
         }
