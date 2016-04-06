@@ -33,6 +33,9 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
     @Bind(R.id.text_description)
     TextView description;
 
+    @Bind(R.id.text_phone)
+    TextView phone;
+
     @Bind(R.id.image)
     ImageView image;
 
@@ -57,6 +60,7 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
                 Log.d(TAG, userProfile.toString());
                 name.setText(userProfile.resolveName());
                 email.setText(userProfile.getEmail());
+                phone.setText(userProfile.getPhoneNo());
                 Picasso.with(image.getContext())
                         .load(userProfile.getImage())
                         .fit()
