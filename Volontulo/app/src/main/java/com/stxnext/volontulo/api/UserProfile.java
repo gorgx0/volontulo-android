@@ -4,29 +4,24 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class UserProfile {
 
     private String url;
     private int id;
     private User user;
-    private List<Organization> organizations = new ArrayList<Organization>();
+    private List<Organization> organizations;
     @SerializedName("is_administrator")
     private boolean isAdministrator;
     @SerializedName("phone_no")
     private String phoneNo;
-    private List<Image> images = new ArrayList<Image>();
+    private List<Image> images;
 
     @Override
     public String toString() {
         return "User " + id + " [" + url + "]: " + phoneNo + (isAdministrator ? " ADMIN" : "");
     }
-
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      *
@@ -152,14 +147,6 @@ public class UserProfile {
      */
     public void setImages(List<Image> images) {
         this.images = images;
-    }
-
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
     public String resolveName() {
