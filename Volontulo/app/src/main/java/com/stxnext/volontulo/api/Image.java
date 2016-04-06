@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Image {
 
-    private Integer id;
+    private int id;
     private String image;
     @SerializedName("is_avatar")
     private boolean isAvatar;
@@ -18,7 +18,7 @@ public class Image {
      * @return
      * The id
      */
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -27,7 +27,7 @@ public class Image {
      * @param id
      * The id
      */
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

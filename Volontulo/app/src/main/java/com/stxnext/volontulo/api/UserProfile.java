@@ -12,7 +12,7 @@ import java.util.Map;
 public class UserProfile {
 
     private String url;
-    private Integer id;
+    private int id;
     private User user;
     private List<Organization> organizations = new ArrayList<Organization>();
     @SerializedName("is_administrator")
@@ -51,7 +51,7 @@ public class UserProfile {
      * @return
      * The id
      */
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -60,7 +60,7 @@ public class UserProfile {
      * @param id
      * The id
      */
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

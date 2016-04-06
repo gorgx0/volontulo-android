@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class User {
 
-    private Integer id;
+    private int id;
     private String username;
     @SerializedName("first_name")
     private String firstName;
@@ -21,7 +21,7 @@ public class User {
      * @return
      * The id
      */
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -30,7 +30,7 @@ public class User {
      * @param id
      * The id
      */
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

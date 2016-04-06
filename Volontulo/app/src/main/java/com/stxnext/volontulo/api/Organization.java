@@ -6,7 +6,7 @@ import java.util.Map;
 public class Organization {
 
     private String url;
-    private Integer id;
+    private int id;
     private String name;
     private String address;
     private String description;
@@ -35,7 +35,7 @@ public class Organization {
      * @return
      * The id
      */
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -44,7 +44,7 @@ public class Organization {
      * @param id
      * The id
      */
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
