@@ -13,18 +13,21 @@
     tools:showIn="@layout/fragment_offers_details">
 
     <LinearLayout
+        android:layout_marginBottom="10dp"
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sniadania poetyckie"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             tools:text="Sniadania poetyckie" />
 
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -32,17 +35,22 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_offer" />
+                android:src="@drawable/ic_add_offer"
+                android:background="#9E9E9E"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp" />
 
             <TextView
+                android:id="@+id/text_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Poznań"
+                android:layout_gravity="center"
                 tools:text="Poznań" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -50,12 +58,16 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_offer" />
+                android:src="@drawable/ic_add_offer"
+                android:background="#9E9E9E"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp" />
 
             <TextView
+                android:id="@+id/text_duration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2 maja 2016, 0:05 - 8 maja 2016, 0:05"
+                android:layout_gravity="center"
                 tools:text="2 maja 2016, 0:05 - 8 maja 2016, 0:05" />
 
         </LinearLayout>
@@ -73,9 +85,10 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/text_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Do zadań wolontariuszy należy: \n- organizacja spotkania \n- zaproszenie gości \n- mobilna rekrutacja wśród mieszkańców Poznania \n- przygotowanie poczęstunku"
+                android:layout_marginBottom="5dp"
                 tools:text="Do zadań wolontariuszy należy: - organizacja spotkania - zaproszenie gości - mobilna rekrutacja wśród mieszkańców Poznania - przygotowanie poczęstunku" />
 
             <LinearLayout
@@ -83,27 +96,44 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#E6E9ED"
-                        android:text="Korzyści dla wolontariusza"
-                        tools:text="Korzyści dla wolontariusza" />
+                        android:text="Korzyści dla wolontariusza" />
+
+                    <TextView
+                        android:id="@+id/text_benefits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="false"
+                        tools:text="- tworzenie nowego przedsięwzięcia w mieście - zdobycie cennego doświadczenia - umowa wolontariacka - referencje" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="#E6E9ED"
+                        android:text="Wymagania wobec wolontariusza" />
+
+                    <TextView
+                        android:id="@+id/text_requirements"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:singleLine="false"
-                        android:text="- tworzenie nowego przedsięwzięcia w mieście \n- zdobycie cennego doświadczenia \n- umowa wolontariacka \n- referencje"
                         tools:text="- tworzenie nowego przedsięwzięcia w mieście - zdobycie cennego doświadczenia - umowa wolontariacka - referencje" />
 
                 </LinearLayout>
@@ -117,31 +147,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#E6E9ED"
-                        android:text="Wymagania wobec wolontariusza"
-                        tools:text="Korzyści dla wolontariusza" />
+                        android:text="Zaangażowanie czasowe" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:singleLine="false"
-                        android:text="- otwartość na nowe wyzwania \n- dyspozycyjność \n- mile widziane doświadczenie 'kelnerskie'"
-                        tools:text="- tworzenie nowego przedsięwzięcia w mieście - zdobycie cennego doświadczenia - umowa wolontariacka - referencje" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#E6E9ED"
-                        android:text="Zaangażowanie czasowe"
-                        tools:text="Korzyści dla wolontariusza" />
-
-                    <TextView
+                        android:id="@+id/text_time_commitment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="false"
@@ -160,14 +169,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#E6E9ED"
-                        android:text="Organizator"
-                        tools:text="Korzyści dla wolontariusza" />
+                        android:text="Organizator" />
 
                     <TextView
+                        android:id="@+id/text_organization"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="false"
-                        android:text="Wielkopolska Rada Czytelnicza"
                         tools:text="- tworzenie nowego przedsięwzięcia w mieście - zdobycie cennego doświadczenia - umowa wolontariacka - referencje" />
 
                 </LinearLayout>

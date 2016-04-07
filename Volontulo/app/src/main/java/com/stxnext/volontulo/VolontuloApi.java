@@ -1,5 +1,6 @@
 package com.stxnext.volontulo;
 
+import com.stxnext.volontulo.api.Offer;
 import com.stxnext.volontulo.api.UserProfile;
 
 import retrofit2.Call;
@@ -14,8 +15,8 @@ public interface VolontuloApi {
 //    @GET("api/users_profiles.json")
 //    Call<List<Volunteer>> listVolunteers();
 //
-//    @GET("/api/offers/{id}.json")
-//    Call<Offer> getOffer();
+    @GET("/api/offers/{id}.json")
+    Call<Offer> getOffer(@Path("id") int id);
 //
 //    @GET("/api/offers.json")
 //    Call<List<Offer>> listOffers();

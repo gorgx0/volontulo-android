@@ -1,5 +1,7 @@
 package com.stxnext.volontulo.api;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -18,9 +20,9 @@ public class Offer {
     private String location;
     private String title;
     @SerializedName("started_at")
-    private Object startedAt;
+    private String startedAt;
     @SerializedName("finished_at")
-    private Object finishedAt;
+    private String finishedAt;
     @SerializedName("time_period")
     private String timePeriod;
     @SerializedName("status_old")
@@ -33,23 +35,23 @@ public class Offer {
     private String actionStatus;
     private boolean votes;
     @SerializedName("recruitment_start_date")
-    private Object recruitmentStartDate;
+    private String recruitmentStartDate;
     @SerializedName("recruitment_end_date")
-    private Object recruitmentEndDate;
+    private String recruitmentEndDate;
     @SerializedName("reserve_recruitment")
     private boolean reserveRecruitment;
     @SerializedName("reserve_recruitment_start_date")
-    private Object reserveRecruitmentStartDate;
+    private String reserveRecruitmentStartDate;
     @SerializedName("reserve_recruitment_end_date")
-    private Object reserveRecruitmentEndDate;
+    private String reserveRecruitmentEndDate;
     @SerializedName("action_ongoing")
     private boolean actionOngoing;
     @SerializedName("constant_coop")
     private boolean constantCoop;
     @SerializedName("action_start_date")
-    private Object actionStartDate;
+    private String actionStartDate;
     @SerializedName("action_end_date")
-    private Object actionEndDate;
+    private String actionEndDate;
     @SerializedName("volunteers_limit")
     private int volunteersLimit;
     private int weight;
@@ -240,7 +242,7 @@ public class Offer {
      * @return
      * The startedAt
      */
-    public Object getStartedAt() {
+    public String getStartedAt() {
         return startedAt;
     }
 
@@ -249,7 +251,7 @@ public class Offer {
      * @param startedAt
      * The started_at
      */
-    public void setStartedAt(Object startedAt) {
+    public void setStartedAt(String startedAt) {
         this.startedAt = startedAt;
     }
 
@@ -258,7 +260,7 @@ public class Offer {
      * @return
      * The finishedAt
      */
-    public Object getFinishedAt() {
+    public String getFinishedAt() {
         return finishedAt;
     }
 
@@ -267,7 +269,7 @@ public class Offer {
      * @param finishedAt
      * The finished_at
      */
-    public void setFinishedAt(Object finishedAt) {
+    public void setFinishedAt(String finishedAt) {
         this.finishedAt = finishedAt;
     }
 
@@ -384,7 +386,7 @@ public class Offer {
      * @return
      * The recruitmentStartDate
      */
-    public Object getRecruitmentStartDate() {
+    public String getRecruitmentStartDate() {
         return recruitmentStartDate;
     }
 
@@ -393,7 +395,7 @@ public class Offer {
      * @param recruitmentStartDate
      * The recruitment_start_date
      */
-    public void setRecruitmentStartDate(Object recruitmentStartDate) {
+    public void setRecruitmentStartDate(String recruitmentStartDate) {
         this.recruitmentStartDate = recruitmentStartDate;
     }
 
@@ -402,7 +404,7 @@ public class Offer {
      * @return
      * The recruitmentEndDate
      */
-    public Object getRecruitmentEndDate() {
+    public String getRecruitmentEndDate() {
         return recruitmentEndDate;
     }
 
@@ -411,7 +413,7 @@ public class Offer {
      * @param recruitmentEndDate
      * The recruitment_end_date
      */
-    public void setRecruitmentEndDate(Object recruitmentEndDate) {
+    public void setRecruitmentEndDate(String recruitmentEndDate) {
         this.recruitmentEndDate = recruitmentEndDate;
     }
 
@@ -438,7 +440,7 @@ public class Offer {
      * @return
      * The reserveRecruitmentStartDate
      */
-    public Object getReserveRecruitmentStartDate() {
+    public String getReserveRecruitmentStartDate() {
         return reserveRecruitmentStartDate;
     }
 
@@ -447,7 +449,7 @@ public class Offer {
      * @param reserveRecruitmentStartDate
      * The reserve_recruitment_start_date
      */
-    public void setReserveRecruitmentStartDate(Object reserveRecruitmentStartDate) {
+    public void setReserveRecruitmentStartDate(String reserveRecruitmentStartDate) {
         this.reserveRecruitmentStartDate = reserveRecruitmentStartDate;
     }
 
@@ -456,7 +458,7 @@ public class Offer {
      * @return
      * The reserveRecruitmentEndDate
      */
-    public Object getReserveRecruitmentEndDate() {
+    public String getReserveRecruitmentEndDate() {
         return reserveRecruitmentEndDate;
     }
 
@@ -465,7 +467,7 @@ public class Offer {
      * @param reserveRecruitmentEndDate
      * The reserve_recruitment_end_date
      */
-    public void setReserveRecruitmentEndDate(Object reserveRecruitmentEndDate) {
+    public void setReserveRecruitmentEndDate(String reserveRecruitmentEndDate) {
         this.reserveRecruitmentEndDate = reserveRecruitmentEndDate;
     }
 
@@ -510,7 +512,7 @@ public class Offer {
      * @return
      * The actionStartDate
      */
-    public Object getActionStartDate() {
+    public String getActionStartDate() {
         return actionStartDate;
     }
 
@@ -519,7 +521,7 @@ public class Offer {
      * @param actionStartDate
      * The action_start_date
      */
-    public void setActionStartDate(Object actionStartDate) {
+    public void setActionStartDate(String actionStartDate) {
         this.actionStartDate = actionStartDate;
     }
 
@@ -528,7 +530,7 @@ public class Offer {
      * @return
      * The actionEndDate
      */
-    public Object getActionEndDate() {
+    public String getActionEndDate() {
         return actionEndDate;
     }
 
@@ -537,7 +539,7 @@ public class Offer {
      * @param actionEndDate
      * The action_end_date
      */
-    public void setActionEndDate(Object actionEndDate) {
+    public void setActionEndDate(String actionEndDate) {
         this.actionEndDate = actionEndDate;
     }
 
@@ -595,4 +597,16 @@ public class Offer {
         this.images = images;
     }
 
+    @Override
+    public String toString() {
+        return "Offer " + id + ": '" + title + "' (" + location + ")";
+    }
+
+    public String getDuration(String now, String toSet) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(TextUtils.isEmpty(startedAt) ? now : startedAt);
+        sb.append(" - ");
+        sb.append(TextUtils.isEmpty(finishedAt) ? toSet : finishedAt);
+        return sb.toString();
+    }
 }

@@ -47,4 +47,6 @@
     <string name="volunteer_contact_name">Twoje imię i nazwisko</string>
     <string name="volunteer_contact_email">Twój email</string>
     <string name="volunteer_detail_title">Profil Wolontariusza</string>
+    <string name="now">teraz</string>
+    <string name="to_set">do ustalenia</string>
 </resources>
