@@ -47,8 +47,10 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
         return R.layout.fragment_volunteer_details;
     }
 
-    private void obtainData() {
-        final Call<UserProfile> call = VolontuloApp.api.getVolunteer(57);
+    private void obtainData(int userId) {
+        final String msg = "UserID: " + userId;
+        Log.d(TAG, msg);
+        final Call<UserProfile> call = VolontuloApp.api.getVolunteer(userId);
         call.enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
@@ -79,7 +81,8 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
 
 
     protected void onPostCreateView(View root) {
-        obtainData();
+        int userId = getArguments().getInt("USER-ID", 0);
+        obtainData(userId);
         Context context = getContext();
         offers.setLayoutManager(new LinearLayoutManager(context));
         offers.setHasFixedSize(true);
