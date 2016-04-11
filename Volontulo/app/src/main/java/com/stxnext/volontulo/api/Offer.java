@@ -4,17 +4,13 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import java.util.List;
 
 public class Offer {
 
+    public static String OFFER_ID = "OFFER-ID";
+    public static String IMAGE_PATH = "IMAGE-PATH";
     public static String IMAGE_RESOURCE = "IMAGE-RESOURCE";
-
-    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormat.forPattern("dd-MM-yyyy, HH:mm");
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("dd/MM/yy");
 
     private String url;
     private int id;

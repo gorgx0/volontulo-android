@@ -13,7 +13,7 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Image;
-import com.stxnext.volontulo.model.Offer;
+import com.stxnext.volontulo.api.Offer;
 
 import java.util.List;
 
@@ -80,19 +80,19 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         final Bundle arguments = getArguments();
-        int id = arguments.getInt("OFFER-ID", 0);
+        int id = arguments.getInt(Offer.OFFER_ID, 0);
         imageResource = arguments.getInt(Offer.IMAGE_RESOURCE, R.drawable.ice);
-        if (arguments.containsKey("IMAGE-PATH")) {
-            imagePath = arguments.getString("IMAGE-PATH");
+        if (arguments.containsKey(Offer.IMAGE_PATH)) {
+            imagePath = arguments.getString(Offer.IMAGE_PATH);
         }
         obtainData(id);
     }
 
     private void obtainData(int id) {
         final Call<com.stxnext.volontulo.api.Offer> call = VolontuloApp.api.getOffer(id);
-        call.enqueue(new Callback<com.stxnext.volontulo.api.Offer>() {
+        call.enqueue(new Callback<Offer>() {
             @Override
-            public void onResponse(Call<com.stxnext.volontulo.api.Offer> call, Response<com.stxnext.volontulo.api.Offer> response) {
+            public void onResponse(Call<Offer> call, Response<Offer> response) {
                 int statusCode = response.code();
                 final com.stxnext.volontulo.api.Offer offer = response.body();
                 final String msg = "SUCCESS: status - " + statusCode;
@@ -108,9 +108,8 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
                 timeCommitment.setText(offer.getTimeCommitment());
                 organization.setText(offer.getOrganization().getName());
                 final List<Image> images = offer.getImages();
-                if (images.size() > 0) {
-                    Image image = images.get(0);
-                    imagePath = image.getPath();
+                if (offer.hasImage()) {
+                    imagePath = offer.getImagePath();
                     imageResource = 0;
                 }
             }

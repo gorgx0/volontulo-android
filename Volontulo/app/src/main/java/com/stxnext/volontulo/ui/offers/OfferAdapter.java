@@ -9,14 +9,14 @@ import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 
 import java.util.List;
 
-public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewTmpHolder> {
+public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
 
     public OfferAdapter(Context context, List<Offer> results) {
         super(context, R.layout.item_offer, results);
     }
 
     @Override
-    protected OfferViewTmpHolder createViewHolder(View item) {
-        return new OfferViewTmpHolder(item);
+    protected OfferViewHolder createViewHolder(View item) {
+        return new OfferViewHolder(item);
     }
 }

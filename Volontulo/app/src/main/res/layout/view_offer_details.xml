@@ -76,7 +76,7 @@
 
     <ScrollView
         android:layout_below="@+id/header"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -179,7 +179,6 @@
                         tools:text="- tworzenie nowego przedsięwzięcia w mieście - zdobycie cennego doświadczenia - umowa wolontariacka - referencje" />
 
                 </LinearLayout>
-
 
             </LinearLayout>
 
