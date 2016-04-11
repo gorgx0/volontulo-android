@@ -1,6 +1,7 @@
 package com.stxnext.volontulo.ui.offers;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -78,12 +79,17 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        imageResource = getArguments().getInt(Offer.IMAGE_RESOURCE, R.drawable.ice);
-        obtainData();
+        final Bundle arguments = getArguments();
+        int id = arguments.getInt("OFFER-ID", 0);
+        imageResource = arguments.getInt(Offer.IMAGE_RESOURCE, R.drawable.ice);
+        if (arguments.containsKey("IMAGE-PATH")) {
+            imagePath = arguments.getString("IMAGE-PATH");
+        }
+        obtainData(id);
     }
 
-    private void obtainData() {
-        final Call<com.stxnext.volontulo.api.Offer> call = VolontuloApp.api.getOffer(8);
+    private void obtainData(int id) {
+        final Call<com.stxnext.volontulo.api.Offer> call = VolontuloApp.api.getOffer(id);
         call.enqueue(new Callback<com.stxnext.volontulo.api.Offer>() {
             @Override
             public void onResponse(Call<com.stxnext.volontulo.api.Offer> call, Response<com.stxnext.volontulo.api.Offer> response) {

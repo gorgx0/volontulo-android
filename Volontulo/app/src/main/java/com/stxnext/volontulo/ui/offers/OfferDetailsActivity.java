@@ -17,9 +17,15 @@ public class OfferDetailsActivity extends VolontuloBaseActivity {
         setContentView(R.layout.activity_nodrawer);
         init(R.string.title_activity_offers_details);
 
-        int imageResource = getIntent().getExtras().getInt("IMAGE-RESOURCE", 0);
+        final Bundle extras = getIntent().getExtras();
+        int imageResource = extras.getInt("IMAGE-RESOURCE", 0);
+        int id = extras.getInt("OFFER-ID", 0);
         Bundle args = new Bundle();
         args.putInt(Offer.IMAGE_RESOURCE, imageResource);
+        args.putInt("OFFER-ID", id);
+        if (extras.containsKey("IMAGE-PATH")) {
+            args.putString("IMAGE-PATH", extras.getString("IMAGE-PATH", null));
+        }
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
         OfferDetailsFragment fragment = new OfferDetailsFragment();

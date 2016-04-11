@@ -4,9 +4,17 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.List;
 
 public class Offer {
+
+    public static String IMAGE_RESOURCE = "IMAGE-RESOURCE";
+
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormat.forPattern("dd-MM-yyyy, HH:mm");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("dd/MM/yy");
 
     private String url;
     private int id;
@@ -608,5 +616,17 @@ public class Offer {
         sb.append(" - ");
         sb.append(TextUtils.isEmpty(finishedAt) ? toSet : finishedAt);
         return sb.toString();
+    }
+
+    public boolean isUserJoined() {
+        return false;
+    }
+
+    public boolean hasImage() {
+        return images != null && images.size() > 0;
+    }
+
+    public String getImagePath() {
+        return images.get(0).getPath();
     }
 }
