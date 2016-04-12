@@ -6,12 +6,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.model.Offer;
+import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
 import butterknife.Bind;
 
-public class AttendViewHolder extends BaseViewHolder<Offer> {
+public class AttendViewHolder extends BaseViewHolder<Ofer> {
     public AttendViewHolder(View itemView) {
         super(itemView);
     }
@@ -32,7 +32,7 @@ public class AttendViewHolder extends BaseViewHolder<Offer> {
     TextView endTime;
 
     @Override
-    public void onBind(Offer item) {
+    public void onBind(Ofer item) {
         Picasso.with(image.getContext())
                 .load(item.getImageResource())
                 .fit()

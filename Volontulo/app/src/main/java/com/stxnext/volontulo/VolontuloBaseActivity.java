@@ -9,8 +9,11 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -79,7 +82,34 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
         boolean collapse = imageResource != 0;
         if (collapse) {
             collapsingImage.setVisibility(View.VISIBLE);
+            Picasso.with(collapsingImage.getContext())
+                    .load(imageResource)
+                    .fit()
+                    .centerCrop()
+                    .into(collapsingImage);
             collapsingImage.setImageResource(imageResource);
+            appbar.setExpanded(true);
+        } else {
+            collapsingImage.setVisibility(View.GONE);
+            collapsingImage.setImageResource(0);
+            appbar.setExpanded(false);
+            appbar.setActivated(false);
+        }
+    }
+
+    @Override
+    public void wantCollapse(String imagePath) {
+        if (appbar == null || collapsingImage == null) {
+            return;
+        }
+        boolean collapse = !TextUtils.isEmpty(imagePath);
+        if (collapse) {
+            collapsingImage.setVisibility(View.VISIBLE);
+            Picasso.with(collapsingImage.getContext())
+                    .load(imagePath)
+                    .fit()
+                    .centerCrop()
+                    .into(collapsingImage);
             appbar.setExpanded(true);
         } else {
             collapsingImage.setVisibility(View.GONE);

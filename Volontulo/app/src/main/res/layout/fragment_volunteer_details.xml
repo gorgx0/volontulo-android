@@ -24,10 +24,11 @@
             android:layout_weight="1">
 
             <ImageView
+                android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="128dp"
                 android:contentDescription="@string/offer_thumbnail"
-                android:src="@drawable/ic_user_placeholder" />
+                tools:src="@drawable/ic_user_placeholder" />
 
         </FrameLayout>
 
@@ -69,6 +70,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:background="#E6E9ED"
                 android:text="@string/volunteer_data_description"
                 tools:text="Opis" />
@@ -78,8 +80,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
+                android:visibility="gone"
                 android:singleLine="false"
                 tools:text="Istniejemy dla i wokół Małych i wielkich spraw, wartościowych ludzi. Lubimy podejmować wyzwania i ... zło zamieniać w dobro" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E6E9ED"
+                android:text="@string/volunteer_contact_phone"
+                tools:text="Telefon" />
+
+            <TextView
+                android:id="@+id/text_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:singleLine="false"
+                tools:text="bohater@gmail.com" />
 
         </LinearLayout>
 

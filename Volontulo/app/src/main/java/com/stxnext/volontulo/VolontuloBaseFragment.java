@@ -6,16 +6,11 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import butterknife.ButterKnife;
 
@@ -49,7 +44,11 @@ public abstract class VolontuloBaseFragment extends Fragment {
     public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View root = inflater.inflate(getLayoutResource(), container, false);
         ButterKnife.bind(this, root);
-        collapsibleImage.wantCollapse(getImageResource());
+        if (TextUtils.isEmpty(getImagePath())) {
+            collapsibleImage.wantCollapse(getImageResource());
+        } else {
+            collapsibleImage.wantCollapse(getImagePath());
+        }
         onPostCreateView(root);
         return root;
     }
@@ -63,5 +62,9 @@ public abstract class VolontuloBaseFragment extends Fragment {
     @DrawableRes
     public int getImageResource() {
         return 0;
+    }
+
+    public String getImagePath() {
+        return null;
     }
 }

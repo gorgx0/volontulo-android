@@ -4,19 +4,19 @@ import android.content.Context;
 import android.view.View;
 
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.model.Offer;
+import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 
 import java.util.List;
 
-public class OffersRealmAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
+public class OffersRealmAdapter extends BaseMockAdapter<Ofer, OfferViewRealmHolder> {
 
-    public OffersRealmAdapter(Context context, final List<Offer> offers) {
-        super(context, R.layout.item_offer, offers);
+    public OffersRealmAdapter(Context context, final List<Ofer> ofers) {
+        super(context, R.layout.item_offer, ofers);
     }
 
     @Override
-    protected OfferViewHolder createViewHolder(View item) {
-        return new OfferViewHolder(item);
+    protected OfferViewRealmHolder createViewHolder(View item) {
+        return new OfferViewRealmHolder(item);
     }
 }

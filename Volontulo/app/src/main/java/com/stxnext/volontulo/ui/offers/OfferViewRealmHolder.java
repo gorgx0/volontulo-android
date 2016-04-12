@@ -2,7 +2,6 @@ package com.stxnext.volontulo.ui.offers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -11,17 +10,13 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
-class OfferViewHolder extends BaseViewHolder<Offer> {
-
-    private int id;
-    private String imagePath;
-
+class OfferViewRealmHolder extends BaseViewHolder<Ofer> {
     @Bind(R.id.offer_avatar)
     protected ImageView offerImage;
 
@@ -40,7 +35,9 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
     @Bind(R.id.offer_end_time)
     protected TextView offerEnd;
 
-    public OfferViewHolder(View itemView) {
+    private int imageResource;
+
+    public OfferViewRealmHolder(View itemView) {
         super(itemView);
     }
 
@@ -49,10 +46,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
         Context context = clicked.getContext();
         Toast.makeText(context, "DETAILS ACTION/OFFER", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, OfferDetailsActivity.class);
-        intent.putExtra(Offer.OFFER_ID, id);
-        if (!TextUtils.isEmpty(imagePath)) {
-            intent.putExtra(Offer.IMAGE_PATH, imagePath);
-        }
+        intent.putExtra(Ofer.IMAGE_RESOURCE, imageResource);
         context.startActivity(intent);
     }
 
@@ -62,20 +56,25 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
     }
 
     @Override
-    public void onBind(Offer item) {
-        id = item.getId();
-        if (item.hasImage()) {
-            imagePath = item.getImagePath();
+    public void onBind(Ofer item) {
+        if (item.getImageResource() > 0) {
             Picasso.with(offerImage.getContext())
-                    .load(imagePath)
+                    .load(item.getImageResource())
+                    .fit()
+                    .centerCrop()
+                    .into(offerImage);
+        } else {
+            Picasso.with(offerImage.getContext())
+                    .load(item.getImagePath())
                     .fit()
                     .centerCrop()
                     .into(offerImage);
         }
-        offerName.setText(item.getTitle());
-        offerPlace.setText(item.getLocation());
-        offerStart.setText(item.getStartedAt());
-        offerEnd.setText(item.getFinishedAt());
+        offerName.setText(item.getName());
+        offerPlace.setText(item.getPlaceName());
+        offerStart.setText(item.getFormattedStartTime());
+        offerEnd.setText(item.getFormattedEndTime());
+        imageResource = item.getImageResource();
         if (item.isUserJoined()) {
             offerJoinButton.setImageResource(R.drawable.ic_offer_joined);
             offerJoinButton.setEnabled(false);
