@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
-import com.stxnext.volontulo.model.Offer;
+import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.offers.OfferDetailsActivity;
 
 public class MapOffersActivity extends VolontuloBaseActivity implements OnMapReadyCallback {
@@ -49,7 +49,7 @@ public class MapOffersActivity extends VolontuloBaseActivity implements OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap) {
         final LatLngBounds.Builder boundaryBuilder = new LatLngBounds.Builder();
-        for (Offer item : mapAdapter.getObjects()) {
+        for (Ofer item : mapAdapter.getObjects()) {
             boundaryBuilder.include(item.getPlacePosition());
             googleMap.addMarker(new MarkerOptions()
                     .position(item.getPlacePosition())

@@ -19,7 +19,7 @@ public class OfferDetailsActivity extends VolontuloBaseActivity {
 
         final Bundle extras = getIntent().getExtras();
         int imageResource = extras.getInt(Offer.IMAGE_RESOURCE, 0);
-        int id = extras.getInt("OFFER-ID", 0);
+        int id = extras.getInt(Offer.OFFER_ID, 0);
         Bundle args = new Bundle();
         args.putInt(Offer.IMAGE_RESOURCE, imageResource);
         args.putInt(Offer.OFFER_ID, id);

@@ -4,9 +4,10 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
 
-public class Offer {
+public class Offer extends RealmObject {
 
     public static String OFFER_ID = "OFFER-ID";
     public static String IMAGE_PATH = "IMAGE-PATH";
@@ -15,7 +16,7 @@ public class Offer {
     private String url;
     private int id;
     private Organization organization;
-    private List<User> volunteers;
+    private RealmList<User> volunteers;
     private String description;
     private String requirements;
     @SerializedName("time_commitment")
@@ -59,7 +60,7 @@ public class Offer {
     @SerializedName("volunteers_limit")
     private int volunteersLimit;
     private int weight;
-    private List<Image> images;
+    private RealmList<Image> images;
 
     /**
      *
@@ -120,7 +121,7 @@ public class Offer {
      * @return
      * The volunteers
      */
-    public List<User> getVolunteers() {
+    public RealmList<User> getVolunteers() {
         return volunteers;
     }
 
@@ -129,7 +130,7 @@ public class Offer {
      * @param volunteers
      * The volunteers
      */
-    public void setVolunteers(List<User> volunteers) {
+    public void setVolunteers(RealmList<User> volunteers) {
         this.volunteers = volunteers;
     }
 
@@ -588,7 +589,7 @@ public class Offer {
      * @return
      * The images
      */
-    public List<Image> getImages() {
+    public RealmList<Image> getImages() {
         return images;
     }
 
@@ -597,13 +598,13 @@ public class Offer {
      * @param images
      * The images
      */
-    public void setImages(List<Image> images) {
+    public void setImages(RealmList<Image> images) {
         this.images = images;
     }
 
     @Override
     public String toString() {
-        return "Offer " + id + ": '" + title + "' (" + location + ")";
+        return "Ofer " + id + ": '" + title + "' (" + location + ")";
     }
 
     public String getDuration(String now, String toSet) {

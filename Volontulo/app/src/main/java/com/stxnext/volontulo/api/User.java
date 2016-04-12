@@ -2,7 +2,9 @@ package com.stxnext.volontulo.api;
 
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import io.realm.RealmObject;
+
+public class User extends RealmObject {
 
     private int id;
     private String username;

@@ -32,7 +32,7 @@ public class VolontuloApp extends Application {
                 .setExclusionStrategies(new ExclusionStrategy() {
                     @Override
                     public boolean shouldSkipField(FieldAttributes f) {
-                        return f.getDeclaredClass().equals(RealmObject.class);
+                        return f.getDeclaringClass().equals(RealmObject.class);
                     }
 
                     @Override

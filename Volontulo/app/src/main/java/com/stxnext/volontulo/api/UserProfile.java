@@ -4,19 +4,20 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
 
-public class UserProfile {
+public class UserProfile extends RealmObject {
 
     private String url;
     private int id;
     private User user;
-    private List<Organization> organizations;
+    private RealmList<Organization> organizations;
     @SerializedName("is_administrator")
     private boolean isAdministrator;
     @SerializedName("phone_no")
     private String phoneNo;
-    private List<Image> images;
+    private RealmList<Image> images;
 
     @Override
     public String toString() {
@@ -82,7 +83,7 @@ public class UserProfile {
      * @return
      * The organizations
      */
-    public List<Organization> getOrganizations() {
+    public RealmList<Organization> getOrganizations() {
         return organizations;
     }
 
@@ -91,7 +92,7 @@ public class UserProfile {
      * @param organizations
      * The organizations
      */
-    public void setOrganizations(List<Organization> organizations) {
+    public void setOrganizations(RealmList<Organization> organizations) {
         this.organizations = organizations;
     }
 
@@ -136,7 +137,7 @@ public class UserProfile {
      * @return
      * The images
      */
-    public List<Image> getImages() {
+    public RealmList<Image> getImages() {
         return images;
     }
 
@@ -145,7 +146,7 @@ public class UserProfile {
      * @param images
      * The images
      */
-    public void setImages(List<Image> images) {
+    public void setImages(RealmList<Image> images) {
         this.images = images;
     }
 

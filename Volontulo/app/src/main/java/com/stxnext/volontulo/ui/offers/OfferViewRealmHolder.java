@@ -10,13 +10,13 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.model.Offer;
+import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
-class OfferViewRealmHolder extends BaseViewHolder<Offer> {
+class OfferViewRealmHolder extends BaseViewHolder<Ofer> {
     @Bind(R.id.offer_avatar)
     protected ImageView offerImage;
 
@@ -46,7 +46,7 @@ class OfferViewRealmHolder extends BaseViewHolder<Offer> {
         Context context = clicked.getContext();
         Toast.makeText(context, "DETAILS ACTION/OFFER", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, OfferDetailsActivity.class);
-        intent.putExtra(Offer.IMAGE_RESOURCE, imageResource);
+        intent.putExtra(Ofer.IMAGE_RESOURCE, imageResource);
         context.startActivity(intent);
     }
 
@@ -56,7 +56,7 @@ class OfferViewRealmHolder extends BaseViewHolder<Offer> {
     }
 
     @Override
-    public void onBind(Offer item) {
+    public void onBind(Ofer item) {
         if (item.getImageResource() > 0) {
             Picasso.with(offerImage.getContext())
                     .load(item.getImageResource())

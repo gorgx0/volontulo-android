@@ -37,7 +37,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
-import com.stxnext.volontulo.model.Offer;
+import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.utils.BaseTextWatcher;
 
 import org.parceler.Parcels;
@@ -69,7 +69,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     @Bind(R.id.place_autocomplete_result_switcher) ViewSwitcher placeAutocompleteResultSwitcher;
     private SupportPlaceAutocompleteFragment placeFragment;
 
-    private Offer formState = new Offer();
+    private Ofer formState = new Ofer();
 
     @Override
     protected int getLayoutResource() {
@@ -106,9 +106,9 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     private static class OfferObjectUpdater extends BaseTextWatcher {
         @IdRes
         private final int editTextId;
-        private final Offer updated;
+        private final Ofer updated;
 
-        OfferObjectUpdater(@IdRes int id, Offer model) {
+        OfferObjectUpdater(@IdRes int id, Ofer model) {
             editTextId = id;
             updated = model;
         }
@@ -187,7 +187,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         }
     }
 
-    private void fillFormFrom(final Offer formState) {
+    private void fillFormFrom(final Ofer formState) {
         offerName.setText(formState.getName());
         placeFragment.setText(formState.getPlaceName());
         placeFragment.setText(formState.getPlaceName());
@@ -232,7 +232,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         getActivity().finish();
     }
 
-    private void saveOffer(Offer formState) {
+    private void saveOffer(Ofer formState) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealm(formState);

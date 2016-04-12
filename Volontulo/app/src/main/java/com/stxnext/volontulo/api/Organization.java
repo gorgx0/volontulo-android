@@ -1,6 +1,8 @@
 package com.stxnext.volontulo.api;
 
-public class Organization {
+import io.realm.RealmObject;
+
+public class Organization extends RealmObject {
 
     private String url;
     private int id;

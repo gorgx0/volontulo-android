@@ -2,7 +2,9 @@ package com.stxnext.volontulo.api;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Image {
+import io.realm.RealmObject;
+
+public class Image extends RealmObject {
 
     private int id;
     private String image;
