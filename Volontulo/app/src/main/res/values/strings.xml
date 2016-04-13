@@ -36,6 +36,11 @@
     <string name="offer_time_requirement_validate">Określ wymagania czasowe - ile godzin pracy w ciągu dnia wymaga dana akcja.</string>
     <string name="offer_benefits_validate">Określ korzyści płynące z udziału w akcji.</string>
 
+    <string name="im_enter_message">Wpisz wiadomość</string>
+    <string name="im_send_message">Wyślij wiadomość</string>
+    <string name="im_conversation_with_title">Rozmowa z: %s</string>
+    <string name="im_conversaion_list_title">Lista konwersacji</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="volunteer_data_name">Nazwa</string>

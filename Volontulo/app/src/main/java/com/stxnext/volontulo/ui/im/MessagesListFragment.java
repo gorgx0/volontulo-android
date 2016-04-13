@@ -1,9 +1,14 @@
 package com.stxnext.volontulo.ui.im;
 
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
@@ -16,20 +21,39 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     @Bind(R.id.list)
     protected RecyclerView messagesList;
 
+    @Bind(R.id.send)
+    protected ImageButton send;
+
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_list;
+        return R.layout.fragment_message_list;
     }
 
     @Override
     protected void onPostCreateView(View root) {
         super.onPostCreateView(root);
         final Bundle args = getArguments();
-        setToolbarTitle(String.format("Rozmowa z %s", args.getString(KEY_PARTICIPANTS)));
+        final String participantName = args.getString(KEY_PARTICIPANTS);
+        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, participantName));
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         messagesList.setLayoutManager(layoutManager);
         messagesList.setAdapter(new MessagesAdapter(getActivity()));
+
+        setBackgroundTintCompatibleOnSendButton();
+    }
+
+    private void setBackgroundTintCompatibleOnSendButton() {
+        final Drawable wrapped = DrawableCompat.wrap(send.getBackground());
+        DrawableCompat.setTint(wrapped, ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        setBackgroundCompatible(send, wrapped);
+    }
+
+    public void setBackgroundCompatible(final View view, final Drawable backgroundDrawable) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(backgroundDrawable);
+        } else {
+            view.setBackgroundDrawable(backgroundDrawable);
+        }
     }
 }

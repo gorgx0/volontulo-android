@@ -22,7 +22,7 @@ public class ConversationListFragment extends VolontuloBaseFragment {
     @Override
     protected void onPostCreateView(View root) {
         super.onPostCreateView(root);
-        setToolbarTitle("Lista konwersacji");
+        setToolbarTitle(R.string.im_conversaion_list_title);
         conversationList.setLayoutManager(new LinearLayoutManager(getActivity()));
         conversationList.setAdapter(new ConversationsAdapter(getActivity()));
         conversationList.addItemDecoration(new SimpleItemDivider(getActivity()));

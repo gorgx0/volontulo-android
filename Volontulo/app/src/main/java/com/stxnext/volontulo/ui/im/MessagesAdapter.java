@@ -15,7 +15,22 @@ public class MessagesAdapter extends BaseMockAdapter<Message, BaseViewHolder<Mes
         super(context, new int[]{R.layout.item_message_left, R.layout.item_message_right});
         objects.add(new Message("Lorem ipsum", Message.Direction.SENT));
         objects.add(new Message("Have fun!", Message.Direction.SENT));
+        objects.add(new Message("Have fun!", Message.Direction.SENT));
         objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+        objects.add(new Message("Have fun!", Message.Direction.SENT));
+        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+        objects.add(new Message("Have fun!", Message.Direction.SENT));
+        objects.add(new Message("Have fun!", Message.Direction.SENT));
+        objects.add(new Message("Have fun!", Message.Direction.SENT));
+        objects.add(new Message("Have fun!", Message.Direction.SENT));
+        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+        objects.add(new Message("Have fun!", Message.Direction.SENT));
+        objects.add(new Message("Thanks!!!!!!!!", Message.Direction.RECEIVED));
     }
 
     @Override
