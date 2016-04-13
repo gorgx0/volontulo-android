@@ -13,25 +13,34 @@ import java.util.List;
 public abstract class BaseMockAdapter<T, V extends BaseViewHolder<T>> extends RecyclerView.Adapter<V> {
     protected final List<T> objects;
     private LayoutInflater inflater;
-    @LayoutRes private int layoutResource;
+    @LayoutRes
+    private int[] layoutResources;
+
+    public BaseMockAdapter(final Context context, @LayoutRes int[] layouts) {
+        this(context, layouts, new ArrayList<T>());
+    }
 
     public BaseMockAdapter(final Context context, @LayoutRes int layout) {
         this(context, layout, new ArrayList<T>());
     }
 
     public BaseMockAdapter(final Context context, @LayoutRes int layout, final List<T> results) {
+        this(context, new int[]{layout}, results);
+    }
+
+    private BaseMockAdapter(final Context context, @LayoutRes int[] layouts, final List<T> results) {
         inflater = LayoutInflater.from(context);
-        layoutResource = layout;
+        layoutResources = layouts;
         objects = results;
     }
 
     @Override
     public final V onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View inflated = inflater.inflate(layoutResource, parent, false);
-        return createViewHolder(inflated);
+        final View inflated = inflater.inflate(layoutResources[viewType], parent, false);
+        return createViewHolder(inflated, viewType);
     }
 
-    protected abstract V createViewHolder(View item);
+    protected abstract V createViewHolder(View inflatedItem, int viewType);
 
     @Override
     public final void onBindViewHolder(V holder, int position) {

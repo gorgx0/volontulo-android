@@ -20,7 +20,7 @@ class MockVolunteersAdapter extends BaseMockAdapter<Volunteer, VolunteerViewHold
     }
 
     @Override
-    protected VolunteerViewHolder createViewHolder(View item) {
+    protected VolunteerViewHolder createViewHolder(View item, int viewType) {
         return new VolunteerViewHolder(item);
     }
 }

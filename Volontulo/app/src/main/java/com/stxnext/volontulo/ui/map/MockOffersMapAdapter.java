@@ -26,7 +26,7 @@ class MockOffersMapAdapter extends BaseMockAdapter<Offer, BaseViewHolder<Offer>>
     }
 
     @Override
-    protected BaseViewHolder<Offer> createViewHolder(View item) {
+    protected BaseViewHolder<Offer> createViewHolder(View item, int viewType) {
         return new BaseViewHolder<Offer>(item) {
             @Override
             public void onBind(Offer model) {

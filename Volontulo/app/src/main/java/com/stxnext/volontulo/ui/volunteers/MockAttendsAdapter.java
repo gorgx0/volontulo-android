@@ -21,7 +21,7 @@ class MockAttendsAdapter extends BaseMockAdapter<Offer, AttendViewHolder> {
     }
 
     @Override
-    protected AttendViewHolder createViewHolder(View item) {
+    protected AttendViewHolder createViewHolder(View item, int viewType) {
         return new AttendViewHolder(item);
     }
 }

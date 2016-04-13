@@ -16,7 +16,7 @@ public class OffersRealmAdapter extends BaseMockAdapter<Offer, OfferViewHolder> 
     }
 
     @Override
-    protected OfferViewHolder createViewHolder(View item) {
+    protected OfferViewHolder createViewHolder(View item, int viewType) {
         return new OfferViewHolder(item);
     }
 }
