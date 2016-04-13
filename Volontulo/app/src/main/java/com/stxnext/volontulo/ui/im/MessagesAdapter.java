@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.stxnext.volontulo.R;
+import com.stxnext.volontulo.logic.im.Message;
 import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 

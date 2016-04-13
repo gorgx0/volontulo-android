@@ -1,4 +1,4 @@
-package com.stxnext.volontulo.ui.im;
+package com.stxnext.volontulo.logic.im;
 
 public class Message {
     public enum Direction {

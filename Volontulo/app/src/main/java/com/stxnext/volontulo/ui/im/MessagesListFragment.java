@@ -1,5 +1,6 @@
 package com.stxnext.volontulo.ui.im;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,22 +8,35 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 public class MessagesListFragment extends VolontuloBaseFragment {
     public static final String KEY_PARTICIPANTS = "participants";
 
+    public interface InstantMessagingViewCallback {
+        void onMessageComposed(String recipient, String body);
+    }
+
     @Bind(R.id.list)
     protected RecyclerView messagesList;
 
+    @Bind(R.id.message)
+    protected EditText message;
+
     @Bind(R.id.send)
     protected ImageButton send;
+
+    private InstantMessagingViewCallback viewCallback;
+    private String participantName;
 
     @Override
     protected int getLayoutResource() {
@@ -30,10 +44,26 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof InstantMessagingViewCallback) {
+            viewCallback = (InstantMessagingViewCallback) context;
+        }
+    }
+
+    @OnClick(R.id.send)
+    void onSendClicked() {
+        final String messageText = message.getText().toString();
+        if (viewCallback != null && !TextUtils.isEmpty(participantName) && !TextUtils.isEmpty(messageText)) {
+            viewCallback.onMessageComposed(participantName, messageText);
+        }
+    }
+
+    @Override
     protected void onPostCreateView(View root) {
         super.onPostCreateView(root);
         final Bundle args = getArguments();
-        final String participantName = args.getString(KEY_PARTICIPANTS);
+        participantName = args.getString(KEY_PARTICIPANTS);
         setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, participantName));
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setStackFromEnd(true);

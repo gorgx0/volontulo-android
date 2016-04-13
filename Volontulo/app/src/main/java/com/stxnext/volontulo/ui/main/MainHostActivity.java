@@ -2,13 +2,11 @@ package com.stxnext.volontulo.ui.main;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.stxnext.volontulo.R;
@@ -64,8 +62,9 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
         if (fragment != null) {
             fragmentManager.beginTransaction()
                 .replace(R.id.content, fragment)
+                .addToBackStack(null)
                 .commit();
-
+            item.setChecked(true);
             return true;
         }
         return false;

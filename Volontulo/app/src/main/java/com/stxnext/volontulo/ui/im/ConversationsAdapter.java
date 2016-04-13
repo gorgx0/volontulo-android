@@ -1,14 +1,13 @@
 package com.stxnext.volontulo.ui.im;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
+import com.stxnext.volontulo.logic.im.Conversation;
 import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
@@ -43,15 +42,7 @@ public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseView
         @OnClick(R.id.conversation)
         void onConversationClick(View clicked) {
             final VolontuloBaseActivity activity = (VolontuloBaseActivity) clicked.getContext();
-            final FragmentManager fragmentManager = activity.getSupportFragmentManager();
-            final Fragment messagesFragment = new MessagesListFragment();
-            final Bundle args = new Bundle();
-            args.putString(MessagesListFragment.KEY_PARTICIPANTS, participantName.getText().toString());
-            messagesFragment.setArguments(args);
-            fragmentManager.beginTransaction()
-                .replace(R.id.content, messagesFragment)
-                .addToBackStack(null)
-                .commit();
+            activity.startActivity(new Intent(activity, MessagingActivity.class));
         }
     }
 }
