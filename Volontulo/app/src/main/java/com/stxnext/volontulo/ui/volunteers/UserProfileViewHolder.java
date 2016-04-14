@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
+import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.api.UserProfile;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
@@ -46,7 +47,7 @@ public class UserProfileViewHolder extends BaseViewHolder<UserProfile> {
         Context context = clicked.getContext();
         Toast.makeText(context, "DETAILS USER PROFILE", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, VolunteerDetailsActivity.class);
-        intent.putExtra("USER-ID", id);
+        intent.putExtra(User.USER_ID, id);
         context.startActivity(intent);
     }
 }
