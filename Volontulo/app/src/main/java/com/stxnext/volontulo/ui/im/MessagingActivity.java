@@ -29,6 +29,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nodrawer);
+        init(R.string.im_conversaion_list_title);
 
         final Intent intent = getIntent();
         final Bundle data = getBundleFrom(intent);

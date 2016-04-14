@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:compat="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,18 +8,17 @@
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_gravity="end"
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="64dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="64dp"
         android:layout_marginTop="4dp"
-        compat:cardCornerRadius="8dp"
-        compat:cardElevation="4dp"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
+        compat:cardCornerRadius="8dp"
+        compat:cardElevation="4dp"
         compat:cardUseCompatPadding="true">
 
         <TextView
@@ -31,4 +30,4 @@
             tools:text="Hello world message" />
 
     </android.support.v7.widget.CardView>
-</RelativeLayout>
+</FrameLayout>

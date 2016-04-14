@@ -1,23 +1,16 @@
 package com.stxnext.volontulo.ui.im;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 
 public class MessagesListFragment extends VolontuloBaseFragment {
     public static final String KEY_PARTICIPANTS = "participants";
@@ -32,8 +25,8 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     @Bind(R.id.message)
     protected EditText message;
 
-    @Bind(R.id.send)
-    protected ImageButton send;
+//    @Bind(R.id.send)
+//    protected ImageButton send;
 
     private InstantMessagingViewCallback viewCallback;
     private String participantName;
@@ -51,13 +44,13 @@ public class MessagesListFragment extends VolontuloBaseFragment {
         }
     }
 
-    @OnClick(R.id.send)
-    void onSendClicked() {
-        final String messageText = message.getText().toString();
-        if (viewCallback != null && !TextUtils.isEmpty(participantName) && !TextUtils.isEmpty(messageText)) {
-            viewCallback.onMessageComposed(participantName, messageText);
-        }
-    }
+//    @OnClick(R.id.send)
+//    void onSendClicked() {
+//        final String messageText = message.getText().toString();
+//        if (viewCallback != null && !TextUtils.isEmpty(participantName) && !TextUtils.isEmpty(messageText)) {
+//            viewCallback.onMessageComposed(participantName, messageText);
+//        }
+//    }
 
     @Override
     protected void onPostCreateView(View root) {
@@ -70,20 +63,20 @@ public class MessagesListFragment extends VolontuloBaseFragment {
         messagesList.setLayoutManager(layoutManager);
         messagesList.setAdapter(new MessagesAdapter(getActivity()));
 
-        setBackgroundTintCompatibleOnSendButton();
+//        setBackgroundTintCompatibleOnSendButton();
     }
-
-    private void setBackgroundTintCompatibleOnSendButton() {
-        final Drawable wrapped = DrawableCompat.wrap(send.getBackground());
-        DrawableCompat.setTint(wrapped, ContextCompat.getColor(getActivity(), R.color.colorPrimary));
-        setBackgroundCompatible(send, wrapped);
-    }
-
-    public void setBackgroundCompatible(final View view, final Drawable backgroundDrawable) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-            view.setBackground(backgroundDrawable);
-        } else {
-            view.setBackgroundDrawable(backgroundDrawable);
-        }
-    }
+//
+//    private void setBackgroundTintCompatibleOnSendButton() {
+//        final Drawable wrapped = DrawableCompat.wrap(send.getBackground());
+//        DrawableCompat.setTint(wrapped, ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+//        setBackgroundCompatible(send, wrapped);
+//    }
+//
+//    public void setBackgroundCompatible(final View view, final Drawable backgroundDrawable) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//            view.setBackground(backgroundDrawable);
+//        } else {
+//            view.setBackgroundDrawable(backgroundDrawable);
+//        }
+//    }
 }

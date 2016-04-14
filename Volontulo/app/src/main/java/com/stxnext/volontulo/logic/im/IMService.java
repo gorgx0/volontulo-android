@@ -11,16 +11,22 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.sinch.android.rtc.ClientRegistration;
+import com.sinch.android.rtc.PushPair;
 import com.sinch.android.rtc.Sinch;
 import com.sinch.android.rtc.SinchClient;
 import com.sinch.android.rtc.SinchClientListener;
 import com.sinch.android.rtc.SinchError;
+import com.sinch.android.rtc.messaging.Message;
 import com.sinch.android.rtc.messaging.MessageClient;
 import com.sinch.android.rtc.messaging.MessageClientListener;
+import com.sinch.android.rtc.messaging.MessageDeliveryInfo;
+import com.sinch.android.rtc.messaging.MessageFailureInfo;
 import com.sinch.android.rtc.messaging.WritableMessage;
 import com.stxnext.volontulo.BuildConfig;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.logic.im.config.ImConfiguration;
+
+import java.util.List;
 
 public class IMService extends Service implements SinchClientListener {
     private static final String TAG = "Volontulo-Im";
@@ -92,6 +98,32 @@ public class IMService extends Service implements SinchClientListener {
     public void onClientStarted(SinchClient sinchClient) {
         sinchClient.startListeningOnActiveConnection();
         messageClient = sinchClient.getMessageClient();
+        messageClient.addMessageClientListener(new MessageClientListener() {
+            @Override
+            public void onIncomingMessage(MessageClient messageClient, Message message) {
+                Log.i(TAG, String.format("Incoming message %s [from %s, to %s]", message.getMessageId(), message.getSenderId(), message.getRecipientIds()));
+            }
+
+            @Override
+            public void onMessageSent(MessageClient messageClient, Message message, String s) {
+                Log.i(TAG, String.format("Outcoming message %s [to %s, from %s]", message.getMessageId(), message.getRecipientIds(), message.getSenderId()));
+            }
+
+            @Override
+            public void onMessageFailed(MessageClient messageClient, Message message, MessageFailureInfo messageFailureInfo) {
+                Log.e(TAG, String.format("Sending message %s failed [%s]", message.getMessageId(), messageFailureInfo.getSinchError()));
+            }
+
+            @Override
+            public void onMessageDelivered(MessageClient messageClient, MessageDeliveryInfo messageDeliveryInfo) {
+                Log.d(TAG, String.format("Message %s delivered [to %s]", messageDeliveryInfo.getMessageId(), messageDeliveryInfo.getRecipientId()));
+            }
+
+            @Override
+            public void onShouldSendPushData(MessageClient messageClient, Message message, List<PushPair> list) {
+                Log.i(TAG, String.format("Should send push data %s [%s]", message.getMessageId(), list));
+            }
+        });
         broadcastIntent.putExtra(EXTRA_KEY_HAS_CONNECTED, true);
         localBroadcastManager.sendBroadcast(broadcastIntent);
     }
