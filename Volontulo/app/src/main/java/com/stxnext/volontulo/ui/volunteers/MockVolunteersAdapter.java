@@ -10,7 +10,7 @@ import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 class MockVolunteersAdapter extends BaseMockAdapter<Volunteer, VolunteerViewHolder> {
 
     public MockVolunteersAdapter(Context context) {
-        super(context, R.layout.item_volunteer);
+        super(context);
         objects.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
         objects.add(Volunteer.mock("Jan", "Kowalski", R.drawable.ic_user_placeholder));
         objects.add(Volunteer.mock("Jan", "Nowak", R.drawable.ic_user_placeholder));
@@ -20,7 +20,12 @@ class MockVolunteersAdapter extends BaseMockAdapter<Volunteer, VolunteerViewHold
     }
 
     @Override
-    protected VolunteerViewHolder createViewHolder(View item) {
+    protected int getLayoutResource(int viewType) {
+        return R.layout.item_volunteer;
+    }
+
+    @Override
+    protected VolunteerViewHolder createViewHolder(View item, int viewType) {
         return new VolunteerViewHolder(item);
     }
 }

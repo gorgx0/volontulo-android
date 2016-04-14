@@ -12,11 +12,16 @@ import java.util.List;
 public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
 
     public OfferAdapter(Context context, List<Offer> results) {
-        super(context, R.layout.item_offer, results);
+        super(context, results);
     }
 
     @Override
-    protected OfferViewHolder createViewHolder(View item) {
+    protected int getLayoutResource(int viewType) {
+        return R.layout.item_offer;
+    }
+
+    @Override
+    protected OfferViewHolder createViewHolder(View item, int viewType) {
         return new OfferViewHolder(item);
     }
 }
