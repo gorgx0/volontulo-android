@@ -12,11 +12,17 @@ import java.util.List;
 public class UserProfileAdapter extends BaseMockAdapter<UserProfile, UserProfileViewHolder> {
 
     public UserProfileAdapter(Context context, List<UserProfile> results) {
-        super(context, R.layout.item_volunteer, results);
+        super(context, results);
     }
 
     @Override
-    protected UserProfileViewHolder createViewHolder(View item) {
+    protected int getLayoutResource(int viewType) {
+        return R.layout.item_volunteer;
+    }
+
+    @Override
+    protected UserProfileViewHolder createViewHolder(View item, int viewType) {
         return new UserProfileViewHolder(item);
     }
+
 }

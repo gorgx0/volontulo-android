@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
@@ -60,15 +59,18 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
                 Log.d(TAG, msg);
                 Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                 Log.d(TAG, userProfile.toString());
-                name.setText(userProfile.resolveName());
-                email.setText(userProfile.getEmail());
-                phone.setText(userProfile.getPhoneNo());
-                Picasso.with(image.getContext())
-                        .load(userProfile.getImage())
-                        .fit()
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_user_placeholder)
-                        .into(image);
+//                name.setText(userProfile.resolveName());
+//                email.setText(userProfile.getEmail());
+//                phone.setText(userProfile.getPhoneNo());
+//                Picasso.with(image.getContext())
+//                        .load(userProfile.getImage())
+//                        .fit()
+//                        .centerCrop()
+//                        .placeholder(R.drawable.ic_user_placeholder)
+//                        .into(image);
+                final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
+                adapter.setUserProfile(userProfile);
+                offers.setAdapter(adapter);
             }
 
             @Override
@@ -86,6 +88,5 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
         Context context = getContext();
         offers.setLayoutManager(new LinearLayoutManager(context));
         offers.setHasFixedSize(true);
-        offers.setAdapter(new MockAttendsAdapter(context));
     }
 }
