@@ -12,7 +12,12 @@ import java.util.List;
 public class OffersRealmAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
 
     public OffersRealmAdapter(Context context, final List<Offer> offers) {
-        super(context, R.layout.item_offer, offers);
+        super(context, offers);
+    }
+
+    @Override
+    protected int getLayoutResource(int viewType) {
+        return R.layout.item_offer;
     }
 
     @Override

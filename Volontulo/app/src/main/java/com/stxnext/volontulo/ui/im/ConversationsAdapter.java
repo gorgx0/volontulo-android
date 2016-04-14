@@ -16,9 +16,14 @@ import butterknife.OnClick;
 
 public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseViewHolder<Conversation>> {
     public ConversationsAdapter(Context context) {
-        super(context, R.layout.item_conversation);
+        super(context);
         objects.add(new Conversation("Jan Kowalski"));
         objects.add(new Conversation("Michał Nowak"));
+    }
+
+    @Override
+    protected int getLayoutResource(int viewType) {
+        return R.layout.item_conversation;
     }
 
     @Override

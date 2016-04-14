@@ -1,14 +1,20 @@
 package com.stxnext.volontulo.ui.im;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
@@ -17,6 +23,7 @@ import com.stxnext.volontulo.logic.im.IMService;
 public class MessagingActivity extends VolontuloBaseActivity implements MessagesListFragment.InstantMessagingViewCallback {
     private IMService.InstantMessaging instantMessaging;
     private InstantMessagingConnection serviceConnection = new InstantMessagingConnection();
+    private EventsReceived eventsReceived = new EventsReceived();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,8 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
         final Intent intent = getIntent();
         final Bundle data = getBundleFrom(intent);
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(eventsReceived, new IntentFilter(IMService.ACTION_VOLONTULO_IM));
+        startService(new Intent(this, IMService.class));
         boolean isServiceBound = bindService(new Intent(this, IMService.class), serviceConnection, BIND_AUTO_CREATE);
 
         if (!isServiceBound) {
@@ -47,6 +56,8 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
     @Override
     protected void onDestroy() {
         unbindService(serviceConnection);
+        stopService(new Intent(this, IMService.class));
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(eventsReceived);
         super.onDestroy();
     }
 
@@ -76,12 +87,20 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
     private class InstantMessagingConnection implements ServiceConnection {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            instantMessaging = (IMService.InstantMessaging) service;
+            instantMessaging = (com.stxnext.volontulo.logic.im.IMService.InstantMessaging) service;
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             instantMessaging = null;
+        }
+    }
+
+    private class EventsReceived extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i("Volontulo-Im", "Service started");
+            Toast.makeText(context, "Messaging service started and ready", Toast.LENGTH_LONG).show();
         }
     }
 }

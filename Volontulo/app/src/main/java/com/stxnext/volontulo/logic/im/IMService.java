@@ -18,10 +18,12 @@ import com.sinch.android.rtc.SinchError;
 import com.sinch.android.rtc.messaging.MessageClient;
 import com.sinch.android.rtc.messaging.MessageClientListener;
 import com.sinch.android.rtc.messaging.WritableMessage;
+import com.stxnext.volontulo.BuildConfig;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.logic.im.config.ImConfiguration;
 
 public class IMService extends Service implements SinchClientListener {
+    private static final String TAG = "Volontulo-Im";
     private ImConfiguration configuration = ImConfigFactory.create();
     private final InstantMessaging serviceInterface = new InstantMessaging();
     private SinchClient client = null;
@@ -36,7 +38,9 @@ public class IMService extends Service implements SinchClientListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         final String currentUserId = retrieveCurrentUser();
+        Log.d(TAG, String.format("IM service initializing with user [%s]", currentUserId));
         if (!TextUtils.isEmpty(currentUserId) && !isIMClientStarted()) {
+            Log.i(TAG, "IM service not started, so init it.");
             startIMClient(currentUserId);
         }
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -63,7 +67,9 @@ public class IMService extends Service implements SinchClientListener {
         client.addSinchClientListener(this);
         client.setSupportMessaging(true);
         client.setSupportActiveConnectionInBackground(true);
-        client.checkManifest();
+        if (BuildConfig.DEBUG) {
+            client.checkManifest();
+        }
         client.start();
     }
 
@@ -97,7 +103,7 @@ public class IMService extends Service implements SinchClientListener {
 
     @Override
     public void onClientFailed(SinchClient sinchClient, SinchError sinchError) {
-        Log.e("Volontulo-Im", String.format("Client: %s, Error: %d [%s@%s]", sinchClient, sinchError.getCode(), sinchError.getErrorType(), sinchError.getMessage()));
+        Log.e(TAG, String.format("Client: %s, Error: %d [%s@%s]", sinchClient, sinchError.getCode(), sinchError.getErrorType(), sinchError.getMessage()));
         client = null;
         broadcastIntent.putExtra(EXTRA_KEY_HAS_CONNECTED, false);
         localBroadcastManager.sendBroadcast(broadcastIntent);
@@ -105,10 +111,12 @@ public class IMService extends Service implements SinchClientListener {
 
     @Override
     public void onRegistrationCredentialsRequired(SinchClient sinchClient, ClientRegistration clientRegistration) {
+        Log.i(TAG, String.format("Registration credentials required %s", clientRegistration));
     }
 
     @Override
     public void onLogMessage(int i, String s, String s1) {
+        Log.i(TAG, String.format("Log message: %d | %s | %s", i, s, s1));
     }
 
     public void sendMessage(String recipientUser, String messageBody) {

@@ -16,13 +16,18 @@ import java.util.List;
 class MockOffersMapAdapter extends BaseMockAdapter<Offer, BaseViewHolder<Offer>> {
 
     public MockOffersMapAdapter(Context context) {
-        super(context, R.layout.item_offer);
+        super(context);
         objects.add(Offer.mockPlace("Oferta 1", "Poznań", new LatLng(52.408333, 16.934167), DateTime.now(), DateTime.now().plusDays(7), R.drawable.apple, false));
         objects.add(Offer.mockPlace("Oferta 2", "Polska", new LatLng(52.212222, 21.098333), DateTime.now().plusMonths(3), DateTime.now().plusMonths(3).plusDays(7), R.drawable.breakfast_free, false));
         objects.add(Offer.mockPlace("Oferta 3", "Warszawa", new LatLng(52.232222, 21.008333), DateTime.now(), DateTime.now().plusDays(7), R.drawable.cookie, true));
         objects.add(Offer.mockPlace("Oferta 4", "Leszno", new LatLng(51.845833, 16.580556), DateTime.now().minusDays(1), DateTime.now().plusDays(7), R.drawable.ice, false));
         objects.add(Offer.mockPlace("Oferta 5", "Wrocław", new LatLng(51.11, 17.022222), DateTime.now().minusDays(1), DateTime.now().plusDays(7), R.drawable.join, false));
         objects.add(Offer.mockPlace("Oferta 6", "Poznań", new LatLng(52.408333, 16.934167), DateTime.now().minusWeeks(1), DateTime.now().plusWeeks(2), R.drawable.oscar, true));
+    }
+
+    @Override
+    protected int getLayoutResource(int viewType) {
+        return R.layout.item_offer;
     }
 
     @Override

@@ -13,7 +13,7 @@ import butterknife.Bind;
 
 public class MessagesAdapter extends BaseMockAdapter<Message, BaseViewHolder<Message>> {
     public MessagesAdapter(Context context) {
-        super(context, new int[]{R.layout.item_message_left, R.layout.item_message_right});
+        super(context);
         objects.add(new Message("Lorem ipsum", Message.Direction.SENT));
         objects.add(new Message("Have fun!", Message.Direction.SENT));
         objects.add(new Message("Have fun!", Message.Direction.SENT));
@@ -32,6 +32,19 @@ public class MessagesAdapter extends BaseMockAdapter<Message, BaseViewHolder<Mes
         objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
         objects.add(new Message("Have fun!", Message.Direction.SENT));
         objects.add(new Message("Thanks!!!!!!!!", Message.Direction.RECEIVED));
+    }
+
+    @Override
+    protected int getLayoutResource(int viewType) {
+        final Message.Direction direction = Message.Direction.fromInt(viewType);
+        switch (direction) {
+            case RECEIVED:
+                return R.layout.item_message_left;
+
+            case SENT:
+            default:
+                return R.layout.item_message_right;
+        }
     }
 
     @Override
