@@ -1,6 +1,8 @@
 package com.stxnext.volontulo.ui.login;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,6 +28,10 @@ public class LoginFragment extends VolontuloBaseFragment {
     @OnClick(R.id.button_login)
     public void doLogin() {
         if (editTextEmail.getText().toString().equals("test") && editTextPassword.getText().toString().equals("test")) {
+            final SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(getString(R.string.preference_key_is_logged), true);
+            editor.apply();
             Intent intent = new Intent(getActivity(), MainHostActivity.class);
             startActivity(intent);
             getActivity().finish();
