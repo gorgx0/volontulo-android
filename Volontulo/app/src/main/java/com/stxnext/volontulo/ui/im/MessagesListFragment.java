@@ -2,6 +2,8 @@ package com.stxnext.volontulo.ui.im;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -32,10 +34,17 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     @Bind(R.id.message)
     protected EditText message;
 
+    protected CoordinatorLayout coordinatorLayout;
+//
+//    @Bind(R.id.snackbar_container)
+//    protected View snackbarLayout;
+
     private InstantMessagingViewCallback viewCallback;
     private LoginFragment.User participant;
     private MessagesAdapter messagesAdapter;
     private LinearLayoutManager layoutManager;
+    private Snackbar snackbar;
+    private int newUnreadMessages = 0;
 
     @Override
     protected int getLayoutResource() {
@@ -70,6 +79,7 @@ public class MessagesListFragment extends VolontuloBaseFragment {
         messagesList.setLayoutManager(layoutManager);
         messagesAdapter = new MessagesAdapter(getActivity());
         messagesList.setAdapter(messagesAdapter);
+        coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.coordinator_layout);
     }
 
     public void updateList(Message message) {
@@ -78,6 +88,25 @@ public class MessagesListFragment extends VolontuloBaseFragment {
         final int lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
         if (lastVisiblePosition == positionAdded - 1) {
             messagesList.scrollToPosition(positionAdded);
+            newUnreadMessages = 0;
+        } else {
+            ++newUnreadMessages;
+            final String unreadMessagesString = getResources().getQuantityString(R.plurals.im_new_messages, newUnreadMessages, newUnreadMessages);
+            if (snackbar == null) {
+                snackbar = Snackbar.make(coordinatorLayout, unreadMessagesString, Snackbar.LENGTH_INDEFINITE);
+            }
+            snackbar.setAction("Przejdź", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    messagesList.scrollToPosition(positionAdded);
+                    newUnreadMessages = 0;
+                }
+            });
+            if (snackbar.isShown()) {
+                snackbar.setText(unreadMessagesString);
+            } else {
+                snackbar.show();
+            }
         }
         Log.i("Volontulo-Im", "updateMessageList");
     }
