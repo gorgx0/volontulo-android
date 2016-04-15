@@ -9,11 +9,19 @@ import com.stxnext.volontulo.logic.im.Message;
 import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 
 public class MessagesAdapter extends BaseMockAdapter<Message, BaseViewHolder<Message>> {
+
     public MessagesAdapter(Context context) {
-        super(context);
+        this(context, new ArrayList<Message>());
+    }
+
+    public MessagesAdapter(Context context, List<Message> list) {
+        super(context, list);
         objects.add(new Message("Lorem ipsum", Message.Direction.SENT));
         objects.add(new Message("Have fun!", Message.Direction.SENT));
         objects.add(new Message("Have fun!", Message.Direction.SENT));
@@ -32,6 +40,11 @@ public class MessagesAdapter extends BaseMockAdapter<Message, BaseViewHolder<Mes
         objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
         objects.add(new Message("Have fun!", Message.Direction.SENT));
         objects.add(new Message("Thanks!!!!!!!!", Message.Direction.RECEIVED));
+    }
+
+    public void updateMessage(Message newMessage) {
+        objects.add(newMessage);
+        notifyItemRangeInserted(objects.size(), 1);
     }
 
     @Override

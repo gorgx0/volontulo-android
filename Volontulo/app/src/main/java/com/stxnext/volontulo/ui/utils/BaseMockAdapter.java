@@ -36,7 +36,7 @@ public abstract class BaseMockAdapter<T, V extends BaseViewHolder<T>> extends Re
 
     @Override
     public final void onBindViewHolder(V holder, int position) {
-        holder.onBind(objects.get(position));
+        holder.bind(objects.get(position));
     }
 
     @Override

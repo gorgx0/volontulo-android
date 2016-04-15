@@ -11,6 +11,10 @@ import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.ui.main.MainHostActivity;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
+import org.parceler.ParcelProperty;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -21,7 +25,36 @@ public class LoginFragment extends VolontuloBaseFragment {
     @Bind(R.id.edit_text_password)
     EditText editTextPassword;
 
-    private static final String[][] mockUsersLogin = new String[][] {{"test", "test"}, {"bob", "uncle"}};
+    public static final User[] MOCK_USER_TABLE = new User[]{
+        new User("test", "Jan Kowalski", "test"),
+        new User("bob", "Uncle Bob", "uncle"),
+    };
+
+    @Parcel
+    public static class User {
+        private String nickname;
+        private String surname;
+        private String secret;
+
+        @ParcelConstructor
+        public User(@ParcelProperty("nickname") String id, @ParcelProperty("surname") String name, @ParcelProperty("secret") String pass) {
+            nickname = id;
+            surname = name;
+            secret = pass;
+        }
+
+        public String getNickname() {
+            return nickname;
+        }
+
+        public String getSurname() {
+            return surname;
+        }
+
+        public String getSecret() {
+            return secret;
+        }
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -43,8 +76,8 @@ public class LoginFragment extends VolontuloBaseFragment {
     }
 
     private boolean checkCredentials(String login, String password) {
-        for (final String[] user : mockUsersLogin) {
-            if (user[0].equals(login) && user[1].equals(password)) {
+        for (final User user : MOCK_USER_TABLE) {
+            if (user.getNickname().equals(login) && user.getSecret().equals(password)) {
                 return true;
             }
         }

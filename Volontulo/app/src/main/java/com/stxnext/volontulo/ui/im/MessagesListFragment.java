@@ -4,13 +4,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
+import com.stxnext.volontulo.logic.im.Message;
+import com.stxnext.volontulo.ui.login.LoginFragment;
+
+import org.parceler.Parcels;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 public class MessagesListFragment extends VolontuloBaseFragment {
     public static final String KEY_PARTICIPANTS = "participants";
@@ -25,11 +32,10 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     @Bind(R.id.message)
     protected EditText message;
 
-//    @Bind(R.id.send)
-//    protected ImageButton send;
-
     private InstantMessagingViewCallback viewCallback;
-    private String participantName;
+    private LoginFragment.User participant;
+    private MessagesAdapter messagesAdapter;
+    private LinearLayoutManager layoutManager;
 
     @Override
     protected int getLayoutResource() {
@@ -44,39 +50,35 @@ public class MessagesListFragment extends VolontuloBaseFragment {
         }
     }
 
-//    @OnClick(R.id.send)
-//    void onSendClicked() {
-//        final String messageText = message.getText().toString();
-//        if (viewCallback != null && !TextUtils.isEmpty(participantName) && !TextUtils.isEmpty(messageText)) {
-//            viewCallback.onMessageComposed(participantName, messageText);
-//        }
-//    }
+    @OnClick(R.id.send)
+    void onSendClicked() {
+        final String messageText = message.getText().toString();
+        if (viewCallback != null && participant != null && !TextUtils.isEmpty(messageText)) {
+            viewCallback.onMessageComposed(participant.getNickname(), messageText);
+            message.setText("");
+        }
+    }
 
     @Override
     protected void onPostCreateView(View root) {
         super.onPostCreateView(root);
         final Bundle args = getArguments();
-        participantName = args.getString(KEY_PARTICIPANTS);
-        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, participantName));
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        participant = Parcels.unwrap(args.getParcelable(KEY_PARTICIPANTS));
+        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, participant.getSurname()));
+        layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setStackFromEnd(true);
         messagesList.setLayoutManager(layoutManager);
-        messagesList.setAdapter(new MessagesAdapter(getActivity()));
-
-//        setBackgroundTintCompatibleOnSendButton();
+        messagesAdapter = new MessagesAdapter(getActivity());
+        messagesList.setAdapter(messagesAdapter);
     }
-//
-//    private void setBackgroundTintCompatibleOnSendButton() {
-//        final Drawable wrapped = DrawableCompat.wrap(send.getBackground());
-//        DrawableCompat.setTint(wrapped, ContextCompat.getColor(getActivity(), R.color.colorPrimary));
-//        setBackgroundCompatible(send, wrapped);
-//    }
-//
-//    public void setBackgroundCompatible(final View view, final Drawable backgroundDrawable) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//            view.setBackground(backgroundDrawable);
-//        } else {
-//            view.setBackgroundDrawable(backgroundDrawable);
-//        }
-//    }
+
+    public void updateList(Message message) {
+        messagesAdapter.updateMessage(message);
+        final int positionAdded = messagesAdapter.getItemCount() - 1;
+        final int lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
+        if (lastVisiblePosition == positionAdded - 1) {
+            messagesList.scrollToPosition(positionAdded);
+        }
+        Log.i("Volontulo-Im", "updateMessageList");
+    }
 }

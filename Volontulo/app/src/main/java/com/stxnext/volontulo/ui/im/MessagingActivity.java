@@ -16,9 +16,17 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.sinch.android.rtc.PushPair;
+import com.sinch.android.rtc.messaging.Message;
+import com.sinch.android.rtc.messaging.MessageClient;
+import com.sinch.android.rtc.messaging.MessageClientListener;
+import com.sinch.android.rtc.messaging.MessageDeliveryInfo;
+import com.sinch.android.rtc.messaging.MessageFailureInfo;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
 import com.stxnext.volontulo.logic.im.IMService;
+
+import java.util.List;
 
 public class MessagingActivity extends VolontuloBaseActivity implements MessagesListFragment.InstantMessagingViewCallback {
     private IMService.InstantMessaging instantMessaging;
@@ -47,7 +55,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final Fragment messagesFragment = new MessagesListFragment();
         final Bundle args = new Bundle();
-        args.putString(MessagesListFragment.KEY_PARTICIPANTS, data.getString(MessagesListFragment.KEY_PARTICIPANTS, ""));
+        args.putParcelable(MessagesListFragment.KEY_PARTICIPANTS, data.getParcelable(MessagesListFragment.KEY_PARTICIPANTS));
         messagesFragment.setArguments(args);
         fragmentManager.beginTransaction()
                 .replace(R.id.content, messagesFragment)
@@ -88,12 +96,15 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
     private class InstantMessagingConnection implements ServiceConnection {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            instantMessaging = (com.stxnext.volontulo.logic.im.IMService.InstantMessaging) service;
+            instantMessaging = (IMService.InstantMessaging) service;
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            instantMessaging = null;
+            if (instantMessaging != null) {
+                instantMessaging.removeMessageClientListener(messageClientListener);
+                instantMessaging = null;
+            }
         }
     }
 
@@ -101,7 +112,41 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i("Volontulo-Im", "Service started");
+            instantMessaging.addMessageClientListener(messageClientListener);
             Toast.makeText(context, "Messaging service started and ready", Toast.LENGTH_LONG).show();
         }
     }
+
+    private MessageClientListener messageClientListener = new MessageClientListener() {
+        @Override
+        public void onIncomingMessage(MessageClient messageClient, Message message) {
+            Log.w("Volontulo-Im", String.format("Incoming: %s", message.getMessageId()));
+            final FragmentManager fragmentManager = getSupportFragmentManager();
+            final MessagesListFragment messagesListFragment = (MessagesListFragment) fragmentManager.findFragmentById(R.id.content);
+            messagesListFragment.updateList(new com.stxnext.volontulo.logic.im.Message(message.getTextBody(), com.stxnext.volontulo.logic.im.Message.Direction.RECEIVED));
+        }
+
+        @Override
+        public void onMessageSent(MessageClient messageClient, Message message, String s) {
+            Log.w("Volontulo-Im", String.format("Sent: %s", message.getMessageId()));
+            final FragmentManager fragmentManager = getSupportFragmentManager();
+            final MessagesListFragment messagesListFragment = (MessagesListFragment) fragmentManager.findFragmentById(R.id.content);
+            messagesListFragment.updateList(new com.stxnext.volontulo.logic.im.Message(message.getTextBody(), com.stxnext.volontulo.logic.im.Message.Direction.SENT));
+        }
+
+        @Override
+        public void onMessageFailed(MessageClient messageClient, Message message, MessageFailureInfo messageFailureInfo) {
+            Log.w("Volontulo-Im", String.format("Failed: %s", message.getMessageId()));
+        }
+
+        @Override
+        public void onMessageDelivered(MessageClient messageClient, MessageDeliveryInfo messageDeliveryInfo) {
+            Log.w("Volontulo-Im", String.format("Delivered: %s", messageDeliveryInfo.getMessageId()));
+        }
+
+        @Override
+        public void onShouldSendPushData(MessageClient messageClient, Message message, List<PushPair> list) {
+            Log.w("Volontulo-Im", String.format("SendPush: %s", message.getMessageId()));
+        }
+    };
 }
