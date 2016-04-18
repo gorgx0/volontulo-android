@@ -50,7 +50,7 @@ public class VolunteerListFragment extends VolontuloBaseFragment {
                 final List<UserProfile> userProfileList = response.body();
                 final String msg = "SUCCESS: status - " + statusCode;
                 Log.d(TAG, msg);
-                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                 Log.d(TAG, "User count: " + userProfileList.size());
                 list = (ArrayList<UserProfile>) userProfileList;
                 adapter = new UserProfileAdapter(getActivity(), list);

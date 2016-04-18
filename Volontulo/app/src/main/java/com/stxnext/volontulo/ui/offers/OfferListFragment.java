@@ -88,15 +88,15 @@ public class OfferListFragment extends VolontuloBaseFragment {
     }
 
     private void obtainData() {
-        final Call<List<com.stxnext.volontulo.api.Offer>> call = VolontuloApp.api.listOffers();
-        call.enqueue(new Callback<List<com.stxnext.volontulo.api.Offer>>() {
+        final Call<List<Offer>> call = VolontuloApp.api.listOffers();
+        call.enqueue(new Callback<List<Offer>>() {
             @Override
-            public void onResponse(Call<List<com.stxnext.volontulo.api.Offer>> call, Response<List<com.stxnext.volontulo.api.Offer>> response) {
+            public void onResponse(Call<List<Offer>> call, Response<List<Offer>> response) {
                 final int statusCode = response.code();
                 final List<com.stxnext.volontulo.api.Offer> offerList = response.body();
                 final String msg = "SUCCESS: status - " + statusCode;
                 Log.d(TAG, msg);
-                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                 Log.d(TAG, "Ofer count: " + offerList.size());
                 list = (ArrayList<Offer>) offerList;
                 adapter = new OfferAdapter(getActivity(), list);
