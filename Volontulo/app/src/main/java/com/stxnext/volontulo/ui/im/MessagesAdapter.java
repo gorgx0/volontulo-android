@@ -13,8 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class MessagesAdapter extends BaseMockAdapter<Message, BaseViewHolder<Message>> {
+
+    private Realm realm;
+    private RealmResults<Message> realmResults;
 
     public MessagesAdapter(Context context) {
         this(context, new ArrayList<Message>());
@@ -22,24 +27,27 @@ public class MessagesAdapter extends BaseMockAdapter<Message, BaseViewHolder<Mes
 
     public MessagesAdapter(Context context, List<Message> list) {
         super(context, list);
-        objects.add(new Message("Lorem ipsum", Message.Direction.SENT));
-        objects.add(new Message("Have fun!", Message.Direction.SENT));
-        objects.add(new Message("Have fun!", Message.Direction.SENT));
-        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-        objects.add(new Message("Have fun!", Message.Direction.SENT));
-        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-        objects.add(new Message("Have fun!", Message.Direction.SENT));
-        objects.add(new Message("Have fun!", Message.Direction.SENT));
-        objects.add(new Message("Have fun!", Message.Direction.SENT));
-        objects.add(new Message("Have fun!", Message.Direction.SENT));
-        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-        objects.add(new Message("Have fun!", Message.Direction.SENT));
-        objects.add(new Message("Thanks!!!!!!!!", Message.Direction.RECEIVED));
+        final Realm realm = Realm.getDefaultInstance();
+        realmResults = realm.where(Message.class).findAll();
+        list.addAll(realmResults);
+//        objects.add(new Message("Lorem ipsum", Message.Direction.SENT));
+//        objects.add(new Message("Have fun!", Message.Direction.SENT));
+//        objects.add(new Message("Have fun!", Message.Direction.SENT));
+//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+//        objects.add(new Message("Have fun!", Message.Direction.SENT));
+//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+//        objects.add(new Message("Have fun!", Message.Direction.SENT));
+//        objects.add(new Message("Have fun!", Message.Direction.SENT));
+//        objects.add(new Message("Have fun!", Message.Direction.SENT));
+//        objects.add(new Message("Have fun!", Message.Direction.SENT));
+//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
+//        objects.add(new Message("Have fun!", Message.Direction.SENT));
+//        objects.add(new Message("Thanks!!!!!!!!", Message.Direction.RECEIVED));
     }
 
     public void updateMessage(Message newMessage) {
@@ -88,7 +96,7 @@ public class MessagesAdapter extends BaseMockAdapter<Message, BaseViewHolder<Mes
 
         @Override
         public void onBind(Message model) {
-            message.setText(model.getText());
+            message.setText(model.getMessageTextBody());
         }
     }
 

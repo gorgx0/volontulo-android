@@ -28,6 +28,8 @@ import com.stxnext.volontulo.logic.im.config.ImConfiguration;
 
 import java.util.List;
 
+import io.realm.Realm;
+
 public class IMService extends Service implements SinchClientListener {
     private static final String TAG = "Volontulo-Im";
     private ImConfiguration configuration = ImConfigFactory.create();
@@ -102,6 +104,10 @@ public class IMService extends Service implements SinchClientListener {
             @Override
             public void onIncomingMessage(MessageClient messageClient, Message message) {
                 Log.i(TAG, String.format("Incoming message %s [from %s, to %s]", message.getMessageId(), message.getSenderId(), message.getRecipientIds()));
+                final Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                realm.copyToRealm(com.stxnext.volontulo.logic.im.Message.createFrom(message));
+                realm.commitTransaction();
             }
 
             @Override

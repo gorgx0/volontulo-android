@@ -32,9 +32,12 @@ public class LoginFragment extends VolontuloBaseFragment {
 
     @Parcel
     public static class User {
-        private String nickname;
-        private String surname;
-        private String secret;
+        protected String nickname;
+        protected String surname;
+        protected String secret;
+
+        public User() {
+        }
 
         @ParcelConstructor
         public User(@ParcelProperty("nickname") String id, @ParcelProperty("surname") String name, @ParcelProperty("secret") String pass) {

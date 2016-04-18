@@ -123,7 +123,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
             Log.w("Volontulo-Im", String.format("Incoming: %s", message.getMessageId()));
             final FragmentManager fragmentManager = getSupportFragmentManager();
             final MessagesListFragment messagesListFragment = (MessagesListFragment) fragmentManager.findFragmentById(R.id.content);
-            messagesListFragment.updateList(new com.stxnext.volontulo.logic.im.Message(message.getTextBody(), com.stxnext.volontulo.logic.im.Message.Direction.RECEIVED));
+//            messagesListFragment.updateList(new com.stxnext.volontulo.logic.im.Message(message.getTextBody(), com.stxnext.volontulo.logic.im.Message.Direction.RECEIVED));
         }
 
         @Override
@@ -131,7 +131,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
             Log.w("Volontulo-Im", String.format("Sent: %s", message.getMessageId()));
             final FragmentManager fragmentManager = getSupportFragmentManager();
             final MessagesListFragment messagesListFragment = (MessagesListFragment) fragmentManager.findFragmentById(R.id.content);
-            messagesListFragment.updateList(new com.stxnext.volontulo.logic.im.Message(message.getTextBody(), com.stxnext.volontulo.logic.im.Message.Direction.SENT));
+//            messagesListFragment.updateList(new com.stxnext.volontulo.logic.im.Message(message.getTextBody(), com.stxnext.volontulo.logic.im.Message.Direction.SENT));
         }
 
         @Override

@@ -11,11 +11,11 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.parceler.Parcel;
 
-import io.realm.OfferRealmProxy;
+import io.realm.OferRealmProxy;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 
-@Parcel(implementations = { OfferRealmProxy.class },
+@Parcel(implementations = { OferRealmProxy.class },
             value = Parcel.Serialization.BEAN,
         analyze = { Ofer.class })
 public class Ofer extends RealmObject {
