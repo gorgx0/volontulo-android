@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
+import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.api.UserProfile;
 
 import butterknife.Bind;
@@ -59,15 +60,6 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
                 Log.d(TAG, msg);
                 Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                 Log.d(TAG, userProfile.toString());
-//                name.setText(userProfile.resolveName());
-//                email.setText(userProfile.getEmail());
-//                phone.setText(userProfile.getPhoneNo());
-//                Picasso.with(image.getContext())
-//                        .load(userProfile.getImage())
-//                        .fit()
-//                        .centerCrop()
-//                        .placeholder(R.drawable.ic_user_placeholder)
-//                        .into(image);
                 final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
                 adapter.setUserProfile(userProfile);
                 offers.setAdapter(adapter);
@@ -83,7 +75,7 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
 
 
     protected void onPostCreateView(View root) {
-        int userId = getArguments().getInt("USER-ID", 0);
+        int userId = getArguments().getInt(User.USER_ID, 0);
         obtainData(userId);
         Context context = getContext();
         offers.setLayoutManager(new LinearLayoutManager(context));

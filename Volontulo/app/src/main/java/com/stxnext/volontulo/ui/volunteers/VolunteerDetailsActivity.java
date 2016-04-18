@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
+import com.stxnext.volontulo.api.User;
 
 public class VolunteerDetailsActivity extends VolontuloBaseActivity {
 
@@ -16,9 +17,9 @@ public class VolunteerDetailsActivity extends VolontuloBaseActivity {
         setContentView(R.layout.activity_nodrawer);
         init(R.string.volunteer_detail_title);
 
-        int userId = getIntent().getExtras().getInt("USER-ID", 0);
+        int userId = getIntent().getExtras().getInt(User.USER_ID, 0);
         Bundle args = new Bundle();
-        args.putInt("USER-ID", userId);
+        args.putInt(User.USER_ID, userId);
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final VolunteerDetailsFragment fragment = new VolunteerDetailsFragment();

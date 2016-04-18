@@ -6,6 +6,8 @@ import io.realm.RealmObject;
 
 public class User extends RealmObject {
 
+    public static final String USER_ID = "USER-ID";
+
     private int id;
     private String username;
     @SerializedName("first_name")

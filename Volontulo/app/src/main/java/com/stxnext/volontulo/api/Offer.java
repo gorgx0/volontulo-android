@@ -9,9 +9,9 @@ import io.realm.RealmObject;
 
 public class Offer extends RealmObject {
 
-    public static String OFFER_ID = "OFFER-ID";
-    public static String IMAGE_PATH = "IMAGE-PATH";
-    public static String IMAGE_RESOURCE = "IMAGE-RESOURCE";
+    public static final String OFFER_ID = "OFFER-ID";
+    public static final String IMAGE_PATH = "IMAGE-PATH";
+    public static final String IMAGE_RESOURCE = "IMAGE-RESOURCE";
 
     private String url;
     private int id;

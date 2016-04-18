@@ -61,7 +61,6 @@ public class VolunteerListFragment extends VolontuloBaseFragment {
             public void onFailure(Call<List<UserProfile>> call, Throwable t) {
                 final String msg = "FAILURE: message - " + t.getMessage();
                 Log.d(TAG, msg);
-//                volunteers.setAdapter(new MockVolunteersAdapter(getActivity()));
             }
         });
     }
