@@ -1,18 +1,23 @@
 package com.stxnext.volontulo.ui.offers;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
+import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
-import com.stxnext.volontulo.model.Offer;
+import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.map.MapOffersActivity;
 
 import org.joda.time.DateTime;
@@ -23,8 +28,17 @@ import java.util.List;
 import butterknife.Bind;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OfferListFragment extends VolontuloBaseFragment {
+
+    public static final String TAG = "RETROFIT-TEST";
+
+    private ArrayList<Offer> list;
+    private OfferAdapter adapter;
+
     @Bind(R.id.list)
     protected RecyclerView offers;
 
@@ -63,19 +77,48 @@ public class OfferListFragment extends VolontuloBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        final RealmResults<Offer> offerResults = realm.where(Offer.class).findAll();
-        offers.setAdapter(new OffersRealmAdapter(getActivity(), combineRealmAndMocks(offerResults)));
+        final RealmResults<Ofer> oferResults = realm.where(Ofer.class).findAll();
+        offers.setAdapter(new OffersRealmAdapter(getActivity(), combineRealmAndMocks(oferResults)));
     }
 
-    private List<Offer> combineRealmAndMocks(final RealmResults<Offer> realm) {
-        final List<Offer> objects = new ArrayList<>();
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        obtainData();
+    }
+
+    private void obtainData() {
+        final Call<List<com.stxnext.volontulo.api.Offer>> call = VolontuloApp.api.listOffers();
+        call.enqueue(new Callback<List<com.stxnext.volontulo.api.Offer>>() {
+            @Override
+            public void onResponse(Call<List<com.stxnext.volontulo.api.Offer>> call, Response<List<com.stxnext.volontulo.api.Offer>> response) {
+                final int statusCode = response.code();
+                final List<com.stxnext.volontulo.api.Offer> offerList = response.body();
+                final String msg = "SUCCESS: status - " + statusCode;
+                Log.d(TAG, msg);
+                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Ofer count: " + offerList.size());
+                list = (ArrayList<Offer>) offerList;
+                adapter = new OfferAdapter(getActivity(), list);
+                offers.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<com.stxnext.volontulo.api.Offer>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private List<Ofer> combineRealmAndMocks(final RealmResults<Ofer> realm) {
+        final List<Ofer> objects = new ArrayList<>();
         objects.addAll(realm);
-        objects.add(Offer.mock("Oferta 1", "Poznań", DateTime.now(), DateTime.now().plusDays(7), R.drawable.apple, false));
-        objects.add(Offer.mock("Oferta 2", "Polska", DateTime.now().plusMonths(3), DateTime.now().plusMonths(3).plusDays(7), R.drawable.breakfast_free, false));
-        objects.add(Offer.mock("Oferta 3", "Warszawa", DateTime.now(), DateTime.now().plusDays(7), R.drawable.cookie, true));
-        objects.add(Offer.mock("Oferta 4", "Leszno", DateTime.now().minusDays(1), DateTime.now().plusDays(7), R.drawable.ice, false));
-        objects.add(Offer.mock("Oferta 5", "Wrocław", DateTime.now().minusDays(1), DateTime.now().plusDays(7), R.drawable.join, false));
-        objects.add(Offer.mock("Oferta 6", "Poznań", DateTime.now().minusWeeks(1), DateTime.now().plusWeeks(2), R.drawable.oscar, true));
+        objects.add(Ofer.mock("Oferta 1", "Poznań", DateTime.now(), DateTime.now().plusDays(7), R.drawable.apple, false));
+        objects.add(Ofer.mock("Oferta 2", "Polska", DateTime.now().plusMonths(3), DateTime.now().plusMonths(3).plusDays(7), R.drawable.breakfast_free, false));
+        objects.add(Ofer.mock("Oferta 3", "Warszawa", DateTime.now(), DateTime.now().plusDays(7), R.drawable.cookie, true));
+        objects.add(Ofer.mock("Oferta 4", "Leszno", DateTime.now().minusDays(1), DateTime.now().plusDays(7), R.drawable.ice, false));
+        objects.add(Ofer.mock("Oferta 5", "Wrocław", DateTime.now().minusDays(1), DateTime.now().plusDays(7), R.drawable.join, false));
+        objects.add(Ofer.mock("Oferta 6", "Poznań", DateTime.now().minusWeeks(1), DateTime.now().plusWeeks(2), R.drawable.oscar, true));
         return objects;
     }
 

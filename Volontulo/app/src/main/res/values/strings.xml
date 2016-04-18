@@ -56,4 +56,9 @@
     <string name="volunteer_contact_name">Twoje imię i nazwisko</string>
     <string name="volunteer_contact_email">Twój email</string>
     <string name="volunteer_detail_title">Profil Wolontariusza</string>
+    <string name="now">teraz</string>
+    <string name="to_set">do ustalenia</string>
+    <string name="preference_key_is_logged">IS-LOGGED</string>
+    <string name="preference_file_name">com.stxnext.volontulo:preference_file_name</string>
+    <string name="logout_title">Wyloguj</string>
 </resources>

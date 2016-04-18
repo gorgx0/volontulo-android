@@ -90,6 +90,7 @@ public class LoginFragment extends VolontuloBaseFragment {
         preferences.edit()
             .putString("user", String.valueOf(text))
             .putString("secret", String.valueOf(secret))
+            .putBoolean(getString(R.string.preference_key_is_logged), true)
             .apply();
     }
 }

@@ -16,9 +16,9 @@ import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 
 @Parcel(implementations = { OfferRealmProxy.class },
-        value = Parcel.Serialization.BEAN,
-        analyze = { Offer.class })
-public class Offer extends RealmObject {
+            value = Parcel.Serialization.BEAN,
+        analyze = { Ofer.class })
+public class Ofer extends RealmObject {
 
     @Ignore
     public static String IMAGE_RESOURCE = "IMAGE-RESOURCE";
@@ -42,8 +42,8 @@ public class Offer extends RealmObject {
     @Ignore private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormat.forPattern("dd-MM-yyyy, HH:mm");
     @Ignore private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("dd/MM/yy");
 
-    public static Offer mock(String name, String place, DateTime startTime, DateTime endTime, @DrawableRes int imageResource, boolean isJoined) {
-        final Offer result = new Offer();
+    public static Ofer mock(String name, String place, DateTime startTime, DateTime endTime, @DrawableRes int imageResource, boolean isJoined) {
+        final Ofer result = new Ofer();
         result.name = name;
         result.place = place;
         result.startTime = startTime.getMillis();
@@ -53,8 +53,8 @@ public class Offer extends RealmObject {
         return result;
     }
 
-    public static Offer mockPlace(String name, String place, LatLng position, DateTime startTime, DateTime endTime, @DrawableRes int imageResource, boolean isJoined) {
-        final Offer result = mock(name, place, startTime, endTime, imageResource, isJoined);
+    public static Ofer mockPlace(String name, String place, LatLng position, DateTime startTime, DateTime endTime, @DrawableRes int imageResource, boolean isJoined) {
+        final Ofer result = mock(name, place, startTime, endTime, imageResource, isJoined);
         result.placeLongitude = position.longitude;
         result.placeLatitude = position.latitude;
         return result;
