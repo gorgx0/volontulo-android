@@ -37,6 +37,8 @@ public class IMService extends Service implements SinchClientListener {
     private SinchClient client = null;
     private MessageClient messageClient = null;
 
+    private Realm realm;
+
     private Intent broadcastIntent = new Intent(ACTION_VOLONTULO_IM);
     private LocalBroadcastManager localBroadcastManager;
 
@@ -78,6 +80,7 @@ public class IMService extends Service implements SinchClientListener {
         if (BuildConfig.DEBUG) {
             client.checkManifest();
         }
+        realm = Realm.getDefaultInstance();
         client.start();
     }
 
@@ -89,6 +92,9 @@ public class IMService extends Service implements SinchClientListener {
 
     @Override
     public void onDestroy() {
+        if (realm != null) {
+            realm.close();
+        }
         if (client != null) {
             client.stopListeningOnActiveConnection();
             client.terminate();
@@ -104,15 +110,17 @@ public class IMService extends Service implements SinchClientListener {
             @Override
             public void onIncomingMessage(MessageClient messageClient, Message message) {
                 Log.i(TAG, String.format("Incoming message %s [from %s, to %s]", message.getMessageId(), message.getSenderId(), message.getRecipientIds()));
-                final Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
-                realm.copyToRealm(com.stxnext.volontulo.logic.im.Message.createFrom(message));
+                realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message));
                 realm.commitTransaction();
             }
 
             @Override
             public void onMessageSent(MessageClient messageClient, Message message, String s) {
                 Log.i(TAG, String.format("Outcoming message %s [to %s, from %s]", message.getMessageId(), message.getRecipientIds(), message.getSenderId()));
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message));
+                realm.commitTransaction();
             }
 
             @Override
@@ -122,7 +130,7 @@ public class IMService extends Service implements SinchClientListener {
 
             @Override
             public void onMessageDelivered(MessageClient messageClient, MessageDeliveryInfo messageDeliveryInfo) {
-                Log.d(TAG, String.format("Message %s delivered [to %s]", messageDeliveryInfo.getMessageId(), messageDeliveryInfo.getRecipientId()));
+                Log.d(TAG, String.format("LocalMessage %s delivered [to %s]", messageDeliveryInfo.getMessageId(), messageDeliveryInfo.getRecipientId()));
             }
 
             @Override
@@ -187,6 +195,10 @@ public class IMService extends Service implements SinchClientListener {
 
         public void removeMessageClientListener(MessageClientListener messageClientListener) {
             IMService.this.removeMessageClientListener(messageClientListener);
+        }
+
+        public SinchClient getSinchClient() {
+            return IMService.this.client;
         }
 
         public boolean isClientStarted() {

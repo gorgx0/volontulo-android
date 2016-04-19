@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.logic.im.Message;
+import com.stxnext.volontulo.logic.im.LocalMessage;
 import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
@@ -14,50 +14,37 @@ import java.util.List;
 
 import butterknife.Bind;
 import io.realm.Realm;
-import io.realm.RealmResults;
 
-public class MessagesAdapter extends BaseMockAdapter<Message, BaseViewHolder<Message>> {
-
-    private Realm realm;
-    private RealmResults<Message> realmResults;
+public class MessagesAdapter extends BaseMockAdapter<LocalMessage, BaseViewHolder<LocalMessage>> {
 
     public MessagesAdapter(Context context) {
-        this(context, new ArrayList<Message>());
+        this(context, new ArrayList<LocalMessage>());
     }
 
-    public MessagesAdapter(Context context, List<Message> list) {
+    public MessagesAdapter(Context context, List<LocalMessage> list) {
         super(context, list);
-        final Realm realm = Realm.getDefaultInstance();
-        realmResults = realm.where(Message.class).findAll();
-        list.addAll(realmResults);
-//        objects.add(new Message("Lorem ipsum", Message.Direction.SENT));
-//        objects.add(new Message("Have fun!", Message.Direction.SENT));
-//        objects.add(new Message("Have fun!", Message.Direction.SENT));
-//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-//        objects.add(new Message("Have fun!", Message.Direction.SENT));
-//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-//        objects.add(new Message("Have fun!", Message.Direction.SENT));
-//        objects.add(new Message("Have fun!", Message.Direction.SENT));
-//        objects.add(new Message("Have fun!", Message.Direction.SENT));
-//        objects.add(new Message("Have fun!", Message.Direction.SENT));
-//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-//        objects.add(new Message("Thanks!", Message.Direction.RECEIVED));
-//        objects.add(new Message("Have fun!", Message.Direction.SENT));
-//        objects.add(new Message("Thanks!!!!!!!!", Message.Direction.RECEIVED));
     }
 
-    public void updateMessage(Message newMessage) {
-        objects.add(newMessage);
-        notifyItemRangeInserted(objects.size(), 1);
+    public void setData(List<LocalMessage> messages) {
+        objects.clear();
+        notifyDataSetChanged();
+        updateData(messages);
+    }
+
+    public void updateData(List<LocalMessage> messages) {
+        final int startPosition = objects.size();
+        objects.addAll(messages);
+        notifyItemRangeInserted(startPosition, messages.size());
+    }
+
+    public void updateSingle(LocalMessage message) {
+        objects.add(message);
+        notifyItemRangeChanged(objects.size(), 1);
     }
 
     @Override
     protected int getLayoutResource(int viewType) {
-        final Message.Direction direction = Message.Direction.fromInt(viewType);
+        final LocalMessage.Direction direction = LocalMessage.Direction.fromInt(viewType);
         switch (direction) {
             case RECEIVED:
                 return R.layout.item_message_left;
@@ -74,8 +61,8 @@ public class MessagesAdapter extends BaseMockAdapter<Message, BaseViewHolder<Mes
     }
 
     @Override
-    protected BaseViewHolder<Message> createViewHolder(View inflatedItem, int viewType) {
-        final Message.Direction direction = Message.Direction.fromInt(viewType);
+    protected BaseViewHolder<LocalMessage> createViewHolder(View inflatedItem, int viewType) {
+        final LocalMessage.Direction direction = LocalMessage.Direction.fromInt(viewType);
         switch (direction) {
             case RECEIVED:
                 return new MessageReceivedHolder(inflatedItem);
@@ -86,7 +73,7 @@ public class MessagesAdapter extends BaseMockAdapter<Message, BaseViewHolder<Mes
         }
     }
 
-    static abstract class MessageHolder extends BaseViewHolder<Message> {
+    static abstract class MessageHolder extends BaseViewHolder<LocalMessage> {
         @Bind(R.id.message)
         protected TextView message;
 
@@ -95,8 +82,16 @@ public class MessagesAdapter extends BaseMockAdapter<Message, BaseViewHolder<Mes
         }
 
         @Override
-        public void onBind(Message model) {
+        public void onBind(LocalMessage model) {
             message.setText(model.getMessageTextBody());
+            if (model.getState() == LocalMessage.State.UNREAD) {
+                final Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                model.read();
+                realm.copyToRealmOrUpdate(model);
+                realm.commitTransaction();
+                realm.close();
+            }
         }
     }
 

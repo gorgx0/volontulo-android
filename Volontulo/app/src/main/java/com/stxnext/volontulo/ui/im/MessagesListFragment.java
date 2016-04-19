@@ -7,19 +7,19 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
-import com.stxnext.volontulo.logic.im.Message;
+import com.stxnext.volontulo.logic.im.LocalMessage;
 import com.stxnext.volontulo.ui.login.LoginFragment;
 
 import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 public class MessagesListFragment extends VolontuloBaseFragment {
     public static final String KEY_PARTICIPANTS = "participants";
@@ -35,16 +35,14 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     protected EditText message;
 
     protected CoordinatorLayout coordinatorLayout;
-//
-//    @Bind(R.id.snackbar_container)
-//    protected View snackbarLayout;
+
+    private Realm realm;
 
     private InstantMessagingViewCallback viewCallback;
     private LoginFragment.User participant;
     private MessagesAdapter messagesAdapter;
     private LinearLayoutManager layoutManager;
     private Snackbar snackbar;
-    private int newUnreadMessages = 0;
 
     @Override
     protected int getLayoutResource() {
@@ -82,32 +80,52 @@ public class MessagesListFragment extends VolontuloBaseFragment {
         coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.coordinator_layout);
     }
 
-    public void updateList(Message message) {
-        messagesAdapter.updateMessage(message);
+    @Override
+    public void onStart() {
+        super.onStart();
+        realm = Realm.getDefaultInstance();
+        messagesAdapter.setData(realm.where(LocalMessage.class).findAll());
+    }
+
+    @Override
+    public void onStop() {
+        realm.close();
+        super.onStop();
+    }
+
+    public void updateSingleMessage(LocalMessage message) {
+        messagesAdapter.updateSingle(message);
         final int positionAdded = messagesAdapter.getItemCount() - 1;
         final int lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
         if (lastVisiblePosition == positionAdded - 1) {
             messagesList.scrollToPosition(positionAdded);
-            newUnreadMessages = 0;
+            message.read();
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(message);
+            realm.commitTransaction();
         } else {
-            ++newUnreadMessages;
-            final String unreadMessagesString = getResources().getQuantityString(R.plurals.im_new_messages, newUnreadMessages, newUnreadMessages);
+            final long unreadCount = realm.where(LocalMessage.class).equalTo(LocalMessage.FIELD_STATE, LocalMessage.State.UNREAD.toString()).count();
+            final String unreadMessagesString = getResources().getQuantityString(R.plurals.im_new_messages, (int)unreadCount, (int)unreadCount);
             if (snackbar == null) {
                 snackbar = Snackbar.make(coordinatorLayout, unreadMessagesString, Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("Przejdź", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        messagesList.scrollToPosition(messagesAdapter.getItemCount() - 1);
+                    }
+                });
+                snackbar.setCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar bar, int event) {
+                        snackbar = null;
+                    }
+                });
             }
-            snackbar.setAction("Przejdź", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    messagesList.scrollToPosition(positionAdded);
-                    newUnreadMessages = 0;
-                }
-            });
             if (snackbar.isShown()) {
                 snackbar.setText(unreadMessagesString);
             } else {
                 snackbar.show();
             }
         }
-        Log.i("Volontulo-Im", "updateMessageList");
     }
 }

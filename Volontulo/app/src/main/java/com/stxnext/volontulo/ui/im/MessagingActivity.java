@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.sinch.android.rtc.PushPair;
+import com.sinch.android.rtc.internal.gen.Build;
 import com.sinch.android.rtc.messaging.Message;
 import com.sinch.android.rtc.messaging.MessageClient;
 import com.sinch.android.rtc.messaging.MessageClientListener;
@@ -25,6 +26,7 @@ import com.sinch.android.rtc.messaging.MessageFailureInfo;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
 import com.stxnext.volontulo.logic.im.IMService;
+import com.stxnext.volontulo.logic.im.LocalMessage;
 
 import java.util.List;
 
@@ -113,7 +115,9 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
         public void onReceive(Context context, Intent intent) {
             Log.i("Volontulo-Im", "Service started");
             instantMessaging.addMessageClientListener(messageClientListener);
-            Toast.makeText(context, "Messaging service started and ready", Toast.LENGTH_LONG).show();
+            if (Build.DEBUG) {
+                Toast.makeText(context, "Messaging service started and ready", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -123,7 +127,9 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
             Log.w("Volontulo-Im", String.format("Incoming: %s", message.getMessageId()));
             final FragmentManager fragmentManager = getSupportFragmentManager();
             final MessagesListFragment messagesListFragment = (MessagesListFragment) fragmentManager.findFragmentById(R.id.content);
-//            messagesListFragment.updateList(new com.stxnext.volontulo.logic.im.Message(message.getTextBody(), com.stxnext.volontulo.logic.im.Message.Direction.RECEIVED));
+            if (messagesListFragment != null) {
+                messagesListFragment.updateSingleMessage(LocalMessage.createFrom(instantMessaging.getSinchClient(), message));
+            }
         }
 
         @Override
@@ -131,7 +137,9 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
             Log.w("Volontulo-Im", String.format("Sent: %s", message.getMessageId()));
             final FragmentManager fragmentManager = getSupportFragmentManager();
             final MessagesListFragment messagesListFragment = (MessagesListFragment) fragmentManager.findFragmentById(R.id.content);
-//            messagesListFragment.updateList(new com.stxnext.volontulo.logic.im.Message(message.getTextBody(), com.stxnext.volontulo.logic.im.Message.Direction.SENT));
+            if (messagesListFragment != null) {
+                messagesListFragment.updateSingleMessage(LocalMessage.createFrom(instantMessaging.getSinchClient(), message));
+            }
         }
 
         @Override

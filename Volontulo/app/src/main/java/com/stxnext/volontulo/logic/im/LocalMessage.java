@@ -2,6 +2,8 @@ package com.stxnext.volontulo.logic.im;
 
 import android.text.TextUtils;
 
+import com.sinch.android.rtc.SinchClient;
+import com.sinch.android.rtc.messaging.Message;
 import com.stxnext.volontulo.utils.realm.RealmString;
 import com.stxnext.volontulo.utils.realm.RealmTuple;
 
@@ -15,7 +17,9 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Message extends RealmObject {
+public class LocalMessage extends RealmObject {
+    public static final String FIELD_STATE = "stateString";
+
     public enum Direction {
         RECEIVED,
         SENT,
@@ -45,19 +49,25 @@ public class Message extends RealmObject {
     private String directionString;
     private String stateString;
 
-    public Message() {
+    public LocalMessage() {
     }
 
-    public static Message createFrom(com.sinch.android.rtc.messaging.Message message) {
-        final Message result = new Message();
+    public static LocalMessage createFrom(SinchClient client, Message message) {
+        final LocalMessage result = new LocalMessage();
         result.messageId = message.getMessageId();
         result.messageHeaders = listFromMap(message.getHeaders());
         result.messageTextBody = message.getTextBody();
         result.senderId = message.getSenderId();
         result.recipientIds = createRecipients(message.getRecipientIds());
         result.timestamp = message.getTimestamp();
-        result.directionString = Direction.RECEIVED.toString();
-        result.stateString = State.UNREAD.toString();
+        final String localUserId = client.getLocalUserId();
+        if (!TextUtils.isEmpty(localUserId) && localUserId.equals(message.getSenderId())) {
+            result.directionString = Direction.SENT.toString();
+            result.stateString = State.READ.toString();
+        } else {
+            result.directionString = Direction.RECEIVED.toString();
+            result.stateString = State.UNREAD.toString();
+        }
         return result;
     }
 
@@ -107,5 +117,13 @@ public class Message extends RealmObject {
 
     public State getState() {
         return State.valueOf(stateString);
+    }
+
+    public void setState(String state) {
+        stateString = state;
+    }
+
+    public void read() {
+        setState(State.READ.toString());
     }
 }
