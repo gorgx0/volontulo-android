@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.util.DisplayMetrics;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -56,7 +57,11 @@ public class MapOffersActivity extends VolontuloBaseActivity implements OnMapRea
                     .title(String.format("%s - %s", item.getName(), item.getPlaceName()))
                     .snippet(String.format("%s - %s", item.getFormattedStartTime(), item.getFormattedEndTime())));
         }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundaryBuilder.build(), 50));
+        int height, width;
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        height = displayMetrics.heightPixels;
+        width = displayMetrics.widthPixels;
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundaryBuilder.build(), width, height, 50));
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
