@@ -1,10 +1,16 @@
 package com.stxnext.volontulo.ui.offers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,7 +95,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     }
 
     private void obtainData(int id) {
-        final Call<com.stxnext.volontulo.api.Offer> call = VolontuloApp.api.getOffer(id);
+        final Call<Offer> call = VolontuloApp.api.getOffer(id);
         call.enqueue(new Callback<Offer>() {
             @Override
             public void onResponse(Call<Offer> call, Response<Offer> response) {
@@ -97,7 +103,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
                 final com.stxnext.volontulo.api.Offer offer = response.body();
                 final String msg = "SUCCESS: status - " + statusCode;
                 Log.d(TAG, msg);
-                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                 Log.d(TAG, offer.toString());
                 title.setText(offer.getTitle());
                 location.setText(offer.getLocation());
@@ -120,5 +126,29 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
                 Log.d(TAG, msg);
             }
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.offer_details_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_join_offer:
+                doStepOut(getView());
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -58,7 +58,7 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
                 UserProfile userProfile = response.body();
                 final String msg = "SUCCESS: status - " + statusCode;
                 Log.d(TAG, msg);
-                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                 Log.d(TAG, userProfile.toString());
                 final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
                 adapter.setUserProfile(userProfile);
