@@ -26,7 +26,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA45z_ZDZLq_wLWGqjj91yc3puxlhyo8uQ" />
+            android:value="AIzaSyDebaruPny--yiHNa7QuEcjM-EiZIz58PI" />
 
         <service android:name=".logic.im.IMService" />
 
