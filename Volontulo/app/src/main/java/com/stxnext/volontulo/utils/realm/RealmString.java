@@ -20,4 +20,9 @@ public class RealmString extends RealmObject {
     public String get() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }
