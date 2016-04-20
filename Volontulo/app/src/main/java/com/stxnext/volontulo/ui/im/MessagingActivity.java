@@ -31,6 +31,7 @@ import com.stxnext.volontulo.logic.im.LocalMessage;
 import java.util.List;
 
 public class MessagingActivity extends VolontuloBaseActivity implements MessagesListFragment.InstantMessagingViewCallback {
+    public static final String TAG = "Volontulo-Im";
     private ImService.InstantMessaging instantMessaging;
     private InstantMessagingConnection serviceConnection = new InstantMessagingConnection();
     private EventsReceived eventsReceived = new EventsReceived();
@@ -113,7 +114,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
     private class EventsReceived extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i("Volontulo-Im", "Service started");
+            Log.i(TAG, "Service started");
             instantMessaging.addMessageClientListener(messageClientListener);
             if (Build.DEBUG) {
                 Toast.makeText(context, "Messaging service started and ready", Toast.LENGTH_LONG).show();
@@ -124,7 +125,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
     private MessageClientListener messageClientListener = new MessageClientListener() {
         @Override
         public void onIncomingMessage(MessageClient messageClient, Message message) {
-            Log.w("Volontulo-Im", String.format("Incoming: %s", message.getMessageId()));
+            Log.w(TAG, String.format("Incoming: %s", message.getMessageId()));
             final FragmentManager fragmentManager = getSupportFragmentManager();
             final MessagesListFragment messagesListFragment = (MessagesListFragment) fragmentManager.findFragmentById(R.id.content);
             if (messagesListFragment != null) {
@@ -134,7 +135,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
 
         @Override
         public void onMessageSent(MessageClient messageClient, Message message, String s) {
-            Log.w("Volontulo-Im", String.format("Sent: %s", message.getMessageId()));
+            Log.w(TAG, String.format("Sent: %s", message.getMessageId()));
             final FragmentManager fragmentManager = getSupportFragmentManager();
             final MessagesListFragment messagesListFragment = (MessagesListFragment) fragmentManager.findFragmentById(R.id.content);
             if (messagesListFragment != null) {
@@ -144,17 +145,17 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
 
         @Override
         public void onMessageFailed(MessageClient messageClient, Message message, MessageFailureInfo messageFailureInfo) {
-            Log.w("Volontulo-Im", String.format("Failed: %s", message.getMessageId()));
+            Log.w(TAG, String.format("Failed: %s", message.getMessageId()));
         }
 
         @Override
         public void onMessageDelivered(MessageClient messageClient, MessageDeliveryInfo messageDeliveryInfo) {
-            Log.w("Volontulo-Im", String.format("Delivered: %s", messageDeliveryInfo.getMessageId()));
+            Log.w(TAG, String.format("Delivered: %s", messageDeliveryInfo.getMessageId()));
         }
 
         @Override
         public void onShouldSendPushData(MessageClient messageClient, Message message, List<PushPair> list) {
-            Log.w("Volontulo-Im", String.format("SendPush: %s", message.getMessageId()));
+            Log.w(TAG, String.format("SendPush: %s", message.getMessageId()));
         }
     };
 }
