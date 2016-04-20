@@ -60,6 +60,7 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
         if (toolbar != null) {
             toolbar.setTitle(title);
         }
+        super.setTitle(title);
     }
 
     protected void init(String stringTitle) {
