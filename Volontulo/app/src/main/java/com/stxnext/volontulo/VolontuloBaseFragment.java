@@ -6,6 +6,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ public abstract class VolontuloBaseFragment extends Fragment {
     protected abstract int getLayoutResource();
 
     protected CollapsibleImage collapsibleImage;
+    private static final String FAB_STATE = "fab-requested-key";
+    private boolean hasFloatingActionButtonRequested = false;
 
     protected void onPostCreateView(final View root) {
     }
@@ -31,6 +34,28 @@ public abstract class VolontuloBaseFragment extends Fragment {
     protected final void setToolbarTitle(final CharSequence title) {
         VolontuloBaseActivity activity = (VolontuloBaseActivity) getActivity();
         activity.setTitle(title);
+    }
+
+    protected final void requestFloatingActionButton() {
+        hasFloatingActionButtonRequested = true;
+        VolontuloBaseActivity activity = (VolontuloBaseActivity) getActivity();
+        activity.setFABVisible(true);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(FAB_STATE, hasFloatingActionButtonRequested);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            hasFloatingActionButtonRequested = savedInstanceState.getBoolean(FAB_STATE, false);
+            VolontuloBaseActivity activity = (VolontuloBaseActivity) getActivity();
+            activity.setFABVisible(hasFloatingActionButtonRequested);
+        }
     }
 
     @Override
@@ -56,6 +81,8 @@ public abstract class VolontuloBaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         ButterKnife.unbind(this);
+        VolontuloBaseActivity activity = (VolontuloBaseActivity) getActivity();
+        activity.setFABVisible(false);
         super.onDestroyView();
     }
 
@@ -66,5 +93,8 @@ public abstract class VolontuloBaseFragment extends Fragment {
 
     public String getImagePath() {
         return null;
+    }
+
+    protected void onFabClick(FloatingActionButton button) {
     }
 }

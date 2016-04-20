@@ -45,11 +45,13 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
         navigationMenu.setNavigationItemSelectedListener(this);
         navigationMenu.setCheckedItem(R.id.menu_action_list);
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        OfferListFragment fragment = new OfferListFragment();
-        fragmentManager.beginTransaction()
-            .replace(R.id.content, fragment)
-            .commit();
+        if (savedInstanceState == null) {
+            final FragmentManager fragmentManager = getSupportFragmentManager();
+            OfferListFragment fragment = new OfferListFragment();
+            fragmentManager.beginTransaction()
+                    .add(R.id.content, fragment)
+                    .commit();
+        }
     }
 
     @Override
