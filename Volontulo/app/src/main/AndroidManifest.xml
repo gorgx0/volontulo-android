@@ -28,7 +28,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDebaruPny--yiHNa7QuEcjM-EiZIz58PI" />
 
-        <service android:name=".logic.im.IMService" />
+        <service android:name=".logic.im.ImService" />
 
         <activity
             android:name=".SplashActivity"

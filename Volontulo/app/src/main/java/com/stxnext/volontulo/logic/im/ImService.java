@@ -30,7 +30,7 @@ import java.util.List;
 
 import io.realm.Realm;
 
-public class IMService extends Service implements SinchClientListener {
+public class ImService extends Service implements SinchClientListener {
     private static final String TAG = "Volontulo-Im";
     private ImConfiguration configuration = ImConfigFactory.create();
     private final InstantMessaging serviceInterface = new InstantMessaging();
@@ -186,23 +186,23 @@ public class IMService extends Service implements SinchClientListener {
 
     public class InstantMessaging extends Binder {
         public void sendMessage(String recipientUser, String messageBody) {
-            IMService.this.sendMessage(recipientUser, messageBody);
+            ImService.this.sendMessage(recipientUser, messageBody);
         }
 
         public void addMessageClientListener(MessageClientListener messageClientListener) {
-            IMService.this.addMessageClientListener(messageClientListener);
+            ImService.this.addMessageClientListener(messageClientListener);
         }
 
         public void removeMessageClientListener(MessageClientListener messageClientListener) {
-            IMService.this.removeMessageClientListener(messageClientListener);
+            ImService.this.removeMessageClientListener(messageClientListener);
         }
 
         public SinchClient getSinchClient() {
-            return IMService.this.client;
+            return ImService.this.client;
         }
 
         public boolean isClientStarted() {
-            return IMService.this.isIMClientStarted();
+            return ImService.this.isIMClientStarted();
         }
     }
 }

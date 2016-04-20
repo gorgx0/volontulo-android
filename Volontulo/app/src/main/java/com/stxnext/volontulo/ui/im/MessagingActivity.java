@@ -25,13 +25,13 @@ import com.sinch.android.rtc.messaging.MessageDeliveryInfo;
 import com.sinch.android.rtc.messaging.MessageFailureInfo;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
-import com.stxnext.volontulo.logic.im.IMService;
+import com.stxnext.volontulo.logic.im.ImService;
 import com.stxnext.volontulo.logic.im.LocalMessage;
 
 import java.util.List;
 
 public class MessagingActivity extends VolontuloBaseActivity implements MessagesListFragment.InstantMessagingViewCallback {
-    private IMService.InstantMessaging instantMessaging;
+    private ImService.InstantMessaging instantMessaging;
     private InstantMessagingConnection serviceConnection = new InstantMessagingConnection();
     private EventsReceived eventsReceived = new EventsReceived();
 
@@ -44,9 +44,9 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
         final Intent intent = getIntent();
         final Bundle data = getBundleFrom(intent);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(eventsReceived, new IntentFilter(IMService.ACTION_VOLONTULO_IM));
-        startService(new Intent(this, IMService.class));
-        boolean isServiceBound = bindService(new Intent(this, IMService.class), serviceConnection, BIND_AUTO_CREATE);
+        LocalBroadcastManager.getInstance(this).registerReceiver(eventsReceived, new IntentFilter(ImService.ACTION_VOLONTULO_IM));
+        startService(new Intent(this, ImService.class));
+        boolean isServiceBound = bindService(new Intent(this, ImService.class), serviceConnection, BIND_AUTO_CREATE);
 
         if (!isServiceBound) {
             final ServiceDisabledAlertDialogFragment alert = new ServiceDisabledAlertDialogFragment();
@@ -67,7 +67,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
     @Override
     protected void onDestroy() {
         unbindService(serviceConnection);
-        stopService(new Intent(this, IMService.class));
+        stopService(new Intent(this, ImService.class));
         LocalBroadcastManager.getInstance(this).unregisterReceiver(eventsReceived);
         super.onDestroy();
     }
@@ -98,7 +98,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
     private class InstantMessagingConnection implements ServiceConnection {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            instantMessaging = (IMService.InstantMessaging) service;
+            instantMessaging = (ImService.InstantMessaging) service;
         }
 
         @Override

@@ -14,7 +14,7 @@ public class ServiceDisabledAlertDialogFragment extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setTitle("Brak ważnego składnika")
-            .setMessage("Usługa IMService jest wymagana do działania")
+            .setMessage("Usługa ImService jest wymagana do działania")
             .setNegativeButton("Zamknij", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
