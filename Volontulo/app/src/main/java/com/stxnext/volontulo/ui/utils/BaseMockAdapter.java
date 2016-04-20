@@ -32,11 +32,11 @@ public abstract class BaseMockAdapter<T, V extends BaseViewHolder<T>> extends Re
     @LayoutRes
     protected abstract int getLayoutResource(int viewType);
 
-    protected abstract V createViewHolder(View item, int viewType);
+    protected abstract V createViewHolder(View inflatedItem, int viewType);
 
     @Override
     public final void onBindViewHolder(V holder, int position) {
-        holder.onBind(objects.get(position));
+        holder.bind(objects.get(position));
     }
 
     @Override

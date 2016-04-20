@@ -6,6 +6,7 @@ import android.view.View;
 import butterknife.ButterKnife;
 
 public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
+    protected T objectBinded;
 
     public BaseViewHolder(View itemView) {
         super(itemView);
@@ -16,5 +17,10 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
      * Binds model to view assigned with this view holder.
      * @param model Any model class that is
      */
-    public abstract void onBind(T model);
+    protected abstract void onBind(T model);
+
+    public final void bind(T model) {
+        objectBinded = model;
+        onBind(model);
+    }
 }

@@ -24,6 +24,12 @@
 -dontwarn javax.**
 -dontwarn io.realm.**
 
+# Parcel library
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+-keep class org.parceler.Parceler$$Parcels
+
 # Retrofit library stuff
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }

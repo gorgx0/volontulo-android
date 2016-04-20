@@ -9,10 +9,7 @@ import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.model.Volunteer;
-import com.stxnext.volontulo.ui.offers.OfferDetailsActivity;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
-
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.OnClick;
