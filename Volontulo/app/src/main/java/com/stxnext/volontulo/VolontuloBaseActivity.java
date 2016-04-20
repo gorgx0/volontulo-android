@@ -10,7 +10,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -55,6 +57,10 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
         if (collapsingToolbar != null) {
             collapsingToolbar.setTitle(title);
         }
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
+        super.setTitle(title);
     }
 
     protected void init(String stringTitle) {
@@ -64,6 +70,7 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
         }
         setTitle(stringTitle);
     }
@@ -76,46 +83,57 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
 
     @Override
     public void wantCollapse(@DrawableRes int imageResource) {
+        boolean collapse = imageResource != 0;
         if (appbar == null || collapsingImage == null) {
             return;
         }
-        boolean collapse = imageResource != 0;
         if (collapse) {
-            collapsingImage.setVisibility(View.VISIBLE);
+            unlockAppBarOpen();
             Picasso.with(collapsingImage.getContext())
                     .load(imageResource)
                     .fit()
                     .centerCrop()
                     .into(collapsingImage);
-            collapsingImage.setImageResource(imageResource);
-            appbar.setExpanded(true);
         } else {
-            collapsingImage.setVisibility(View.GONE);
-            collapsingImage.setImageResource(0);
-            appbar.setExpanded(false);
-            appbar.setActivated(false);
+            lockAppBarClosed();
         }
     }
 
     @Override
     public void wantCollapse(String imagePath) {
+        boolean collapse = !TextUtils.isEmpty(imagePath);
+        Log.d("IMAGE-PATH", imagePath);
         if (appbar == null || collapsingImage == null) {
             return;
         }
-        boolean collapse = !TextUtils.isEmpty(imagePath);
         if (collapse) {
-            collapsingImage.setVisibility(View.VISIBLE);
+            unlockAppBarOpen();
             Picasso.with(collapsingImage.getContext())
                     .load(imagePath)
                     .fit()
                     .centerCrop()
                     .into(collapsingImage);
-            appbar.setExpanded(true);
         } else {
-            collapsingImage.setVisibility(View.GONE);
-            collapsingImage.setImageResource(0);
-            appbar.setExpanded(false);
-            appbar.setActivated(false);
+            lockAppBarClosed();
         }
     }
+
+    private void unlockAppBarOpen() {
+        collapsingImage.setVisibility(View.VISIBLE);
+        appbar.setExpanded(true);
+    }
+
+    private void lockAppBarClosed() {
+        final ViewGroup.LayoutParams layoutParams = appbar.getLayoutParams();
+        final int height = layoutParams.height;
+        Log.d("APPBAR-HEIGHT", "]:" + height);
+        layoutParams.height = (int) getResources().getDimension(R.dimen.normal_height);
+        appbar.setLayoutParams(layoutParams);
+        collapsingToolbar.setTitleEnabled(false);
+        collapsingImage.setVisibility(View.GONE);
+        collapsingImage.setImageResource(0);
+        appbar.setExpanded(false, false);
+        appbar.setActivated(false);
+    }
+
 }
