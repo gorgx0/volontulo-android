@@ -10,9 +10,19 @@ import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 import java.util.List;
 
 public class UserProfileAdapter extends BaseMockAdapter<UserProfile, UserProfileViewHolder> {
+    public interface OnItemClickListener {
+        void onItemClick(View clicked, UserProfile item);
+    }
+
+    private OnItemClickListener clickCallback;
 
     public UserProfileAdapter(Context context, List<UserProfile> results) {
+        this(context, results, null);
+    }
+
+    public UserProfileAdapter(Context context, List<UserProfile> results, OnItemClickListener callback) {
         super(context, results);
+        clickCallback = callback;
     }
 
     @Override
@@ -22,7 +32,7 @@ public class UserProfileAdapter extends BaseMockAdapter<UserProfile, UserProfile
 
     @Override
     protected UserProfileViewHolder createViewHolder(View item, int viewType) {
-        return new UserProfileViewHolder(item);
+        return new UserProfileViewHolder(item, clickCallback);
     }
 
 }
