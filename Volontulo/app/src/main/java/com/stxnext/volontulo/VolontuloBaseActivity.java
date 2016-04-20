@@ -6,6 +6,8 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +38,10 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
     @Nullable
     @Bind(R.id.collapsing_toolbar)
     protected CollapsingToolbarLayout collapsingToolbar;
+
+    @Nullable
+    @Bind(R.id.fab)
+    protected FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +80,32 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
         setTitle(stringTitle);
     }
 
+    public final void setFABVisible(boolean isVisible) {
+        if (floatingActionButton != null) {
+            floatingActionButton.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        }
+    }
+
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
+        setupFloatingActionButton();
+    }
+
+    private void setupFloatingActionButton() {
+        if (floatingActionButton != null) {
+            floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final FragmentManager fragmentManager = getSupportFragmentManager();
+                    final VolontuloBaseFragment fragment = (VolontuloBaseFragment) fragmentManager.findFragmentById(R.id.content);
+                    if (fragment != null) {
+                        fragment.onFabClick(floatingActionButton);
+                    }
+                }
+            });
+        }
     }
 
     @Override

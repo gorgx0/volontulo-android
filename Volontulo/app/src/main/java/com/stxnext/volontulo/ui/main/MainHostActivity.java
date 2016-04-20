@@ -53,6 +53,14 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
                     .replace(R.id.content, fragment)
                     .commit();
         }
+
+        if (savedInstanceState == null) {
+            final FragmentManager fragmentManager = getSupportFragmentManager();
+            OfferListFragment fragment = new OfferListFragment();
+            fragmentManager.beginTransaction()
+                    .add(R.id.content, fragment)
+                    .commit();
+        }
     }
 
     @Override
