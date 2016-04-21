@@ -64,7 +64,7 @@
         <activity android:name=".ui.volunteers.VolunteerListActivity" />
         <activity
             android:name=".ui.volunteers.VolunteerDetailsActivity"
-            android:label="@string/title_activity_offers_details"
+            android:label="@string/volunteer_detail_title"
             android:parentActivityName=".ui.volunteers.VolunteerListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
