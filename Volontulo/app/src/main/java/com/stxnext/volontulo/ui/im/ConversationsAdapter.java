@@ -12,7 +12,7 @@ import com.stxnext.volontulo.ui.login.LoginFragment;
 import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
-import org.parceler.Parcels;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -23,6 +23,12 @@ public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseView
         for (LoginFragment.User user : LoginFragment.MOCK_USER_TABLE) {
             objects.add(new Conversation(user));
         }
+    }
+
+    public void updateList(List<Conversation> updates) {
+        objects.clear();
+        objects.addAll(updates);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -45,14 +51,14 @@ public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseView
 
         @Override
         public void onBind(Conversation model) {
-            participantName.setText(model.getNickname());
+            participantName.setText(String.format("%s - %s [%s]", model.getConversationId(), model.getCreatorId(), model.getRecipientsIds()));
         }
 
         @OnClick(R.id.conversation)
         void onConversationClick(View clicked) {
             final VolontuloBaseActivity activity = (VolontuloBaseActivity) clicked.getContext();
             final Intent starter = new Intent(activity, MessagingActivity.class);
-            starter.putExtra(MessagesListFragment.KEY_PARTICIPANTS, Parcels.wrap(objectBinded.asUser()));
+            starter.putExtra(MessagesListFragment.KEY_PARTICIPANTS, objectBinded.getConversationId());
             activity.startActivity(starter);
         }
     }

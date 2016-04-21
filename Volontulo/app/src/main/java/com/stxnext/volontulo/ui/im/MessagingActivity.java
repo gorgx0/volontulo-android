@@ -58,7 +58,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final Fragment messagesFragment = new MessagesListFragment();
         final Bundle args = new Bundle();
-        args.putParcelable(MessagesListFragment.KEY_PARTICIPANTS, data.getParcelable(MessagesListFragment.KEY_PARTICIPANTS));
+        args.putString(MessagesListFragment.KEY_PARTICIPANTS, data.getString(MessagesListFragment.KEY_PARTICIPANTS));
         messagesFragment.setArguments(args);
         fragmentManager.beginTransaction()
                 .replace(R.id.content, messagesFragment)

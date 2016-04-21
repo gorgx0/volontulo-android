@@ -12,10 +12,8 @@ import android.widget.EditText;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
+import com.stxnext.volontulo.logic.im.Conversation;
 import com.stxnext.volontulo.logic.im.LocalMessage;
-import com.stxnext.volontulo.ui.login.LoginFragment;
-
-import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -39,7 +37,7 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     private Realm realm;
 
     private InstantMessagingViewCallback viewCallback;
-    private LoginFragment.User participant;
+    private Conversation participant;
     private MessagesAdapter messagesAdapter;
     private LinearLayoutManager layoutManager;
     private Snackbar snackbar;
@@ -69,9 +67,6 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     @Override
     protected void onPostCreateView(View root) {
         super.onPostCreateView(root);
-        final Bundle args = getArguments();
-        participant = Parcels.unwrap(args.getParcelable(KEY_PARTICIPANTS));
-        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, participant.getSurname()));
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setStackFromEnd(true);
         messagesList.setLayoutManager(layoutManager);
@@ -84,6 +79,10 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     public void onStart() {
         super.onStart();
         realm = Realm.getDefaultInstance();
+        final Bundle args = getArguments();
+        final String conversationId = args.getString(KEY_PARTICIPANTS);
+        participant = realm.where(Conversation.class).equalTo("conversationId", conversationId).findFirst();
+        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, participant.getRecipientsIds().get(0)));
         messagesAdapter.setData(realm.where(LocalMessage.class).findAll());
     }
 

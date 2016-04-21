@@ -43,6 +43,15 @@ public class Conversation extends RealmObject {
         return recipientsIds;
     }
 
+    @Override
+    public String toString() {
+        return "Conversation{" +
+                "conversationId='" + conversationId + '\'' +
+                ", creatorId='" + creatorId + '\'' +
+                ", recipientsIds=" + recipientsIds +
+                '}';
+    }
+
     @Ignore
     private LoginFragment.User user;
 
