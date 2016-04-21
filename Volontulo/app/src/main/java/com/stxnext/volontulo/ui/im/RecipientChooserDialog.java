@@ -26,8 +26,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RecipientChooserDialog extends DialogFragment {
+    public static final String EXTRA_KEY_USER = "user";
     private RecyclerView volunteers;
     private UserProfile selected;
+    private UserProfileAdapter userProfileAdapter;
 
     @NonNull
     @Override
@@ -37,21 +39,10 @@ public class RecipientChooserDialog extends DialogFragment {
         volunteers = (RecyclerView) root.findViewById(R.id.list);
         obtainData();
         builder.setView(root);
-        builder.setTitle("Choose One");
-        builder.setPositiveButton("Sel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (selected != null) {
-                    final Intent result = new Intent();
-                    result.putExtra("user", selected.getUser().getUsername());
-                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, result);
-                    dialog.dismiss();
-                } else {
-                    Toast.makeText(getActivity(), "Select one user", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        builder.setNegativeButton("CanSel", new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.chooser_volunteer_title);
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.chooser_volunteer_select, null);
+        builder.setNegativeButton(R.string.chooser_volunteer_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, new Intent());
@@ -64,20 +55,39 @@ public class RecipientChooserDialog extends DialogFragment {
         return builder.create();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        final AlertDialog dialog = (AlertDialog) getDialog();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selected != null) {
+                    final Intent result = new Intent();
+                    result.putExtra(EXTRA_KEY_USER, selected.getUser().getUsername());
+                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, result);
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(getActivity(), R.string.chooser_select_one, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     private void obtainData() {
         final Call<List<UserProfile>> call = VolontuloApp.api.listVolunteers();
         call.enqueue(new Callback<List<UserProfile>>() {
             @Override
             public void onResponse(Call<List<UserProfile>> call, Response<List<UserProfile>> response) {
                 final List<UserProfile> userProfileList = response.body();
-                final UserProfileAdapter adapter = new UserProfileAdapter(getActivity(), userProfileList, new UserProfileAdapter.OnItemClickListener() {
+                userProfileAdapter = new UserProfileAdapter(getActivity(), userProfileList, new UserProfileAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(View clicked, UserProfile item) {
+                    public void onItemClick(View clicked, int position, UserProfile item) {
                         selected = item;
-                        clicked.setSelected(true);
+                        userProfileAdapter.setSelected(position);
                     }
                 });
-                volunteers.setAdapter(adapter);
+                volunteers.setAdapter(userProfileAdapter);
             }
 
             @Override

@@ -49,7 +49,7 @@ public class UserProfileViewHolder extends BaseViewHolder<UserProfile> {
     @OnClick(R.id.volunteer)
     void onItemClick(View clicked) {
         if (callback != null) {
-            callback.onItemClick(clicked, profile);
+            callback.onItemClick(clicked, getAdapterPosition(), profile);
         } else {
             Context context = clicked.getContext();
             Toast.makeText(context, "DETAILS USER PROFILE", Toast.LENGTH_SHORT).show();

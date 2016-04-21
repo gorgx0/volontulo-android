@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserProfileAdapter extends BaseMockAdapter<UserProfile, UserProfileViewHolder> {
     public interface OnItemClickListener {
-        void onItemClick(View clicked, UserProfile item);
+        void onItemClick(View clicked, int position, UserProfile item);
     }
 
     private OnItemClickListener clickCallback;

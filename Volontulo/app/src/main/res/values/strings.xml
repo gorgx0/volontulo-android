@@ -44,6 +44,10 @@
         <item quantity="one">Nowa wiadomość</item>
         <item quantity="other">Nowe wiadomości (%d)</item>
     </plurals>
+    <string name="chooser_volunteer_title">Napisz do:</string>
+    <string name="chooser_volunteer_cancel">Anuluj</string>
+    <string name="chooser_volunteer_select">Wybierz</string>
+    <string name="chooser_select_one">Wybierz jedną osobę do której chcesz napisać wiadomość</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
