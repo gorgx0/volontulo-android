@@ -40,7 +40,7 @@ public class ConversationListFragment extends VolontuloBaseFragment {
     protected void onFabClick(FloatingActionButton button) {
         final RecipientChooserDialog chooserDialog = new RecipientChooserDialog();
         chooserDialog.setTargetFragment(this, REQUEST_CHOOSE_VOLUNTEER);
-        chooserDialog.show(getFragmentManager(), "dialog");
+        chooserDialog.show(getFragmentManager(), RecipientChooserDialog.EXTRA_KEY_USER);
     }
 
     @Override

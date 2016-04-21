@@ -52,6 +52,14 @@ public class RecipientChooserDialog extends DialogFragment {
         volunteers.setLayoutManager(new LinearLayoutManager(getActivity()));
         volunteers.addItemDecoration(new SimpleItemDivider(getActivity()));
         volunteers.setHasFixedSize(true);
+        userProfileAdapter = new UserProfileAdapter(getActivity(), new UserProfileAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View clicked, int position, UserProfile item) {
+                selected = item;
+                userProfileAdapter.setSelected(position);
+            }
+        });
+        volunteers.setAdapter(userProfileAdapter);
         return builder.create();
     }
 
@@ -75,19 +83,14 @@ public class RecipientChooserDialog extends DialogFragment {
     }
 
     private void obtainData() {
-        final Call<List<UserProfile>> call = VolontuloApp.api.listVolunteers();
+        final Call<List<UserProfile>> call = VolontuloApp.cachedApi.listVolunteers();
         call.enqueue(new Callback<List<UserProfile>>() {
             @Override
             public void onResponse(Call<List<UserProfile>> call, Response<List<UserProfile>> response) {
                 final List<UserProfile> userProfileList = response.body();
-                userProfileAdapter = new UserProfileAdapter(getActivity(), userProfileList, new UserProfileAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View clicked, int position, UserProfile item) {
-                        selected = item;
-                        userProfileAdapter.setSelected(position);
-                    }
-                });
-                volunteers.setAdapter(userProfileAdapter);
+                if (userProfileList != null && userProfileList.size() > 0) {
+                    userProfileAdapter.updateList(userProfileList);
+                }
             }
 
             @Override
