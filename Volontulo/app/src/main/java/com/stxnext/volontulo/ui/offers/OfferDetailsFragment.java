@@ -1,9 +1,7 @@
 package com.stxnext.volontulo.ui.offers;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -13,15 +11,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
-import com.stxnext.volontulo.api.Image;
 import com.stxnext.volontulo.api.Offer;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -103,9 +97,9 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
                 final com.stxnext.volontulo.api.Offer offer = response.body();
                 final String msg = "SUCCESS: status - " + statusCode;
                 Log.d(TAG, msg);
-//                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                 Log.d(TAG, offer.toString());
                 title.setText(offer.getTitle());
+                setToolbarTitle(offer.getTitle());
                 location.setText(offer.getLocation());
                 duration.setText(offer.getDuration(getString(R.string.now), getString(R.string.to_set)));
                 description.setText(offer.getDescription());
@@ -113,7 +107,6 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
                 benefits.setText(offer.getBenefits());
                 timeCommitment.setText(offer.getTimeCommitment());
                 organization.setText(offer.getOrganization().getName());
-                final List<Image> images = offer.getImages();
                 if (offer.hasImage()) {
                     imagePath = offer.getImagePath();
                     imageResource = 0;

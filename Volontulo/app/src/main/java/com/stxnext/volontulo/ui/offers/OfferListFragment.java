@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
@@ -96,7 +95,6 @@ public class OfferListFragment extends VolontuloBaseFragment {
                 final List<com.stxnext.volontulo.api.Offer> offerList = response.body();
                 final String msg = "SUCCESS: status - " + statusCode;
                 Log.d(TAG, msg);
-//                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                 Log.d(TAG, "Ofer count: " + offerList.size());
                 list = (ArrayList<Offer>) offerList;
                 adapter = new OfferAdapter(getActivity(), list);
