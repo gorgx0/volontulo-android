@@ -2,12 +2,12 @@ package com.stxnext.volontulo.ui.offers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
@@ -47,7 +47,6 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
     @OnClick(R.id.offer_content)
     void onItemClick(View clicked) {
         Context context = clicked.getContext();
-        Toast.makeText(context, "DETAILS ACTION/OFFER", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, OfferDetailsActivity.class);
         intent.putExtra(Offer.OFFER_ID, id);
         if (!TextUtils.isEmpty(imagePath)) {
@@ -58,7 +57,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
 
     @OnClick(R.id.offer_join)
     void onJoinClick(View clicked) {
-        Toast.makeText(clicked.getContext(), "JOIN OFFER", Toast.LENGTH_SHORT).show();
+        Snackbar.make(clicked.getRootView(), "JOIN OFFER", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
