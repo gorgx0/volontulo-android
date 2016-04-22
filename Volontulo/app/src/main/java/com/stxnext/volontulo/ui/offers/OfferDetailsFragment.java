@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.Menu;
@@ -125,6 +126,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        requestFloatingActionButton();
     }
 
     @Override
@@ -143,5 +145,11 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onFabClick(FloatingActionButton button) {
+        Snackbar.make(this.getView(), "FAB!", Snackbar.LENGTH_SHORT).show();
+        button.setVisibility(View.GONE);
     }
 }

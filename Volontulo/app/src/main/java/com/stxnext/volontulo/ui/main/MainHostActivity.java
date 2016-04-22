@@ -44,22 +44,16 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
         navigationMenu.setNavigationItemSelectedListener(this);
         navigationMenu.setCheckedItem(R.id.menu_action_list);
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        String tag = OfferListFragment.class.getSimpleName();
-        OfferListFragment fragment;
-        if (fragmentManager.findFragmentByTag(tag) == null) {
-            fragment = new OfferListFragment();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content, fragment)
-                    .commit();
-        }
-
         if (savedInstanceState == null) {
             final FragmentManager fragmentManager = getSupportFragmentManager();
-            OfferListFragment fragment = new OfferListFragment();
-            fragmentManager.beginTransaction()
-                    .add(R.id.content, fragment)
-                    .commit();
+            String tag = OfferListFragment.class.getSimpleName();
+            OfferListFragment fragment;
+            if (fragmentManager.findFragmentByTag(tag) == null) {
+                fragment = new OfferListFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content, fragment)
+                        .commit();
+            }
         }
     }
 
