@@ -47,7 +47,8 @@ public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseView
 
         @Override
         public void onBind(Conversation model) {
-            participantName.setText(String.format("%s\n%s [%s]", model.getConversationId(), model.getCreatorId(), model.getRecipientsIds()));
+            final String firstRecipient = model.getRecipientsIds().get(0);
+            participantName.setText(firstRecipient);
         }
 
         @OnClick(R.id.conversation)
