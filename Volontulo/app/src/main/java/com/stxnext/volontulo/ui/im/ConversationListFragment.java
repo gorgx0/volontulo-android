@@ -18,6 +18,8 @@ import com.stxnext.volontulo.logic.im.config.ImConfiguration;
 import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 import com.stxnext.volontulo.utils.realm.RealmString;
 
+import org.parceler.Parcels;
+
 import butterknife.Bind;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -78,7 +80,7 @@ public class ConversationListFragment extends VolontuloBaseFragment {
             }
 
             final Intent starter = new Intent(getActivity(), MessagingActivity.class);
-            starter.putExtra(MessagesListFragment.KEY_PARTICIPANTS, result.getConversationId());
+            starter.putExtra(MessagesListFragment.KEY_PARTICIPANTS, Parcels.wrap(result));
             startActivity(starter);
         }
     }

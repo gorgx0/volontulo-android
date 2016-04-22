@@ -11,6 +11,8 @@ import com.stxnext.volontulo.logic.im.Conversation;
 import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import butterknife.Bind;
@@ -55,7 +57,7 @@ public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseView
         void onConversationClick(View clicked) {
             final VolontuloBaseActivity activity = (VolontuloBaseActivity) clicked.getContext();
             final Intent starter = new Intent(activity, MessagingActivity.class);
-            starter.putExtra(MessagesListFragment.KEY_PARTICIPANTS, objectBinded.getConversationId());
+            starter.putExtra(MessagesListFragment.KEY_PARTICIPANTS, Parcels.wrap(objectBinded));
             activity.startActivity(starter);
         }
     }

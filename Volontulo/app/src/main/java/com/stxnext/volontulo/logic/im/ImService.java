@@ -125,13 +125,15 @@ public class ImService extends Service implements SinchClientListener {
             public void onMessageSent(MessageClient messageClient, Message message, String s) {
                 Log.i(TAG, String.format("Outcoming message %s [to %s, from %s]", message.getMessageId(), message.getRecipientIds(), message.getSenderId()));
                 final String headerConversationId = message.getHeaders().get(LocalMessage.KEY_HEADER_CONVERSATION_ID);
-                Conversation conversation = realm.where(Conversation.class).equalTo(Conversation.FIELD_CONVERSATION_ID, headerConversationId).findFirst();
-                if (conversation == null) {
-                    conversation = Conversation.create(headerConversationId, message.getSenderId(), Realms.normalAsRealm(message.getRecipientIds()));
+                if (!TextUtils.isEmpty(headerConversationId)) {
+                    Conversation conversation = realm.where(Conversation.class).equalTo(Conversation.FIELD_CONVERSATION_ID, headerConversationId).findFirst();
+                    if (conversation == null) {
+                        conversation = Conversation.create(headerConversationId, message.getSenderId(), Realms.normalAsRealm(message.getRecipientIds()));
+                    }
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message, conversation));
+                    realm.commitTransaction();
                 }
-                realm.beginTransaction();
-                realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message, conversation));
-                realm.commitTransaction();
             }
 
             @Override

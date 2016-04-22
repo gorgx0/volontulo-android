@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -27,6 +28,8 @@ import com.stxnext.volontulo.VolontuloBaseActivity;
 import com.stxnext.volontulo.logic.im.Conversation;
 import com.stxnext.volontulo.logic.im.ImService;
 import com.stxnext.volontulo.logic.im.LocalMessage;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -59,7 +62,9 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final Fragment messagesFragment = new MessagesListFragment();
         final Bundle args = new Bundle();
-        args.putString(MessagesListFragment.KEY_PARTICIPANTS, data.getString(MessagesListFragment.KEY_PARTICIPANTS));
+        final Parcelable parcelable = data.getParcelable(MessagesListFragment.KEY_PARTICIPANTS);
+        conversation = Parcels.unwrap(parcelable);
+        args.putParcelable(MessagesListFragment.KEY_PARTICIPANTS, parcelable);
         messagesFragment.setArguments(args);
         fragmentManager.beginTransaction()
                 .replace(R.id.content, messagesFragment)
