@@ -43,12 +43,11 @@ public class ConversationListFragment extends VolontuloBaseFragment {
         requestFloatingActionButton();
         setToolbarTitle(R.string.im_conversaion_list_title);
         conversationList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        final ConversationsAdapter adapter = new ConversationsAdapter(getActivity());
+        final RealmResults<Conversation> conversations = realm.where(Conversation.class).findAll();
+        final ConversationsAdapter adapter = new ConversationsAdapter(getActivity(), conversations);
         conversationList.setAdapter(adapter);
         conversationList.addItemDecoration(new SimpleItemDivider(getActivity()));
         conversationList.setHasFixedSize(true);
-        final RealmResults<Conversation> conversations = realm.where(Conversation.class).findAll();
-        adapter.updateList(conversations);
     }
 
     @Override

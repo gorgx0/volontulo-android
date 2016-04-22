@@ -15,14 +15,14 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import io.realm.RealmResults;
 
 public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseViewHolder<Conversation>> {
-    public ConversationsAdapter(Context context) {
-        super(context);
+    public ConversationsAdapter(Context context, RealmResults<Conversation> conversations) {
+        super(context, conversations);
     }
 
     public void updateList(List<Conversation> updates) {
-        objects.clear();
         objects.addAll(updates);
         notifyDataSetChanged();
     }

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 import com.stxnext.volontulo.ui.volunteers.UserProfileAdapter;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,7 +60,12 @@ public class RecipientChooserDialog extends DialogFragment {
                 selected = item;
                 userProfileAdapter.setSelected(position);
             }
-        });
+        }) {
+            @Override
+            protected int getLayoutResource(int viewType) {
+                return R.layout.item_volunteer_chooser;
+            }
+        };
         volunteers.setAdapter(userProfileAdapter);
         return builder.create();
     }
@@ -88,13 +95,19 @@ public class RecipientChooserDialog extends DialogFragment {
             @Override
             public void onResponse(Call<List<UserProfile>> call, Response<List<UserProfile>> response) {
                 final List<UserProfile> userProfileList = response.body();
-                if (userProfileList != null && userProfileList.size() > 0) {
+                Snackbar.make(
+                    volunteers.getRootView(),
+                    String.format(Locale.getDefault(), "%d profiles returned", userProfileList.size()),
+                    Snackbar.LENGTH_LONG
+                ).show();
+                if (userProfileList.size() > 0) {
                     userProfileAdapter.updateList(userProfileList);
                 }
             }
 
             @Override
             public void onFailure(Call<List<UserProfile>> call, Throwable t) {
+                Snackbar.make(volunteers.getRootView(), "Error", Snackbar.LENGTH_LONG).show();
             }
         });
     }
