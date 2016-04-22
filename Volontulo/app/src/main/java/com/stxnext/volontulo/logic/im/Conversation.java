@@ -1,16 +1,18 @@
 package com.stxnext.volontulo.logic.im;
 
-import com.stxnext.volontulo.ui.login.LoginFragment;
 import com.stxnext.volontulo.utils.realm.RealmString;
+import com.stxnext.volontulo.utils.realm.Realms;
 
 import java.util.List;
+import java.util.UUID;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 public class Conversation extends RealmObject {
+    public static final String FIELD_CONVERSATION_ID = "conversationId";
+
     @PrimaryKey
     private String conversationId;
     private String creatorId;
@@ -24,11 +26,11 @@ public class Conversation extends RealmObject {
         return conversation;
     }
 
-    public Conversation() {
+    public static Conversation create(String creator, RealmList<RealmString> recipients) {
+        return create(UUID.randomUUID().toString(), creator, recipients);
     }
 
-    public Conversation(LoginFragment.User user) {
-        this.user = user;
+    public Conversation() {
     }
 
     public String getConversationId() {
@@ -39,8 +41,8 @@ public class Conversation extends RealmObject {
         return creatorId;
     }
 
-    public List<RealmString> getRecipientsIds() {
-        return recipientsIds;
+    public List<String> getRecipientsIds() {
+        return Realms.realmAsNormal(recipientsIds);
     }
 
     @Override
@@ -51,16 +53,4 @@ public class Conversation extends RealmObject {
                 ", recipientsIds=" + recipientsIds +
                 '}';
     }
-
-    @Ignore
-    private LoginFragment.User user;
-
-    public String getNickname() {
-        return user.getSurname();
-    }
-
-    public LoginFragment.User asUser() {
-        return user;
-    }
-
 }

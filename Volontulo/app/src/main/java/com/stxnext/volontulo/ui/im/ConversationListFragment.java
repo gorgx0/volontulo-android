@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
@@ -18,8 +17,6 @@ import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.logic.im.config.ImConfiguration;
 import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 import com.stxnext.volontulo.utils.realm.RealmString;
-
-import java.util.UUID;
 
 import butterknife.Bind;
 import io.realm.Realm;
@@ -65,26 +62,25 @@ public class ConversationListFragment extends VolontuloBaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CHOOSE_VOLUNTEER && resultCode == Activity.RESULT_OK) {
-            //TODO grab data from intent and create conversation and switch to new conversation or update current conversation
-            Toast.makeText(getActivity(), String.format("Grabbed: %s", data.getStringExtra("user")), Toast.LENGTH_LONG).show();
             final String grabbedUser = data.getStringExtra(RecipientChooserDialog.EXTRA_KEY_USER);
             realm = Realm.getDefaultInstance();
             Conversation result;
             result = realm.where(Conversation.class).equalTo("creatorId", grabbedUser).or().equalTo("recipientsIds.value", grabbedUser).findFirst();
             if (result == null) {//no found conversation
                 Log.d(TAG, "No conversation found, so we create new one");
-                final String uuidConversation = UUID.randomUUID().toString();
                 final RealmString[] recipientStrings = new RealmString[] {
                     new RealmString(grabbedUser)
                 };
-                result = Conversation.create(uuidConversation, retrieveCurrentUser(), new RealmList<>(recipientStrings));
+                result = Conversation.create(retrieveCurrentUser(), new RealmList<>(recipientStrings));
                 Log.i(TAG, String.format("Conversation: %s", result));
                 realm.beginTransaction();
                 realm.copyToRealm(result);
                 realm.commitTransaction();
-            } else {//go with this one
-                Log.d(TAG, "Conversation currently is existing, so we reused this one");
             }
+
+            final Intent starter = new Intent(getActivity(), MessagingActivity.class);
+            starter.putExtra(MessagesListFragment.KEY_PARTICIPANTS, result.getConversationId());
+            startActivity(starter);
         }
     }
 

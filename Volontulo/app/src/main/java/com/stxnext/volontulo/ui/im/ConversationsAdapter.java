@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
 import com.stxnext.volontulo.logic.im.Conversation;
-import com.stxnext.volontulo.ui.login.LoginFragment;
 import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
@@ -20,9 +19,6 @@ import butterknife.OnClick;
 public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseViewHolder<Conversation>> {
     public ConversationsAdapter(Context context) {
         super(context);
-        for (LoginFragment.User user : LoginFragment.MOCK_USER_TABLE) {
-            objects.add(new Conversation(user));
-        }
     }
 
     public void updateList(List<Conversation> updates) {
@@ -51,7 +47,7 @@ public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseView
 
         @Override
         public void onBind(Conversation model) {
-            participantName.setText(String.format("%s - %s [%s]", model.getConversationId(), model.getCreatorId(), model.getRecipientsIds()));
+            participantName.setText(String.format("%s\n%s [%s]", model.getConversationId(), model.getCreatorId(), model.getRecipientsIds()));
         }
 
         @OnClick(R.id.conversation)

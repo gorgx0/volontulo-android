@@ -59,7 +59,7 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     void onSendClicked() {
         final String messageText = message.getText().toString();
         if (viewCallback != null && participant != null && !TextUtils.isEmpty(messageText)) {
-            viewCallback.onMessageComposed(participant.getNickname(), messageText);
+            viewCallback.onMessageComposed(participant.getRecipientsIds().get(0), messageText);
             message.setText("");
         }
     }

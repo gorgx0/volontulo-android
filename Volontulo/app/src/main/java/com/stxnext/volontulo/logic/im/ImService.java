@@ -25,6 +25,7 @@ import com.sinch.android.rtc.messaging.WritableMessage;
 import com.stxnext.volontulo.BuildConfig;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.logic.im.config.ImConfiguration;
+import com.stxnext.volontulo.utils.realm.Realms;
 
 import java.util.List;
 
@@ -110,16 +111,26 @@ public class ImService extends Service implements SinchClientListener {
             @Override
             public void onIncomingMessage(MessageClient messageClient, Message message) {
                 Log.i(TAG, String.format("Incoming message %s [from %s, to %s]", message.getMessageId(), message.getSenderId(), message.getRecipientIds()));
+                final String headerConversationId = message.getHeaders().get(LocalMessage.KEY_HEADER_CONVERSATION_ID);
+                Conversation conversation = realm.where(Conversation.class).equalTo(Conversation.FIELD_CONVERSATION_ID, headerConversationId).findFirst();
+                if (conversation == null) {
+                    conversation = Conversation.create(headerConversationId, message.getSenderId(), Realms.normalAsRealm(message.getRecipientIds()));
+                }
                 realm.beginTransaction();
-                realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message));
+                realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message, conversation));
                 realm.commitTransaction();
             }
 
             @Override
             public void onMessageSent(MessageClient messageClient, Message message, String s) {
                 Log.i(TAG, String.format("Outcoming message %s [to %s, from %s]", message.getMessageId(), message.getRecipientIds(), message.getSenderId()));
+                final String headerConversationId = message.getHeaders().get(LocalMessage.KEY_HEADER_CONVERSATION_ID);
+                Conversation conversation = realm.where(Conversation.class).equalTo(Conversation.FIELD_CONVERSATION_ID, headerConversationId).findFirst();
+                if (conversation == null) {
+                    conversation = Conversation.create(headerConversationId, message.getSenderId(), Realms.normalAsRealm(message.getRecipientIds()));
+                }
                 realm.beginTransaction();
-                realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message));
+                realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message, conversation));
                 realm.commitTransaction();
             }
 
@@ -165,9 +176,10 @@ public class ImService extends Service implements SinchClientListener {
         Log.i(TAG, String.format("Log message: %d | %s | %s", i, s, s1));
     }
 
-    public void sendMessage(String recipientUser, String messageBody) {
+    public void sendMessage(String recipientUser, String messageBody, Conversation conversation) {
         if (messageClient != null) {
             final WritableMessage message = new WritableMessage(recipientUser, messageBody);
+            message.addHeader(LocalMessage.KEY_HEADER_CONVERSATION_ID, conversation.getConversationId());
             messageClient.send(message);
         }
     }
@@ -185,8 +197,8 @@ public class ImService extends Service implements SinchClientListener {
     }
 
     public class InstantMessaging extends Binder {
-        public void sendMessage(String recipientUser, String messageBody) {
-            ImService.this.sendMessage(recipientUser, messageBody);
+        public void sendMessage(String recipientUser, String messageBody, Conversation conversation) {
+            ImService.this.sendMessage(recipientUser, messageBody, conversation);
         }
 
         public void addMessageClientListener(MessageClientListener messageClientListener) {

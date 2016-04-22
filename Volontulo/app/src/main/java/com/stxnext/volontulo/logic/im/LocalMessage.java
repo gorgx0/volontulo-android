@@ -18,6 +18,8 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class LocalMessage extends RealmObject {
+    public static final String KEY_HEADER_CONVERSATION_ID = "Conversation-Id";
+
     public static final String FIELD_STATE = "stateString";
 
     public enum Direction {
@@ -41,6 +43,7 @@ public class LocalMessage extends RealmObject {
 
     @PrimaryKey
     private String messageId;
+    private Conversation conversation;
     private RealmList<RealmTuple> messageHeaders;
     private String messageTextBody;
     private String senderId;
@@ -52,7 +55,10 @@ public class LocalMessage extends RealmObject {
     public LocalMessage() {
     }
 
-    public static LocalMessage createFrom(SinchClient client, Message message) {
+    public static LocalMessage createFrom(SinchClient client, Message message, Conversation conversation) {
+        if (client == null || message == null || conversation == null) {
+            throw new IllegalArgumentException("Message cannot be created from null (client/message/conversation)");
+        }
         final LocalMessage result = new LocalMessage();
         result.messageId = message.getMessageId();
         result.messageHeaders = listFromMap(message.getHeaders());
@@ -60,6 +66,7 @@ public class LocalMessage extends RealmObject {
         result.senderId = message.getSenderId();
         result.recipientIds = createRecipients(message.getRecipientIds());
         result.timestamp = message.getTimestamp();
+        result.conversation = conversation;
         final String localUserId = client.getLocalUserId();
         if (!TextUtils.isEmpty(localUserId) && localUserId.equals(message.getSenderId())) {
             result.directionString = Direction.SENT.toString();
@@ -89,6 +96,10 @@ public class LocalMessage extends RealmObject {
 
     public String getMessageId() {
         return messageId;
+    }
+
+    public Conversation getConversation() {
+        return conversation;
     }
 
     public RealmList<RealmTuple> getMessageHeaders() {

@@ -25,6 +25,7 @@ import com.sinch.android.rtc.messaging.MessageDeliveryInfo;
 import com.sinch.android.rtc.messaging.MessageFailureInfo;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
+import com.stxnext.volontulo.logic.im.Conversation;
 import com.stxnext.volontulo.logic.im.ImService;
 import com.stxnext.volontulo.logic.im.LocalMessage;
 
@@ -35,6 +36,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
     private ImService.InstantMessaging instantMessaging;
     private InstantMessagingConnection serviceConnection = new InstantMessagingConnection();
     private EventsReceived eventsReceived = new EventsReceived();
+    private Conversation conversation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +95,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
 
     @Override
     public void onMessageComposed(String recipient, String body) {
-        instantMessaging.sendMessage(recipient, body);
+        instantMessaging.sendMessage(recipient, body, conversation);
     }
 
     private class InstantMessagingConnection implements ServiceConnection {
@@ -129,7 +131,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
             final FragmentManager fragmentManager = getSupportFragmentManager();
             final MessagesListFragment messagesListFragment = (MessagesListFragment) fragmentManager.findFragmentById(R.id.content);
             if (messagesListFragment != null) {
-                messagesListFragment.updateSingleMessage(LocalMessage.createFrom(instantMessaging.getSinchClient(), message));
+                messagesListFragment.updateSingleMessage(LocalMessage.createFrom(instantMessaging.getSinchClient(), message, conversation));
             }
         }
 
@@ -139,7 +141,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
             final FragmentManager fragmentManager = getSupportFragmentManager();
             final MessagesListFragment messagesListFragment = (MessagesListFragment) fragmentManager.findFragmentById(R.id.content);
             if (messagesListFragment != null) {
-                messagesListFragment.updateSingleMessage(LocalMessage.createFrom(instantMessaging.getSinchClient(), message));
+                messagesListFragment.updateSingleMessage(LocalMessage.createFrom(instantMessaging.getSinchClient(), message, conversation));
             }
         }
 

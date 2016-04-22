@@ -30,6 +30,7 @@ public class LoginFragment extends VolontuloBaseFragment {
         new User("bob", "Uncle Bob", "uncle"),
     };
 
+    @Deprecated
     @Parcel
     public static class User {
         protected String nickname;
