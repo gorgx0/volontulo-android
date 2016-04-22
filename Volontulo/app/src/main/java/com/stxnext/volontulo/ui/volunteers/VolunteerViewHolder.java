@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.model.Volunteer;
@@ -34,7 +33,6 @@ class VolunteerViewHolder extends BaseViewHolder<Volunteer> {
     @OnClick(R.id.volunteer)
     void onItemClick(View clicked) {
         Context context = clicked.getContext();
-        Toast.makeText(context, "DETAILS VOLUNTEER", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, VolunteerDetailsActivity.class);
         context.startActivity(intent);
     }

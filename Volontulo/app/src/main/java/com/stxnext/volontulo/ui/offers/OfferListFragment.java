@@ -18,6 +18,7 @@ import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
 import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.map.MapOffersActivity;
+import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 
 import org.joda.time.DateTime;
 
@@ -70,6 +71,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
     @Override
     protected void onPostCreateView(View root) {
         offers.setLayoutManager(new LinearLayoutManager(getActivity()));
+        offers.addItemDecoration(new SimpleItemDivider(getActivity()));
         offers.setHasFixedSize(true);
     }
 

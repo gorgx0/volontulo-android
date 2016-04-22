@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
@@ -45,7 +44,6 @@ public class UserProfileViewHolder extends BaseViewHolder<UserProfile> {
     @OnClick(R.id.volunteer)
     void onItemClick(View clicked) {
         Context context = clicked.getContext();
-        Toast.makeText(context, "DETAILS USER PROFILE", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, VolunteerDetailsActivity.class);
         intent.putExtra(User.USER_ID, id);
         context.startActivity(intent);
