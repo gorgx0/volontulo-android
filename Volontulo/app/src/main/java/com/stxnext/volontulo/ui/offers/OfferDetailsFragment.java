@@ -136,6 +136,9 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     protected void onFabClick(FloatingActionButton button) {
         button.setVisibility(View.GONE);
         itemJoined.setVisible(true);
-        Snackbar.make(getView(), "Zgłosiłeś się!!!", Snackbar.LENGTH_SHORT).show();
+        View view = getView();
+        if (view != null) {
+            Snackbar.make(view, "Zgłosiłeś się!!!", Snackbar.LENGTH_SHORT).show();
+        }
     }
 }
