@@ -1,5 +1,6 @@
 package com.stxnext.volontulo.ui.im;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -22,10 +23,16 @@ public class ConversationListFragment extends VolontuloBaseFragment {
     @Override
     protected void onPostCreateView(View root) {
         super.onPostCreateView(root);
+        requestFloatingActionButton();
         setToolbarTitle(R.string.im_conversaion_list_title);
         conversationList.setLayoutManager(new LinearLayoutManager(getActivity()));
         conversationList.setAdapter(new ConversationsAdapter(getActivity()));
         conversationList.addItemDecoration(new SimpleItemDivider(getActivity()));
         conversationList.setHasFixedSize(true);
+    }
+
+    @Override
+    protected void onFabClick(FloatingActionButton button) {
+        //TODO: show people selection dialog
     }
 }
