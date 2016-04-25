@@ -19,7 +19,6 @@ import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,6 +55,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     private int imageResource;
 
     private String imagePath;
+    private MenuItem itemJoined;
 
     @Override
     public String getImagePath() {
@@ -70,11 +70,6 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     @Override
     public int getImageResource() {
         return imageResource;
-    }
-
-    @OnClick(R.id.button_step_out)
-    public void doStepOut(View view) {
-        Snackbar.make(view, "Zgłosiłeś się!!!", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -133,23 +128,14 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.offer_details_menu, menu);
+        itemJoined = menu.findItem(R.id.action_offer_joined);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_join_offer:
-                doStepOut(getView());
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Override
     protected void onFabClick(FloatingActionButton button) {
-        Snackbar.make(this.getView(), "FAB!", Snackbar.LENGTH_SHORT).show();
         button.setVisibility(View.GONE);
+        itemJoined.setVisible(true);
+        Snackbar.make(getView(), "Zgłosiłeś się!!!", Snackbar.LENGTH_SHORT).show();
     }
 }
