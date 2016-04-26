@@ -6,6 +6,7 @@ import org.parceler.Parcel;
 
 import io.realm.RealmObject;
 import io.realm.UserRealmProxy;
+import io.realm.annotations.Ignore;
 
 @Parcel(implementations = {UserRealmProxy.class},
     value = Parcel.Serialization.BEAN,
@@ -20,6 +21,7 @@ public class User extends RealmObject {
     @SerializedName("last_name")
     private String lastName;
     private String email;
+    @Ignore public String secret;
 
     /**
      *

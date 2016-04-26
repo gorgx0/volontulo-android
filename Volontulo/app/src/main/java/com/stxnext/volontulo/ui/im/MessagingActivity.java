@@ -44,7 +44,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nodrawer);
-        init(R.string.im_conversaion_list_title);
+        init(R.string.im_conversation_list_title);
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final Fragment messagesFragment = new MessagesListFragment();
@@ -58,7 +58,6 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
                 .commit();
 
         LocalBroadcastManager.getInstance(this).registerReceiver(eventsReceived, new IntentFilter(ImService.ACTION_VOLONTULO_IM));
-        startService(new Intent(this, ImService.class));
         boolean isServiceBound = bindService(new Intent(this, ImService.class), serviceConnection, BIND_AUTO_CREATE);
 
         if (!isServiceBound) {
@@ -82,7 +81,6 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
     @Override
     protected void onDestroy() {
         unbindService(serviceConnection);
-        stopService(new Intent(this, ImService.class));
         LocalBroadcastManager.getInstance(this).unregisterReceiver(eventsReceived);
         super.onDestroy();
     }

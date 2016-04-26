@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.User;
+import com.stxnext.volontulo.logic.im.ImService;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.ui.main.MainHostActivity;
 
@@ -24,13 +25,15 @@ public class LoginFragment extends VolontuloBaseFragment {
 
     public static final User[] MOCK_USER_TABLE = new User[]{
         createUser("test@test.fm", "test"),
-        createUser("bob@top.com", "bob")
+        createUser("bob@top.com", "bob"),
+        createUser("alone@test.lt", "test")
     };
 
     private static User createUser(String login, String secret) {
         final User user = new User();
         user.setEmail(login);
-        user.setUsername(secret);
+        user.setUsername(login);
+        user.secret = secret;
         return user;
     }
 
@@ -44,8 +47,9 @@ public class LoginFragment extends VolontuloBaseFragment {
         final String login = editTextEmail.getText().toString();
         final String password = editTextPassword.getText().toString();
         if (checkCredentials(login, password)) {
-            storeUserInfo(login, password);
+            storeUserInfo(login);
             Intent intent = new Intent(getActivity(), MainHostActivity.class);
+            getActivity().startService(new Intent(getActivity(), ImService.class));
             startActivity(intent);
             getActivity().finish();
         } else {
@@ -55,14 +59,14 @@ public class LoginFragment extends VolontuloBaseFragment {
 
     private boolean checkCredentials(String login, String password) {
         for (final User user : MOCK_USER_TABLE) {
-            if (user.getEmail().equals(login) && user.getUsername().equals(password)) {
+            if (user.getEmail().equals(login) && user.secret.equals(password)) {
                 return true;
             }
         }
         return false;
     }
 
-    private void storeUserInfo(CharSequence text, CharSequence secret) {
+    private void storeUserInfo(CharSequence text) {
         final String preferencesFileName = ImConfigFactory.create().getPreferencesFileName();
         final SharedPreferences preferences = getActivity().getSharedPreferences(preferencesFileName, Context.MODE_PRIVATE);
         preferences.edit()

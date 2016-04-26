@@ -14,8 +14,6 @@ import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
 import org.parceler.Parcels;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.OnClick;
 import io.realm.RealmResults;
@@ -23,11 +21,6 @@ import io.realm.RealmResults;
 public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseViewHolder<Conversation>> {
     public ConversationsAdapter(Context context, RealmResults<Conversation> conversations) {
         super(context, conversations);
-    }
-
-    public void updateList(List<Conversation> updates) {
-        objects.addAll(updates);
-        notifyDataSetChanged();
     }
 
     @Override
@@ -50,8 +43,7 @@ public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseView
 
         @Override
         public void onBind(Conversation model) {
-            final String firstRecipient = model.getRecipientsIds().get(0).getValue();
-            participantName.setText(firstRecipient);
+            participantName.setText(Conversation.resolveRecipientName(itemView.getContext(), model));
         }
 
         @OnClick(R.id.conversation)

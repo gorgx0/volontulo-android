@@ -44,7 +44,7 @@ public class ConversationListFragment extends VolontuloBaseFragment {
         super.onPostCreateView(root);
         realm = Realm.getDefaultInstance();
         requestFloatingActionButton();
-        setToolbarTitle(R.string.im_conversaion_list_title);
+        setToolbarTitle(R.string.im_conversation_list_title);
         conversationList.setLayoutManager(new LinearLayoutManager(getActivity()));
         final RealmResults<Conversation> conversations = realm.where(Conversation.class).findAll();
         final ConversationsAdapter adapter = new ConversationsAdapter(getActivity(), conversations);
@@ -68,13 +68,13 @@ public class ConversationListFragment extends VolontuloBaseFragment {
             realm = Realm.getDefaultInstance();
             Conversation result;
             final String userEmail = grabbedUser.getEmail();
-            result = realm.where(Conversation.class).equalTo("creatorId", userEmail).or().equalTo("recipientsIds.value", userEmail).findFirst();
-            if (result == null) {//no found conversation
+            result = realm.where(Conversation.class)
+                .equalTo(Conversation.FIELD_CREATOR_ID, userEmail)
+                .or().equalTo(String.format("%s.%s", Conversation.FIELD_RECIPIENTS_IDS, RealmString.FIELD_VALUE), userEmail)
+                .findFirst();
+            if (result == null) {
                 Log.d(TAG, "No conversation found, so we create new one");
                 result = Conversation.create(retrieveCurrentUser(), new RealmList<>(new RealmString(userEmail)));
-//                realm.beginTransaction();
-//                realm.copyToRealm(result);
-//                realm.commitTransaction();
             }
             Log.i(TAG, String.format("Conversation: %s", result));
             final Intent starter = new Intent(getActivity(), MessagingActivity.class);

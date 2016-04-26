@@ -9,6 +9,8 @@ import io.realm.RealmStringRealmProxy;
     value = Parcel.Serialization.BEAN,
     analyze = {RealmString.class})
 public class RealmString extends RealmObject {
+    public static final String FIELD_VALUE = "value";
+
     private String value;
 
     public RealmString() {

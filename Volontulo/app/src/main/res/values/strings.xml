@@ -39,7 +39,8 @@
     <string name="im_enter_message">Wpisz wiadomość</string>
     <string name="im_send_message">Wyślij wiadomość</string>
     <string name="im_conversation_with_title">Rozmowa z: %s</string>
-    <string name="im_conversaion_list_title">Lista konwersacji</string>
+    <string name="im_conversation_list_title">Lista konwersacji</string>
+    <string name="im_conversation_scroll_down">Przejdź</string>
     <plurals name="im_new_messages">
         <item quantity="one">Nowa wiadomość</item>
         <item quantity="other">Nowe wiadomości (%d)</item>

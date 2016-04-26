@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
 import com.stxnext.volontulo.VolontuloBaseFragment;
+import com.stxnext.volontulo.logic.im.ImService;
 import com.stxnext.volontulo.ui.login.LoginActivity;
 import com.stxnext.volontulo.ui.offers.OfferListFragment;
 
@@ -69,6 +70,7 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(getString(R.string.preference_key_is_logged), false);
             editor.apply();
+            stopService(new Intent(this, ImService.class));
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             return false;

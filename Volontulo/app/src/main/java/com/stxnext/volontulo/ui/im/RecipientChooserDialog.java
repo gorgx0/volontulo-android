@@ -17,15 +17,20 @@ import android.widget.Toast;
 import com.stxnext.volontulo.BuildConfig;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
+import com.stxnext.volontulo.api.Image;
+import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.api.UserProfile;
+import com.stxnext.volontulo.ui.login.LoginFragment;
 import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 import com.stxnext.volontulo.ui.volunteers.UserProfileAdapter;
 
 import org.parceler.Parcels;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,6 +109,15 @@ public class RecipientChooserDialog extends DialogFragment {
                             String.format(Locale.getDefault(), "%d profiles returned", userProfileList.size()),
                             Snackbar.LENGTH_LONG
                     ).show();
+                    UserProfile[] mockProfiles = new UserProfile[LoginFragment.MOCK_USER_TABLE.length];
+                    int index = 0;
+                    for (User user : LoginFragment.MOCK_USER_TABLE) {
+                        final UserProfile profile = new UserProfile();
+                        profile.setUser(user);
+                        profile.setImages(new RealmList<Image>());
+                        mockProfiles[index++] = profile;
+                    }
+                    userProfileList.addAll(Arrays.asList(mockProfiles));
                 }
                 if (userProfileList.size() > 0) {
                     userProfileAdapter.updateList(userProfileList);

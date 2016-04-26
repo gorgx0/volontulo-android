@@ -61,7 +61,7 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     void onSendClicked() {
         final String messageText = message.getText().toString();
         if (viewCallback != null && conversation != null && !TextUtils.isEmpty(messageText)) {
-            viewCallback.onMessageComposed(conversation.getRecipientsIds().get(0).getValue(), messageText);
+            viewCallback.onMessageComposed(Conversation.resolveRecipientName(getContext(), conversation), messageText);
             message.setText("");
         }
     }
@@ -83,7 +83,7 @@ public class MessagesListFragment extends VolontuloBaseFragment {
         realm = Realm.getDefaultInstance();
         final Bundle args = getArguments();
         conversation = Parcels.unwrap(args.getParcelable(KEY_PARTICIPANTS));
-        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, conversation.getRecipientsIds().get(0).getValue()));
+        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, Conversation.resolveRecipientName(getContext(), conversation)));
         messagesAdapter.setData(realm.where(LocalMessage.class).findAll());
     }
 
@@ -108,7 +108,7 @@ public class MessagesListFragment extends VolontuloBaseFragment {
             final String unreadMessagesString = getResources().getQuantityString(R.plurals.im_new_messages, (int)unreadCount, (int)unreadCount);
             if (snackbar == null) {
                 snackbar = Snackbar.make(coordinatorLayout, unreadMessagesString, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction("Przejdź", new View.OnClickListener() {
+                snackbar.setAction(R.string.im_conversation_scroll_down, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         messagesList.scrollToPosition(messagesAdapter.getItemCount() - 1);
