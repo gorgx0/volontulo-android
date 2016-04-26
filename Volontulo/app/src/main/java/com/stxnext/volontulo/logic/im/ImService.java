@@ -182,9 +182,18 @@ public class ImService extends Service implements SinchClientListener {
 
     public void sendMessage(String recipientUser, String messageBody, Conversation conversation) {
         if (messageClient != null) {
-            final WritableMessage message = new WritableMessage(recipientUser, messageBody);
-            message.addHeader(LocalMessage.KEY_HEADER_CONVERSATION_ID, conversation.getConversationId());
-            messageClient.send(message);
+            if (!Conversation.isEmpty(conversation)) {
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(conversation);
+                realm.commitTransaction();
+                final WritableMessage message = new WritableMessage(recipientUser, messageBody);
+                message.addHeader(LocalMessage.KEY_HEADER_CONVERSATION_ID, conversation.getConversationId());
+                messageClient.send(message);
+            } else {
+                Log.w(TAG, "Trying to send message without conversation, something goes wrong");
+            }
+        } else {
+            Log.w(TAG, "Trying to send message when IM client not connected");
         }
     }
 

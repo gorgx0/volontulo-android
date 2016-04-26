@@ -14,7 +14,6 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.logic.im.Conversation;
 import com.stxnext.volontulo.logic.im.LocalMessage;
-import com.stxnext.volontulo.utils.realm.Realms;
 
 import org.parceler.Parcels;
 
@@ -84,7 +83,7 @@ public class MessagesListFragment extends VolontuloBaseFragment {
         realm = Realm.getDefaultInstance();
         final Bundle args = getArguments();
         conversation = Parcels.unwrap(args.getParcelable(KEY_PARTICIPANTS));
-        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, Realms.realmAsNormal(conversation.getRecipientsIds())));
+        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, conversation.getRecipientsIds().get(0).getValue()));
         messagesAdapter.setData(realm.where(LocalMessage.class).findAll());
     }
 

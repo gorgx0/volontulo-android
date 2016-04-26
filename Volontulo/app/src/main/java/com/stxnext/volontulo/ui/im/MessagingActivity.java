@@ -34,6 +34,7 @@ import java.util.List;
 
 public class MessagingActivity extends VolontuloBaseActivity implements MessagesListFragment.InstantMessagingViewCallback {
     public static final String TAG = "Volontulo-Im";
+    private static final String KEY_CONVERSATION = "conversation-storage";
     private ImService.InstantMessaging instantMessaging;
     private InstantMessagingConnection serviceConnection = new InstantMessagingConnection();
     private EventsReceived eventsReceived = new EventsReceived();
@@ -67,6 +68,18 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(KEY_CONVERSATION, Parcels.wrap(conversation));
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        conversation = Parcels.unwrap(savedInstanceState.getParcelable(KEY_CONVERSATION));
+    }
+
+    @Override
     protected void onDestroy() {
         unbindService(serviceConnection);
         stopService(new Intent(this, ImService.class));
@@ -86,7 +99,11 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
 
     @Override
     public void onMessageComposed(String recipient, String body) {
-        instantMessaging.sendMessage(recipient, body, conversation);
+        if (instantMessaging != null) {
+            instantMessaging.sendMessage(recipient, body, conversation);
+        } else {
+            Log.w(TAG, "Try to compose message when not connected to IM service");
+        }
     }
 
     private class InstantMessagingConnection implements ServiceConnection {

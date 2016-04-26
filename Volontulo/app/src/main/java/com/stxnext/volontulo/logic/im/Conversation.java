@@ -1,5 +1,7 @@
 package com.stxnext.volontulo.logic.im;
 
+import android.text.TextUtils;
+
 import com.stxnext.volontulo.utils.realm.RealmString;
 import com.stxnext.volontulo.utils.realm.RealmStringParcelConverter;
 import com.stxnext.volontulo.utils.realm.Realms;
@@ -35,6 +37,17 @@ public class Conversation extends RealmObject {
 
     public static Conversation create(String creator, RealmList<RealmString> recipients) {
         return create(UUID.randomUUID().toString(), creator, recipients);
+    }
+
+    public static boolean isEmpty(final Conversation object) {
+        return object == null ||
+            TextUtils.isEmpty(object.conversationId) ||
+            TextUtils.isEmpty(object.creatorId) ||
+            checkIfRecipientsEmpty(object.recipientsIds);
+    }
+
+    private static boolean checkIfRecipientsEmpty(RealmList<RealmString> recipientsIds) {
+        return recipientsIds == null || recipientsIds.isEmpty();
     }
 
     public void setConversationId(String conversationId) {
