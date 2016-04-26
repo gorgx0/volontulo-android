@@ -48,7 +48,7 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
         return R.layout.fragment_volunteer_details;
     }
 
-    private void obtainData(int userId) {
+    private void obtainData(final int userId) {
         final String msg = "UserID: " + userId;
         Log.d(TAG, msg);
         final Call<UserProfile> call = VolontuloApp.api.getVolunteer(userId);
@@ -64,7 +64,7 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
                     realm.copyToRealmOrUpdate(userProfile);
                     realm.commitTransaction();
                 } else {
-                    userProfile = realm.where(UserProfile.class).equalTo("id", 1).findFirst();
+                    userProfile = realm.where(UserProfile.class).equalTo("id", userId).findFirst();
                     msg = "[REALM] " + userProfile.toString();
                 }
 
@@ -80,7 +80,7 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
             public void onFailure(Call<UserProfile> call, Throwable t) {
                 String msg = "FAILURE: message - " + t.getMessage();
                 Log.d(TAG, msg);
-                UserProfile userProfile = realm.where(UserProfile.class).equalTo("id", 1).findFirst();
+                UserProfile userProfile = realm.where(UserProfile.class).equalTo("id", userId).findFirst();
                 msg = "[FAILURE] " + userProfile.toString();
                 Log.d(TAG, msg);
                 final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
