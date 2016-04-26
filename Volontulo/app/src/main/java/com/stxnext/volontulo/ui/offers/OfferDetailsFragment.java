@@ -88,24 +88,34 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         obtainData(id);
     }
 
-    private void obtainData(int id) {
+    private void obtainData(final int id) {
         final Call<Offer> call = VolontuloApp.api.getOffer(id);
         call.enqueue(new Callback<Offer>() {
             @Override
             public void onResponse(Call<Offer> call, Response<Offer> response) {
+                Offer offer;
+                String msg;
                 if (response.isSuccessful()) {
-                    int statusCode = response.code();
-                    final Offer offer = response.body();
-                    fillData(offer);
-                    final String msg = "SUCCESS: status - " + statusCode;
+                    offer = response.body();
+                    msg = "[RETRO] " + offer.toString();
                     Log.d(TAG, msg);
                     Log.d(TAG, offer.toString());
+                } else {
+                    offer = realm.where(Offer.class).equalTo("id", id).findFirst();
+                    msg = "[REALM] " + offer.toString();
                 }
+
+                Log.d(TAG, msg);
+                fillData(offer);
             }
 
             @Override
             public void onFailure(Call<com.stxnext.volontulo.api.Offer> call, Throwable t) {
-                final String msg = "FAILURE: message - " + t.getMessage();
+                String msg = "FAILURE: message - " + t.getMessage();
+                Log.d(TAG, msg);
+                final Offer offer = realm.where(Offer.class).equalTo("id", id).findFirst();
+                fillData(offer);
+                msg = "[FAILURE] " + offer.toString();
                 Log.d(TAG, msg);
             }
         });
@@ -163,15 +173,5 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         if (view != null) {
             Snackbar.make(view, "Zgłosiłeś się!!!", Snackbar.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "OfferDetails::onResume");
-        offer = realm.where(Offer.class).equalTo("id", this.id).findFirst();
-        Log.d(TAG, "start fill data from db");
-        fillData(offer);
-        Log.d(TAG, "end fill data from db");
     }
 }

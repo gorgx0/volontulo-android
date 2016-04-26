@@ -55,21 +55,37 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
         call.enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
-                int statusCode = response.code();
-                UserProfile userProfile =  response.body();
-                final String msg = "SUCCESS: status - " + statusCode;
-                Log.d(TAG, msg);
-                Log.d(TAG, userProfile.toString());
+                UserProfile userProfile;
+                String msg;
+                if (response.isSuccessful()) {
+                    userProfile = response.body();
+                    msg = "[RETRO] " + userProfile.toString();
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(userProfile);
+                    realm.commitTransaction();
+                } else {
+                    userProfile = realm.where(UserProfile.class).equalTo("id", 1).findFirst();
+                    msg = "[REALM] " + userProfile.toString();
+                }
 
-                realm.beginTransaction();
-                realm.copyToRealmOrUpdate(userProfile);
-                realm.commitTransaction();
+                Log.d(TAG, msg);
+                if (userProfile != null) {
+                    final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
+                    adapter.setUserProfile(userProfile);
+                    offers.setAdapter(adapter);
+                }
             }
 
             @Override
             public void onFailure(Call<UserProfile> call, Throwable t) {
-                final String msg = "FAILURE: message - " + t.getMessage();
+                String msg = "FAILURE: message - " + t.getMessage();
                 Log.d(TAG, msg);
+                UserProfile userProfile = realm.where(UserProfile.class).equalTo("id", 1).findFirst();
+                msg = "[FAILURE] " + userProfile.toString();
+                Log.d(TAG, msg);
+                final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
+                adapter.setUserProfile(userProfile);
+                offers.setAdapter(adapter);
             }
         });
     }
@@ -86,17 +102,6 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
         Context context = getContext();
         offers.setLayoutManager(new LinearLayoutManager(context));
         offers.setHasFixedSize(true);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        final UserProfile userProfile = realm.where(UserProfile.class).equalTo("id", 1).findFirst();
-
-        final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
-        adapter.setUserProfile(userProfile);
-        offers.setAdapter(adapter);
     }
 
     @Override

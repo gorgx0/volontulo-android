@@ -60,25 +60,33 @@ public class VolunteerListFragment extends VolontuloBaseFragment {
         call.enqueue(new Callback<List<UserProfile>>() {
             @Override
             public void onResponse(Call<List<UserProfile>> call, Response<List<UserProfile>> response) {
-                final int statusCode = response.code();
+                List<UserProfile> userProfileList;
+                String msg;
                 if (response.isSuccessful()) {
-                    final List<UserProfile> userProfileList = response.body();
-                    final String msg = "SUCCESS: status - " + statusCode;
-                    Log.d(TAG, msg);
-                    Log.d(TAG, "User count: " + userProfileList.size());
+                    userProfileList = response.body();
+                    msg = "[RETRO] User count: " + userProfileList.size();
                     list = (ArrayList<UserProfile>) userProfileList;
-//                    adapter = new UserProfileAdapter(getActivity(), list);
-//                    volunteers.setAdapter(adapter);
-
                     realm.beginTransaction();
                     realm.copyToRealmOrUpdate(list);
                     realm.commitTransaction();
+                } else {
+                    userProfileList = realm.where(UserProfile.class).findAll();
+                    msg = "[REALM] User count: " + userProfileList.size();
+                }
+
+                Log.d(TAG, msg);
+                if (userProfileList != null && userProfileList.size() != 0) {
+                    volunteers.setAdapter(new UserProfileAdapter(getActivity(), userProfileList));
                 }
             }
 
             @Override
             public void onFailure(Call<List<UserProfile>> call, Throwable t) {
-                final String msg = "FAILURE: message - " + t.getMessage();
+                String msg = "FAILURE: message - " + t.getMessage();
+                Log.d(TAG, msg);
+                RealmResults<UserProfile> userProfiles = realm.where(UserProfile.class).findAll();
+                volunteers.setAdapter(new UserProfileAdapter(getActivity(), userProfiles));
+                msg = "[FAILURE] User count: " + userProfiles.size();
                 Log.d(TAG, msg);
             }
         });

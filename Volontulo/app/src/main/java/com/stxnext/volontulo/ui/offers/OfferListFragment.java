@@ -16,11 +16,8 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
-import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.map.MapOffersActivity;
 import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
-
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,47 +91,34 @@ public class OfferListFragment extends VolontuloBaseFragment {
         call.enqueue(new Callback<List<Offer>>() {
             @Override
             public void onResponse(Call<List<Offer>> call, Response<List<Offer>> response) {
-                final int statusCode = response.code();
-
+                final List<Offer> offerList;
+                String msg;
                 if (response.isSuccessful()) {
-                    final List<Offer> offerList = response.body();
-
+                    offerList = response.body();
                     realm.beginTransaction();
                     realm.copyToRealmOrUpdate(offerList);
                     realm.commitTransaction();
-
-                    final String msg = "SUCCESS: status - " + statusCode;
-                    Log.d(TAG, msg);
-                    Log.d(TAG, "Offer count: " + offerList.size());
-
+                    msg = "[RETRO] Offer count: " + offerList.size();
+                } else {
+                    offerList = realm.where(Offer.class).findAll();
+                    msg = "[REALM] Offer count: " + offerList.size();
                 }
 
-//                final List<Offer> offerList = response.body();
-//                final String msg = "SUCCESS: status - " + statusCode;
-//                Log.d(TAG, msg);
-//                Log.d(TAG, "Ofer count: " + offerList.size());
-//                list = (ArrayList<Offer>) offerList;
-//                adapter = new OfferAdapter(getActivity(), list);
-//                offers.setAdapter(adapter);
+                Log.d(TAG, msg);
+                if (offerList != null && offerList.size() != 0) {
+                    offers.setAdapter(new OfferAdapter(getActivity(), offerList));
+                }
             }
 
             @Override
             public void onFailure(Call<List<com.stxnext.volontulo.api.Offer>> call, Throwable t) {
-
+                String msg = "FAILURE: message - " + t.getMessage();
+                Log.d(TAG, msg);
+                final RealmResults<Offer> offerList = realm.where(Offer.class).findAll();
+                msg = "[FAILURE] Offer count: " + offerList.size();
+                Log.d(TAG, msg);
             }
         });
-    }
-
-    private List<Ofer> combineRealmAndMocks(final RealmResults<Ofer> realm) {
-        final List<Ofer> objects = new ArrayList<>();
-        objects.addAll(realm);
-        objects.add(Ofer.mock("Oferta 1", "Poznań", DateTime.now(), DateTime.now().plusDays(7), R.drawable.apple, false));
-        objects.add(Ofer.mock("Oferta 2", "Polska", DateTime.now().plusMonths(3), DateTime.now().plusMonths(3).plusDays(7), R.drawable.breakfast_free, false));
-        objects.add(Ofer.mock("Oferta 3", "Warszawa", DateTime.now(), DateTime.now().plusDays(7), R.drawable.cookie, true));
-        objects.add(Ofer.mock("Oferta 4", "Leszno", DateTime.now().minusDays(1), DateTime.now().plusDays(7), R.drawable.ice, false));
-        objects.add(Ofer.mock("Oferta 5", "Wrocław", DateTime.now().minusDays(1), DateTime.now().plusDays(7), R.drawable.join, false));
-        objects.add(Ofer.mock("Oferta 6", "Poznań", DateTime.now().minusWeeks(1), DateTime.now().plusWeeks(2), R.drawable.oscar, true));
-        return objects;
     }
 
     @Override

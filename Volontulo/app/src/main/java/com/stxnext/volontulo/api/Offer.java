@@ -606,7 +606,7 @@ public class Offer extends RealmObject {
 
     @Override
     public String toString() {
-        return "Ofer " + id + ": '" + title + "' (" + location + ")";
+        return "Offer " + id + ": '" + title + "' (" + location + ")";
     }
 
     public String getDuration(String now, String toSet) {
