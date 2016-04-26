@@ -15,6 +15,7 @@ import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.api.UserProfile;
 
 import butterknife.Bind;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,6 +41,7 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
 
     @Bind(R.id.offers)
     protected RecyclerView offers;
+    private Realm realm;
 
     @Override
     protected int getLayoutResource() {
@@ -54,13 +56,14 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 int statusCode = response.code();
-                UserProfile userProfile = response.body();
+                UserProfile userProfile =  response.body();
                 final String msg = "SUCCESS: status - " + statusCode;
                 Log.d(TAG, msg);
                 Log.d(TAG, userProfile.toString());
-                final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
-                adapter.setUserProfile(userProfile);
-                offers.setAdapter(adapter);
+
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(userProfile);
+                realm.commitTransaction();
             }
 
             @Override
@@ -71,6 +74,11 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        realm = Realm.getDefaultInstance();
+    }
 
     protected void onPostCreateView(View root) {
         int userId = getArguments().getInt(User.USER_ID, 0);
@@ -78,5 +86,22 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
         Context context = getContext();
         offers.setLayoutManager(new LinearLayoutManager(context));
         offers.setHasFixedSize(true);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final UserProfile userProfile = realm.where(UserProfile.class).equalTo("id", 1).findFirst();
+
+        final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
+        adapter.setUserProfile(userProfile);
+        offers.setAdapter(adapter);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
     }
 }

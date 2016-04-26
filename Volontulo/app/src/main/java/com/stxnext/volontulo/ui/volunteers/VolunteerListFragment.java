@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,6 +30,7 @@ public class VolunteerListFragment extends VolontuloBaseFragment {
 
     @Bind(R.id.list)
     protected RecyclerView volunteers;
+    private Realm realm;
 
     @Override
     protected int getLayoutResource() {
@@ -40,19 +43,37 @@ public class VolunteerListFragment extends VolontuloBaseFragment {
         obtainData();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        realm = Realm.getDefaultInstance();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
+    }
+
     private void obtainData() {
         final Call<List<UserProfile>> call = VolontuloApp.api.listVolunteers();
         call.enqueue(new Callback<List<UserProfile>>() {
             @Override
             public void onResponse(Call<List<UserProfile>> call, Response<List<UserProfile>> response) {
                 final int statusCode = response.code();
-                final List<UserProfile> userProfileList = response.body();
-                final String msg = "SUCCESS: status - " + statusCode;
-                Log.d(TAG, msg);
-                Log.d(TAG, "User count: " + userProfileList.size());
-                list = (ArrayList<UserProfile>) userProfileList;
-                adapter = new UserProfileAdapter(getActivity(), list);
-                volunteers.setAdapter(adapter);
+                if (response.isSuccessful()) {
+                    final List<UserProfile> userProfileList = response.body();
+                    final String msg = "SUCCESS: status - " + statusCode;
+                    Log.d(TAG, msg);
+                    Log.d(TAG, "User count: " + userProfileList.size());
+                    list = (ArrayList<UserProfile>) userProfileList;
+//                    adapter = new UserProfileAdapter(getActivity(), list);
+//                    volunteers.setAdapter(adapter);
+
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(list);
+                    realm.commitTransaction();
+                }
             }
 
             @Override
@@ -69,5 +90,12 @@ public class VolunteerListFragment extends VolontuloBaseFragment {
         volunteers.setLayoutManager(new LinearLayoutManager(getActivity()));
         volunteers.addItemDecoration(new SimpleItemDivider(getActivity()));
         volunteers.setHasFixedSize(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final RealmResults<UserProfile> userProfiles = realm.where(UserProfile.class).findAll();
+        volunteers.setAdapter(new UserProfileAdapter(getActivity(), userProfiles));
     }
 }

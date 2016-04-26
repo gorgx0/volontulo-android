@@ -3,11 +3,13 @@ package com.stxnext.volontulo.api;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class User extends RealmObject {
 
     public static final String USER_ID = "USER-ID";
 
+    @PrimaryKey
     private int id;
     private String username;
     @SerializedName("first_name")

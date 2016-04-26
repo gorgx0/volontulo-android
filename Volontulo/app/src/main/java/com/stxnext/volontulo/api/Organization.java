@@ -1,10 +1,12 @@
 package com.stxnext.volontulo.api;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Organization extends RealmObject {
 
     private String url;
+    @PrimaryKey
     private int id;
     private String name;
     private String address;
