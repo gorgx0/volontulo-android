@@ -115,6 +115,9 @@ public class ImService extends Service implements SinchClientListener {
                 Conversation conversation = realm.where(Conversation.class).equalTo(Conversation.FIELD_CONVERSATION_ID, headerConversationId).findFirst();
                 if (conversation == null) {
                     conversation = Conversation.create(headerConversationId, message.getSenderId(), Realms.normalAsRealm(message.getRecipientIds()));
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(conversation);
+                    realm.commitTransaction();
                 }
                 realm.beginTransaction();
                 realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message, conversation));
@@ -126,13 +129,14 @@ public class ImService extends Service implements SinchClientListener {
                 Log.i(TAG, String.format("Outcoming message %s [to %s, from %s]", message.getMessageId(), message.getRecipientIds(), message.getSenderId()));
                 final String headerConversationId = message.getHeaders().get(LocalMessage.KEY_HEADER_CONVERSATION_ID);
                 if (!TextUtils.isEmpty(headerConversationId)) {
-                    Conversation conversation = realm.where(Conversation.class).equalTo(Conversation.FIELD_CONVERSATION_ID, headerConversationId).findFirst();
-                    if (conversation == null) {
-                        conversation = Conversation.create(headerConversationId, message.getSenderId(), Realms.normalAsRealm(message.getRecipientIds()));
+                    final Conversation conversation = realm.where(Conversation.class).equalTo(Conversation.FIELD_CONVERSATION_ID, headerConversationId).findFirst();
+                    if (conversation != null) {
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message, conversation));
+                        realm.commitTransaction();
+                    } else {
+                        Log.w(TAG, String.format("Conversation with id=%s not found, so something goes badly wrong", headerConversationId));
                     }
-                    realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message, conversation));
-                    realm.commitTransaction();
                 } else {
                     Log.w(TAG, String.format("Outgoing message is not correct, so its no stored or sent (%s | %s)", message, s));
                 }
