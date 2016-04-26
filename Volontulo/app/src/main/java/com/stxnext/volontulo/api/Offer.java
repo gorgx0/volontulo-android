@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Offer extends RealmObject {
 
@@ -14,6 +15,7 @@ public class Offer extends RealmObject {
     public static final String IMAGE_RESOURCE = "IMAGE-RESOURCE";
 
     private String url;
+    @PrimaryKey
     private int id;
     private Organization organization;
     private RealmList<User> volunteers;

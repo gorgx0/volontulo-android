@@ -19,6 +19,7 @@ import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
 
 import butterknife.Bind;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,6 +57,9 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
 
     private String imagePath;
     private MenuItem itemJoined;
+    private Realm realm;
+    private int id;
+    private Offer offer;
 
     @Override
     public String getImagePath() {
@@ -76,7 +80,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         final Bundle arguments = getArguments();
-        int id = arguments.getInt(Offer.OFFER_ID, 0);
+        id = arguments.getInt(Offer.OFFER_ID, 0);
         imageResource = arguments.getInt(Offer.IMAGE_RESOURCE, R.drawable.ice);
         if (arguments.containsKey(Offer.IMAGE_PATH)) {
             imagePath = arguments.getString(Offer.IMAGE_PATH);
@@ -89,23 +93,13 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         call.enqueue(new Callback<Offer>() {
             @Override
             public void onResponse(Call<Offer> call, Response<Offer> response) {
-                int statusCode = response.code();
-                final com.stxnext.volontulo.api.Offer offer = response.body();
-                final String msg = "SUCCESS: status - " + statusCode;
-                Log.d(TAG, msg);
-                Log.d(TAG, offer.toString());
-                title.setText(offer.getTitle());
-                setToolbarTitle(offer.getTitle());
-                location.setText(offer.getLocation());
-                duration.setText(offer.getDuration(getString(R.string.now), getString(R.string.to_set)));
-                description.setText(offer.getDescription());
-                requirements.setText(offer.getRequirements());
-                benefits.setText(offer.getBenefits());
-                timeCommitment.setText(offer.getTimeCommitment());
-                organization.setText(offer.getOrganization().getName());
-                if (offer.hasImage()) {
-                    imagePath = offer.getImagePath();
-                    imageResource = 0;
+                if (response.isSuccessful()) {
+                    int statusCode = response.code();
+                    final Offer offer = response.body();
+                    fillData(offer);
+                    final String msg = "SUCCESS: status - " + statusCode;
+                    Log.d(TAG, msg);
+                    Log.d(TAG, offer.toString());
                 }
             }
 
@@ -115,6 +109,34 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
                 Log.d(TAG, msg);
             }
         });
+    }
+
+    private void fillData(Offer offer) {
+        title.setText(offer.getTitle());
+        setToolbarTitle(offer.getTitle());
+        location.setText(offer.getLocation());
+        duration.setText(offer.getDuration(getString(R.string.now), getString(R.string.to_set)));
+        description.setText(offer.getDescription());
+        requirements.setText(offer.getRequirements());
+        benefits.setText(offer.getBenefits());
+        timeCommitment.setText(offer.getTimeCommitment());
+        organization.setText(offer.getOrganization().getName());
+        if (offer.hasImage()) {
+            imagePath = offer.getImagePath();
+            imageResource = 0;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        realm = Realm.getDefaultInstance();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
     }
 
     @Override
@@ -134,11 +156,22 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
 
     @Override
     protected void onFabClick(FloatingActionButton button) {
+        offer.isUserJoined();
         button.setVisibility(View.GONE);
         itemJoined.setVisible(true);
         View view = getView();
         if (view != null) {
             Snackbar.make(view, "Zgłosiłeś się!!!", Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "OfferDetails::onResume");
+        offer = realm.where(Offer.class).equalTo("id", this.id).findFirst();
+        Log.d(TAG, "start fill data from db");
+        fillData(offer);
+        Log.d(TAG, "end fill data from db");
     }
 }

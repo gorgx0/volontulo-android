@@ -78,8 +78,9 @@ public class OfferListFragment extends VolontuloBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        final RealmResults<Ofer> oferResults = realm.where(Ofer.class).findAll();
-        offers.setAdapter(new OffersRealmAdapter(getActivity(), combineRealmAndMocks(oferResults)));
+        Log.d(TAG, "OfferList::onResume");
+        final RealmResults<Offer> offerResults = realm.where(Offer.class).findAll();
+        offers.setAdapter(new OfferAdapter(getActivity(), offerResults));
     }
 
     @Override
@@ -94,13 +95,27 @@ public class OfferListFragment extends VolontuloBaseFragment {
             @Override
             public void onResponse(Call<List<Offer>> call, Response<List<Offer>> response) {
                 final int statusCode = response.code();
-                final List<com.stxnext.volontulo.api.Offer> offerList = response.body();
-                final String msg = "SUCCESS: status - " + statusCode;
-                Log.d(TAG, msg);
-                Log.d(TAG, "Ofer count: " + offerList.size());
-                list = (ArrayList<Offer>) offerList;
-                adapter = new OfferAdapter(getActivity(), list);
-                offers.setAdapter(adapter);
+
+                if (response.isSuccessful()) {
+                    final List<Offer> offerList = response.body();
+
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(offerList);
+                    realm.commitTransaction();
+
+                    final String msg = "SUCCESS: status - " + statusCode;
+                    Log.d(TAG, msg);
+                    Log.d(TAG, "Offer count: " + offerList.size());
+
+                }
+
+//                final List<Offer> offerList = response.body();
+//                final String msg = "SUCCESS: status - " + statusCode;
+//                Log.d(TAG, msg);
+//                Log.d(TAG, "Ofer count: " + offerList.size());
+//                list = (ArrayList<Offer>) offerList;
+//                adapter = new OfferAdapter(getActivity(), list);
+//                offers.setAdapter(adapter);
             }
 
             @Override
