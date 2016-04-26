@@ -2,6 +2,7 @@ package com.stxnext.volontulo.ui.im;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -49,12 +50,13 @@ public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseView
 
         @Override
         public void onBind(Conversation model) {
-            final String firstRecipient = model.getRecipientsIds().get(0);
+            final String firstRecipient = model.getRecipientsIds().get(0).getValue();
             participantName.setText(firstRecipient);
         }
 
         @OnClick(R.id.conversation)
         void onConversationClick(View clicked) {
+            Log.i("Volontulo-Im", String.format("Selected conversation to work with %s", objectBinded));
             final VolontuloBaseActivity activity = (VolontuloBaseActivity) clicked.getContext();
             final Intent starter = new Intent(activity, MessagingActivity.class);
             starter.putExtra(MessagesListFragment.KEY_PARTICIPANTS, Parcels.wrap(objectBinded));

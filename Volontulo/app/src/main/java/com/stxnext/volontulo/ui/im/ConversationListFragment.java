@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
+import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.logic.im.Conversation;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.logic.im.config.ImConfiguration;
@@ -63,22 +64,19 @@ public class ConversationListFragment extends VolontuloBaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CHOOSE_VOLUNTEER && resultCode == Activity.RESULT_OK) {
-            final String grabbedUser = data.getStringExtra(RecipientChooserDialog.EXTRA_KEY_USER);
+            final User grabbedUser = Parcels.unwrap(data.getParcelableExtra(RecipientChooserDialog.EXTRA_KEY_USER));
             realm = Realm.getDefaultInstance();
             Conversation result;
-            result = realm.where(Conversation.class).equalTo("creatorId", grabbedUser).or().equalTo("recipientsIds.value", grabbedUser).findFirst();
+            final String userEmail = grabbedUser.getEmail();
+            result = realm.where(Conversation.class).equalTo("creatorId", userEmail).or().equalTo("recipientsIds.value", userEmail).findFirst();
             if (result == null) {//no found conversation
                 Log.d(TAG, "No conversation found, so we create new one");
-                final RealmString[] recipientStrings = new RealmString[] {
-                    new RealmString(grabbedUser)
-                };
-                result = Conversation.create(retrieveCurrentUser(), new RealmList<>(recipientStrings));
-                Log.i(TAG, String.format("Conversation: %s", result));
-                realm.beginTransaction();
-                realm.copyToRealm(result);
-                realm.commitTransaction();
+                result = Conversation.create(retrieveCurrentUser(), new RealmList<>(new RealmString(userEmail)));
+//                realm.beginTransaction();
+//                realm.copyToRealm(result);
+//                realm.commitTransaction();
             }
-
+            Log.i(TAG, String.format("Conversation: %s", result));
             final Intent starter = new Intent(getActivity(), MessagingActivity.class);
             starter.putExtra(MessagesListFragment.KEY_PARTICIPANTS, Parcels.wrap(result));
             startActivity(starter);

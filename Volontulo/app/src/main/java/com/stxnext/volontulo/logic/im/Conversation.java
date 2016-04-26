@@ -1,11 +1,12 @@
 package com.stxnext.volontulo.logic.im;
 
 import com.stxnext.volontulo.utils.realm.RealmString;
+import com.stxnext.volontulo.utils.realm.RealmStringParcelConverter;
 import com.stxnext.volontulo.utils.realm.Realms;
 
 import org.parceler.Parcel;
+import org.parceler.ParcelPropertyConverter;
 
-import java.util.List;
 import java.util.UUID;
 
 import io.realm.ConversationRealmProxy;
@@ -36,7 +37,17 @@ public class Conversation extends RealmObject {
         return create(UUID.randomUUID().toString(), creator, recipients);
     }
 
-    public Conversation() {
+    public void setConversationId(String conversationId) {
+        this.conversationId = conversationId;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    @ParcelPropertyConverter(RealmStringParcelConverter.class)
+    public void setRecipientsIds(RealmList<RealmString> recipientsIds) {
+        this.recipientsIds = recipientsIds;
     }
 
     public String getConversationId() {
@@ -47,8 +58,8 @@ public class Conversation extends RealmObject {
         return creatorId;
     }
 
-    public List<String> getRecipientsIds() {
-        return Realms.realmAsNormal(recipientsIds);
+    public RealmList<RealmString> getRecipientsIds() {
+        return recipientsIds;
     }
 
     @Override
@@ -56,7 +67,7 @@ public class Conversation extends RealmObject {
         return "Conversation{" +
                 "conversationId='" + conversationId + '\'' +
                 ", creatorId='" + creatorId + '\'' +
-                ", recipientsIds=" + recipientsIds +
+                ", recipientsIds=" + Realms.realmAsNormal(recipientsIds) +
                 '}';
     }
 }

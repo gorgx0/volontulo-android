@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -46,8 +45,16 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
         setContentView(R.layout.activity_nodrawer);
         init(R.string.im_conversaion_list_title);
 
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        final Fragment messagesFragment = new MessagesListFragment();
+        final Bundle args = new Bundle();
         final Intent intent = getIntent();
-        final Bundle data = getBundleFrom(intent);
+        conversation = Parcels.unwrap(intent.getParcelableExtra(MessagesListFragment.KEY_PARTICIPANTS));
+        args.putParcelable(MessagesListFragment.KEY_PARTICIPANTS, Parcels.wrap(conversation));
+        messagesFragment.setArguments(args);
+        fragmentManager.beginTransaction()
+                .replace(R.id.content, messagesFragment)
+                .commit();
 
         LocalBroadcastManager.getInstance(this).registerReceiver(eventsReceived, new IntentFilter(ImService.ACTION_VOLONTULO_IM));
         startService(new Intent(this, ImService.class));
@@ -56,19 +63,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
         if (!isServiceBound) {
             final ServiceDisabledAlertDialogFragment alert = new ServiceDisabledAlertDialogFragment();
             alert.show(getSupportFragmentManager(), "dialog");
-            return;
         }
-
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        final Fragment messagesFragment = new MessagesListFragment();
-        final Bundle args = new Bundle();
-        final Parcelable parcelable = data.getParcelable(MessagesListFragment.KEY_PARTICIPANTS);
-        conversation = Parcels.unwrap(parcelable);
-        args.putParcelable(MessagesListFragment.KEY_PARTICIPANTS, parcelable);
-        messagesFragment.setArguments(args);
-        fragmentManager.beginTransaction()
-                .replace(R.id.content, messagesFragment)
-                .commit();
     }
 
     @Override
@@ -77,14 +72,6 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
         stopService(new Intent(this, ImService.class));
         LocalBroadcastManager.getInstance(this).unregisterReceiver(eventsReceived);
         super.onDestroy();
-    }
-
-    private Bundle getBundleFrom(Intent intent) {
-        return intent != null ? getExtrasNonNull(intent) : new Bundle();
-    }
-
-    private Bundle getExtrasNonNull(Intent intent) {
-        return intent.getExtras() != null ? intent.getExtras() : new Bundle();
     }
 
     @Override

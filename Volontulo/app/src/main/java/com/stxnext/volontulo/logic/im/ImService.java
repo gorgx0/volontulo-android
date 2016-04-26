@@ -32,7 +32,7 @@ import java.util.List;
 import io.realm.Realm;
 
 public class ImService extends Service implements SinchClientListener {
-    private static final String TAG = "Volontulo-Im";
+    private static final String TAG = "Volontulo-Service-Im";
     private ImConfiguration configuration = ImConfigFactory.create();
     private final InstantMessaging serviceInterface = new InstantMessaging();
     private SinchClient client = null;
@@ -133,6 +133,8 @@ public class ImService extends Service implements SinchClientListener {
                     realm.beginTransaction();
                     realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message, conversation));
                     realm.commitTransaction();
+                } else {
+                    Log.w(TAG, String.format("Outgoing message is not correct, so its no stored or sent (%s | %s)", message, s));
                 }
             }
 

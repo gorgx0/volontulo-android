@@ -1,7 +1,13 @@
 package com.stxnext.volontulo.utils.realm;
 
-import io.realm.RealmObject;
+import org.parceler.Parcel;
 
+import io.realm.RealmObject;
+import io.realm.RealmStringRealmProxy;
+
+@Parcel(implementations = {RealmStringRealmProxy.class},
+    value = Parcel.Serialization.BEAN,
+    analyze = {RealmString.class})
 public class RealmString extends RealmObject {
     private String value;
 
@@ -9,16 +15,20 @@ public class RealmString extends RealmObject {
         value = "";
     }
 
+    public RealmString(RealmString string) {
+        this(string.value);
+    }
+
     public RealmString(String newValue) {
         value = newValue;
     }
 
-    public RealmString(RealmString string) {
-        this(string.get());
+    public String getValue() {
+        return value;
     }
 
-    public String get() {
-        return value;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.logic.im.Conversation;
 import com.stxnext.volontulo.logic.im.LocalMessage;
+import com.stxnext.volontulo.utils.realm.Realms;
 
 import org.parceler.Parcels;
 
@@ -39,7 +40,7 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     private Realm realm;
 
     private InstantMessagingViewCallback viewCallback;
-    private Conversation participant;
+    private Conversation conversation;
     private MessagesAdapter messagesAdapter;
     private LinearLayoutManager layoutManager;
     private Snackbar snackbar;
@@ -60,8 +61,8 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     @OnClick(R.id.send)
     void onSendClicked() {
         final String messageText = message.getText().toString();
-        if (viewCallback != null && participant != null && !TextUtils.isEmpty(messageText)) {
-            viewCallback.onMessageComposed(participant.getRecipientsIds().get(0), messageText);
+        if (viewCallback != null && conversation != null && !TextUtils.isEmpty(messageText)) {
+            viewCallback.onMessageComposed(conversation.getRecipientsIds().get(0).getValue(), messageText);
             message.setText("");
         }
     }
@@ -82,8 +83,8 @@ public class MessagesListFragment extends VolontuloBaseFragment {
         super.onStart();
         realm = Realm.getDefaultInstance();
         final Bundle args = getArguments();
-        participant = Parcels.unwrap(args.getParcelable(KEY_PARTICIPANTS));
-        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, participant.getRecipientsIds()));
+        conversation = Parcels.unwrap(args.getParcelable(KEY_PARTICIPANTS));
+        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, Realms.realmAsNormal(conversation.getRecipientsIds())));
         messagesAdapter.setData(realm.where(LocalMessage.class).findAll());
     }
 

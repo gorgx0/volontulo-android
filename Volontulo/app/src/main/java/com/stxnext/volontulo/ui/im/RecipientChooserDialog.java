@@ -14,11 +14,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.stxnext.volontulo.BuildConfig;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.api.UserProfile;
 import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 import com.stxnext.volontulo.ui.volunteers.UserProfileAdapter;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 import java.util.Locale;
@@ -79,7 +82,7 @@ public class RecipientChooserDialog extends DialogFragment {
             public void onClick(View v) {
                 if (selected != null) {
                     final Intent result = new Intent();
-                    result.putExtra(EXTRA_KEY_USER, selected.getUser().getUsername());
+                    result.putExtra(EXTRA_KEY_USER, Parcels.wrap(selected.getUser()));
                     getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, result);
                     dialog.dismiss();
                 } else {
@@ -95,11 +98,13 @@ public class RecipientChooserDialog extends DialogFragment {
             @Override
             public void onResponse(Call<List<UserProfile>> call, Response<List<UserProfile>> response) {
                 final List<UserProfile> userProfileList = response.body();
-                Snackbar.make(
-                    volunteers.getRootView(),
-                    String.format(Locale.getDefault(), "%d profiles returned", userProfileList.size()),
-                    Snackbar.LENGTH_LONG
-                ).show();
+                if (BuildConfig.DEBUG) {
+                    Snackbar.make(
+                            volunteers.getRootView(),
+                            String.format(Locale.getDefault(), "%d profiles returned", userProfileList.size()),
+                            Snackbar.LENGTH_LONG
+                    ).show();
+                }
                 if (userProfileList.size() > 0) {
                     userProfileAdapter.updateList(userProfileList);
                 }

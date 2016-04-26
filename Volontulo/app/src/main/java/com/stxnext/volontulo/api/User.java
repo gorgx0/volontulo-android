@@ -2,10 +2,15 @@ package com.stxnext.volontulo.api;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import io.realm.RealmObject;
+import io.realm.UserRealmProxy;
 
+@Parcel(implementations = {UserRealmProxy.class},
+    value = Parcel.Serialization.BEAN,
+    analyze = {User.class})
 public class User extends RealmObject {
-
     public static final String USER_ID = "USER-ID";
 
     private int id;

@@ -13,7 +13,7 @@ public final class Realms {
         }
         final List<String> result = new ArrayList<>(dbList.size());
         for (RealmString realmString : dbList) {
-            result.add(realmString.get());
+            result.add(realmString.getValue());
         }
         return result;
     }
