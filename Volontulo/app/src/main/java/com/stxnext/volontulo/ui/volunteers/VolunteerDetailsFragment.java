@@ -70,9 +70,9 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
 
                 Log.d(TAG, msg);
                 if (userProfile != null) {
-                    final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
-                    adapter.setUserProfile(userProfile);
-                    offers.setAdapter(adapter);
+//                    final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
+//                    adapter.setUserProfile(userProfile);
+//                    offers.setAdapter(adapter);
                 }
             }
 
@@ -83,9 +83,9 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
                 UserProfile userProfile = realm.where(UserProfile.class).equalTo("id", userId).findFirst();
                 msg = "[FAILURE] " + userProfile.toString();
                 Log.d(TAG, msg);
-                final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
-                adapter.setUserProfile(userProfile);
-                offers.setAdapter(adapter);
+//                final MockAttendsAdapter adapter = new MockAttendsAdapter(getContext());
+//                adapter.setUserProfile(userProfile);
+//                offers.setAdapter(adapter);
             }
         });
     }

@@ -93,7 +93,6 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         call.enqueue(new Callback<Offer>() {
             @Override
             public void onResponse(Call<Offer> call, Response<Offer> response) {
-                Offer offer;
                 String msg;
                 if (response.isSuccessful()) {
                     offer = response.body();
@@ -113,7 +112,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
             public void onFailure(Call<com.stxnext.volontulo.api.Offer> call, Throwable t) {
                 String msg = "FAILURE: message - " + t.getMessage();
                 Log.d(TAG, msg);
-                final Offer offer = realm.where(Offer.class).equalTo("id", id).findFirst();
+                offer = realm.where(Offer.class).equalTo("id", id).findFirst();
                 fillData(offer);
                 msg = "[FAILURE] " + offer.toString();
                 Log.d(TAG, msg);
