@@ -27,7 +27,9 @@ import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.logic.im.config.ImConfiguration;
 import com.stxnext.volontulo.utils.realm.Realms;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import io.realm.Realm;
 
@@ -42,6 +44,7 @@ public class ImService extends Service implements SinchClientListener {
 
     private Intent broadcastIntent = new Intent(ACTION_VOLONTULO_IM);
     private LocalBroadcastManager localBroadcastManager;
+    private ImMessageListener messageListener;
 
     public static final String ACTION_VOLONTULO_IM = "com.stxnext.volontulo.ImClient";
     public static final String EXTRA_KEY_HAS_CONNECTED = "x-has-conn";
@@ -119,27 +122,21 @@ public class ImService extends Service implements SinchClientListener {
                     realm.copyToRealmOrUpdate(conversation);
                     realm.commitTransaction();
                 }
-                realm.beginTransaction();
-                realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message, conversation));
-                realm.commitTransaction();
+                LocalMessage localMessage = realm.where(LocalMessage.class).equalTo(LocalMessage.FIELD_MESSAGE_ID, message.getMessageId()).findFirst();
+                if (localMessage == null) {
+                    localMessage = LocalMessage.createFrom(client, message, conversation);
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(localMessage);
+                    realm.commitTransaction();
+                }
+                if (messageListener != null) {
+                    messageListener.onMessageIncoming(localMessage);
+                }
             }
 
             @Override
             public void onMessageSent(MessageClient messageClient, Message message, String s) {
                 Log.i(TAG, String.format("Outcoming message %s [to %s, from %s]", message.getMessageId(), message.getRecipientIds(), message.getSenderId()));
-                final String headerConversationId = message.getHeaders().get(LocalMessage.KEY_HEADER_CONVERSATION_ID);
-                if (!TextUtils.isEmpty(headerConversationId)) {
-                    final Conversation conversation = realm.where(Conversation.class).equalTo(Conversation.FIELD_CONVERSATION_ID, headerConversationId).findFirst();
-                    if (conversation != null) {
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(LocalMessage.createFrom(client, message, conversation));
-                        realm.commitTransaction();
-                    } else {
-                        Log.w(TAG, String.format("Conversation with id=%s not found, so something goes badly wrong", headerConversationId));
-                    }
-                } else {
-                    Log.w(TAG, String.format("Outgoing message is not correct, so its no stored or sent (%s | %s)", message, s));
-                }
             }
 
             @Override
@@ -192,7 +189,14 @@ public class ImService extends Service implements SinchClientListener {
                 realm.commitTransaction();
                 final WritableMessage message = new WritableMessage(recipientUser, messageBody);
                 message.addHeader(LocalMessage.KEY_HEADER_CONVERSATION_ID, conversation.getConversationId());
+                realm.beginTransaction();
+                final LocalMessage localMessage = LocalMessage.createFrom(client, transformFrom(message), conversation);
+                realm.copyToRealmOrUpdate(localMessage);
+                realm.commitTransaction();
                 messageClient.send(message);
+                if (messageListener != null) {
+                    messageListener.onMessageSent(localMessage);
+                }
             } else {
                 Log.w(TAG, "Trying to send message without conversation, something goes wrong");
             }
@@ -201,16 +205,46 @@ public class ImService extends Service implements SinchClientListener {
         }
     }
 
-    public void addMessageClientListener(MessageClientListener messageClientListener) {
-        if (messageClient != null) {
-            messageClient.addMessageClientListener(messageClientListener);
-        }
+    private Message transformFrom(final WritableMessage message) {
+        return new Message() {
+            @Override
+            public String getMessageId() {
+                return message.getMessageId();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                return message.getHeaders();
+            }
+
+            @Override
+            public String getTextBody() {
+                return message.getTextBody();
+            }
+
+            @Override
+            public List<String> getRecipientIds() {
+                return message.getRecipientIds();
+            }
+
+            @Override
+            public String getSenderId() {
+                return client.getLocalUserId();
+            }
+
+            @Override
+            public Date getTimestamp() {
+                return new Date();
+            }
+        };
     }
 
-    public void removeMessageClientListener(MessageClientListener messageClientListener) {
-        if (messageClient != null) {
-            messageClient.removeMessageClientListener(messageClientListener);
-        }
+    public void addMessageClientListener(ImMessageListener messageClientListener) {
+        messageListener = messageClientListener;
+    }
+
+    public void removeMessageClientListener() {
+        messageListener = null;
     }
 
     public class InstantMessaging extends Binder {
@@ -218,12 +252,12 @@ public class ImService extends Service implements SinchClientListener {
             ImService.this.sendMessage(recipientUser, messageBody, conversation);
         }
 
-        public void addMessageClientListener(MessageClientListener messageClientListener) {
-            ImService.this.addMessageClientListener(messageClientListener);
+        public void addMessageClientListener(ImMessageListener messageListener) {
+            ImService.this.addMessageClientListener(messageListener);
         }
 
-        public void removeMessageClientListener(MessageClientListener messageClientListener) {
-            ImService.this.removeMessageClientListener(messageClientListener);
+        public void removeMessageClientListener() {
+            ImService.this.removeMessageClientListener();
         }
 
         public SinchClient getSinchClient() {
@@ -233,5 +267,15 @@ public class ImService extends Service implements SinchClientListener {
         public boolean isClientStarted() {
             return ImService.this.isIMClientStarted();
         }
+    }
+
+    public interface ImMessageListener {
+        void onMessageIncoming(LocalMessage incoming);
+
+        void onMessageSent(LocalMessage outgoing);
+
+        void onMessageFailed(LocalMessage failed);
+
+        void onMessageDelivered(LocalMessage delivered);
     }
 }
