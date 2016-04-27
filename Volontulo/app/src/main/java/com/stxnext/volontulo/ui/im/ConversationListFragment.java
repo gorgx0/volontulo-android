@@ -46,7 +46,13 @@ public class ConversationListFragment extends VolontuloBaseFragment {
         requestFloatingActionButton();
         setToolbarTitle(R.string.im_conversation_list_title);
         conversationList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        final RealmResults<Conversation> conversations = realm.where(Conversation.class).findAll();
+        final String preferencesFileName = ImConfigFactory.create().getPreferencesFileName();
+        final SharedPreferences preferences = getActivity().getSharedPreferences(preferencesFileName, Context.MODE_PRIVATE);
+        final String currentUser = preferences.getString("user", "");
+
+        final RealmResults<Conversation> conversations = realm.where(Conversation.class)
+            .equalTo(Conversation.FIELD_CREATOR_ID, currentUser)
+            .or().equalTo(String.format("%s.%s", Conversation.FIELD_RECIPIENTS_IDS, RealmString.FIELD_VALUE), currentUser).findAll();
         final ConversationsAdapter adapter = new ConversationsAdapter(getActivity(), conversations);
         conversationList.setAdapter(adapter);
         conversationList.addItemDecoration(new SimpleItemDivider(getActivity()));
