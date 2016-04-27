@@ -1,11 +1,10 @@
 package com.stxnext.volontulo.ui.offers;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.Menu;
@@ -13,18 +12,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
-import com.stxnext.volontulo.api.Image;
 import com.stxnext.volontulo.api.Offer;
 
-import java.util.List;
-
 import butterknife.Bind;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,6 +55,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     private int imageResource;
 
     private String imagePath;
+    private MenuItem itemJoined;
 
     @Override
     public String getImagePath() {
@@ -75,11 +70,6 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     @Override
     public int getImageResource() {
         return imageResource;
-    }
-
-    @OnClick(R.id.button_step_out)
-    public void doStepOut(View view) {
-        Snackbar.make(view, "Zgłosiłeś się!!!", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -103,9 +93,9 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
                 final com.stxnext.volontulo.api.Offer offer = response.body();
                 final String msg = "SUCCESS: status - " + statusCode;
                 Log.d(TAG, msg);
-//                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                 Log.d(TAG, offer.toString());
                 title.setText(offer.getTitle());
+                setToolbarTitle(offer.getTitle());
                 location.setText(offer.getLocation());
                 duration.setText(offer.getDuration(getString(R.string.now), getString(R.string.to_set)));
                 description.setText(offer.getDescription());
@@ -113,7 +103,6 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
                 benefits.setText(offer.getBenefits());
                 timeCommitment.setText(offer.getTimeCommitment());
                 organization.setText(offer.getOrganization().getName());
-                final List<Image> images = offer.getImages();
                 if (offer.hasImage()) {
                     imagePath = offer.getImagePath();
                     imageResource = 0;
@@ -132,23 +121,24 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        requestFloatingActionButton();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.offer_details_menu, menu);
+        itemJoined = menu.findItem(R.id.action_offer_joined);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_join_offer:
-                doStepOut(getView());
-                return true;
 
-            default:
-                return super.onOptionsItemSelected(item);
+    @Override
+    protected void onFabClick(FloatingActionButton button) {
+        button.setVisibility(View.GONE);
+        itemJoined.setVisible(true);
+        View view = getView();
+        if (view != null) {
+            Snackbar.make(view, "Zgłosiłeś się!!!", Snackbar.LENGTH_SHORT).show();
         }
     }
 }

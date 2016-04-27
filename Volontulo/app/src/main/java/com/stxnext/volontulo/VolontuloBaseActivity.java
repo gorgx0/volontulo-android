@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -130,7 +129,6 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
     @Override
     public void wantCollapse(String imagePath) {
         boolean collapse = !TextUtils.isEmpty(imagePath);
-        Log.d("IMAGE-PATH", imagePath);
         if (appbar == null || collapsingImage == null) {
             return;
         }
@@ -154,7 +152,6 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
     private void lockAppBarClosed() {
         final ViewGroup.LayoutParams layoutParams = appbar.getLayoutParams();
         final int height = layoutParams.height;
-        Log.d("APPBAR-HEIGHT", "]:" + height);
         layoutParams.height = (int) getResources().getDimension(R.dimen.normal_height);
         appbar.setLayoutParams(layoutParams);
         collapsingToolbar.setTitleEnabled(false);

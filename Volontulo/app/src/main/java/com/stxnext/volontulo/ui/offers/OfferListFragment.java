@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
@@ -19,6 +18,7 @@ import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
 import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.map.MapOffersActivity;
+import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 
 import org.joda.time.DateTime;
 
@@ -71,6 +71,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
     @Override
     protected void onPostCreateView(View root) {
         offers.setLayoutManager(new LinearLayoutManager(getActivity()));
+        offers.addItemDecoration(new SimpleItemDivider(getActivity()));
         offers.setHasFixedSize(true);
     }
 
@@ -96,7 +97,6 @@ public class OfferListFragment extends VolontuloBaseFragment {
                 final List<com.stxnext.volontulo.api.Offer> offerList = response.body();
                 final String msg = "SUCCESS: status - " + statusCode;
                 Log.d(TAG, msg);
-//                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                 Log.d(TAG, "Ofer count: " + offerList.size());
                 list = (ArrayList<Offer>) offerList;
                 adapter = new OfferAdapter(getActivity(), list);
