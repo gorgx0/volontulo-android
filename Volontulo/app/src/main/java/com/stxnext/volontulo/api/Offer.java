@@ -4,10 +4,16 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
+import io.realm.OfferRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+@Parcel(implementations = {OfferRealmProxy.class},
+        value = Parcel.Serialization.BEAN,
+        analyze = {Offer.class})
 public class Offer extends RealmObject {
 
     public static final String OFFER_ID = "OFFER-ID";

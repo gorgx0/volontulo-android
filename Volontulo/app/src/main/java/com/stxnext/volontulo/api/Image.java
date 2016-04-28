@@ -2,9 +2,15 @@ package com.stxnext.volontulo.api;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
+import io.realm.ImageRealmProxy;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+@Parcel(implementations = {ImageRealmProxy.class},
+        value = Parcel.Serialization.BEAN,
+        analyze = {Image.class})
 public class Image extends RealmObject {
 
     @PrimaryKey

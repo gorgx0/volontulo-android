@@ -4,10 +4,16 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.UserProfileRealmProxy;
 import io.realm.annotations.PrimaryKey;
 
+@Parcel(implementations = {UserProfileRealmProxy.class},
+        value = Parcel.Serialization.BEAN,
+        analyze = {UserProfile.class})
 public class UserProfile extends RealmObject {
 
     private String url;

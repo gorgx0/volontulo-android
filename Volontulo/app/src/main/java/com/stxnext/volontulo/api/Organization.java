@@ -1,8 +1,14 @@
 package com.stxnext.volontulo.api;
 
+import org.parceler.Parcel;
+
+import io.realm.OrganizationRealmProxy;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+@Parcel(implementations = {OrganizationRealmProxy.class},
+        value = Parcel.Serialization.BEAN,
+        analyze = {Organization.class})
 public class Organization extends RealmObject {
 
     private String url;
