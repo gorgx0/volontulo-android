@@ -1,16 +1,32 @@
 package com.stxnext.volontulo.logic.im;
 
-import com.stxnext.volontulo.ui.login.LoginFragment;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.text.TextUtils;
+
+import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.utils.realm.RealmString;
+import com.stxnext.volontulo.utils.realm.RealmStringParcelConverter;
+import com.stxnext.volontulo.utils.realm.Realms;
 
-import java.util.List;
+import org.parceler.Parcel;
+import org.parceler.ParcelPropertyConverter;
 
+import java.util.UUID;
+
+import io.realm.ConversationRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
+@Parcel(implementations = {ConversationRealmProxy.class},
+    value = Parcel.Serialization.BEAN,
+    analyze = {Conversation.class})
 public class Conversation extends RealmObject {
+    public static final String FIELD_CONVERSATION_ID = "conversationId";
+    public static final String FIELD_CREATOR_ID = "creatorId";
+    public static final String FIELD_RECIPIENTS_IDS = "recipientsIds";
+
     @PrimaryKey
     private String conversationId;
     private String creatorId;
@@ -24,11 +40,52 @@ public class Conversation extends RealmObject {
         return conversation;
     }
 
-    public Conversation() {
+    public static Conversation create(String creator, RealmList<RealmString> recipients) {
+        return create(UUID.randomUUID().toString(), creator, recipients);
     }
 
-    public Conversation(LoginFragment.User user) {
-        this.user = user;
+    public static boolean isEmpty(final Conversation object) {
+        return object == null ||
+            TextUtils.isEmpty(object.conversationId) ||
+            TextUtils.isEmpty(object.creatorId) ||
+            checkIfRecipientsEmpty(object.recipientsIds);
+    }
+
+    private static boolean checkIfRecipientsEmpty(RealmList<RealmString> recipientsIds) {
+        return recipientsIds == null || recipientsIds.isEmpty();
+    }
+
+    public static String resolveRecipientName(Context context, Conversation conversation) {
+        final String currentUser = resolveCurrentUserName(context);
+        final String recipient = conversation.getRecipientsIds().get(0).getValue();
+        final String creator = conversation.getCreatorId();
+        return (currentUser.equals(recipient)) ? creator : recipient;
+    }
+
+    public static String resolveSenderName(Context context, Conversation conversation) {
+        final String currentUser = resolveCurrentUserName(context);
+        final String recipient = conversation.getRecipientsIds().get(0).getValue();
+        final String creator = conversation.getCreatorId();
+        return (currentUser.equals(recipient)) ? recipient : creator;
+    }
+
+    private static String resolveCurrentUserName(Context context) {
+        final String preferencesFileName = ImConfigFactory.create().getPreferencesFileName();
+        final SharedPreferences preferences = context.getSharedPreferences(preferencesFileName, Context.MODE_PRIVATE);
+        return preferences.getString("user", "");
+    }
+
+    public void setConversationId(String conversationId) {
+        this.conversationId = conversationId;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    @ParcelPropertyConverter(RealmStringParcelConverter.class)
+    public void setRecipientsIds(RealmList<RealmString> recipientsIds) {
+        this.recipientsIds = recipientsIds;
     }
 
     public String getConversationId() {
@@ -39,19 +96,16 @@ public class Conversation extends RealmObject {
         return creatorId;
     }
 
-    public List<RealmString> getRecipientsIds() {
+    public RealmList<RealmString> getRecipientsIds() {
         return recipientsIds;
     }
 
-    @Ignore
-    private LoginFragment.User user;
-
-    public String getNickname() {
-        return user.getSurname();
+    @Override
+    public String toString() {
+        return "Conversation{" +
+                "conversationId='" + conversationId + '\'' +
+                ", creatorId='" + creatorId + '\'' +
+                ", recipientsIds=" + Realms.realmAsNormal(recipientsIds) +
+                '}';
     }
-
-    public LoginFragment.User asUser() {
-        return user;
-    }
-
 }

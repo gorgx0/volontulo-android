@@ -14,12 +14,12 @@ public final class ImConfigFactory {
     private static final class SinchDebugConfiguration implements ImConfiguration {
         @Override
         public String getApiKey() {
-            return "dbadd3f7-2ce7-40e9-806b-7346c4f295f2";
+            return "3bd1dfde-c988-4c25-b55b-00b7dd4990aa";
         }
 
         @Override
         public String getSecret() {
-            return "lmJuLH51RUmKzK4z+SQSTA==";
+            return "A/yJIn7CA0ekNbManKiE4w==";
         }
 
         @Override

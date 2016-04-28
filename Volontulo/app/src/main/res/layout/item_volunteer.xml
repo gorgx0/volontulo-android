@@ -9,6 +9,7 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:foreground="?attr/selectableItemBackground"
+    android:background="@drawable/user_profile_item_background"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 

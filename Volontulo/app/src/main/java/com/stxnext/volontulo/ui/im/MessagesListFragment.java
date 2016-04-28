@@ -12,8 +12,8 @@ import android.widget.EditText;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
+import com.stxnext.volontulo.logic.im.Conversation;
 import com.stxnext.volontulo.logic.im.LocalMessage;
-import com.stxnext.volontulo.ui.login.LoginFragment;
 
 import org.parceler.Parcels;
 
@@ -39,7 +39,7 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     private Realm realm;
 
     private InstantMessagingViewCallback viewCallback;
-    private LoginFragment.User participant;
+    private Conversation conversation;
     private MessagesAdapter messagesAdapter;
     private LinearLayoutManager layoutManager;
     private Snackbar snackbar;
@@ -60,8 +60,8 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     @OnClick(R.id.send)
     void onSendClicked() {
         final String messageText = message.getText().toString();
-        if (viewCallback != null && participant != null && !TextUtils.isEmpty(messageText)) {
-            viewCallback.onMessageComposed(participant.getNickname(), messageText);
+        if (viewCallback != null && conversation != null && !TextUtils.isEmpty(messageText)) {
+            viewCallback.onMessageComposed(Conversation.resolveRecipientName(getContext(), conversation), messageText);
             message.setText("");
         }
     }
@@ -69,9 +69,6 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     @Override
     protected void onPostCreateView(View root) {
         super.onPostCreateView(root);
-        final Bundle args = getArguments();
-        participant = Parcels.unwrap(args.getParcelable(KEY_PARTICIPANTS));
-        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, participant.getSurname()));
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setStackFromEnd(true);
         messagesList.setLayoutManager(layoutManager);
@@ -84,6 +81,9 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     public void onStart() {
         super.onStart();
         realm = Realm.getDefaultInstance();
+        final Bundle args = getArguments();
+        conversation = Parcels.unwrap(args.getParcelable(KEY_PARTICIPANTS));
+        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, Conversation.resolveRecipientName(getContext(), conversation)));
         messagesAdapter.setData(realm.where(LocalMessage.class).findAll());
     }
 
@@ -108,7 +108,7 @@ public class MessagesListFragment extends VolontuloBaseFragment {
             final String unreadMessagesString = getResources().getQuantityString(R.plurals.im_new_messages, (int)unreadCount, (int)unreadCount);
             if (snackbar == null) {
                 snackbar = Snackbar.make(coordinatorLayout, unreadMessagesString, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction("Przejdź", new View.OnClickListener() {
+                snackbar.setAction(R.string.im_conversation_scroll_down, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         messagesList.scrollToPosition(messagesAdapter.getItemCount() - 1);

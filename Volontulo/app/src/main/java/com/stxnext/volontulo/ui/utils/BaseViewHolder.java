@@ -19,6 +19,10 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
      */
     protected abstract void onBind(T model);
 
+    protected final void onItemSelected(boolean isSelected) {
+        itemView.setActivated(isSelected);
+    }
+
     public final void bind(T model) {
         objectBinded = model;
         onBind(model);
