@@ -2,16 +2,18 @@ package com.stxnext.volontulo.utils.realm;
 
 import android.os.Parcel;
 
+import com.stxnext.volontulo.api.Image;
+
 import org.parceler.Parcels;
 
-public class ImageParcelConverter extends RealmListParcelConverter<RealmString> {
+public class ImageParcelConverter extends RealmListParcelConverter<Image> {
     @Override
-    public void itemToParcel(RealmString input, Parcel parcel) {
+    public void itemToParcel(Image input, Parcel parcel) {
         parcel.writeParcelable(Parcels.wrap(input), 0);
     }
 
     @Override
-    public RealmString itemFromParcel(Parcel parcel) {
-        return Parcels.unwrap(parcel.readParcelable(RealmString.class.getClassLoader()));
+    public Image itemFromParcel(Parcel parcel) {
+        return Parcels.unwrap(parcel.readParcelable(Image.class.getClassLoader()));
     }
 }

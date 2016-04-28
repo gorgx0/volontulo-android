@@ -6,6 +6,7 @@ import org.parceler.Parcel;
 
 import io.realm.RealmObject;
 import io.realm.UserRealmProxy;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 @Parcel(implementations = {UserRealmProxy.class},
@@ -22,7 +23,8 @@ public class User extends RealmObject {
     @SerializedName("last_name")
     private String lastName;
     private String email;
-    @Ignore public String secret;
+    @Ignore
+    public String secret;
 
     /**
      *

@@ -1,6 +1,5 @@
 package com.stxnext.volontulo.ui.im;
 
-import android.support.design.widget.FloatingActionButton;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

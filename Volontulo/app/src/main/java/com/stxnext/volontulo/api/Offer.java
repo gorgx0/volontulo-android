@@ -3,8 +3,11 @@ package com.stxnext.volontulo.api;
 import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
+import com.stxnext.volontulo.utils.realm.ImageParcelConverter;
+import com.stxnext.volontulo.utils.realm.UserParcelConverter;
 
 import org.parceler.Parcel;
+import org.parceler.ParcelPropertyConverter;
 
 import io.realm.OfferRealmProxy;
 import io.realm.RealmList;
@@ -138,6 +141,7 @@ public class Offer extends RealmObject {
      * @param volunteers
      * The volunteers
      */
+    @ParcelPropertyConverter(UserParcelConverter.class)
     public void setVolunteers(RealmList<User> volunteers) {
         this.volunteers = volunteers;
     }
@@ -606,6 +610,7 @@ public class Offer extends RealmObject {
      * @param images
      * The images
      */
+    @ParcelPropertyConverter(ImageParcelConverter.class)
     public void setImages(RealmList<Image> images) {
         this.images = images;
     }
