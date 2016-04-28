@@ -20,6 +20,7 @@ import io.realm.annotations.PrimaryKey;
 public class Offer extends RealmObject {
 
     public static final String OFFER_ID = "OFFER-ID";
+    public static final String OFFER_OBJECT = "OFFER-OBJECT";
     public static final String IMAGE_PATH = "IMAGE-PATH";
     public static final String IMAGE_RESOURCE = "IMAGE-RESOURCE";
 

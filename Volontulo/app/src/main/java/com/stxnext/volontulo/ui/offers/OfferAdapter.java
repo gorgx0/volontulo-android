@@ -15,6 +15,10 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
         super(context, results);
     }
 
+    public OfferAdapter(Context context) {
+        super(context);
+    }
+
     @Override
     protected int getLayoutResource(int viewType) {
         return R.layout.item_offer;
@@ -23,5 +27,11 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
     @Override
     protected OfferViewHolder createViewHolder(View item, int viewType) {
         return new OfferViewHolder(item);
+    }
+
+    public void update(List<Offer> offers) {
+        objects.clear();
+        objects.addAll(offers);
+        notifyDataSetChanged();
     }
 }

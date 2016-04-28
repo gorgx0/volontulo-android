@@ -53,17 +53,17 @@ public class OfferListFragment extends VolontuloBaseFragment {
         setToolbarTitle(R.string.action_list_title);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        realm = Realm.getDefaultInstance();
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+////        realm = Realm.getDefaultInstance();
+//    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        realm.close();
-    }
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+////        realm.close();
+//    }
 
     @Override
     protected void onPostCreateView(View root) {
@@ -76,17 +76,25 @@ public class OfferListFragment extends VolontuloBaseFragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "OfferList::onResume");
-        final RealmResults<Offer> offerResults = realm.where(Offer.class).findAll();
-        offers.setAdapter(new OfferAdapter(getActivity(), offerResults));
+//        final RealmResults<Offer> offerResults = realm.where(Offer.class).findAll();
+//        final OfferAdapter adapter = new OfferAdapter(getActivity(), offerResults);
+//        offers.setAdapter(adapter);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        realm = Realm.getDefaultInstance();
+        adapter = new OfferAdapter(getContext());
+        offers.setAdapter(adapter);
         obtainData();
     }
 
     private void obtainData() {
+        final RealmResults<Offer> offerResults = realm.where(Offer.class).findAll();
+        if (offerResults != null) {
+            adapter.update(offerResults);
+        }
         final Call<List<Offer>> call = VolontuloApp.api.listOffers();
         call.enqueue(new Callback<List<Offer>>() {
             @Override
@@ -96,26 +104,18 @@ public class OfferListFragment extends VolontuloBaseFragment {
                 if (response.isSuccessful()) {
                     offerList = response.body();
                     realm.beginTransaction();
+                    realm.delete(Offer.class);
                     realm.copyToRealmOrUpdate(offerList);
                     realm.commitTransaction();
                     msg = "[RETRO] Offer count: " + offerList.size();
-                } else {
-                    offerList = realm.where(Offer.class).findAll();
-                    msg = "[REALM] Offer count: " + offerList.size();
-                }
 
-                Log.d(TAG, msg);
-                if (offerList != null && offerList.size() != 0) {
-                    offers.setAdapter(new OfferAdapter(getActivity(), offerList));
+                    adapter.update(offerList);
                 }
             }
 
             @Override
             public void onFailure(Call<List<com.stxnext.volontulo.api.Offer>> call, Throwable t) {
                 String msg = "FAILURE: message - " + t.getMessage();
-                Log.d(TAG, msg);
-                final RealmResults<Offer> offerList = realm.where(Offer.class).findAll();
-                msg = "[FAILURE] Offer count: " + offerList.size();
                 Log.d(TAG, msg);
             }
         });
@@ -125,6 +125,12 @@ public class OfferListFragment extends VolontuloBaseFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.add_offer_menu, menu);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        realm.close();
     }
 
     @Override

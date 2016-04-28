@@ -1,6 +1,7 @@
 package com.stxnext.volontulo.ui.offers;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
@@ -20,13 +21,14 @@ public class OfferDetailsActivity extends VolontuloBaseActivity {
         final Bundle extras = getIntent().getExtras();
         int imageResource = extras.getInt(Offer.IMAGE_RESOURCE, 0);
         int id = extras.getInt(Offer.OFFER_ID, 0);
+        final Parcelable offer = extras.getParcelable(Offer.OFFER_OBJECT);
         Bundle args = new Bundle();
         args.putInt(Offer.IMAGE_RESOURCE, imageResource);
         args.putInt(Offer.OFFER_ID, id);
         if (extras.containsKey(Offer.IMAGE_PATH)) {
             args.putString(Offer.IMAGE_PATH, extras.getString(Offer.IMAGE_PATH, null));
         }
-
+        args.putParcelable(Offer.OFFER_OBJECT, offer);
         final FragmentManager fragmentManager = getSupportFragmentManager();
         OfferDetailsFragment fragment = new OfferDetailsFragment();
         fragment.setArguments(args);

@@ -18,6 +18,8 @@ import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
 
+import org.parceler.Parcels;
+
 import butterknife.Bind;
 import io.realm.Realm;
 import retrofit2.Call;
@@ -81,6 +83,8 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         super.onAttach(context);
         final Bundle arguments = getArguments();
         id = arguments.getInt(Offer.OFFER_ID, 0);
+        Offer parcelOffer = Parcels.unwrap(arguments.getParcelable(Offer.OFFER_OBJECT));
+        Log.d(TAG, "FROM-PARCEL " + parcelOffer.toString());
         imageResource = arguments.getInt(Offer.IMAGE_RESOURCE, R.drawable.ice);
         if (arguments.containsKey(Offer.IMAGE_PATH)) {
             imagePath = arguments.getString(Offer.IMAGE_PATH);

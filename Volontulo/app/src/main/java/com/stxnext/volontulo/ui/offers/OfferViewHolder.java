@@ -14,6 +14,8 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.api.Offer;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
+import org.parceler.Parcels;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -21,6 +23,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
 
     private int id;
     private String imagePath;
+    private Offer offer;
 
     @Bind(R.id.offer_avatar)
     protected ImageView offerImage;
@@ -49,6 +52,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
         Context context = clicked.getContext();
         Intent intent = new Intent(context, OfferDetailsActivity.class);
         intent.putExtra(Offer.OFFER_ID, id);
+        intent.putExtra(Offer.OFFER_OBJECT, Parcels.wrap(offer));
         if (!TextUtils.isEmpty(imagePath)) {
             intent.putExtra(Offer.IMAGE_PATH, imagePath);
         }
@@ -63,6 +67,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
     @Override
     public void onBind(Offer item) {
         id = item.getId();
+        offer = item;
         if (item.hasImage()) {
             imagePath = item.getImagePath();
             Picasso.with(offerImage.getContext())
