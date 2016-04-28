@@ -7,12 +7,33 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.api.UserProfile;
 import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserProfileAdapter extends BaseMockAdapter<UserProfile, UserProfileViewHolder> {
+    public interface OnItemClickListener {
+        void onItemClick(View clicked, int position, UserProfile item);
+    }
+
+    private OnItemClickListener clickCallback;
+
+    public UserProfileAdapter(Context context, OnItemClickListener callback) {
+        this(context, new ArrayList<UserProfile>(), callback);
+    }
 
     public UserProfileAdapter(Context context, List<UserProfile> results) {
+        this(context, results, null);
+    }
+
+    public UserProfileAdapter(Context context, List<UserProfile> results, OnItemClickListener callback) {
         super(context, results);
+        clickCallback = callback;
+    }
+
+    public void updateList(List<UserProfile> profiles) {
+        objects.clear();
+        objects.addAll(profiles);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -22,7 +43,7 @@ public class UserProfileAdapter extends BaseMockAdapter<UserProfile, UserProfile
 
     @Override
     protected UserProfileViewHolder createViewHolder(View item, int viewType) {
-        return new UserProfileViewHolder(item);
+        return new UserProfileViewHolder(item, clickCallback);
     }
 
 }

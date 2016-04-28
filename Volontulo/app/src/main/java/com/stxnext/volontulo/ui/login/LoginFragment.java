@@ -8,12 +8,10 @@ import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
+import com.stxnext.volontulo.api.User;
+import com.stxnext.volontulo.logic.im.ImService;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.ui.main.MainHostActivity;
-
-import org.parceler.Parcel;
-import org.parceler.ParcelConstructor;
-import org.parceler.ParcelProperty;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -26,37 +24,17 @@ public class LoginFragment extends VolontuloBaseFragment {
     EditText editTextPassword;
 
     public static final User[] MOCK_USER_TABLE = new User[]{
-        new User("test", "Jan Kowalski", "test"),
-        new User("bob", "Uncle Bob", "uncle"),
+        createUser("test@test.fm", "test"),
+        createUser("bob@top.com", "bob"),
+        createUser("alone@test.lt", "test")
     };
 
-    @Parcel
-    public static class User {
-        protected String nickname;
-        protected String surname;
-        protected String secret;
-
-        public User() {
-        }
-
-        @ParcelConstructor
-        public User(@ParcelProperty("nickname") String id, @ParcelProperty("surname") String name, @ParcelProperty("secret") String pass) {
-            nickname = id;
-            surname = name;
-            secret = pass;
-        }
-
-        public String getNickname() {
-            return nickname;
-        }
-
-        public String getSurname() {
-            return surname;
-        }
-
-        public String getSecret() {
-            return secret;
-        }
+    private static User createUser(String login, String secret) {
+        final User user = new User();
+        user.setEmail(login);
+        user.setUsername(login);
+        user.secret = secret;
+        return user;
     }
 
     @Override
@@ -69,8 +47,9 @@ public class LoginFragment extends VolontuloBaseFragment {
         final String login = editTextEmail.getText().toString();
         final String password = editTextPassword.getText().toString();
         if (checkCredentials(login, password)) {
-            storeUserInfo(login, password);
+            storeUserInfo(login);
             Intent intent = new Intent(getActivity(), MainHostActivity.class);
+            getActivity().startService(new Intent(getActivity(), ImService.class));
             startActivity(intent);
             getActivity().finish();
         } else {
@@ -80,19 +59,18 @@ public class LoginFragment extends VolontuloBaseFragment {
 
     private boolean checkCredentials(String login, String password) {
         for (final User user : MOCK_USER_TABLE) {
-            if (user.getNickname().equals(login) && user.getSecret().equals(password)) {
+            if (user.getEmail().equals(login) && user.secret.equals(password)) {
                 return true;
             }
         }
         return false;
     }
 
-    private void storeUserInfo(CharSequence text, CharSequence secret) {
+    private void storeUserInfo(CharSequence text) {
         final String preferencesFileName = ImConfigFactory.create().getPreferencesFileName();
         final SharedPreferences preferences = getActivity().getSharedPreferences(preferencesFileName, Context.MODE_PRIVATE);
         preferences.edit()
             .putString("user", String.valueOf(text))
-            .putString("secret", String.valueOf(secret))
             .putBoolean(getString(R.string.preference_key_is_logged), true)
             .apply();
     }

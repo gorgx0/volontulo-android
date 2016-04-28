@@ -12,7 +12,6 @@ import io.realm.annotations.PrimaryKey;
         value = Parcel.Serialization.BEAN,
         analyze = {User.class})
 public class User extends RealmObject {
-
     public static final String USER_ID = "USER-ID";
 
     @PrimaryKey
@@ -23,6 +22,7 @@ public class User extends RealmObject {
     @SerializedName("last_name")
     private String lastName;
     private String email;
+    @Ignore public String secret;
 
     /**
      *

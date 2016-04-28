@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
@@ -18,6 +19,8 @@ import butterknife.OnClick;
 public class UserProfileViewHolder extends BaseViewHolder<UserProfile> {
 
     private int id;
+    private UserProfile profile;
+    private UserProfileAdapter.OnItemClickListener callback;
 
     @Bind(R.id.volunteer_name)
     TextView volunteerName;
@@ -25,13 +28,15 @@ public class UserProfileViewHolder extends BaseViewHolder<UserProfile> {
     @Bind(R.id.volunteer_avatar)
     ImageView volunteerAvatar;
 
-    public UserProfileViewHolder(View itemView) {
+    public UserProfileViewHolder(View itemView, UserProfileAdapter.OnItemClickListener clickCallback) {
         super(itemView);
+        callback = clickCallback;
     }
 
     @Override
     public void onBind(UserProfile userProfile) {
         id = userProfile.getId();
+        profile = userProfile;
         volunteerName.setText(userProfile.resolveName());
         Picasso.with(volunteerAvatar.getContext())
                 .load(userProfile.getImage())
@@ -43,9 +48,14 @@ public class UserProfileViewHolder extends BaseViewHolder<UserProfile> {
 
     @OnClick(R.id.volunteer)
     void onItemClick(View clicked) {
+        if (callback != null) {
+            callback.onItemClick(clicked, getAdapterPosition(), profile);
+        } else {
         Context context = clicked.getContext();
+            Toast.makeText(context, "DETAILS USER PROFILE", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, VolunteerDetailsActivity.class);
         intent.putExtra(User.USER_ID, id);
         context.startActivity(intent);
     }
+}
 }

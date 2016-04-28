@@ -2,13 +2,13 @@ package com.stxnext.volontulo.ui.im;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseActivity;
 import com.stxnext.volontulo.logic.im.Conversation;
-import com.stxnext.volontulo.ui.login.LoginFragment;
 import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
@@ -16,13 +16,11 @@ import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import io.realm.RealmResults;
 
 public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseViewHolder<Conversation>> {
-    public ConversationsAdapter(Context context) {
-        super(context);
-        for (LoginFragment.User user : LoginFragment.MOCK_USER_TABLE) {
-            objects.add(new Conversation(user));
-        }
+    public ConversationsAdapter(Context context, RealmResults<Conversation> conversations) {
+        super(context, conversations);
     }
 
     @Override
@@ -45,14 +43,15 @@ public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseView
 
         @Override
         public void onBind(Conversation model) {
-            participantName.setText(model.getNickname());
+            participantName.setText(Conversation.resolveRecipientName(itemView.getContext(), model));
         }
 
         @OnClick(R.id.conversation)
         void onConversationClick(View clicked) {
+            Log.i("Volontulo-Im", String.format("Selected conversation to work with %s", objectBinded));
             final VolontuloBaseActivity activity = (VolontuloBaseActivity) clicked.getContext();
             final Intent starter = new Intent(activity, MessagingActivity.class);
-            starter.putExtra(MessagesListFragment.KEY_PARTICIPANTS, Parcels.wrap(objectBinded.asUser()));
+            starter.putExtra(MessagesListFragment.KEY_PARTICIPANTS, Parcels.wrap(objectBinded));
             activity.startActivity(starter);
         }
     }
