@@ -10,31 +10,24 @@ import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class MessagesAdapter extends BaseMockAdapter<LocalMessage, BaseViewHolder<LocalMessage>> {
 
     public MessagesAdapter(Context context) {
-        this(context, new ArrayList<LocalMessage>());
+        super(context, new ArrayList<LocalMessage>());
     }
 
-    public MessagesAdapter(Context context, List<LocalMessage> list) {
-        super(context, list);
-    }
-
-    public void setData(List<LocalMessage> messages) {
-        objects.clear();
+    public void updateData(RealmResults<LocalMessage> messages) {
+        if (objects.isEmpty()) {
+            objects.addAll(messages);
+        } else {
+            objects.retainAll(messages);
+        }
         notifyDataSetChanged();
-        updateData(messages);
-    }
-
-    public void updateData(List<LocalMessage> messages) {
-        final int startPosition = objects.size();
-        objects.addAll(messages);
-        notifyItemRangeInserted(startPosition, messages.size());
     }
 
     public void updateSingle(LocalMessage message) {

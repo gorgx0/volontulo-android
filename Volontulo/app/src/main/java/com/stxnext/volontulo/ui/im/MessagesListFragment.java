@@ -20,6 +20,7 @@ import org.parceler.Parcels;
 import butterknife.Bind;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class MessagesListFragment extends VolontuloBaseFragment {
     public static final String KEY_PARTICIPANTS = "participants";
@@ -69,28 +70,26 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     @Override
     protected void onPostCreateView(View root) {
         super.onPostCreateView(root);
+        realm = Realm.getDefaultInstance();
+        final Bundle args = getArguments();
+        conversation = Parcels.unwrap(args.getParcelable(KEY_PARTICIPANTS));
+        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, Conversation.resolveRecipientName(getContext(), conversation)));
+        final RealmResults<LocalMessage> results = realm.where(LocalMessage.class)
+                .equalTo(String.format("%s.%s", LocalMessage.FIELD_CONVERSATION, Conversation.FIELD_CONVERSATION_ID), conversation.getConversationId())
+                .findAll();
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setStackFromEnd(true);
         messagesList.setLayoutManager(layoutManager);
         messagesAdapter = new MessagesAdapter(getActivity());
+        messagesAdapter.updateData(results);
         messagesList.setAdapter(messagesAdapter);
         coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.coordinator_layout);
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        realm = Realm.getDefaultInstance();
-        final Bundle args = getArguments();
-        conversation = Parcels.unwrap(args.getParcelable(KEY_PARTICIPANTS));
-        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, Conversation.resolveRecipientName(getContext(), conversation)));
-        messagesAdapter.setData(realm.where(LocalMessage.class).findAll());
-    }
-
-    @Override
-    public void onStop() {
+    public void onDestroyView() {
         realm.close();
-        super.onStop();
+        super.onDestroyView();
     }
 
     public void updateSingleMessage(LocalMessage message) {
