@@ -21,6 +21,7 @@ public class LocalMessage extends RealmObject {
     public static final String KEY_HEADER_CONVERSATION_ID = "Conversation-Id";
 
     public static final String FIELD_STATE = "stateString";
+    public static final String FIELD_CONVERSATION = "conversation";
     public static final String FIELD_MESSAGE_ID = "messageId";
 
     public enum Direction {

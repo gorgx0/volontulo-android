@@ -51,11 +51,11 @@ public class UserProfileViewHolder extends BaseViewHolder<UserProfile> {
         if (callback != null) {
             callback.onItemClick(clicked, getAdapterPosition(), profile);
         } else {
-        Context context = clicked.getContext();
+            Context context = clicked.getContext();
             Toast.makeText(context, "DETAILS USER PROFILE", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(context, VolunteerDetailsActivity.class);
-        intent.putExtra(User.USER_ID, id);
-        context.startActivity(intent);
+            Intent intent = new Intent(context, VolunteerDetailsActivity.class);
+            intent.putExtra(User.USER_ID, id);
+            context.startActivity(intent);
+        }
     }
-}
 }
