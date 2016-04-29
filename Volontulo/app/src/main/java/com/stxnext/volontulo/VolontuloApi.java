@@ -22,6 +22,9 @@ public interface VolontuloApi {
 //
     @GET("/api/offers.json")
     Call<List<Offer>> listOffers();
+
+    @GET("/api/users/{id}/attend?format=json")
+    Call<List<Offer>> listUserAttends(@Path("id") int id);
 //
 //    @FormUrlEncoded
 //    @POST("/rest-auth/login/")

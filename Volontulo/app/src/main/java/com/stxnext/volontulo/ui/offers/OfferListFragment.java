@@ -71,7 +71,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
         if (offerResults != null) {
             Log.d(TAG, "[REALM] Offers count: " + offerResults.size());
             adapter.swap(offerResults);
-            Log.d(TAG, "[REALM] Offers UI SWAP");
+            Log.d(TAG, "[REALM] Offers UI PUT");
         }
         final Call<List<Offer>> call = VolontuloApp.api.listOffers();
         call.enqueue(new Callback<List<Offer>>() {

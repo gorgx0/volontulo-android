@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.model.Ofer;
+import com.stxnext.volontulo.api.Offer;
 
 import butterknife.Bind;
 
@@ -32,16 +32,18 @@ public class AttendDataViewHolder extends AttendViewHolder {
     TextView endTime;
 
     @Override
-    public void onBind(Ofer item) {
-        Picasso.with(image.getContext())
-                .load(item.getImageResource())
-                .fit()
-                .centerCrop()
-                .into(image);
-        title.setText(item.getName());
-        location.setText(item.getPlaceName());
-        startTime.setText(item.getFormattedStartDay());
-        endTime.setText(item.getFormattedEndDay());
+    public void onBind(Offer item) {
+        if (item.hasImage()) {
+            Picasso.with(image.getContext())
+                    .load(item.getImagePath())
+                    .fit()
+                    .centerCrop()
+                    .into(image);
+        }
+        title.setText(item.getTitle());
+        location.setText(item.getLocation());
+        startTime.setText(item.getActionStartDate());
+        endTime.setText(item.getActionEndDate());
     }
 
 }

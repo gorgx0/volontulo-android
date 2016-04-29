@@ -54,7 +54,7 @@ public class VolunteerListFragment extends VolontuloBaseFragment {
         if (userProfileResults != null) {
             Log.d(TAG, "[REALM] Users count: " + userProfileResults.size());
             adapter.swap(userProfileResults);
-            Log.d(TAG, "[REALM] Users UI SWAP");
+            Log.d(TAG, "[REALM] Users UI PUT");
         }
         final Call<List<UserProfile>> call = VolontuloApp.api.listVolunteers();
         call.enqueue(new Callback<List<UserProfile>>() {
