@@ -19,6 +19,9 @@ import io.realm.annotations.PrimaryKey;
         analyze = {UserProfile.class})
 public class UserProfile extends RealmObject {
 
+    public static final String USER_PROFILE_ID = "USER-PROFILE-ID";
+    public static final String USER_PROFILE_OBJECT = "USER-PROFILE-OBJECT";
+
     private String url;
     @PrimaryKey
     private int id;

@@ -120,7 +120,7 @@ public class RecipientChooserDialog extends DialogFragment {
                     userProfileList.addAll(Arrays.asList(mockProfiles));
                 }
                 if (userProfileList.size() > 0) {
-                    userProfileAdapter.updateList(userProfileList);
+                    userProfileAdapter.swap(userProfileList);
                 }
             }
 

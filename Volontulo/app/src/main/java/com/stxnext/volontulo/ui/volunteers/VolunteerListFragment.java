@@ -12,7 +12,6 @@ import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.UserProfile;
 import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -25,7 +24,6 @@ import retrofit2.Response;
 public class VolunteerListFragment extends VolontuloBaseFragment {
 
     public static final String TAG = "RETROFIT-TEST";
-    private ArrayList<UserProfile> list;
     private UserProfileAdapter adapter;
 
     @Bind(R.id.list)
@@ -40,14 +38,10 @@ public class VolunteerListFragment extends VolontuloBaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        obtainData();
+        realm = Realm.getDefaultInstance();
+        adapter = new UserProfileAdapter(getContext());
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        realm = Realm.getDefaultInstance();
-    }
 
     @Override
     public void onStop() {
@@ -55,38 +49,34 @@ public class VolunteerListFragment extends VolontuloBaseFragment {
         realm.close();
     }
 
-    private void obtainData() {
+    private void retrieveData() {
+        final RealmResults<UserProfile> userProfileResults = realm.where(UserProfile.class).findAll();
+        if (userProfileResults != null) {
+            Log.d(TAG, "[REALM] Users count: " + userProfileResults.size());
+            adapter.swap(userProfileResults);
+            Log.d(TAG, "[REALM] Users UI SWAP");
+        }
         final Call<List<UserProfile>> call = VolontuloApp.api.listVolunteers();
         call.enqueue(new Callback<List<UserProfile>>() {
             @Override
             public void onResponse(Call<List<UserProfile>> call, Response<List<UserProfile>> response) {
-                List<UserProfile> userProfileList;
-                String msg;
                 if (response.isSuccessful()) {
-                    userProfileList = response.body();
-                    msg = "[RETRO] User count: " + userProfileList.size();
-                    list = (ArrayList<UserProfile>) userProfileList;
+                    final List<UserProfile> userProfileList = response.body();
+                    Log.d(TAG, "[RETRO] Users count: " + userProfileList.size());
                     realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(list);
+                    realm.delete(UserProfile.class);
+                    Log.d(TAG, "[REALM] Users CLEAR");
+                    realm.copyToRealmOrUpdate(userProfileList);
+                    Log.d(TAG, "[REALM] Users COPY/UPDATE");
                     realm.commitTransaction();
-                } else {
-                    userProfileList = realm.where(UserProfile.class).findAll();
-                    msg = "[REALM] User count: " + userProfileList.size();
-                }
-
-                Log.d(TAG, msg);
-                if (userProfileList != null && userProfileList.size() != 0) {
-                    volunteers.setAdapter(new UserProfileAdapter(getActivity(), userProfileList));
+                    adapter.swap(userProfileList);
+                    Log.d(TAG, "[RETRO] Users UI CLEAR");
                 }
             }
 
             @Override
             public void onFailure(Call<List<UserProfile>> call, Throwable t) {
-                String msg = "FAILURE: message - " + t.getMessage();
-                Log.d(TAG, msg);
-                RealmResults<UserProfile> userProfiles = realm.where(UserProfile.class).findAll();
-                volunteers.setAdapter(new UserProfileAdapter(getActivity(), userProfiles));
-                msg = "[FAILURE] User count: " + userProfiles.size();
+                String msg = "[FAILURE] message - " + t.getMessage();
                 Log.d(TAG, msg);
             }
         });
@@ -95,15 +85,11 @@ public class VolunteerListFragment extends VolontuloBaseFragment {
     @Override
     protected void onPostCreateView(View root) {
         setToolbarTitle(R.string.volunteer_list_title);
+        volunteers.setAdapter(adapter);
+        retrieveData();
         volunteers.setLayoutManager(new LinearLayoutManager(getActivity()));
         volunteers.addItemDecoration(new SimpleItemDivider(getActivity()));
         volunteers.setHasFixedSize(true);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        final RealmResults<UserProfile> userProfiles = realm.where(UserProfile.class).findAll();
-        volunteers.setAdapter(new UserProfileAdapter(getActivity(), userProfiles));
-    }
 }
