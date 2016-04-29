@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.ui.login.LoginActivity;
 import com.stxnext.volontulo.ui.main.MainHostActivity;
 
@@ -19,7 +20,8 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final SharedPreferences preferences = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE);
+        final String preferencesFileName = ImConfigFactory.create().getPreferencesFileName();
+        final SharedPreferences preferences = getSharedPreferences(preferencesFileName, Context.MODE_PRIVATE);
         String keyIsLogged = getString(R.string.preference_key_is_logged);
         isLogged = preferences.contains(keyIsLogged) && preferences.getBoolean(keyIsLogged, false);
         timeout = isLogged ? QUICK_TIMEOUT : SPLASH_TIMEOUT;
