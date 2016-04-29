@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
 
@@ -22,9 +21,6 @@ import org.parceler.Parcels;
 
 import butterknife.Bind;
 import io.realm.Realm;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class OfferDetailsFragment extends VolontuloBaseFragment {
 
@@ -83,45 +79,12 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         super.onAttach(context);
         final Bundle arguments = getArguments();
         id = arguments.getInt(Offer.OFFER_ID, 0);
-        Offer parcelOffer = Parcels.unwrap(arguments.getParcelable(Offer.OFFER_OBJECT));
-        Log.d(TAG, "FROM-PARCEL " + parcelOffer.toString());
+        offer = Parcels.unwrap(arguments.getParcelable(Offer.OFFER_OBJECT));
+        Log.d(TAG, "FROM-PARCEL " + offer.toString());
         imageResource = arguments.getInt(Offer.IMAGE_RESOURCE, R.drawable.ice);
         if (arguments.containsKey(Offer.IMAGE_PATH)) {
             imagePath = arguments.getString(Offer.IMAGE_PATH);
         }
-        obtainData(id);
-    }
-
-    private void obtainData(final int id) {
-        final Call<Offer> call = VolontuloApp.api.getOffer(id);
-        call.enqueue(new Callback<Offer>() {
-            @Override
-            public void onResponse(Call<Offer> call, Response<Offer> response) {
-                String msg;
-                if (response.isSuccessful()) {
-                    offer = response.body();
-                    msg = "[RETRO] " + offer.toString();
-                    Log.d(TAG, msg);
-                    Log.d(TAG, offer.toString());
-                } else {
-                    offer = realm.where(Offer.class).equalTo("id", id).findFirst();
-                    msg = "[REALM] " + offer.toString();
-                }
-
-                Log.d(TAG, msg);
-                fillData(offer);
-            }
-
-            @Override
-            public void onFailure(Call<com.stxnext.volontulo.api.Offer> call, Throwable t) {
-                String msg = "FAILURE: message - " + t.getMessage();
-                Log.d(TAG, msg);
-                offer = realm.where(Offer.class).equalTo("id", id).findFirst();
-                fillData(offer);
-                msg = "[FAILURE] " + offer.toString();
-                Log.d(TAG, msg);
-            }
-        });
     }
 
     private void fillData(Offer offer) {
@@ -166,6 +129,11 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         itemJoined = menu.findItem(R.id.action_offer_joined);
     }
 
+
+    @Override
+    protected void onPostCreateView(View root) {
+        fillData(offer);
+    }
 
     @Override
     protected void onFabClick(FloatingActionButton button) {

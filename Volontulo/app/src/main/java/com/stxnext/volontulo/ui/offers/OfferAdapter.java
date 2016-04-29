@@ -11,10 +11,6 @@ import java.util.List;
 
 public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
 
-    public OfferAdapter(Context context, List<Offer> results) {
-        super(context, results);
-    }
-
     public OfferAdapter(Context context) {
         super(context);
     }
@@ -29,7 +25,7 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
         return new OfferViewHolder(item);
     }
 
-    public void update(List<Offer> offers) {
+    public void swap(List<Offer> offers) {
         objects.clear();
         objects.addAll(offers);
         notifyDataSetChanged();

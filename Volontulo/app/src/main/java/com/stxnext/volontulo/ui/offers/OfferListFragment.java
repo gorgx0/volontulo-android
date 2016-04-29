@@ -19,7 +19,6 @@ import com.stxnext.volontulo.api.Offer;
 import com.stxnext.volontulo.ui.map.MapOffersActivity;
 import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -32,8 +31,6 @@ import retrofit2.Response;
 public class OfferListFragment extends VolontuloBaseFragment {
 
     public static final String TAG = "RETROFIT-TEST";
-
-    private ArrayList<Offer> list;
     private OfferAdapter adapter;
 
     @Bind(R.id.list)
@@ -53,32 +50,13 @@ public class OfferListFragment extends VolontuloBaseFragment {
         setToolbarTitle(R.string.action_list_title);
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-////        realm = Realm.getDefaultInstance();
-//    }
-
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-////        realm.close();
-//    }
-
     @Override
     protected void onPostCreateView(View root) {
+        offers.setAdapter(adapter);
+        retrieveData();
         offers.setLayoutManager(new LinearLayoutManager(getActivity()));
         offers.addItemDecoration(new SimpleItemDivider(getActivity()));
         offers.setHasFixedSize(true);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "OfferList::onResume");
-//        final RealmResults<Offer> offerResults = realm.where(Offer.class).findAll();
-//        final OfferAdapter adapter = new OfferAdapter(getActivity(), offerResults);
-//        offers.setAdapter(adapter);
     }
 
     @Override
@@ -86,36 +64,36 @@ public class OfferListFragment extends VolontuloBaseFragment {
         super.onAttach(context);
         realm = Realm.getDefaultInstance();
         adapter = new OfferAdapter(getContext());
-        offers.setAdapter(adapter);
-        obtainData();
     }
 
-    private void obtainData() {
+    private void retrieveData() {
         final RealmResults<Offer> offerResults = realm.where(Offer.class).findAll();
         if (offerResults != null) {
-            adapter.update(offerResults);
+            Log.d(TAG, "[REALM] Offers count: " + offerResults.size());
+            adapter.swap(offerResults);
+            Log.d(TAG, "[REALM] Offers UI SWAP");
         }
         final Call<List<Offer>> call = VolontuloApp.api.listOffers();
         call.enqueue(new Callback<List<Offer>>() {
             @Override
             public void onResponse(Call<List<Offer>> call, Response<List<Offer>> response) {
-                final List<Offer> offerList;
-                String msg;
                 if (response.isSuccessful()) {
-                    offerList = response.body();
+                    final List<Offer> offerList = response.body();
+                    Log.d(TAG, "[RETRO] Offers count: " + offerList.size());
                     realm.beginTransaction();
                     realm.delete(Offer.class);
+                    Log.d(TAG, "[REALM] Offers CLEAR");
                     realm.copyToRealmOrUpdate(offerList);
+                    Log.d(TAG, "[REALM] Offers COPY/UPDATE");
                     realm.commitTransaction();
-                    msg = "[RETRO] Offer count: " + offerList.size();
-
-                    adapter.update(offerList);
+                    adapter.swap(offerList);
+                    Log.d(TAG, "[RETRO] Offers UI SWAP");
                 }
             }
 
             @Override
             public void onFailure(Call<List<com.stxnext.volontulo.api.Offer>> call, Throwable t) {
-                String msg = "FAILURE: message - " + t.getMessage();
+                String msg = "[FAILURE] message - " + t.getMessage();
                 Log.d(TAG, msg);
             }
         });
