@@ -37,7 +37,6 @@ public class VolontuloApp extends Application {
     public void onCreate() {
         super.onCreate();
         JodaTimeAndroid.init(this);
-        sessionUser = new SessionUser(this);
         final RealmConfiguration.Builder realmBuilder = new RealmConfiguration.Builder(this);
         Realm.setDefaultConfiguration(RealmConfigurator.prepare(realmBuilder));
 
@@ -83,5 +82,6 @@ public class VolontuloApp extends Application {
                 .client(httpClient)
                 .build();
         cachedApi = cachedRetrofit.create(VolontuloApi.class);
+        sessionUser = new SessionUser(this);
     }
 }

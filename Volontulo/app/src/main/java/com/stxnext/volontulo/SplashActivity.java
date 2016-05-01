@@ -20,16 +20,13 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final String preferencesFileName = ImConfigFactory.create().getPreferencesFileName();
-        final SharedPreferences preferences = getSharedPreferences(preferencesFileName, Context.MODE_PRIVATE);
-        String keyIsLogged = getString(R.string.preference_key_is_logged);
-        isLogged = preferences.contains(keyIsLogged) && preferences.getBoolean(keyIsLogged, false);
+        isLogged = VolontuloApp.sessionUser.isLogged();
         timeout = isLogged ? QUICK_TIMEOUT : SPLASH_TIMEOUT;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 final Intent startMain;
-                if (isLogged) {
+                if (SplashActivity.this.isLogged) {
                     startMain = new Intent(SplashActivity.this, MainHostActivity.class);
                 } else {
                     startMain = new Intent(SplashActivity.this, LoginActivity.class);
