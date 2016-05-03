@@ -36,4 +36,8 @@ public interface VolontuloApi {
 //
 //    @POST("/rest-auth/logout/")
 //    Call<Void> logout(@Header("Authorization") String authorization);
+
+    @FormUrlEncoded
+    @POST("/api/offers/{id}/join")
+    Call<Void> joinOffer(@Path("id") int id, @Field("email") String email, @Field("phone_no") String phoneNo, @Field("fullname") String fullname);
 }

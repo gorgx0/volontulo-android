@@ -633,6 +633,25 @@ public class Offer extends RealmObject {
         return false;
     }
 
+    public boolean isUserJoined(int userId) {
+        for (User user : volunteers) {
+            if (user.getId() == userId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean canBeJoined(UserProfile profile) {
+        int organizationId = organization.getId();
+        for (Organization organization : profile.getOrganizations()) {
+            if (organization.getId() == organizationId) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean hasImage() {
         return images != null && images.size() > 0;
     }

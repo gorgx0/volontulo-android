@@ -14,8 +14,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.stxnext.volontulo.R;
+import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.UserProfile;
 
 import org.parceler.Parcels;
 
@@ -77,6 +79,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        realm = Realm.getDefaultInstance();
         final Bundle arguments = getArguments();
         id = arguments.getInt(Offer.OFFER_ID, 0);
         offer = Parcels.unwrap(arguments.getParcelable(Offer.OFFER_OBJECT));
@@ -97,29 +100,26 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         benefits.setText(offer.getBenefits());
         timeCommitment.setText(offer.getTimeCommitment());
         organization.setText(offer.getOrganization().getName());
+        final int userProfileId = VolontuloApp.sessionUser.getUserProfileId();
         if (offer.hasImage()) {
             imagePath = offer.getImagePath();
             imageResource = 0;
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        realm = Realm.getDefaultInstance();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        realm.close();
+        UserProfile profile = realm.where(UserProfile.class).equalTo("id", userProfileId).findFirst();
+        if (profile == null) {
+            return;
+        }
+        if (offer.isUserJoined(VolontuloApp.sessionUser.getUserId())) {
+            itemJoined.setVisible(true);
+        } else if (offer.canBeJoined(profile)) {
+            requestFloatingActionButton();
+        }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        requestFloatingActionButton();
     }
 
     @Override
@@ -133,6 +133,12 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     @Override
     protected void onPostCreateView(View root) {
         fillData(offer);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        realm.close();
     }
 
     @Override

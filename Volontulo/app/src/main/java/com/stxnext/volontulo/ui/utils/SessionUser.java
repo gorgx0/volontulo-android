@@ -221,6 +221,7 @@ public class SessionUser {
     private void restoreData() {
         Log.d(TAG, "RESTORE-DATA");
         isLogged = preferences.getBoolean(PREF_USER_IS_LOGGED, false);
+        key = preferences.getString(PREF_USER_KEY, null);
         userId = preferences.getInt(PREF_USER_ID, 0);
         userProfileId = preferences.getInt(PREF_USER_PROFILE_ID, 0);
         email = preferences.getString(PREF_USER_EMAIL, null);
