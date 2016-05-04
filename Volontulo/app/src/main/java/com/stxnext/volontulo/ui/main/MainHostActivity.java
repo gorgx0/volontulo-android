@@ -1,8 +1,6 @@
 package com.stxnext.volontulo.ui.main;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -69,10 +67,6 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
     public boolean onNavigationItemSelected(MenuItem item) {
         drawerLayout.closeDrawers();
         if (item.getItemId() == R.id.menu_logout) {
-//            final SharedPreferences preferences = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE);
-//            SharedPreferences.Editor editor = preferences.edit();
-//            editor.putBoolean(getString(R.string.preference_key_is_logged), false);
-//            editor.apply();
             VolontuloApp.sessionUser.logout();
             stopService(new Intent(this, ImService.class));
             Intent intent = new Intent(this, LoginActivity.class);
