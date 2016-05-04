@@ -1,5 +1,6 @@
 package com.stxnext.volontulo;
 
+import com.stxnext.volontulo.api.JoinResponse;
 import com.stxnext.volontulo.api.LoginResponse;
 import com.stxnext.volontulo.api.Offer;
 import com.stxnext.volontulo.api.UserProfile;
@@ -10,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -27,7 +29,7 @@ public interface VolontuloApi {
     @GET("/api/offers.json")
     Call<List<Offer>> listOffers();
 
-    @GET("/api/users/{id}/attend?format=json")
+    @GET("/api/users/a{id}/attend?format=json")
     Call<List<Offer>> listUserAttends(@Path("id") int id);
 
     @FormUrlEncoded
@@ -39,5 +41,5 @@ public interface VolontuloApi {
 
     @FormUrlEncoded
     @POST("/api/offers/{id}/join")
-    Call<Void> joinOffer(@Path("id") int id, @Field("email") String email, @Field("phone_no") String phoneNo, @Field("fullname") String fullname);
+    Call<JoinResponse> joinOffer(@Path("id") int id, @Header("Authorization") String authorization, @Field("email") String email, @Field("phone_no") String phoneNo, @Field("fullname") String fullname);
 }

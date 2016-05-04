@@ -42,9 +42,15 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
 
     @Bind(R.id.offer_end_time)
     protected TextView offerEnd;
+    private int userId;
 
     public OfferViewHolder(View itemView) {
         super(itemView);
+    }
+
+    public OfferViewHolder(View itemView, int userId) {
+        this(itemView);
+        this.userId = userId;
     }
 
     @OnClick(R.id.offer_content)
@@ -80,7 +86,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
         offerPlace.setText(item.getLocation());
         offerStart.setText(item.getStartedAt());
         offerEnd.setText(item.getFinishedAt());
-        if (item.isUserJoined()) {
+        if (item.isUserJoined(userId)) {
             offerJoinButton.setImageResource(R.drawable.ic_offer_joined);
             offerJoinButton.setEnabled(false);
         } else {

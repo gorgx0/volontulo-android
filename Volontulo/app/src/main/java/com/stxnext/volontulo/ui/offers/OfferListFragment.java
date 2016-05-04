@@ -63,7 +63,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         realm = Realm.getDefaultInstance();
-        adapter = new OfferAdapter(getContext());
+        adapter = new OfferAdapter(getContext(), VolontuloApp.sessionUser.getUserId());
     }
 
     private void retrieveData() {
@@ -92,7 +92,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
             }
 
             @Override
-            public void onFailure(Call<List<com.stxnext.volontulo.api.Offer>> call, Throwable t) {
+            public void onFailure(Call<List<Offer>> call, Throwable t) {
                 String msg = "[FAILURE] message - " + t.getMessage();
                 Log.d(TAG, msg);
             }

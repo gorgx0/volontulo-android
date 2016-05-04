@@ -49,7 +49,7 @@ public class SessionUser {
     }
 
     public interface LoginFinish {
-        public void onLoginFinished();
+        void onLoginFinished();
     }
 
     public void registerLoginFinish(LoginFinish lf) {
