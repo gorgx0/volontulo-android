@@ -3,13 +3,27 @@ package com.stxnext.volontulo.api;
 import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
+import com.stxnext.volontulo.utils.realm.ImageParcelConverter;
+import com.stxnext.volontulo.utils.realm.OrganizationParcelConverter;
+
+import org.parceler.Parcel;
+import org.parceler.ParcelPropertyConverter;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.UserProfileRealmProxy;
+import io.realm.annotations.PrimaryKey;
 
+@Parcel(implementations = {UserProfileRealmProxy.class},
+        value = Parcel.Serialization.BEAN,
+        analyze = {UserProfile.class})
 public class UserProfile extends RealmObject {
 
+    public static final String USER_PROFILE_ID = "USER-PROFILE-ID";
+    public static final String USER_PROFILE_OBJECT = "USER-PROFILE-OBJECT";
+
     private String url;
+    @PrimaryKey
     private int id;
     private User user;
     private RealmList<Organization> organizations;
@@ -92,6 +106,7 @@ public class UserProfile extends RealmObject {
      * @param organizations
      * The organizations
      */
+    @ParcelPropertyConverter(OrganizationParcelConverter.class)
     public void setOrganizations(RealmList<Organization> organizations) {
         this.organizations = organizations;
     }
@@ -146,6 +161,7 @@ public class UserProfile extends RealmObject {
      * @param images
      * The images
      */
+    @ParcelPropertyConverter(ImageParcelConverter.class)
     public void setImages(RealmList<Image> images) {
         this.images = images;
     }

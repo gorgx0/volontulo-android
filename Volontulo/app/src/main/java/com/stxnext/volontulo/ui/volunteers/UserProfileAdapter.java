@@ -11,11 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserProfileAdapter extends BaseMockAdapter<UserProfile, UserProfileViewHolder> {
+
     public interface OnItemClickListener {
         void onItemClick(View clicked, int position, UserProfile item);
     }
-
     private OnItemClickListener clickCallback;
+
+    public UserProfileAdapter(Context context) {
+        super(context);
+    }
 
     public UserProfileAdapter(Context context, OnItemClickListener callback) {
         this(context, new ArrayList<UserProfile>(), callback);
@@ -30,7 +34,7 @@ public class UserProfileAdapter extends BaseMockAdapter<UserProfile, UserProfile
         clickCallback = callback;
     }
 
-    public void updateList(List<UserProfile> profiles) {
+    public void swap(List<UserProfile> profiles) {
         objects.clear();
         objects.addAll(profiles);
         notifyDataSetChanged();

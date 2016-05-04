@@ -3,17 +3,29 @@ package com.stxnext.volontulo.api;
 import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
+import com.stxnext.volontulo.utils.realm.ImageParcelConverter;
+import com.stxnext.volontulo.utils.realm.UserParcelConverter;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelPropertyConverter;
+
+import io.realm.OfferRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
+@Parcel(implementations = {OfferRealmProxy.class},
+        value = Parcel.Serialization.BEAN,
+        analyze = {Offer.class})
 public class Offer extends RealmObject {
 
     public static final String OFFER_ID = "OFFER-ID";
+    public static final String OFFER_OBJECT = "OFFER-OBJECT";
     public static final String IMAGE_PATH = "IMAGE-PATH";
     public static final String IMAGE_RESOURCE = "IMAGE-RESOURCE";
 
     private String url;
+    @PrimaryKey
     private int id;
     private Organization organization;
     private RealmList<User> volunteers;
@@ -130,6 +142,7 @@ public class Offer extends RealmObject {
      * @param volunteers
      * The volunteers
      */
+    @ParcelPropertyConverter(UserParcelConverter.class)
     public void setVolunteers(RealmList<User> volunteers) {
         this.volunteers = volunteers;
     }
@@ -598,13 +611,14 @@ public class Offer extends RealmObject {
      * @param images
      * The images
      */
+    @ParcelPropertyConverter(ImageParcelConverter.class)
     public void setImages(RealmList<Image> images) {
         this.images = images;
     }
 
     @Override
     public String toString() {
-        return "Ofer " + id + ": '" + title + "' (" + location + ")";
+        return "Offer " + id + ": '" + title + "' (" + location + ")";
     }
 
     public String getDuration(String now, String toSet) {
@@ -617,6 +631,25 @@ public class Offer extends RealmObject {
 
     public boolean isUserJoined() {
         return false;
+    }
+
+    public boolean isUserJoined(int userId) {
+        for (User user : volunteers) {
+            if (user.getId() == userId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean canBeJoined(UserProfile profile) {
+        int organizationId = organization.getId();
+        for (Organization organization : profile.getOrganizations()) {
+            if (organization.getId() == organizationId) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean hasImage() {

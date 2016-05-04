@@ -14,6 +14,8 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.api.Offer;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
+import org.parceler.Parcels;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -39,9 +41,15 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
 
     @Bind(R.id.offer_end_time)
     protected TextView offerEnd;
+    private int userId;
 
     public OfferViewHolder(View itemView) {
         super(itemView);
+    }
+
+    public OfferViewHolder(View itemView, int userId) {
+        this(itemView);
+        this.userId = userId;
     }
 
     @OnClick(R.id.offer_content)
@@ -49,6 +57,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
         Context context = clicked.getContext();
         Intent intent = new Intent(context, OfferDetailsActivity.class);
         intent.putExtra(Offer.OFFER_ID, id);
+        intent.putExtra(Offer.OFFER_OBJECT, Parcels.wrap(objectBinded));
         if (!TextUtils.isEmpty(imagePath)) {
             intent.putExtra(Offer.IMAGE_PATH, imagePath);
         }
@@ -75,7 +84,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
         offerPlace.setText(item.getLocation());
         offerStart.setText(item.getStartedAt());
         offerEnd.setText(item.getFinishedAt());
-        if (item.isUserJoined()) {
+        if (item.isUserJoined(userId)) {
             offerJoinButton.setImageResource(R.drawable.ic_offer_joined);
             offerJoinButton.setEnabled(false);
         } else {

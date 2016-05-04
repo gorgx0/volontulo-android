@@ -7,16 +7,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
+import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.logic.im.ImService;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.ui.main.MainHostActivity;
+import com.stxnext.volontulo.ui.utils.SessionUser;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class LoginFragment extends VolontuloBaseFragment {
+public class LoginFragment extends VolontuloBaseFragment implements SessionUser.LoginFinish {
     @Bind(R.id.edit_text_email)
     EditText editTextEmail;
 
@@ -46,24 +48,13 @@ public class LoginFragment extends VolontuloBaseFragment {
     public void doLogin() {
         final String login = editTextEmail.getText().toString();
         final String password = editTextPassword.getText().toString();
-        if (checkCredentials(login, password)) {
-            storeUserInfo(login);
-            Intent intent = new Intent(getActivity(), MainHostActivity.class);
-            getActivity().startService(new Intent(getActivity(), ImService.class));
-            startActivity(intent);
-            getActivity().finish();
-        } else {
-            Toast.makeText(getActivity(), R.string.error_wrong_email_or_password, Toast.LENGTH_SHORT).show();
-        }
+        VolontuloApp.sessionUser.registerLoginFinish(this);
+        checkCredentials(login, password);
     }
 
-    private boolean checkCredentials(String login, String password) {
-        for (final User user : MOCK_USER_TABLE) {
-            if (user.getEmail().equals(login) && user.secret.equals(password)) {
-                return true;
-            }
-        }
-        return false;
+    private void checkCredentials(String login, String password) {
+        SessionUser sessionUser = VolontuloApp.sessionUser;
+        sessionUser.login(login, password);
     }
 
     private void storeUserInfo(CharSequence text) {
@@ -73,5 +64,18 @@ public class LoginFragment extends VolontuloBaseFragment {
             .putString("user", String.valueOf(text))
             .putBoolean(getString(R.string.preference_key_is_logged), true)
             .apply();
+    }
+
+    @Override
+    public void onLoginFinished() {
+        if (VolontuloApp.sessionUser.isLogged()) {
+            Intent intent = new Intent(getActivity(), MainHostActivity.class);
+            getActivity().startService(new Intent(getActivity(), ImService.class));
+            startActivity(intent);
+            getActivity().finish();
+        } else {
+            Toast.makeText(getActivity(), R.string.error_wrong_email_or_password, Toast.LENGTH_SHORT).show();
+        }
+        VolontuloApp.sessionUser.unregisterLoginFinish();
     }
 }

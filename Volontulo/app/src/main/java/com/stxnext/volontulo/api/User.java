@@ -7,13 +7,15 @@ import org.parceler.Parcel;
 import io.realm.RealmObject;
 import io.realm.UserRealmProxy;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
 @Parcel(implementations = {UserRealmProxy.class},
-    value = Parcel.Serialization.BEAN,
-    analyze = {User.class})
+        value = Parcel.Serialization.BEAN,
+        analyze = {User.class})
 public class User extends RealmObject {
     public static final String USER_ID = "USER-ID";
 
+    @PrimaryKey
     private int id;
     private String username;
     @SerializedName("first_name")
@@ -21,7 +23,8 @@ public class User extends RealmObject {
     @SerializedName("last_name")
     private String lastName;
     private String email;
-    @Ignore public String secret;
+    @Ignore
+    public String secret;
 
     /**
      *

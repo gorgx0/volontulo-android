@@ -66,4 +66,7 @@
     <string name="preference_key_is_logged">IS-LOGGED</string>
     <string name="preference_file_name">com.stxnext.volontulo:preference_file_name</string>
     <string name="logout_title">Wyloguj</string>
+    <string name="error_connection">Problemy z połączeniem...</string>
+    <string name="error_something_wrong">Coś poszło nie tak...</string>
+    <string name="offer_joined_message">"Zgłosiłeś się!!! "</string>
 </resources>

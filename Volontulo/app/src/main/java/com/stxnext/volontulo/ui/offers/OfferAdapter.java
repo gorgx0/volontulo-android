@@ -11,8 +11,15 @@ import java.util.List;
 
 public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
 
-    public OfferAdapter(Context context, List<Offer> results) {
-        super(context, results);
+    private int userId;
+
+    public OfferAdapter(Context context) {
+        super(context);
+    }
+
+    public OfferAdapter(Context context, int userId) {
+        this(context);
+        this.userId = userId;
     }
 
     @Override
@@ -22,6 +29,12 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
 
     @Override
     protected OfferViewHolder createViewHolder(View item, int viewType) {
-        return new OfferViewHolder(item);
+        return new OfferViewHolder(item, userId);
+    }
+
+    public void swap(List<Offer> offers) {
+        objects.clear();
+        objects.addAll(offers);
+        notifyDataSetChanged();
     }
 }

@@ -15,6 +15,7 @@ public abstract class BaseMockAdapter<T, V extends BaseViewHolder<T>> extends Re
     protected final List<T> objects;
     private LayoutInflater inflater;
     private int selectedPosition = NO_POSITION_SELECTED;
+    protected boolean useHeader;
 
     public BaseMockAdapter(final Context context) {
         this(context, new ArrayList<T>());
@@ -38,13 +39,26 @@ public abstract class BaseMockAdapter<T, V extends BaseViewHolder<T>> extends Re
 
     @Override
     public final void onBindViewHolder(V holder, int position) {
-        holder.bind(objects.get(position));
+        if (useHeader) {
+            if (position == 0) {
+                holder.bind(null);
+            } else {
+                position--;
+                holder.bind(objects.get(position));
+            }
+        } else {
+            holder.bind(objects.get(position));
+        }
         holder.onItemSelected(selectedPosition == position);
     }
 
     @Override
     public final int getItemCount() {
-        return objects.size();
+        int size = objects.size();
+        if (useHeader) {
+            size++;
+        }
+        return size;
     }
 
     public void setSelected(int position) {

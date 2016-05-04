@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.api.UserProfile;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
+
+import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -52,9 +52,10 @@ public class UserProfileViewHolder extends BaseViewHolder<UserProfile> {
             callback.onItemClick(clicked, getAdapterPosition(), profile);
         } else {
             Context context = clicked.getContext();
-            Toast.makeText(context, "DETAILS USER PROFILE", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, VolunteerDetailsActivity.class);
-            intent.putExtra(User.USER_ID, id);
+            intent.putExtra(UserProfile.USER_PROFILE_ID, id);
+            intent.putExtra(UserProfile.USER_PROFILE_OBJECT, Parcels.wrap(profile));
+
             context.startActivity(intent);
         }
     }

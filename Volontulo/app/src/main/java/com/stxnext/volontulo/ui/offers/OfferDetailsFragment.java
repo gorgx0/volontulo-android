@@ -12,13 +12,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
+import com.stxnext.volontulo.api.JoinResponse;
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.User;
+import com.stxnext.volontulo.api.UserProfile;
+import com.stxnext.volontulo.ui.utils.SessionUser;
+
+import org.parceler.Parcels;
 
 import butterknife.Bind;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,6 +64,10 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
 
     private String imagePath;
     private MenuItem itemJoined;
+    private Realm realm;
+    private int id;
+    private Offer offer;
+    private boolean joinedVisible = false;
 
     @Override
     public String getImagePath() {
@@ -75,53 +87,47 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        realm = Realm.getDefaultInstance();
         final Bundle arguments = getArguments();
-        int id = arguments.getInt(Offer.OFFER_ID, 0);
+        id = arguments.getInt(Offer.OFFER_ID, 0);
+        offer = Parcels.unwrap(arguments.getParcelable(Offer.OFFER_OBJECT));
+        Log.d(TAG, "FROM-PARCEL " + offer.toString());
         imageResource = arguments.getInt(Offer.IMAGE_RESOURCE, R.drawable.ice);
         if (arguments.containsKey(Offer.IMAGE_PATH)) {
             imagePath = arguments.getString(Offer.IMAGE_PATH);
         }
-        obtainData(id);
     }
 
-    private void obtainData(int id) {
-        final Call<Offer> call = VolontuloApp.api.getOffer(id);
-        call.enqueue(new Callback<Offer>() {
-            @Override
-            public void onResponse(Call<Offer> call, Response<Offer> response) {
-                int statusCode = response.code();
-                final com.stxnext.volontulo.api.Offer offer = response.body();
-                final String msg = "SUCCESS: status - " + statusCode;
-                Log.d(TAG, msg);
-                Log.d(TAG, offer.toString());
-                title.setText(offer.getTitle());
-                setToolbarTitle(offer.getTitle());
-                location.setText(offer.getLocation());
-                duration.setText(offer.getDuration(getString(R.string.now), getString(R.string.to_set)));
-                description.setText(offer.getDescription());
-                requirements.setText(offer.getRequirements());
-                benefits.setText(offer.getBenefits());
-                timeCommitment.setText(offer.getTimeCommitment());
-                organization.setText(offer.getOrganization().getName());
-                if (offer.hasImage()) {
-                    imagePath = offer.getImagePath();
-                    imageResource = 0;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<com.stxnext.volontulo.api.Offer> call, Throwable t) {
-                final String msg = "FAILURE: message - " + t.getMessage();
-                Log.d(TAG, msg);
-            }
-        });
+    private void fillData(Offer offer) {
+        title.setText(offer.getTitle());
+        setToolbarTitle(offer.getTitle());
+        location.setText(offer.getLocation());
+        duration.setText(offer.getDuration(getString(R.string.now), getString(R.string.to_set)));
+        description.setText(offer.getDescription());
+        requirements.setText(offer.getRequirements());
+        benefits.setText(offer.getBenefits());
+        timeCommitment.setText(offer.getTimeCommitment());
+        organization.setText(offer.getOrganization().getName());
+        final int userProfileId = VolontuloApp.sessionUser.getUserProfileId();
+        if (offer.hasImage()) {
+            imagePath = offer.getImagePath();
+            imageResource = 0;
+        }
+        UserProfile profile = realm.where(UserProfile.class).equalTo("id", userProfileId).findFirst();
+        if (profile == null) {
+            return;
+        }
+        if (offer.isUserJoined(VolontuloApp.sessionUser.getUserId())) {
+            joinedVisible = true;
+        } else if (offer.canBeJoined(profile)) {
+            requestFloatingActionButton();
+        }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        requestFloatingActionButton();
     }
 
     @Override
@@ -129,16 +135,53 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.offer_details_menu, menu);
         itemJoined = menu.findItem(R.id.action_offer_joined);
+        itemJoined.setVisible(joinedVisible);
     }
 
 
     @Override
-    protected void onFabClick(FloatingActionButton button) {
-        button.setVisibility(View.GONE);
-        itemJoined.setVisible(true);
-        View view = getView();
-        if (view != null) {
-            Snackbar.make(view, "Zgłosiłeś się!!!", Snackbar.LENGTH_SHORT).show();
-        }
+    protected void onPostCreateView(View root) {
+        fillData(offer);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        realm.close();
+    }
+
+    @Override
+    protected void onFabClick(final FloatingActionButton button) {
+        final SessionUser sessionUser = VolontuloApp.sessionUser;
+        String token = "Token " + sessionUser.getKey();
+        final Call<JoinResponse> call = VolontuloApp.api.joinOffer(offer.getId(), token, sessionUser.getEmail(), sessionUser.getPhoneNo(), sessionUser.getFullname());
+        call.enqueue(new Callback<JoinResponse>() {
+            @Override
+            public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {
+                final Context context = getContext();
+                if (response.isSuccessful()) {
+                    button.setVisibility(View.GONE);
+                    itemJoined.setVisible(true);
+                    final User user = realm.where(User.class).equalTo("id", sessionUser.getUserId()).findFirst();
+                    offer.getVolunteers().add(user);
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(offer);
+                    realm.commitTransaction();
+                    View view = getView();
+                    if (view != null) {
+                        Snackbar.make(view, context.getString(R.string.offer_joined_message), Snackbar.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, context.getString(R.string.error_something_wrong) + " '" + response.message() + "'", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JoinResponse> call, Throwable t) {
+                String msg = "[FAILURE] message - " + t.getMessage();
+                Toast.makeText(getContext(), R.string.error_connection, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, msg);
+            }
+        });
     }
 }

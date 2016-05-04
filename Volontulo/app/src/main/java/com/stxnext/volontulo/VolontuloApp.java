@@ -7,6 +7,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.stxnext.volontulo.db.RealmConfigurator;
+import com.stxnext.volontulo.ui.utils.SessionUser;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -30,6 +31,7 @@ public class VolontuloApp extends Application {
     public static final String API_ENDPOINT = "http://volontuloapp.stxnext.local";
     public static VolontuloApi api;
     public static VolontuloApi cachedApi;
+    public static SessionUser sessionUser;
 
     @Override
     public void onCreate() {
@@ -80,5 +82,6 @@ public class VolontuloApp extends Application {
                 .client(httpClient)
                 .build();
         cachedApi = cachedRetrofit.create(VolontuloApi.class);
+        sessionUser = new SessionUser(this);
     }
 }

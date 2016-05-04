@@ -8,10 +8,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
+import com.stxnext.volontulo.api.Offer;
 import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.api.UserProfile;
 import com.stxnext.volontulo.logic.im.Conversation;
-import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.im.MessagesListFragment;
 import com.stxnext.volontulo.ui.im.MessagingActivity;
 
@@ -20,9 +20,6 @@ import org.parceler.Parcels;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-/**
- * Created by rdrewa on 14.04.16.
- */
 public class AttendHeaderViewHolder extends AttendViewHolder {
 
     @Bind(R.id.text_name)
@@ -51,7 +48,7 @@ public class AttendHeaderViewHolder extends AttendViewHolder {
     }
 
     @Override
-    public void onBind(Ofer model) {
+    public void onBind(Offer model) {
         if (userProfile != null) {
             name.setText(userProfile.resolveName());
             email.setText(userProfile.getEmail());

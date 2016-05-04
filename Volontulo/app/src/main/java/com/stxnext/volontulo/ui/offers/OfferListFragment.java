@@ -16,13 +16,9 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
-import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.map.MapOffersActivity;
 import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 
-import org.joda.time.DateTime;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -35,8 +31,6 @@ import retrofit2.Response;
 public class OfferListFragment extends VolontuloBaseFragment {
 
     public static final String TAG = "RETROFIT-TEST";
-
-    private ArrayList<Offer> list;
     private OfferAdapter adapter;
 
     @Bind(R.id.list)
@@ -57,75 +51,64 @@ public class OfferListFragment extends VolontuloBaseFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        realm = Realm.getDefaultInstance();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        realm.close();
-    }
-
-    @Override
     protected void onPostCreateView(View root) {
+        offers.setAdapter(adapter);
+        retrieveData();
         offers.setLayoutManager(new LinearLayoutManager(getActivity()));
         offers.addItemDecoration(new SimpleItemDivider(getActivity()));
         offers.setHasFixedSize(true);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        final RealmResults<Ofer> oferResults = realm.where(Ofer.class).findAll();
-        offers.setAdapter(new OffersRealmAdapter(getActivity(), combineRealmAndMocks(oferResults)));
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        obtainData();
+        realm = Realm.getDefaultInstance();
+        adapter = new OfferAdapter(getContext(), VolontuloApp.sessionUser.getUserId());
     }
 
-    private void obtainData() {
+    private void retrieveData() {
+        final RealmResults<Offer> offerResults = realm.where(Offer.class).findAll();
+        if (offerResults != null) {
+            Log.d(TAG, "[REALM] Offers count: " + offerResults.size());
+            adapter.swap(offerResults);
+            Log.d(TAG, "[REALM] Offers UI PUT");
+        }
         final Call<List<Offer>> call = VolontuloApp.api.listOffers();
         call.enqueue(new Callback<List<Offer>>() {
             @Override
             public void onResponse(Call<List<Offer>> call, Response<List<Offer>> response) {
-                final int statusCode = response.code();
-                final List<com.stxnext.volontulo.api.Offer> offerList = response.body();
-                final String msg = "SUCCESS: status - " + statusCode;
-                Log.d(TAG, msg);
-                Log.d(TAG, "Ofer count: " + offerList.size());
-                list = (ArrayList<Offer>) offerList;
-                adapter = new OfferAdapter(getActivity(), list);
-                offers.setAdapter(adapter);
+                if (response.isSuccessful()) {
+                    final List<Offer> offerList = response.body();
+                    Log.d(TAG, "[RETRO] Offers count: " + offerList.size());
+                    realm.beginTransaction();
+                    realm.delete(Offer.class);
+                    Log.d(TAG, "[REALM] Offers CLEAR");
+                    realm.copyToRealmOrUpdate(offerList);
+                    Log.d(TAG, "[REALM] Offers COPY/UPDATE");
+                    realm.commitTransaction();
+                    adapter.swap(offerList);
+                    Log.d(TAG, "[RETRO] Offers UI SWAP");
+                }
             }
 
             @Override
-            public void onFailure(Call<List<com.stxnext.volontulo.api.Offer>> call, Throwable t) {
-
+            public void onFailure(Call<List<Offer>> call, Throwable t) {
+                String msg = "[FAILURE] message - " + t.getMessage();
+                Log.d(TAG, msg);
             }
         });
-    }
-
-    private List<Ofer> combineRealmAndMocks(final RealmResults<Ofer> realm) {
-        final List<Ofer> objects = new ArrayList<>();
-        objects.addAll(realm);
-        objects.add(Ofer.mock("Oferta 1", "Poznań", DateTime.now(), DateTime.now().plusDays(7), R.drawable.apple, false));
-        objects.add(Ofer.mock("Oferta 2", "Polska", DateTime.now().plusMonths(3), DateTime.now().plusMonths(3).plusDays(7), R.drawable.breakfast_free, false));
-        objects.add(Ofer.mock("Oferta 3", "Warszawa", DateTime.now(), DateTime.now().plusDays(7), R.drawable.cookie, true));
-        objects.add(Ofer.mock("Oferta 4", "Leszno", DateTime.now().minusDays(1), DateTime.now().plusDays(7), R.drawable.ice, false));
-        objects.add(Ofer.mock("Oferta 5", "Wrocław", DateTime.now().minusDays(1), DateTime.now().plusDays(7), R.drawable.join, false));
-        objects.add(Ofer.mock("Oferta 6", "Poznań", DateTime.now().minusWeeks(1), DateTime.now().plusWeeks(2), R.drawable.oscar, true));
-        return objects;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.add_offer_menu, menu);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        realm.close();
     }
 
     @Override

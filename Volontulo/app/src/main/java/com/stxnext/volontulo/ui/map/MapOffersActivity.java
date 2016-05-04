@@ -31,7 +31,6 @@ public class MapOffersActivity extends VolontuloBaseActivity implements OnMapRea
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        wantCollapse(0);
         setContentView(R.layout.activity_nodrawer);
         init(R.string.map_offers);
         mapFragment = SupportMapFragment.newInstance(
@@ -46,6 +45,7 @@ public class MapOffersActivity extends VolontuloBaseActivity implements OnMapRea
                 .commit();
         mapAdapter = new MockOffersMapAdapter(this);
         mapFragment.getMapAsync(this);
+        wantCollapse(0);
     }
 
     @Override
