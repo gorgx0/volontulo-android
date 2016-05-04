@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
@@ -53,7 +52,6 @@ public class UserProfileViewHolder extends BaseViewHolder<UserProfile> {
             callback.onItemClick(clicked, getAdapterPosition(), profile);
         } else {
             Context context = clicked.getContext();
-                Toast.makeText(context, "DETAILS USER PROFILE", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, VolunteerDetailsActivity.class);
             intent.putExtra(UserProfile.USER_PROFILE_ID, id);
             intent.putExtra(UserProfile.USER_PROFILE_OBJECT, Parcels.wrap(profile));
