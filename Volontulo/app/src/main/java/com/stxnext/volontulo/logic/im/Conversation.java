@@ -3,8 +3,11 @@ package com.stxnext.volontulo.logic.im;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
+import com.stxnext.volontulo.logic.im.config.ImConfiguration;
 import com.stxnext.volontulo.utils.realm.RealmString;
 import com.stxnext.volontulo.utils.realm.RealmStringParcelConverter;
 import com.stxnext.volontulo.utils.realm.Realms;
@@ -15,6 +18,7 @@ import org.parceler.ParcelPropertyConverter;
 import java.util.UUID;
 
 import io.realm.ConversationRealmProxy;
+import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -23,6 +27,7 @@ import io.realm.annotations.PrimaryKey;
     value = Parcel.Serialization.BEAN,
     analyze = {Conversation.class})
 public class Conversation extends RealmObject {
+    private static final String TAG = "Conversation";
     public static final String FIELD_CONVERSATION_ID = "conversationId";
     public static final String FIELD_CREATOR_ID = "creatorId";
     public static final String FIELD_RECIPIENTS_IDS = "recipientsIds";
@@ -72,6 +77,29 @@ public class Conversation extends RealmObject {
     private static String resolveCurrentUserName(Context context) {
         final String preferencesFileName = ImConfigFactory.create().getPreferencesFileName();
         final SharedPreferences preferences = context.getSharedPreferences(preferencesFileName, Context.MODE_PRIVATE);
+        return preferences.getString("user", "");
+    }
+
+    public static Conversation createOrUpdate(final Context context, final User user) {
+        final Realm realm = Realm.getDefaultInstance();
+        final String userEmail = user.getEmail();
+        Conversation conversation = realm.where(Conversation.class)
+                .equalTo(Conversation.FIELD_CREATOR_ID, userEmail)
+                .or().equalTo(String.format("%s.%s", Conversation.FIELD_RECIPIENTS_IDS, RealmString.FIELD_VALUE), userEmail)
+                .findFirst();
+        if (conversation == null) {
+            conversation = Conversation.create(retrieveCurrentUser(context), new RealmList<>(new RealmString(userEmail)));
+            Log.d(TAG, String.format("No conversation found, so we create new one: %s", conversation));
+        } else {
+            Log.d(TAG, String.format("Conversation found: %s", conversation));
+        }
+        realm.close();
+        return conversation;
+    }
+
+    private static String retrieveCurrentUser(final Context context) {
+        final ImConfiguration configuration = ImConfigFactory.create();
+        final SharedPreferences preferences = context.getSharedPreferences(configuration.getPreferencesFileName(), Context.MODE_PRIVATE);
         return preferences.getString("user", "");
     }
 
