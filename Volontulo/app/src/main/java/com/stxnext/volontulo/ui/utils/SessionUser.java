@@ -19,8 +19,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SessionUser {
-
-
     private static final String TAG = "VOLONTULO-SESSION-USER";
     private static final String PREF_USER_PROFILE_ID = "PREF-USER-PROFILE-ID";
     private static final String PREF_USER_ID = "PREF-USER-ID";
@@ -32,7 +30,6 @@ public class SessionUser {
 
     private User user;
     private UserProfile userProfile;
-    private Context context;
     private SharedPreferences preferences;
 
     private boolean isLogged;
@@ -42,7 +39,7 @@ public class SessionUser {
     private LoginFinish loginFinish;
 
     public SessionUser(Context ctx) {
-        context = ctx;
+        final Context context = ctx;
         final String preferencesFileName = ImConfigFactory.create().getPreferencesFileName();
         preferences = context.getSharedPreferences(preferencesFileName, Context.MODE_PRIVATE);
         restoreData();

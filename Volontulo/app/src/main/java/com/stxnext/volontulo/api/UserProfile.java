@@ -18,9 +18,9 @@ import io.realm.annotations.PrimaryKey;
         value = Parcel.Serialization.BEAN,
         analyze = {UserProfile.class})
 public class UserProfile extends RealmObject {
-
     public static final String USER_PROFILE_ID = "USER-PROFILE-ID";
     public static final String USER_PROFILE_OBJECT = "USER-PROFILE-OBJECT";
+    public static final String FIELD_USER = "user";
 
     private String url;
     @PrimaryKey
@@ -32,6 +32,18 @@ public class UserProfile extends RealmObject {
     @SerializedName("phone_no")
     private String phoneNo;
     private RealmList<Image> images;
+
+    public static UserProfile copyObject(UserProfile profile) {
+        final UserProfile newCopy = new UserProfile();
+        newCopy.setId(profile.getId());
+        newCopy.setIsAdministrator(profile.getIsAdministrator());
+        newCopy.setImages(profile.getImages());
+        newCopy.setUrl(profile.getUrl());
+        newCopy.setUser(profile.getUser());
+        newCopy.setOrganizations(profile.getOrganizations());
+        newCopy.setPhoneNo(profile.getPhoneNo());
+        return newCopy;
+    }
 
     @Override
     public String toString() {
