@@ -139,4 +139,19 @@ public class LocalMessage extends RealmObject {
     public void read() {
         setState(State.READ.toString());
     }
+
+    @Override
+    public String toString() {
+        return "LocalMessage{" +
+                "messageId='" + messageId + '\'' +
+                ", conversation=" + conversation +
+                ", messageHeaders=" + messageHeaders +
+                ", messageTextBody='" + messageTextBody + '\'' +
+                ", senderId='" + senderId + '\'' +
+                ", recipientIds=" + recipientIds +
+                ", timestamp=" + timestamp +
+                ", directionString='" + directionString + '\'' +
+                ", stateString='" + stateString + '\'' +
+                '}';
+    }
 }

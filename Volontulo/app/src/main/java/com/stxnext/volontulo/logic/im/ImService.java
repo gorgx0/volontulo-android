@@ -2,7 +2,6 @@ package com.stxnext.volontulo.logic.im;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -23,6 +22,7 @@ import com.sinch.android.rtc.messaging.MessageDeliveryInfo;
 import com.sinch.android.rtc.messaging.MessageFailureInfo;
 import com.sinch.android.rtc.messaging.WritableMessage;
 import com.stxnext.volontulo.BuildConfig;
+import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.logic.im.config.ImConfiguration;
 import com.stxnext.volontulo.utils.realm.Realms;
@@ -62,8 +62,7 @@ public class ImService extends Service implements SinchClientListener {
     }
 
     private String retrieveCurrentUser() {
-        final SharedPreferences preferences = getSharedPreferences(configuration.getPreferencesFileName(), MODE_PRIVATE);
-        return preferences.getString("user", "");
+        return String.valueOf(VolontuloApp.sessionUser.getUserId());
     }
 
     private boolean isIMClientStarted() {
@@ -193,6 +192,7 @@ public class ImService extends Service implements SinchClientListener {
                 final LocalMessage localMessage = LocalMessage.createFrom(client, transformFrom(message), conversation);
                 realm.copyToRealmOrUpdate(localMessage);
                 realm.commitTransaction();
+                Log.i(TAG, String.format("Sending message %s with conversation %s", localMessage, conversation));
                 messageClient.send(message);
                 if (messageListener != null) {
                     messageListener.onMessageSent(localMessage);
@@ -202,6 +202,7 @@ public class ImService extends Service implements SinchClientListener {
             }
         } else {
             Log.w(TAG, "Trying to send message when IM client not connected");
+            startService(new Intent(this, ImService.class));
         }
     }
 
