@@ -2,7 +2,6 @@ package com.stxnext.volontulo.logic.im;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -25,6 +24,7 @@ import com.sinch.android.rtc.messaging.WritableMessage;
 import com.stxnext.volontulo.BuildConfig;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.logic.im.config.ImConfiguration;
+import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.utils.realm.Realms;
 
 import java.util.Date;
@@ -62,8 +62,8 @@ public class ImService extends Service implements SinchClientListener {
     }
 
     private String retrieveCurrentUser() {
-        final SharedPreferences preferences = getSharedPreferences(configuration.getPreferencesFileName(), MODE_PRIVATE);
-        return preferences.getString("user", "");
+        SessionManager manager = SessionManager.getInstance(this);
+        return String.valueOf(manager.getUserProfile().getUser().getId());
     }
 
     private boolean isIMClientStarted() {

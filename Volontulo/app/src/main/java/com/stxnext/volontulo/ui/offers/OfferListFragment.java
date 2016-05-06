@@ -16,6 +16,7 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.map.MapOffersActivity;
 import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 
@@ -63,7 +64,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         realm = Realm.getDefaultInstance();
-        adapter = new OfferAdapter(getContext(), VolontuloApp.sessionUser.getUserId());
+        adapter = new OfferAdapter(getContext(), SessionManager.getInstance(getActivity()).getUserProfile().getUser().getId());
     }
 
     private void retrieveData() {

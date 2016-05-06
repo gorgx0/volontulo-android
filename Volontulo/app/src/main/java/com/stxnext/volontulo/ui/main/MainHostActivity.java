@@ -11,10 +11,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseActivity;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.logic.im.ImService;
+import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.login.LoginActivity;
 import com.stxnext.volontulo.ui.offers.OfferListFragment;
 
@@ -67,7 +67,8 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
     public boolean onNavigationItemSelected(MenuItem item) {
         drawerLayout.closeDrawers();
         if (item.getItemId() == R.id.menu_logout) {
-            VolontuloApp.sessionUser.logout();
+//            VolontuloApp.sessionUser.logout();
+            SessionManager.getInstance(this).deauthenticate();
             stopService(new Intent(this, ImService.class));
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

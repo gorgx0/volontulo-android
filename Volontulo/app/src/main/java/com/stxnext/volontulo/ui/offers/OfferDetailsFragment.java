@@ -21,7 +21,7 @@ import com.stxnext.volontulo.api.JoinResponse;
 import com.stxnext.volontulo.api.Offer;
 import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.api.UserProfile;
-import com.stxnext.volontulo.ui.utils.SessionUser;
+import com.stxnext.volontulo.logic.session.SessionManager;
 
 import org.parceler.Parcels;
 
@@ -108,16 +108,12 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         benefits.setText(offer.getBenefits());
         timeCommitment.setText(offer.getTimeCommitment());
         organization.setText(offer.getOrganization().getName());
-        final int userProfileId = VolontuloApp.sessionUser.getUserProfileId();
         if (offer.hasImage()) {
             imagePath = offer.getImagePath();
             imageResource = 0;
         }
-        UserProfile profile = realm.where(UserProfile.class).equalTo("id", userProfileId).findFirst();
-        if (profile == null) {
-            return;
-        }
-        if (offer.isUserJoined(VolontuloApp.sessionUser.getUserId())) {
+        UserProfile profile = SessionManager.getInstance(getActivity()).getUserProfile();
+        if (offer.isUserJoined(profile.getUser().getId())) {
             joinedVisible = true;
         } else if (offer.canBeJoined(profile)) {
             requestFloatingActionButton();
@@ -152,9 +148,10 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
 
     @Override
     protected void onFabClick(final FloatingActionButton button) {
-        final SessionUser sessionUser = VolontuloApp.sessionUser;
-        String token = "Token " + sessionUser.getKey();
-        final Call<JoinResponse> call = VolontuloApp.api.joinOffer(offer.getId(), token, sessionUser.getEmail(), sessionUser.getPhoneNo(), sessionUser.getFullname());
+        final SessionManager sessionManager = SessionManager.getInstance(getActivity());
+        String token = "Token " + sessionManager.getSessionToken();
+        final UserProfile userProfile = sessionManager.getUserProfile();
+        final Call<JoinResponse> call = VolontuloApp.api.joinOffer(offer.getId(), token, userProfile.getEmail(), userProfile.getPhoneNo(), userProfile.getUser().getUsername());
         call.enqueue(new Callback<JoinResponse>() {
             @Override
             public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {
@@ -162,7 +159,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
                 if (response.isSuccessful()) {
                     button.setVisibility(View.GONE);
                     itemJoined.setVisible(true);
-                    final User user = realm.where(User.class).equalTo("id", sessionUser.getUserId()).findFirst();
+                    final User user = realm.where(User.class).equalTo("id", sessionManager.getUserProfile().getUser().getId()).findFirst();
                     offer.getVolunteers().add(user);
                     realm.beginTransaction();
                     realm.copyToRealmOrUpdate(offer);
