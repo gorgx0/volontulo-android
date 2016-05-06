@@ -19,6 +19,7 @@ public final class Session {
         private boolean isAuthenticated;
 
         public Builder(String token, boolean isAuthenticated) {
+            this.profile = UserProfile.empty();
             this.token = token;
             this.isAuthenticated = isAuthenticated;
         }

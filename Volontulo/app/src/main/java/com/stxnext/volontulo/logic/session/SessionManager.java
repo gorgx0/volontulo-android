@@ -27,7 +27,7 @@ public class SessionManager {
     }
 
     private SharedPreferences preferences;
-    private Session session;
+    private volatile Session session;
     private Realm realm;
     private final List<OnSessionStateChanged> listeners;
 

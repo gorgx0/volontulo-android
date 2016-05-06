@@ -45,6 +45,13 @@ public class UserProfile extends RealmObject {
         return newCopy;
     }
 
+    public static UserProfile empty() {
+        final UserProfile profile = new UserProfile();
+        profile.setOrganizations(new RealmList<Organization>());
+        profile.setImages(new RealmList<Image>());
+        return profile;
+    }
+
     @Override
     public String toString() {
         return "User " + id + " [" + url + "]: " + phoneNo + (isAdministrator ? " ADMIN" : "");
