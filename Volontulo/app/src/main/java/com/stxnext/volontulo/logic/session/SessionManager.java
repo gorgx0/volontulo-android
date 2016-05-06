@@ -184,7 +184,8 @@ public class SessionManager {
         preferences.edit()
             .putString(PREF_SESSION_KEY, session.getToken())
             .putBoolean(PREF_SESSION_AUTH, session.isAuthenticated())
-            .putInt(PREF_USER_PROFILE_ID, session.getUserProfile().getId()).apply();
+            .putInt(PREF_USER_PROFILE_ID, session.getUserProfile().getId())
+            .apply();
     }
 
     private Session restoreFromPreferences() {
