@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,15 +37,29 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
+import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
+import com.stxnext.volontulo.api.CreateError;
+import com.stxnext.volontulo.api.CreateResponse;
+import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.UserProfile;
+import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.utils.BaseTextWatcher;
 
 import org.parceler.Parcels;
 
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import io.realm.Realm;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Converter;
+import retrofit2.Response;
 
 public class AddOfferFragment extends VolontuloBaseFragment {
     private static final int REQUEST_IMAGE = 0x1011;
@@ -53,6 +68,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             new LatLng(49.0821066, 14.1972837),
             new LatLng(54.8263969, 23.6091250)
     );
+    private static final String TAG = "ADD-OFFER";
 
     @Bind(R.id.offer_name_layout) TextInputLayout offerNameLayout;
     @Bind(R.id.offer_name) EditText offerName;
@@ -233,11 +249,58 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     }
 
     private void saveOffer(Ofer formState) {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.copyToRealm(formState);
-        realm.commitTransaction();
+        final SessionManager manager = SessionManager.getInstance(getActivity());
+        final Realm realm = Realm.getDefaultInstance();
+        final UserProfile userProfile = realm.where(UserProfile.class).equalTo("id", manager.getUserProfile().getId()).findFirst();
+        if (userProfile == null || userProfile.getOrganizations().size() == 0) {
+            return;
+        }
         realm.close();
+        final Offer offer = new Offer();
+        offer.setTitle(formState.getName());
+        offer.setLocation(formState.getPlaceName());
+        offer.setTimeCommitment(formState.getTimeRequirement());
+        offer.setBenefits(formState.getBenefits());
+        offer.setDescription(formState.getDescription());
+        offer.setLocationLongitude(formState.getPlaceLongitude());
+        offer.setLocationLatitude(formState.getPlaceLatitude());
+        offer.setOrganization(userProfile.getOrganizations().first());
+        final Call<CreateResponse> call = VolontuloApp.api.createOffer(manager.getSessionToken(), offer.getParams());
+        call.enqueue(new Callback<CreateResponse>() {
+            @Override
+            public void onResponse(Call<CreateResponse> call, Response<CreateResponse> response) {
+                Log.d(TAG, "RESPONSE");
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "SUCCESSFUL");
+                    final CreateResponse created = response.body();
+                    offer.setId(created.getId());
+                    offer.setUrl(created.getUrl());
+                    offer.setRequirements(created.getRequirements());
+                    offer.setTimePeriod(created.getTimePeriod());
+                    offer.setStatusOld(created.getStatusOld());
+                    offer.setRecruitmentStatus(created.getRecruitmentStatus());
+                    offer.setActionStatus(created.getActionStatus());
+                    final Realm realm = Realm.getDefaultInstance();
+                    realm.beginTransaction();
+                    realm.copyToRealm(offer);
+                    realm.commitTransaction();
+                    realm.close();
+                } else {
+                    Converter<ResponseBody, CreateError> converter = VolontuloApp.retrofit.responseBodyConverter(CreateError.class, new Annotation[0]);
+                    try {
+                        final CreateError error = converter.convert(response.errorBody());
+                        Log.d(TAG, "ERROR: " + error.getDetail());
+                    } catch (IOException e) {
+                        Log.d(TAG, "EXCEPTION: " + e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateResponse> call, Throwable t) {
+                Log.d(TAG, "FAILURE");
+            }
+        });
     }
 
     private boolean validateFields() {

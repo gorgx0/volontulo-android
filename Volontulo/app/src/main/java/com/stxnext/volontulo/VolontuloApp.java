@@ -22,6 +22,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -30,6 +31,7 @@ public class VolontuloApp extends Application {
     public static final String API_ENDPOINT = "http://volontuloapp.stxnext.local";
     public static VolontuloApi api;
     public static VolontuloApi cachedApi;
+    public static Retrofit retrofit;
 
     @Override
     public void onCreate() {
@@ -51,11 +53,17 @@ public class VolontuloApp extends Application {
                     }
                 }).create();
 
+        final OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        clientBuilder.addInterceptor(loggingInterceptor);
+
         final Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
                 .baseUrl(API_ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create(gson));
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(clientBuilder.build());
 
-        Retrofit retrofit = retrofitBuilder.build();
+        retrofit = retrofitBuilder.build();
         api = retrofit.create(VolontuloApi.class);
 
         final Cache cache = new Cache(new File(getCacheDir(), String.valueOf(UUID.randomUUID())), 1024 * 1024 * 10);

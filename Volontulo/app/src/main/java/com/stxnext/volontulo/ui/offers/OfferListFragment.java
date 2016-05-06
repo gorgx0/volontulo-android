@@ -82,8 +82,6 @@ public class OfferListFragment extends VolontuloBaseFragment {
                     final List<Offer> offerList = response.body();
                     Log.d(TAG, "[RETRO] Offers count: " + offerList.size());
                     realm.beginTransaction();
-                    realm.delete(Offer.class);
-                    Log.d(TAG, "[REALM] Offers CLEAR");
                     realm.copyToRealmOrUpdate(offerList);
                     Log.d(TAG, "[REALM] Offers COPY/UPDATE");
                     realm.commitTransaction();
