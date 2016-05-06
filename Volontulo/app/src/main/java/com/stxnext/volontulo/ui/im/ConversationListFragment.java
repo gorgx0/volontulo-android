@@ -8,10 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.logic.im.Conversation;
+import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 import com.stxnext.volontulo.utils.realm.RealmString;
 
@@ -38,7 +38,8 @@ public class ConversationListFragment extends VolontuloBaseFragment {
         requestFloatingActionButton();
         setToolbarTitle(R.string.im_conversation_list_title);
         conversationList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        final String currentUser = String.valueOf(VolontuloApp.sessionUser.getUserId());
+        final int userId = SessionManager.getInstance(getContext()).getUserProfile().getUser().getId();
+        final String currentUser = String.valueOf(userId);
         final Realm realm = Realm.getDefaultInstance();
         final RealmResults<Conversation> conversations = realm.where(Conversation.class)
             .equalTo(Conversation.FIELD_CREATOR_ID, currentUser)

@@ -4,8 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.api.User;
+import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.utils.realm.RealmString;
 import com.stxnext.volontulo.utils.realm.RealmStringParcelConverter;
 import com.stxnext.volontulo.utils.realm.Realms;
@@ -58,8 +58,8 @@ public class Conversation extends RealmObject {
         return recipientsIds == null || recipientsIds.isEmpty();
     }
 
-    public static String resolveRecipientId(Conversation conversation) {
-        final String currentUser = resolveCurrentUserName();
+    public static String resolveRecipientId(Context context, Conversation conversation) {
+        final String currentUser = resolveCurrentUserName(context);
         final String recipient = conversation.getRecipientsIds().get(0).getValue();
         final String creator = conversation.getCreatorId();
         return (currentUser.equals(recipient)) ? creator : recipient;
@@ -72,8 +72,8 @@ public class Conversation extends RealmObject {
         return found != null ? found.getEmail() : "";
     }
 
-    private static String resolveCurrentUserName() {
-        return String.valueOf(VolontuloApp.sessionUser.getUserId());
+    private static String resolveCurrentUserName(final Context context) {
+        return String.valueOf(SessionManager.getInstance(context).getUserProfile().getUser().getId());
     }
 
     public static Conversation createOrUpdate(final Context context, final User user) {
@@ -84,7 +84,7 @@ public class Conversation extends RealmObject {
                 .or().equalTo(String.format("%s.%s", Conversation.FIELD_RECIPIENTS_IDS, RealmString.FIELD_VALUE), participantId)
                 .findFirst();
         if (conversation == null) {
-            conversation = Conversation.create(resolveCurrentUserName(), new RealmList<>(new RealmString(participantId)));
+            conversation = Conversation.create(resolveCurrentUserName(context), new RealmList<>(new RealmString(participantId)));
             Log.d(TAG, String.format("No conversation found, so we create new one: %s", conversation));
         } else {
             Log.d(TAG, String.format("Conversation found: %s", conversation));
