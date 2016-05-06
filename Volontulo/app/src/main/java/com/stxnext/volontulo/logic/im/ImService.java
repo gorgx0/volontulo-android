@@ -22,9 +22,9 @@ import com.sinch.android.rtc.messaging.MessageDeliveryInfo;
 import com.sinch.android.rtc.messaging.MessageFailureInfo;
 import com.sinch.android.rtc.messaging.WritableMessage;
 import com.stxnext.volontulo.BuildConfig;
-import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.logic.im.config.ImConfiguration;
+import com.stxnext.volontulo.logic.session.Session;
 import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.utils.realm.Realms;
 
@@ -34,7 +34,7 @@ import java.util.Map;
 
 import io.realm.Realm;
 
-public class ImService extends Service implements SinchClientListener {
+public class ImService extends Service implements SinchClientListener, SessionManager.OnSessionStateChanged {
     private static final String TAG = "Volontulo-Service-Im";
     private ImConfiguration configuration = ImConfigFactory.create();
     private final InstantMessaging serviceInterface = new InstantMessaging();
@@ -46,25 +46,22 @@ public class ImService extends Service implements SinchClientListener {
     private Intent broadcastIntent = new Intent(ACTION_VOLONTULO_IM);
     private LocalBroadcastManager localBroadcastManager;
     private ImMessageListener messageListener;
+    private SessionManager sessionManager;
 
     public static final String ACTION_VOLONTULO_IM = "com.stxnext.volontulo.ImClient";
     public static final String EXTRA_KEY_HAS_CONNECTED = "x-has-conn";
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        final String currentUserId = retrieveCurrentUser();
-        Log.d(TAG, String.format("IM service initializing with user [%s]", currentUserId));
-        if (!TextUtils.isEmpty(currentUserId) && !isIMClientStarted()) {
-            Log.i(TAG, "IM service not started, so init it.");
-            startIMClient(currentUserId);
-        }
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        return super.onStartCommand(intent, flags, startId);
+    public void onCreate() {
+        super.onCreate();
+        sessionManager = SessionManager.getInstance(this);
     }
 
-    private String retrieveCurrentUser() {
-        SessionManager manager = SessionManager.getInstance(this);
-        return String.valueOf(manager.getUserProfile().getUser().getId());
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        sessionManager.addOnStateChangedListener(this);
+        return START_STICKY;
     }
 
     private boolean isIMClientStarted() {
@@ -103,6 +100,9 @@ public class ImService extends Service implements SinchClientListener {
         if (client != null) {
             client.stopListeningOnActiveConnection();
             client.terminate();
+        }
+        if (sessionManager != null) {
+            sessionManager.removeOnStateChangedListener(this);
         }
         super.onDestroy();
     }
@@ -248,6 +248,20 @@ public class ImService extends Service implements SinchClientListener {
 
     public void removeMessageClientListener() {
         messageListener = null;
+    }
+
+    @Override
+    public void onSessionStateChanged(Session session) {
+        if (session.isAuthenticated() && session.getUserProfile().getId() > 0) {
+            final String currentUserId = String.valueOf(session.getUserProfile().getUser().getId());
+            Log.d(TAG, String.format("IM service initializing with user [%s]", currentUserId));
+            if (!TextUtils.isEmpty(currentUserId) && !isIMClientStarted()) {
+                Log.i(TAG, "IM service not started, so init it.");
+                startIMClient(currentUserId);
+            }
+        } else {
+            Log.d(TAG, "Waiting for user availablity in session");
+        }
     }
 
     public class InstantMessaging extends Binder {
