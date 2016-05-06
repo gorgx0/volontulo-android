@@ -50,8 +50,8 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     private static final int REQUEST_IMAGE = 0x1011;
     private static final String KEY_OFFER_FORM = "offer-form";
     public static final LatLngBounds POLAND_BOUNDING_BOX = new LatLngBounds(
-            new LatLng(48.9089926, 24.2709887),
-            new LatLng(54.7344539, 14.0381971)
+            new LatLng(49.0821066, 14.1972837),
+            new LatLng(54.8263969, 23.6091250)
     );
 
     @Bind(R.id.offer_name_layout) TextInputLayout offerNameLayout;
@@ -87,7 +87,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         placeFragment = (SupportPlaceAutocompleteFragment) getChildFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         placeFragment.setHint(getString(R.string.offer_place));
         placeFragment.setBoundsBias(POLAND_BOUNDING_BOX);
-        placeFragment.setFilter(new AutocompleteFilter.Builder().setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS).build());
+        placeFragment.setFilter(new AutocompleteFilter.Builder().setTypeFilter(AutocompleteFilter.TYPE_FILTER_GEOCODE).build());
         placeFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(final Place place) {

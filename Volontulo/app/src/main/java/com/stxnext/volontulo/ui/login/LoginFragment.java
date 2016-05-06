@@ -5,16 +5,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.logic.im.ImService;
+import com.stxnext.volontulo.logic.session.Session;
+import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.main.MainHostActivity;
-import com.stxnext.volontulo.ui.utils.SessionUser;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class LoginFragment extends VolontuloBaseFragment implements SessionUser.LoginFinish {
+public class LoginFragment extends VolontuloBaseFragment implements SessionManager.OnSessionStateChanged {
     @Bind(R.id.edit_text_email)
     EditText editTextEmail;
 
@@ -30,25 +30,23 @@ public class LoginFragment extends VolontuloBaseFragment implements SessionUser.
     public void doLogin() {
         final String login = editTextEmail.getText().toString();
         final String password = editTextPassword.getText().toString();
-        VolontuloApp.sessionUser.registerLoginFinish(this);
-        checkCredentials(login, password);
-    }
-
-    private void checkCredentials(String login, String password) {
-        SessionUser sessionUser = VolontuloApp.sessionUser;
-        sessionUser.login(login, password);
+        final SessionManager manager = SessionManager.getInstance(getActivity());
+        manager.addOnStateChangedListener(this);
+        manager.authenticate(login, password);
     }
 
     @Override
-    public void onLoginFinished() {
-        if (VolontuloApp.sessionUser.isLogged()) {
-            Intent intent = new Intent(getActivity(), MainHostActivity.class);
-            getActivity().startService(new Intent(getActivity(), ImService.class));
-            startActivity(intent);
+    public void onSessionStateChanged(Session session) {
+        if (session.isAuthenticated()) {
+            final Intent startImService = new Intent(getActivity(), ImService.class);
+            getActivity().startService(startImService);
+
+            final Intent startMainActivity = new Intent(getActivity(), MainHostActivity.class);
+            startActivity(startMainActivity);
             getActivity().finish();
         } else {
             Toast.makeText(getActivity(), R.string.error_wrong_email_or_password, Toast.LENGTH_SHORT).show();
         }
-        VolontuloApp.sessionUser.unregisterLoginFinish();
+        SessionManager.getInstance(getActivity()).removeOnStateChangedListener(this);
     }
 }

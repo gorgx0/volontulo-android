@@ -14,6 +14,7 @@ import io.realm.annotations.PrimaryKey;
 public class User extends RealmObject {
     public static final String USER_ID = "USER-ID";
     public static final String FIELD_ID = "id";
+    public static final String FIELD_EMAIL = "email";
 
     @PrimaryKey
     private int id;

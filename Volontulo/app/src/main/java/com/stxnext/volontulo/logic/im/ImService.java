@@ -25,6 +25,7 @@ import com.stxnext.volontulo.BuildConfig;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.logic.im.config.ImConfigFactory;
 import com.stxnext.volontulo.logic.im.config.ImConfiguration;
+import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.utils.realm.Realms;
 
 import java.util.Date;
@@ -62,7 +63,8 @@ public class ImService extends Service implements SinchClientListener {
     }
 
     private String retrieveCurrentUser() {
-        return String.valueOf(VolontuloApp.sessionUser.getUserId());
+        SessionManager manager = SessionManager.getInstance(this);
+        return String.valueOf(manager.getUserProfile().getUser().getId());
     }
 
     private boolean isIMClientStarted() {
