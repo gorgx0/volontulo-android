@@ -49,6 +49,7 @@ public class UserProfile extends RealmObject {
         final UserProfile profile = new UserProfile();
         profile.setOrganizations(new RealmList<Organization>());
         profile.setImages(new RealmList<Image>());
+        profile.setUser(new User());
         return profile;
     }
 
