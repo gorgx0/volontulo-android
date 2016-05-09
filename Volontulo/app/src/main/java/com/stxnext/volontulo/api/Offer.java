@@ -1,7 +1,10 @@
 package com.stxnext.volontulo.api;
 
+import android.net.Uri;
 import android.text.TextUtils;
 
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 import com.stxnext.volontulo.utils.realm.ImageParcelConverter;
 import com.stxnext.volontulo.utils.realm.UserParcelConverter;
@@ -677,8 +680,8 @@ public class Offer extends RealmObject {
         return images != null && images.size() > 0;
     }
 
-    public String getImagePath() {
-        return images.get(0).getPath();
+    public String retrieveImagePath() {
+        return hasImage() ? images.get(0).getPath() : null;
     }
 
     public Map<String, String> getParams() {
@@ -692,5 +695,25 @@ public class Offer extends RealmObject {
             map.put("organization", String.valueOf(organization.getId()));
         }
         return map;
+    }
+
+    public boolean canBeEdit(UserProfile profile) {
+        return profile.getOrganizations().first().getId() == organization.getId();
+    }
+
+    public void setLocationNameAndPosition(Place place) {
+        final LatLng position = place.getLatLng();
+        locationLongitude = position.longitude;
+        locationLatitude = position.latitude;
+        location = String.valueOf(place.getName());
+    }
+
+    public void applyImagePath(Uri selectedImage) {
+        if (selectedImage == null) {
+            return;
+        }
+        Image image = hasImage() ? images.first() : new Image();
+        image.setPath(selectedImage.getPath());
+        images.add(0, image);
     }
 }

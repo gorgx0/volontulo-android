@@ -73,7 +73,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
     public void onBind(Offer item) {
         id = item.getId();
         if (item.hasImage()) {
-            imagePath = item.getImagePath();
+            imagePath = item.retrieveImagePath();
             Picasso.with(offerImage.getContext())
                     .load(imagePath)
                     .fit()

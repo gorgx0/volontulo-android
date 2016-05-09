@@ -7,4 +7,10 @@
         android:title="Zgłoś się na ten wolontariat"
         android:visible="false"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_offer_edit"
+        android:icon="@drawable/ic_action_edit"
+        android:title="Edytuj"
+        android:visible="false"
+        app:showAsAction="always" />
 </menu>

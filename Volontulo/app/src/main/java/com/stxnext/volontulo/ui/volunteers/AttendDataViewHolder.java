@@ -35,7 +35,7 @@ public class AttendDataViewHolder extends AttendViewHolder {
     public void onBind(Offer item) {
         if (item.hasImage()) {
             Picasso.with(image.getContext())
-                    .load(item.getImagePath())
+                    .load(item.retrieveImagePath())
                     .fit()
                     .centerCrop()
                     .into(image);

@@ -54,6 +54,15 @@
                 android:value=".ui.main.MainHostActivity" />
         </activity>
         <activity
+            android:name=".ui.offers.OfferEditActivity"
+            android:parentActivityName=".ui.main.MainHostActivity"
+            android:theme="@style/AppTheme.BorderlessButtons"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.MainHostActivity" />
+        </activity>
+        <activity
             android:name=".ui.offers.OfferDetailsActivity"
             android:label="@string/title_activity_offers_details"
             android:parentActivityName=".ui.main.MainHostActivity">

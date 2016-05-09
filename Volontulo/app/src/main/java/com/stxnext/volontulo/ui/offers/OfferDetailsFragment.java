@@ -1,6 +1,7 @@
 package com.stxnext.volontulo.ui.offers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -63,11 +64,11 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     private int imageResource;
 
     private String imagePath;
-    private MenuItem itemJoined;
+    private MenuItem itemJoined, itemEdit;
     private Realm realm;
     private int id;
     private Offer offer;
-    private boolean joinedVisible = false;
+    private boolean joinedVisible = false, editVisible;
 
     @Override
     public String getImagePath() {
@@ -91,10 +92,14 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         final Bundle arguments = getArguments();
         id = arguments.getInt(Offer.OFFER_ID, 0);
         offer = Parcels.unwrap(arguments.getParcelable(Offer.OFFER_OBJECT));
-        Log.d(TAG, "FROM-PARCEL " + offer.toString());
-        imageResource = arguments.getInt(Offer.IMAGE_RESOURCE, R.drawable.ice);
-        if (arguments.containsKey(Offer.IMAGE_PATH)) {
-            imagePath = arguments.getString(Offer.IMAGE_PATH);
+        if (offer != null) {
+            Log.d(TAG, "FROM-PARCEL " + offer.toString());
+            if (offer.hasImage()) {
+                imageResource = arguments.getInt(Offer.IMAGE_RESOURCE, 0);
+                if (arguments.containsKey(Offer.IMAGE_PATH)) {
+                    imagePath = arguments.getString(Offer.IMAGE_PATH);
+                }
+            }
         }
     }
 
@@ -109,7 +114,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         timeCommitment.setText(offer.getTimeCommitment());
         organization.setText(offer.getOrganization().getName());
         if (offer.hasImage()) {
-            imagePath = offer.getImagePath();
+            imagePath = offer.retrieveImagePath();
             imageResource = 0;
         }
         UserProfile profile = SessionManager.getInstance(getActivity()).getUserProfile();
@@ -117,6 +122,9 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
             joinedVisible = true;
         } else if (offer.canBeJoined(profile)) {
             requestFloatingActionButton();
+        }
+        if (offer.canBeEdit(profile)) {
+            editVisible = true;
         }
     }
 
@@ -132,6 +140,8 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         inflater.inflate(R.menu.offer_details_menu, menu);
         itemJoined = menu.findItem(R.id.action_offer_joined);
         itemJoined.setVisible(joinedVisible);
+        itemEdit = menu.findItem(R.id.action_offer_edit);
+        itemEdit.setVisible(editVisible);
     }
 
 
@@ -180,5 +190,19 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
                 Log.d(TAG, msg);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_offer_edit:
+                final Intent intent = new Intent(getActivity(), OfferEditActivity.class);
+                intent.putExtra(Offer.OFFER_OBJECT, Parcels.wrap(offer));
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

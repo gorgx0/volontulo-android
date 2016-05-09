@@ -50,4 +50,7 @@ public interface VolontuloApi {
     @POST("/api/offers/create/")
     Call<CreateResponse> createOffer(@Header("Authorization") String authorization, @FieldMap(encoded = true) Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("/api/offers/{id}/update/")
+    Call<CreateResponse> updateOffer(@Header("Authorization") String authorization, @Path("id") int id, @FieldMap(encoded = true) Map<String, String> params);
 }
