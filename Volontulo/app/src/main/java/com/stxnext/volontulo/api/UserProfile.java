@@ -33,23 +33,28 @@ public class UserProfile extends RealmObject {
     private String phoneNo;
     private RealmList<Image> images;
 
-    public static UserProfile copyObject(UserProfile profile) {
-        final UserProfile newCopy = new UserProfile();
-        newCopy.setId(profile.getId());
-        newCopy.setIsAdministrator(profile.getIsAdministrator());
-        newCopy.setImages(profile.getImages());
-        newCopy.setUrl(profile.getUrl());
-        newCopy.setUser(profile.getUser());
-        newCopy.setOrganizations(profile.getOrganizations());
-        newCopy.setPhoneNo(profile.getPhoneNo());
-        return newCopy;
+    public static UserProfile copyObject(final UserProfile profile) {
+        if (profile != null) {
+            final UserProfile newCopy = new UserProfile();
+            newCopy.setId(profile.getId());
+            newCopy.setIsAdministrator(profile.getIsAdministrator());
+            newCopy.setImages(profile.getImages());
+            newCopy.setUrl(profile.getUrl());
+            newCopy.setUser(profile.getUser());
+            newCopy.setOrganizations(profile.getOrganizations());
+            newCopy.setPhoneNo(profile.getPhoneNo());
+            return newCopy;
+        }
+        return UserProfile.createEmpty();
     }
 
-    public static UserProfile empty() {
+    public static UserProfile createEmpty() {
         final UserProfile profile = new UserProfile();
+        profile.setUser(User.createEmpty());
+        profile.setUrl("");
         profile.setOrganizations(new RealmList<Organization>());
         profile.setImages(new RealmList<Image>());
-        profile.setUser(new User());
+        profile.setPhoneNo("");
         return profile;
     }
 

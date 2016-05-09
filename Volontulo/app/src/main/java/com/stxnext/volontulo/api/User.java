@@ -27,6 +27,15 @@ public class User extends RealmObject {
     @Ignore
     public String secret;
 
+    public static User createEmpty() {
+        final User user = new User();
+        user.setUsername("");
+        user.setEmail("");
+        user.setFirstName("");
+        user.setLastName("");
+        return user;
+    }
+
     /**
      *
      * @return
