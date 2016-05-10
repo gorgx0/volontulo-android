@@ -27,6 +27,8 @@ public class LocalMessage extends RealmObject {
     public enum Direction {
         RECEIVED,
         SENT,
+        DELIVERED,
+        FAILED,
         UKNOWN;
         private static Direction[] cachedValues = null;
 
@@ -126,6 +128,10 @@ public class LocalMessage extends RealmObject {
 
     public Direction getDirection() {
         return TextUtils.isEmpty(directionString) ? Direction.UKNOWN : Direction.valueOf(directionString);
+    }
+
+    public void setDirection(Direction direction) {
+        this.directionString = direction.toString();
     }
 
     public State getState() {

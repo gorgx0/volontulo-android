@@ -94,6 +94,7 @@ public class ImService extends Service implements SinchClientListener, SessionMa
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "Exiting ImService");
         if (realm != null) {
             realm.close();
         }
@@ -143,11 +144,25 @@ public class ImService extends Service implements SinchClientListener, SessionMa
             @Override
             public void onMessageFailed(MessageClient messageClient, Message message, MessageFailureInfo messageFailureInfo) {
                 Log.e(TAG, String.format("Sending message %s failed [%s]", message.getMessageId(), messageFailureInfo.getSinchError()));
+                final LocalMessage localMessage = realm.where(LocalMessage.class).equalTo(LocalMessage.FIELD_MESSAGE_ID, message.getMessageId()).findFirst();
+                realm.beginTransaction();
+                localMessage.setDirection(LocalMessage.Direction.FAILED);
+                realm.commitTransaction();
+                if (messageListener != null) {
+                    messageListener.onMessageFailed(localMessage);
+                }
             }
 
             @Override
             public void onMessageDelivered(MessageClient messageClient, MessageDeliveryInfo messageDeliveryInfo) {
                 Log.d(TAG, String.format("LocalMessage %s delivered [to %s]", messageDeliveryInfo.getMessageId(), messageDeliveryInfo.getRecipientId()));
+                final LocalMessage localMessage = realm.where(LocalMessage.class).equalTo(LocalMessage.FIELD_MESSAGE_ID, messageDeliveryInfo.getMessageId()).findFirst();
+                realm.beginTransaction();
+                localMessage.setDirection(LocalMessage.Direction.DELIVERED);
+                realm.commitTransaction();
+                if (messageListener != null) {
+                    messageListener.onMessageDelivered(localMessage);
+                }
             }
 
             @Override
@@ -204,7 +219,6 @@ public class ImService extends Service implements SinchClientListener, SessionMa
             }
         } else {
             Log.w(TAG, "Trying to send message when IM client not connected");
-            startService(new Intent(this, ImService.class));
         }
     }
 
@@ -252,6 +266,7 @@ public class ImService extends Service implements SinchClientListener, SessionMa
 
     @Override
     public void onSessionStateChanged(Session session) {
+        Log.d(TAG, String.format("Session state: %s", session));
         if (session.isAuthenticated() && session.getUserProfile().getId() > 0) {
             final String currentUserId = String.valueOf(session.getUserProfile().getUser().getId());
             Log.d(TAG, String.format("IM service initializing with user [%s]", currentUserId));

@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
-import com.stxnext.volontulo.logic.im.ImService;
 import com.stxnext.volontulo.logic.session.Session;
 import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.main.MainHostActivity;
@@ -38,9 +37,6 @@ public class LoginFragment extends VolontuloBaseFragment implements SessionManag
     @Override
     public void onSessionStateChanged(Session session) {
         if (session.isAuthenticated()) {
-            final Intent startImService = new Intent(getActivity(), ImService.class);
-            getActivity().startService(startImService);
-
             final Intent startMainActivity = new Intent(getActivity(), MainHostActivity.class);
             startActivity(startMainActivity);
             getActivity().finish();

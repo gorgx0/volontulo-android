@@ -19,7 +19,7 @@ public final class Session {
         private boolean isAuthenticated;
 
         public Builder(String token, boolean isAuthenticated) {
-            this.profile = UserProfile.empty();
+            this.profile = UserProfile.createEmpty();
             this.token = token;
             this.isAuthenticated = isAuthenticated;
         }
@@ -35,7 +35,7 @@ public final class Session {
     }
 
     private Session(UserProfile profile, String key, boolean isAuthenticated) {
-        this.profile = profile;
+        this.profile = UserProfile.copyObject(profile);
         this.token = key;
         this.isAuthenticated = isAuthenticated;
     }

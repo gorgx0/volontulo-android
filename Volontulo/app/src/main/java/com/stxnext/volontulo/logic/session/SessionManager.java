@@ -59,6 +59,9 @@ public class SessionManager {
     public void addOnStateChangedListener(final OnSessionStateChanged callback) {
         if (!listeners.contains(callback)) {
             listeners.add(callback);
+            if (session != null && session.isAuthenticated() && session.getUserProfile().getId() > 0) {
+                notifyListeners(session);
+            }
         }
     }
 
@@ -177,6 +180,7 @@ public class SessionManager {
                     listener.onSessionStateChanged(session);
                 }
             }
+            Log.d(TAG, "All listeners notified about session state change");
         }
     }
 
@@ -193,11 +197,7 @@ public class SessionManager {
         final String key = preferences.getString(PREF_SESSION_KEY, "");
         final boolean isAuthenticated = preferences.getBoolean(PREF_SESSION_AUTH, Boolean.FALSE);
         final UserProfile profile = realm.where(UserProfile.class).equalTo("id", preferences.getInt(PREF_USER_PROFILE_ID, -1)).findFirst();
-        final Session.Builder builder = new Session.Builder(key, isAuthenticated);
-        if (profile == null) {
-            return builder.build();
-        }
-        return builder.withProfile(profile).build();
+        return new Session.Builder(key, isAuthenticated).withProfile(profile).build();
     }
 
     public void deauthenticate() {

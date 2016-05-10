@@ -127,4 +127,8 @@ public class MessagesListFragment extends VolontuloBaseFragment {
             }
         }
     }
+
+    public void updateStatus(LocalMessage localMessage) {
+        messagesAdapter.updateStatus(localMessage);
+    }
 }
