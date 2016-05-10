@@ -8,7 +8,7 @@ import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.api.Offer;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class AttendDataViewHolder extends AttendViewHolder {
 
@@ -16,19 +16,19 @@ public class AttendDataViewHolder extends AttendViewHolder {
         super(itemView);
     }
 
-    @Bind(R.id.image)
+    @BindView(R.id.image)
     ImageView image;
 
-    @Bind(R.id.title)
+    @BindView(R.id.title)
     TextView title;
 
-    @Bind(R.id.location)
+    @BindView(R.id.location)
     TextView location;
 
-    @Bind(R.id.start_time)
+    @BindView(R.id.start_time)
     TextView startTime;
 
-    @Bind(R.id.end_time)
+    @BindView(R.id.end_time)
     TextView endTime;
 
     @Override

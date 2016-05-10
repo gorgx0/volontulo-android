@@ -16,7 +16,7 @@ import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
 import org.parceler.Parcels;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 class OfferViewHolder extends BaseViewHolder<Offer> {
@@ -24,22 +24,22 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
     private int id;
     private String imagePath;
 
-    @Bind(R.id.offer_avatar)
+    @BindView(R.id.offer_avatar)
     protected ImageView offerImage;
 
-    @Bind(R.id.offer_join)
+    @BindView(R.id.offer_join)
     protected ImageButton offerJoinButton;
 
-    @Bind(R.id.offer_name)
+    @BindView(R.id.offer_name)
     protected TextView offerName;
 
-    @Bind(R.id.offer_place)
+    @BindView(R.id.offer_place)
     protected TextView offerPlace;
 
-    @Bind(R.id.offer_start_time)
+    @BindView(R.id.offer_start_time)
     protected TextView offerStart;
 
-    @Bind(R.id.offer_end_time)
+    @BindView(R.id.offer_end_time)
     protected TextView offerEnd;
     private int userId;
 

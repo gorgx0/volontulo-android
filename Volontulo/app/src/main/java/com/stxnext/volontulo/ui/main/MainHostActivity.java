@@ -18,21 +18,21 @@ import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.login.LoginActivity;
 import com.stxnext.volontulo.ui.offers.OfferListFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class MainHostActivity extends VolontuloBaseActivity implements NavigationView.OnNavigationItemSelectedListener {
-    @Bind(R.id.navigation_menu)
+    @BindView(R.id.navigation_menu)
     protected NavigationView navigationMenu;
 
-    @Bind(R.id.drawer_layout)
+    @BindView(R.id.drawer_layout)
     protected DrawerLayout drawerLayout;
 
     protected ActionBarDrawerToggle toggle;
 
-    @Bind(R.id.collapsing_image)
+    @BindView(R.id.collapsing_image)
     protected ImageView collapsingImage;
 
-    @Bind(R.id.appbar)
+    @BindView(R.id.appbar)
     protected View appbar;
 
     @Override

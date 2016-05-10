@@ -10,14 +10,14 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.model.Volunteer;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 class VolunteerViewHolder extends BaseViewHolder<Volunteer> {
-    @Bind(R.id.volunteer_name)
+    @BindView(R.id.volunteer_name)
     TextView volunteerName;
 
-    @Bind(R.id.volunteer_avatar)
+    @BindView(R.id.volunteer_avatar)
     ImageView volunteerAvatar;
 
     public VolunteerViewHolder(View itemView) {

@@ -22,7 +22,7 @@ import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import retrofit2.Call;
@@ -34,7 +34,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
     public static final String TAG = "RETROFIT-TEST";
     private OfferAdapter adapter;
 
-    @Bind(R.id.list)
+    @BindView(R.id.list)
     protected RecyclerView offers;
 
     private Realm realm;

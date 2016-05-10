@@ -19,7 +19,7 @@ import com.stxnext.volontulo.utils.realm.RealmString;
 
 import org.parceler.Parcels;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -27,7 +27,7 @@ public class ConversationListFragment extends VolontuloBaseFragment {
     private static final int REQUEST_CHOOSE_VOLUNTEER = 1000;
     private static final String TAG = "Volontulo-Im";
 
-    @Bind(R.id.list)
+    @BindView(R.id.list)
     protected RecyclerView conversationList;
 
     @Override

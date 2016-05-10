@@ -11,7 +11,7 @@ import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -67,7 +67,7 @@ public class MessagesAdapter extends BaseMockAdapter<LocalMessage, BaseViewHolde
     }
 
     static abstract class MessageHolder extends BaseViewHolder<LocalMessage> {
-        @Bind(R.id.message)
+        @BindView(R.id.message)
         protected TextView message;
 
         public MessageHolder(View itemView) {
