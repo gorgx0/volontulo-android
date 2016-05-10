@@ -79,6 +79,8 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
                     .fit()
                     .centerCrop()
                     .into(offerImage);
+        } else {
+            offerImage.setImageResource(0);
         }
         offerName.setText(item.getTitle());
         offerPlace.setText(item.getLocation());

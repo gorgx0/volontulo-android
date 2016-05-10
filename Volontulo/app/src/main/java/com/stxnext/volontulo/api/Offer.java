@@ -9,6 +9,9 @@ import com.stxnext.volontulo.utils.realm.UserParcelConverter;
 import org.parceler.Parcel;
 import org.parceler.ParcelPropertyConverter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.realm.OfferRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -73,6 +76,8 @@ public class Offer extends RealmObject {
     private int volunteersLimit;
     private int weight;
     private RealmList<Image> images;
+    private double locationLongitude;
+    private double locationLatitude;
 
     /**
      *
@@ -616,6 +621,22 @@ public class Offer extends RealmObject {
         this.images = images;
     }
 
+    public double getLocationLongitude() {
+        return locationLongitude;
+    }
+
+    public void setLocationLongitude(double locationLongitude) {
+        this.locationLongitude = locationLongitude;
+    }
+
+    public double getLocationLatitude() {
+        return locationLatitude;
+    }
+
+    public void setLocationLatitude(double locationLatitude) {
+        this.locationLatitude = locationLatitude;
+    }
+
     @Override
     public String toString() {
         return "Offer " + id + ": '" + title + "' (" + location + ")";
@@ -658,5 +679,18 @@ public class Offer extends RealmObject {
 
     public String getImagePath() {
         return images.get(0).getPath();
+    }
+
+    public Map<String, String> getParams() {
+        Map<String, String> map = new HashMap<>();
+        map.put("title", title);
+        map.put("time_commitment", timeCommitment);
+        map.put("location", location);
+        map.put("description", description);
+        map.put("benefits", benefits);
+        if (organization != null) {
+            map.put("organization", String.valueOf(organization.getId()));
+        }
+        return map;
     }
 }

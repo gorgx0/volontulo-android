@@ -149,9 +149,9 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     @Override
     protected void onFabClick(final FloatingActionButton button) {
         final SessionManager sessionManager = SessionManager.getInstance(getActivity());
-        String token = "Token " + sessionManager.getSessionToken();
+
         final UserProfile userProfile = sessionManager.getUserProfile();
-        final Call<JoinResponse> call = VolontuloApp.api.joinOffer(offer.getId(), token, userProfile.getEmail(), userProfile.getPhoneNo(), userProfile.getUser().getUsername());
+        final Call<JoinResponse> call = VolontuloApp.api.joinOffer(offer.getId(), sessionManager.getSessionToken(), userProfile.getEmail(), userProfile.getPhoneNo(), userProfile.getUser().getUsername());
         call.enqueue(new Callback<JoinResponse>() {
             @Override
             public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {

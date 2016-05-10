@@ -215,6 +215,10 @@ public class SessionManager {
     }
 
     public String getSessionToken() {
+        return "Token " + session.getToken();
+    }
+
+    public String getSessionKey() {
         return session.getToken();
     }
 }
