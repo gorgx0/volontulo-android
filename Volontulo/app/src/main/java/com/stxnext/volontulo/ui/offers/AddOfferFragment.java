@@ -78,6 +78,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     @Bind(R.id.offer_time_requirement) EditText offerTimeRequirement;
     @Bind(R.id.offer_benefits_layout) TextInputLayout offerBenefitsLayout;
     @Bind(R.id.offer_benefits) EditText offerBenefits;
+    @Bind(R.id.offer_requirements) EditText offerRequirements;
     @Bind(R.id.offer_thumbnail_card) View offerThumbnailCard;
     @Bind(R.id.offer_thumbnail) ImageView offerThumbnail;
     @Bind(R.id.offer_thumbnail_name) TextView offerThumbnailName;
@@ -99,6 +100,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         offerDescription.addTextChangedListener(new OfferObjectUpdater(offerDescription.getId(), formState));
         offerBenefits.addTextChangedListener(new OfferObjectUpdater(offerBenefits.getId(), formState));
         offerTimeRequirement.addTextChangedListener(new OfferObjectUpdater(offerTimeRequirement.getId(), formState));
+        offerRequirements.addTextChangedListener(new OfferObjectUpdater(offerRequirements.getId(), formState));
         final SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         placeFragment = (SupportPlaceAutocompleteFragment) getChildFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         placeFragment.setHint(getString(R.string.offer_place));
@@ -147,6 +149,10 @@ public class AddOfferFragment extends VolontuloBaseFragment {
 
                 case R.id.offer_time_requirement:
                     updated.setTimeRequirement(result);
+                    break;
+
+                case R.id.offer_requirements:
+                    updated.setRequirements(result);
                     break;
             }
         }
@@ -210,6 +216,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         offerDescription.setText(formState.getDescription());
         offerTimeRequirement.setText(formState.getTimeRequirement());
         offerBenefits.setText(formState.getBenefits());
+        offerRequirements.setText(formState.getRequirements());
         if (!TextUtils.isEmpty(formState.getImagePath())) {
             loadImageFromUri(Uri.parse(formState.getImagePath()));
         } else {
@@ -245,7 +252,6 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             return;
         }
         saveOffer(formState);
-        getActivity().finish();
     }
 
     private void saveOffer(Ofer formState) {
@@ -262,6 +268,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         offer.setTimeCommitment(formState.getTimeRequirement());
         offer.setBenefits(formState.getBenefits());
         offer.setDescription(formState.getDescription());
+        offer.setRequirements(formState.getRequirements());
         offer.setLocationLongitude(formState.getPlaceLongitude());
         offer.setLocationLatitude(formState.getPlaceLatitude());
         offer.setOrganization(userProfile.getOrganizations().first());
@@ -275,7 +282,6 @@ public class AddOfferFragment extends VolontuloBaseFragment {
                     final CreateResponse created = response.body();
                     offer.setId(created.getId());
                     offer.setUrl(created.getUrl());
-                    offer.setRequirements(created.getRequirements());
                     offer.setTimePeriod(created.getTimePeriod());
                     offer.setStatusOld(created.getStatusOld());
                     offer.setRecruitmentStatus(created.getRecruitmentStatus());
@@ -294,11 +300,13 @@ public class AddOfferFragment extends VolontuloBaseFragment {
                         Log.d(TAG, "EXCEPTION: " + e.getMessage());
                     }
                 }
+                getActivity().finish();
             }
 
             @Override
             public void onFailure(Call<CreateResponse> call, Throwable t) {
                 Log.d(TAG, "FAILURE");
+                getActivity().finish();
             }
         });
     }

@@ -41,6 +41,7 @@ public class Ofer extends RealmObject {
 
     @Ignore private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormat.forPattern("dd-MM-yyyy, HH:mm");
     @Ignore private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("dd/MM/yy");
+    private String requirements;
 
     public static Ofer mock(String name, String place, DateTime startTime, DateTime endTime, @DrawableRes int imageResource, boolean isJoined) {
         final Ofer result = new Ofer();
@@ -158,5 +159,13 @@ public class Ofer extends RealmObject {
 
     public void setImagePath(Uri path) {
         this.imagePath = path.toString();
+    }
+
+    public void setRequirements(String requirements) {
+        this.requirements = requirements;
+    }
+
+    public String getRequirements() {
+        return requirements;
     }
 }

@@ -15,6 +15,7 @@
     <string name="drawer_close">Zwiń</string>
 
     <string name="add_offer">Dodaj akcję</string>
+    <string name="edit_offer">Edytuj akcję</string>
     <string name="map_offers">Mapa akcji</string>
     <string name="attach_image">Dodaj obraz</string>
     <string name="offer_name">Tytuł oferty</string>
@@ -22,6 +23,7 @@
     <string name="offer_description">Description</string>
     <string name="offer_time_requirement">Wymagania czasowe</string>
     <string name="offer_benefits">Korzyści</string>
+    <string name="offer_requirements">Wymagania wobec wolontariusza</string>
     <string name="offer_save">Zapisz</string>
     <string name="title_activity_offers_details">Szczegóły akcji</string>
 
@@ -65,6 +67,8 @@
     <string name="to_set">do ustalenia</string>
     <string name="preference_key_is_logged">IS-LOGGED</string>
     <string name="preference_file_name">com.stxnext.volontulo:preference_file_name</string>
+    <string name="preference_offers_position">OFFERS-POSITION</string>
+    <string name="preference_offers_refresh">OFFERS-REFRESH</string>
     <string name="logout_title">Wyloguj</string>
     <string name="error_connection">Problemy z połączeniem...</string>
     <string name="error_something_wrong">Coś poszło nie tak...</string>

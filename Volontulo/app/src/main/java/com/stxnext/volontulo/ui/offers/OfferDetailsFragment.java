@@ -1,12 +1,15 @@
 package com.stxnext.volontulo.ui.offers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +38,8 @@ import retrofit2.Response;
 public class OfferDetailsFragment extends VolontuloBaseFragment {
 
     public static final String TAG = "RETROFIT-TEST";
+    public static final int REQUEST_EDIT = 1;
+    public static final int REQUEST_DETAIL = 2;
 
     @Bind(R.id.text_title)
     TextView title;
@@ -69,6 +74,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     private int id;
     private Offer offer;
     private boolean joinedVisible = false, editVisible;
+    private UserProfile profile;
 
     @Override
     public String getImagePath() {
@@ -85,24 +91,6 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         return imageResource;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        realm = Realm.getDefaultInstance();
-        final Bundle arguments = getArguments();
-        id = arguments.getInt(Offer.OFFER_ID, 0);
-        offer = Parcels.unwrap(arguments.getParcelable(Offer.OFFER_OBJECT));
-        if (offer != null) {
-            Log.d(TAG, "FROM-PARCEL " + offer.toString());
-            if (offer.hasImage()) {
-                imageResource = arguments.getInt(Offer.IMAGE_RESOURCE, 0);
-                if (arguments.containsKey(Offer.IMAGE_PATH)) {
-                    imagePath = arguments.getString(Offer.IMAGE_PATH);
-                }
-            }
-        }
-    }
-
     private void fillData(Offer offer) {
         title.setText(offer.getTitle());
         setToolbarTitle(offer.getTitle());
@@ -117,7 +105,6 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
             imagePath = offer.retrieveImagePath();
             imageResource = 0;
         }
-        UserProfile profile = SessionManager.getInstance(getActivity()).getUserProfile();
         if (offer.isUserJoined(profile.getUser().getId())) {
             joinedVisible = true;
         } else if (offer.canBeJoined(profile)) {
@@ -147,12 +134,29 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
 
     @Override
     protected void onPostCreateView(View root) {
+        realm = Realm.getDefaultInstance();
+        final Bundle arguments = getArguments();
+        id = arguments.getInt(Offer.OFFER_ID, 0);
+        offer = Parcels.unwrap(arguments.getParcelable(Offer.OFFER_OBJECT));
+        offer.load();
+        int userProfileId = SessionManager.getInstance(getActivity()).getUserProfile().getId();
+        profile = realm.where(UserProfile.class).equalTo("id", userProfileId).findFirst();
+        profile.load();
+        if (offer != null) {
+            Log.d(TAG, "FROM-PARCEL " + offer.toString());
+            if (offer.hasImage()) {
+                imageResource = arguments.getInt(Offer.IMAGE_RESOURCE, 0);
+                if (arguments.containsKey(Offer.IMAGE_PATH)) {
+                    imagePath = arguments.getString(Offer.IMAGE_PATH);
+                }
+            }
+        }
         fillData(offer);
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onDestroyView() {
+        super.onDestroyView();
         realm.close();
     }
 
@@ -198,11 +202,24 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
             case R.id.action_offer_edit:
                 final Intent intent = new Intent(getActivity(), OfferEditActivity.class);
                 intent.putExtra(Offer.OFFER_OBJECT, Parcels.wrap(offer));
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_EDIT);
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_EDIT) {
+            final FragmentActivity activity = getActivity();
+            final Parcelable offer = data.getParcelableExtra(Offer.OFFER_OBJECT);
+            Intent intent = new Intent();
+            intent.putExtra(Offer.OFFER_OBJECT, offer);
+            activity.setResult(Activity.RESULT_OK, intent);
+            activity.finish();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -2,6 +2,7 @@ package com.stxnext.volontulo.ui.offers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -80,9 +81,16 @@ public class OfferListFragment extends VolontuloBaseFragment {
             public void onResponse(Call<List<Offer>> call, Response<List<Offer>> response) {
                 if (response.isSuccessful()) {
                     final List<Offer> offerList = response.body();
-                    Log.d(TAG, "[RETRO] Offers count: " + offerList.size());
                     realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(offerList);
+                    for (Offer offer : offerList) {
+                        final Offer stored = realm.where(Offer.class).equalTo("id", offer.getId()).findFirst();
+                        if (stored != null) {
+                            offer.setLocationLatitude(stored.getLocationLatitude());
+                            offer.setLocationLongitude(stored.getLocationLongitude());
+                        }
+                        realm.copyToRealmOrUpdate(offer);
+                    }
+                    Log.d(TAG, "[RETRO] Offers count: " + offerList.size());
                     Log.d(TAG, "[REALM] Offers COPY/UPDATE");
                     realm.commitTransaction();
                     adapter.swap(offerList);
@@ -124,5 +132,30 @@ public class OfferListFragment extends VolontuloBaseFragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter == null || adapter.getItemCount() == 0) {
+            return;
+        }
+        final String preferenceFile = getString(R.string.preference_file_name);
+        final String offersPosition = getString(R.string.preference_offers_position);
+        final String offersRefresh = getString(R.string.preference_offers_refresh);
+        final SharedPreferences preferences = getContext().getSharedPreferences(preferenceFile, Context.MODE_PRIVATE);
+        if (preferences.getBoolean(offersRefresh, false)) {
+            int position = preferences.getInt(offersPosition, -1);
+            if (position >= -1) {
+                final long id = adapter.getItemId(position);
+                final Offer changed = realm.where(Offer.class).equalTo("id", id).findFirst();
+                if (changed != null) {
+                    adapter.refreshItem(position, changed);
+                }
+            }
+        }
+        preferences.edit().
+                putBoolean(offersRefresh, false)
+                .apply();
     }
 }

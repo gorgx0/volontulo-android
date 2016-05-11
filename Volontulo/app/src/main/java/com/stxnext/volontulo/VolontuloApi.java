@@ -16,6 +16,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface VolontuloApi {
@@ -39,6 +40,7 @@ public interface VolontuloApi {
     @POST("/rest-auth/login/")
     Call<LoginResponse> login(@Field("username") String username, @Field("password") String password);
 
+
     @POST("/rest-auth/logout/")
     Call<Void> logout(@Header("Authorization") String authorization);
 
@@ -51,6 +53,6 @@ public interface VolontuloApi {
     Call<CreateResponse> createOffer(@Header("Authorization") String authorization, @FieldMap(encoded = true) Map<String, String> params);
 
     @FormUrlEncoded
-    @POST("/api/offers/{id}/update/")
+    @PUT("/api/offers/{id}/update/")
     Call<CreateResponse> updateOffer(@Header("Authorization") String authorization, @Path("id") int id, @FieldMap(encoded = true) Map<String, String> params);
 }

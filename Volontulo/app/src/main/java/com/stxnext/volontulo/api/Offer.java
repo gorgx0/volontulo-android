@@ -18,6 +18,7 @@ import java.util.Map;
 import io.realm.OfferRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 @Parcel(implementations = {OfferRealmProxy.class},
@@ -81,6 +82,8 @@ public class Offer extends RealmObject {
     private RealmList<Image> images;
     private double locationLongitude;
     private double locationLatitude;
+    @Ignore
+    private int position;
 
     /**
      *
@@ -640,6 +643,14 @@ public class Offer extends RealmObject {
         this.locationLatitude = locationLatitude;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     @Override
     public String toString() {
         return "Offer " + id + ": '" + title + "' (" + location + ")";
@@ -691,6 +702,7 @@ public class Offer extends RealmObject {
         map.put("location", location);
         map.put("description", description);
         map.put("benefits", benefits);
+        map.put("requirements", requirements);
         if (organization != null) {
             map.put("organization", String.valueOf(organization.getId()));
         }
@@ -698,7 +710,8 @@ public class Offer extends RealmObject {
     }
 
     public boolean canBeEdit(UserProfile profile) {
-        return profile.getOrganizations().first().getId() == organization.getId();
+        final RealmList<Organization> organizations = profile.getOrganizations();
+        return !organizations.isEmpty() && organizations.first().getId() == organization.getId();
     }
 
     public void setLocationNameAndPosition(Place place) {

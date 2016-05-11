@@ -16,7 +16,7 @@ public class OfferEditActivity extends VolontuloBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nodrawer);
-        init(R.string.add_offer);
+        init(R.string.edit_offer);
         if (savedInstanceState == null) {
             final FragmentManager fragmentManager = getSupportFragmentManager();
             final OfferEditFragment fragment = new OfferEditFragment();

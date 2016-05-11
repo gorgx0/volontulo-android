@@ -2,6 +2,7 @@ package com.stxnext.volontulo.ui.offers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -55,6 +56,12 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
     @OnClick(R.id.offer_content)
     void onItemClick(View clicked) {
         Context context = clicked.getContext();
+        final String preferenceFile = context.getString(R.string.preference_file_name);
+        final String offersPosition = context.getString(R.string.preference_offers_position);
+        final SharedPreferences preferences = context.getSharedPreferences(preferenceFile, Context.MODE_PRIVATE);
+        preferences.edit().
+                putInt(offersPosition, position)
+                .apply();
         Intent intent = new Intent(context, OfferDetailsActivity.class);
         intent.putExtra(Offer.OFFER_ID, id);
         intent.putExtra(Offer.OFFER_OBJECT, Parcels.wrap(objectBinded));
@@ -71,7 +78,6 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
 
     @Override
     public void onBind(Offer item) {
-        id = item.getId();
         if (item.hasImage()) {
             imagePath = item.retrieveImagePath();
             Picasso.with(offerImage.getContext())
@@ -87,11 +93,12 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
         offerStart.setText(item.getStartedAt());
         offerEnd.setText(item.getFinishedAt());
         if (item.isUserJoined(userId)) {
-            offerJoinButton.setImageResource(R.drawable.ic_offer_joined);
+            offerJoinButton.setImageResource(R.drawable.ic_offered_joined_white);
             offerJoinButton.setEnabled(false);
         } else {
-            offerJoinButton.setImageResource(R.drawable.ic_offer_join);
+            offerJoinButton.setImageResource(R.drawable.ic_offer_join_white);
             offerJoinButton.setEnabled(true);
         }
+        item.setPosition(getAdapterPosition());
     }
 }
