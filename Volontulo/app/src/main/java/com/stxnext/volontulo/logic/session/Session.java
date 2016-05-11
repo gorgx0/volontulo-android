@@ -35,7 +35,7 @@ public final class Session {
     }
 
     private Session(UserProfile profile, String key, boolean isAuthenticated) {
-        this.profile = profile;
+        this.profile = UserProfile.copyObject(profile);
         this.token = key;
         this.isAuthenticated = isAuthenticated;
     }

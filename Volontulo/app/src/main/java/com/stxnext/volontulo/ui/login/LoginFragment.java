@@ -6,8 +6,6 @@ import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloBaseFragment;
-import com.stxnext.volontulo.api.User;
-import com.stxnext.volontulo.logic.im.ImService;
 import com.stxnext.volontulo.logic.session.Session;
 import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.main.MainHostActivity;
@@ -21,20 +19,6 @@ public class LoginFragment extends VolontuloBaseFragment implements SessionManag
 
     @BindView(R.id.edit_text_password)
     EditText editTextPassword;
-
-    public static final User[] MOCK_USER_TABLE = new User[]{
-        createUser("test@test.fm", "test"),
-        createUser("bob@top.com", "bob"),
-        createUser("alone@test.lt", "test")
-    };
-
-    private static User createUser(String login, String secret) {
-        final User user = new User();
-        user.setEmail(login);
-        user.setUsername(login);
-        user.secret = secret;
-        return user;
-    }
 
     @Override
     protected int getLayoutResource() {
@@ -53,9 +37,6 @@ public class LoginFragment extends VolontuloBaseFragment implements SessionManag
     @Override
     public void onSessionStateChanged(Session session) {
         if (session.isAuthenticated()) {
-            final Intent startImService = new Intent(getActivity(), ImService.class);
-            getActivity().startService(startImService);
-
             final Intent startMainActivity = new Intent(getActivity(), MainHostActivity.class);
             startActivity(startMainActivity);
             getActivity().finish();

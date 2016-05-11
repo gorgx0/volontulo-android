@@ -55,6 +55,8 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
                         .commit();
             }
         }
+        final Intent startImService = new Intent(this, ImService.class);
+        startService(startImService);
     }
 
     @Override
@@ -67,11 +69,11 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
     public boolean onNavigationItemSelected(MenuItem item) {
         drawerLayout.closeDrawers();
         if (item.getItemId() == R.id.menu_logout) {
-//            VolontuloApp.sessionUser.logout();
             SessionManager.getInstance(this).deauthenticate();
             stopService(new Intent(this, ImService.class));
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            finish();
             return false;
         }
         final FragmentManager fragmentManager = getSupportFragmentManager();
