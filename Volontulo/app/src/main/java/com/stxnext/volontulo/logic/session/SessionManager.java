@@ -59,6 +59,9 @@ public class SessionManager {
     public void addOnStateChangedListener(final OnSessionStateChanged callback) {
         if (!listeners.contains(callback)) {
             listeners.add(callback);
+            if (session != null && session.isAuthenticated() && session.getUserProfile().getId() > 0) {
+                notifyListeners(session);
+            }
         }
     }
 
@@ -177,6 +180,7 @@ public class SessionManager {
                     listener.onSessionStateChanged(session);
                 }
             }
+            Log.d(TAG, "All listeners notified about session state change");
         }
     }
 

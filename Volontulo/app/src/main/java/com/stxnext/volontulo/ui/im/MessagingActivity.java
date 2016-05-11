@@ -125,10 +125,18 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
 
         @Override
         public void onMessageFailed(LocalMessage failed) {
+            final MessagesListFragment messagesListFragment = getMessagesListFragment();
+            if (messagesListFragment != null) {
+                messagesListFragment.updateStatus(failed);
+            }
         }
 
         @Override
         public void onMessageDelivered(LocalMessage delivered) {
+            final MessagesListFragment messagesListFragment = getMessagesListFragment();
+            if (messagesListFragment != null) {
+                messagesListFragment.updateStatus(delivered);
+            }
         }
 
         private MessagesListFragment getMessagesListFragment() {
