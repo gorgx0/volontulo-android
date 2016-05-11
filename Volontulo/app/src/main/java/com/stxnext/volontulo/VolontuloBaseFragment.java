@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public abstract class VolontuloBaseFragment extends Fragment {
 
@@ -23,6 +24,7 @@ public abstract class VolontuloBaseFragment extends Fragment {
     protected CollapsibleImage collapsibleImage;
     private static final String FAB_STATE = "fab-requested-key";
     private boolean hasFloatingActionButtonRequested = false;
+    private Unbinder unbinder;
 
     protected void onPostCreateView(final View root) {
     }
@@ -68,7 +70,7 @@ public abstract class VolontuloBaseFragment extends Fragment {
     @Override
     public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View root = inflater.inflate(getLayoutResource(), container, false);
-        ButterKnife.bind(this, root);
+        unbinder = ButterKnife.bind(this, root);
         if (TextUtils.isEmpty(getImagePath())) {
             collapsibleImage.wantCollapse(getImageResource());
         } else {
@@ -80,7 +82,7 @@ public abstract class VolontuloBaseFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        ButterKnife.unbind(this);
+        unbinder.unbind();
         VolontuloBaseActivity activity = (VolontuloBaseActivity) getActivity();
         activity.setFABVisible(false);
         super.onDestroyView();

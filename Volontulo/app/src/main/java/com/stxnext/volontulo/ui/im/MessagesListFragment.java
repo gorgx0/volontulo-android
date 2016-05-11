@@ -17,7 +17,7 @@ import com.stxnext.volontulo.logic.im.LocalMessage;
 
 import org.parceler.Parcels;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -29,10 +29,10 @@ public class MessagesListFragment extends VolontuloBaseFragment {
         void onMessageComposed(String recipient, String body);
     }
 
-    @Bind(R.id.list)
+    @BindView(R.id.list)
     protected RecyclerView messagesList;
 
-    @Bind(R.id.message)
+    @BindView(R.id.message)
     protected EditText message;
 
     protected CoordinatorLayout coordinatorLayout;

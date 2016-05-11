@@ -18,29 +18,29 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public abstract class VolontuloBaseActivity extends AppCompatActivity implements CollapsibleImage {
 
     @Nullable
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     protected Toolbar toolbar;
 
     @Nullable
-    @Bind(R.id.collapsing_image)
+    @BindView(R.id.collapsing_image)
     protected ImageView collapsingImage;
 
     @Nullable
-    @Bind(R.id.appbar)
+    @BindView(R.id.appbar)
     protected AppBarLayout appbar;
 
     @Nullable
-    @Bind(R.id.collapsing_toolbar)
+    @BindView(R.id.collapsing_toolbar)
     protected CollapsingToolbarLayout collapsingToolbar;
 
     @Nullable
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     protected FloatingActionButton floatingActionButton;
 
     @Override

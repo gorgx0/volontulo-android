@@ -10,14 +10,14 @@ import com.stxnext.volontulo.logic.session.Session;
 import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.main.MainHostActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class LoginFragment extends VolontuloBaseFragment implements SessionManager.OnSessionStateChanged {
-    @Bind(R.id.edit_text_email)
+    @BindView(R.id.edit_text_email)
     EditText editTextEmail;
 
-    @Bind(R.id.edit_text_password)
+    @BindView(R.id.edit_text_password)
     EditText editTextPassword;
 
     @Override

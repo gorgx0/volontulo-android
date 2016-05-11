@@ -17,7 +17,7 @@ import org.joda.time.Seconds;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -85,10 +85,10 @@ public class MessagesAdapter extends BaseMockAdapter<LocalMessage, BaseViewHolde
     static abstract class MessageHolder extends BaseViewHolder<LocalMessage> {
         public static final int DELAY_MILLIS = 1000 * 10;
 
-        @Bind(R.id.message)
+        @BindView(R.id.message)
         protected TextView message;
 
-        @Bind(R.id.message_info)
+        @BindView(R.id.message_info)
         protected ImageView messageInfo;
 
         public MessageHolder(View itemView) {

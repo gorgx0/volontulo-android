@@ -13,7 +13,7 @@ import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
 import org.parceler.Parcels;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class UserProfileViewHolder extends BaseViewHolder<UserProfile> {
@@ -22,10 +22,10 @@ public class UserProfileViewHolder extends BaseViewHolder<UserProfile> {
     private UserProfile profile;
     private UserProfileAdapter.OnItemClickListener callback;
 
-    @Bind(R.id.volunteer_name)
+    @BindView(R.id.volunteer_name)
     TextView volunteerName;
 
-    @Bind(R.id.volunteer_avatar)
+    @BindView(R.id.volunteer_avatar)
     ImageView volunteerAvatar;
 
     public UserProfileViewHolder(View itemView, UserProfileAdapter.OnItemClickListener clickCallback) {

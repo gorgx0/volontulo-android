@@ -19,7 +19,7 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import retrofit2.Call;
@@ -32,22 +32,22 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
 
     private UserProfile userProfile;
 
-    @Bind(R.id.text_name)
+    @BindView(R.id.text_name)
     TextView name;
 
-    @Bind(R.id.text_email)
+    @BindView(R.id.text_email)
     TextView email;
 
-    @Bind(R.id.text_description)
+    @BindView(R.id.text_description)
     TextView description;
 
-    @Bind(R.id.text_phone)
+    @BindView(R.id.text_phone)
     TextView phone;
 
-    @Bind(R.id.image)
+    @BindView(R.id.image)
     ImageView image;
 
-    @Bind(R.id.offers)
+    @BindView(R.id.offers)
     protected RecyclerView offers;
     private Realm realm;
     private AttendsAdapter adapter;

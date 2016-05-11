@@ -25,7 +25,7 @@ import com.stxnext.volontulo.logic.session.SessionManager;
 
 import org.parceler.Parcels;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,28 +35,28 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
 
     public static final String TAG = "RETROFIT-TEST";
 
-    @Bind(R.id.text_title)
+    @BindView(R.id.text_title)
     TextView title;
 
-    @Bind(R.id.text_location)
+    @BindView(R.id.text_location)
     TextView location;
 
-    @Bind(R.id.text_duration)
+    @BindView(R.id.text_duration)
     TextView duration;
 
-    @Bind(R.id.text_description)
+    @BindView(R.id.text_description)
     TextView description;
 
-    @Bind(R.id.text_benefits)
+    @BindView(R.id.text_benefits)
     TextView benefits;
 
-    @Bind(R.id.text_requirements)
+    @BindView(R.id.text_requirements)
     TextView requirements;
 
-    @Bind(R.id.text_time_commitment)
+    @BindView(R.id.text_time_commitment)
     TextView timeCommitment;
 
-    @Bind(R.id.text_organization)
+    @BindView(R.id.text_organization)
     TextView organization;
 
     @DrawableRes
