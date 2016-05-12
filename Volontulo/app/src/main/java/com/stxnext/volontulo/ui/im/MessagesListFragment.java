@@ -17,7 +17,7 @@ import com.stxnext.volontulo.logic.im.LocalMessage;
 
 import org.parceler.Parcels;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -29,10 +29,10 @@ public class MessagesListFragment extends VolontuloBaseFragment {
         void onMessageComposed(String recipient, String body);
     }
 
-    @Bind(R.id.list)
+    @BindView(R.id.list)
     protected RecyclerView messagesList;
 
-    @Bind(R.id.message)
+    @BindView(R.id.message)
     protected EditText message;
 
     protected CoordinatorLayout coordinatorLayout;
@@ -62,7 +62,7 @@ public class MessagesListFragment extends VolontuloBaseFragment {
     void onSendClicked() {
         final String messageText = message.getText().toString();
         if (viewCallback != null && conversation != null && !TextUtils.isEmpty(messageText)) {
-            viewCallback.onMessageComposed(Conversation.resolveRecipientName(getContext(), conversation), messageText);
+            viewCallback.onMessageComposed(Conversation.resolveRecipientId(message.getContext(), conversation), messageText);
             message.setText("");
         }
     }
@@ -73,7 +73,7 @@ public class MessagesListFragment extends VolontuloBaseFragment {
         realm = Realm.getDefaultInstance();
         final Bundle args = getArguments();
         conversation = Parcels.unwrap(args.getParcelable(KEY_PARTICIPANTS));
-        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, Conversation.resolveRecipientName(getContext(), conversation)));
+        setToolbarTitle(getResources().getString(R.string.im_conversation_with_title, Conversation.resolveName(Conversation.resolveRecipientId(getActivity(), conversation))));
         final RealmResults<LocalMessage> results = realm.where(LocalMessage.class)
                 .equalTo(String.format("%s.%s", LocalMessage.FIELD_CONVERSATION, Conversation.FIELD_CONVERSATION_ID), conversation.getConversationId())
                 .findAll();
@@ -126,5 +126,9 @@ public class MessagesListFragment extends VolontuloBaseFragment {
                 snackbar.show();
             }
         }
+    }
+
+    public void updateStatus(LocalMessage localMessage) {
+        messagesAdapter.updateStatus(localMessage);
     }
 }

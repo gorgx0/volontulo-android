@@ -14,7 +14,7 @@ import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
 import org.parceler.Parcels;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.RealmResults;
 
@@ -34,7 +34,7 @@ public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseView
     }
 
     static class ConversationHolder extends BaseViewHolder<Conversation> {
-        @Bind(R.id.participant_name)
+        @BindView(R.id.participant_name)
         protected TextView participantName;
 
         public ConversationHolder(View itemView) {
@@ -43,7 +43,7 @@ public class ConversationsAdapter extends BaseMockAdapter<Conversation, BaseView
 
         @Override
         public void onBind(Conversation model) {
-            participantName.setText(Conversation.resolveRecipientName(itemView.getContext(), model));
+            participantName.setText(Conversation.resolveName(Conversation.resolveRecipientId(itemView.getContext(), model)));
         }
 
         @OnClick(R.id.conversation)

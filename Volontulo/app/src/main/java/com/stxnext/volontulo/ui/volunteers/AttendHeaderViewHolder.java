@@ -18,24 +18,24 @@ import com.stxnext.volontulo.ui.im.MessagingActivity;
 
 import org.parceler.Parcels;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class AttendHeaderViewHolder extends AttendViewHolder {
 
-    @Bind(R.id.text_name)
+    @BindView(R.id.text_name)
     TextView name;
 
-    @Bind(R.id.text_email)
+    @BindView(R.id.text_email)
     TextView email;
 
-    @Bind(R.id.text_description)
+    @BindView(R.id.text_description)
     TextView description;
 
-    @Bind(R.id.text_phone)
+    @BindView(R.id.text_phone)
     TextView phone;
 
-    @Bind(R.id.image)
+    @BindView(R.id.image)
     ImageView image;
 
     @Bind(R.id.list_header)

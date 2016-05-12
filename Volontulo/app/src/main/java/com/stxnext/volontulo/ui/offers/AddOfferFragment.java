@@ -52,7 +52,7 @@ import org.parceler.Parcels;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
 import okhttp3.ResponseBody;
@@ -70,20 +70,20 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     );
     private static final String TAG = "ADD-OFFER";
 
-    @Bind(R.id.offer_name_layout) TextInputLayout offerNameLayout;
-    @Bind(R.id.offer_name) EditText offerName;
-    @Bind(R.id.offer_description_layout) TextInputLayout offerDescriptionLayout;
-    @Bind(R.id.offer_description) EditText offerDescription;
-    @Bind(R.id.offer_time_requirement_layout) TextInputLayout offerTimeRequirementLayout;
-    @Bind(R.id.offer_time_requirement) EditText offerTimeRequirement;
-    @Bind(R.id.offer_benefits_layout) TextInputLayout offerBenefitsLayout;
-    @Bind(R.id.offer_benefits) EditText offerBenefits;
-    @Bind(R.id.offer_requirements) EditText offerRequirements;
-    @Bind(R.id.offer_thumbnail_card) View offerThumbnailCard;
-    @Bind(R.id.offer_thumbnail) ImageView offerThumbnail;
-    @Bind(R.id.offer_thumbnail_name) TextView offerThumbnailName;
-    @Bind(R.id.scroller) ScrollView scrollView;
-    @Bind(R.id.place_autocomplete_result_switcher) ViewSwitcher placeAutocompleteResultSwitcher;
+    @BindView(R.id.offer_name_layout) TextInputLayout offerNameLayout;
+    @BindView(R.id.offer_name) EditText offerName;
+    @BindView(R.id.offer_description_layout) TextInputLayout offerDescriptionLayout;
+    @BindView(R.id.offer_description) EditText offerDescription;
+    @BindView(R.id.offer_time_requirement_layout) TextInputLayout offerTimeRequirementLayout;
+    @BindView(R.id.offer_time_requirement) EditText offerTimeRequirement;
+    @BindView(R.id.offer_benefits_layout) TextInputLayout offerBenefitsLayout;
+    @BindView(R.id.offer_benefits) EditText offerBenefits;
+    @BindView(R.id.offer_requirements) EditText offerRequirements;
+    @BindView(R.id.offer_thumbnail_card) View offerThumbnailCard;
+    @BindView(R.id.offer_thumbnail) ImageView offerThumbnail;
+    @BindView(R.id.offer_thumbnail_name) TextView offerThumbnailName;
+    @BindView(R.id.scroller) ScrollView scrollView;
+    @BindView(R.id.place_autocomplete_result_switcher) ViewSwitcher placeAutocompleteResultSwitcher;
     private SupportPlaceAutocompleteFragment placeFragment;
 
     private Ofer formState = new Ofer();

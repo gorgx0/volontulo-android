@@ -18,21 +18,21 @@ import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.login.LoginActivity;
 import com.stxnext.volontulo.ui.offers.OfferListFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class MainHostActivity extends VolontuloBaseActivity implements NavigationView.OnNavigationItemSelectedListener {
-    @Bind(R.id.navigation_menu)
+    @BindView(R.id.navigation_menu)
     protected NavigationView navigationMenu;
 
-    @Bind(R.id.drawer_layout)
+    @BindView(R.id.drawer_layout)
     protected DrawerLayout drawerLayout;
 
     protected ActionBarDrawerToggle toggle;
 
-    @Bind(R.id.collapsing_image)
+    @BindView(R.id.collapsing_image)
     protected ImageView collapsingImage;
 
-    @Bind(R.id.appbar)
+    @BindView(R.id.appbar)
     protected View appbar;
 
     @Override
@@ -55,6 +55,8 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
                         .commit();
             }
         }
+        final Intent startImService = new Intent(this, ImService.class);
+        startService(startImService);
     }
 
     @Override
@@ -67,11 +69,11 @@ public class MainHostActivity extends VolontuloBaseActivity implements Navigatio
     public boolean onNavigationItemSelected(MenuItem item) {
         drawerLayout.closeDrawers();
         if (item.getItemId() == R.id.menu_logout) {
-//            VolontuloApp.sessionUser.logout();
             SessionManager.getInstance(this).deauthenticate();
             stopService(new Intent(this, ImService.class));
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            finish();
             return false;
         }
         final FragmentManager fragmentManager = getSupportFragmentManager();
