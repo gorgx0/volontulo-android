@@ -1,9 +1,9 @@
 package com.stxnext.volontulo;
 
-import com.stxnext.volontulo.api.CreateResponse;
 import com.stxnext.volontulo.api.JoinResponse;
 import com.stxnext.volontulo.api.LoginResponse;
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.SaveResponse;
 import com.stxnext.volontulo.api.UserProfile;
 
 import java.util.List;
@@ -50,9 +50,9 @@ public interface VolontuloApi {
 
     @FormUrlEncoded
     @POST("/api/offers/create/")
-    Call<CreateResponse> createOffer(@Header("Authorization") String authorization, @FieldMap(encoded = true) Map<String, String> params);
+    Call<SaveResponse> createOffer(@Header("Authorization") String authorization, @FieldMap(encoded = true) Map<String, String> params);
 
     @FormUrlEncoded
     @PUT("/api/offers/{id}/update/")
-    Call<CreateResponse> updateOffer(@Header("Authorization") String authorization, @Path("id") int id, @FieldMap(encoded = true) Map<String, String> params);
+    Call<SaveResponse> updateOffer(@Header("Authorization") String authorization, @Path("id") int id, @FieldMap(encoded = true) Map<String, String> params);
 }

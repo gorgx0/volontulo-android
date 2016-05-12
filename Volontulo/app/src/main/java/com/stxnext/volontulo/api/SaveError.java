@@ -3,7 +3,7 @@ package com.stxnext.volontulo.api;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateError {
+public class SaveError {
 
     private String detail;
     private List<String> timeCommitment = new ArrayList<>();

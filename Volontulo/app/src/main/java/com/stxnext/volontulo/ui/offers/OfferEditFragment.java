@@ -39,9 +39,9 @@ import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
-import com.stxnext.volontulo.api.CreateError;
-import com.stxnext.volontulo.api.CreateResponse;
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.SaveError;
+import com.stxnext.volontulo.api.SaveResponse;
 import com.stxnext.volontulo.api.UserProfile;
 import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.utils.BaseTextWatcher;
@@ -272,14 +272,14 @@ public class OfferEditFragment extends VolontuloBaseFragment {
             return;
         }
         realm.close();
-        final Call<CreateResponse> call = VolontuloApp.api.updateOffer(manager.getSessionToken(), offer.getId(), offer.getParams());
-        call.enqueue(new Callback<CreateResponse>() {
+        final Call<SaveResponse> call = VolontuloApp.api.updateOffer(manager.getSessionToken(), offer.getId(), offer.getParams());
+        call.enqueue(new Callback<SaveResponse>() {
             @Override
-            public void onResponse(Call<CreateResponse> call, Response<CreateResponse> response) {
+            public void onResponse(Call<SaveResponse> call, Response<SaveResponse> response) {
                 Log.d(TAG, "RESPONSE");
                 if (response.isSuccessful()) {
                     Log.d(TAG, "SUCCESSFUL");
-                    final CreateResponse created = response.body();
+                    final SaveResponse created = response.body();
                     offer.setId(created.getId());
                     offer.setUrl(created.getUrl());
                     offer.setRequirements(created.getRequirements());
@@ -293,9 +293,9 @@ public class OfferEditFragment extends VolontuloBaseFragment {
                     realm.commitTransaction();
                     realm.close();
                 } else {
-                    Converter<ResponseBody, CreateError> converter = VolontuloApp.retrofit.responseBodyConverter(CreateError.class, new Annotation[0]);
+                    Converter<ResponseBody, SaveError> converter = VolontuloApp.retrofit.responseBodyConverter(SaveError.class, new Annotation[0]);
                     try {
-                        final CreateError error = converter.convert(response.errorBody());
+                        final SaveError error = converter.convert(response.errorBody());
                         Log.d(TAG, "ERROR: " + error.getDetail());
                     } catch (IOException e) {
                         Log.d(TAG, "EXCEPTION: " + e.getMessage());
@@ -312,7 +312,7 @@ public class OfferEditFragment extends VolontuloBaseFragment {
             }
 
             @Override
-            public void onFailure(Call<CreateResponse> call, Throwable t) {
+            public void onFailure(Call<SaveResponse> call, Throwable t) {
                 Log.d(TAG, "FAILURE");
                 activity.finish();
             }
