@@ -122,7 +122,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_offer:
-                startActivity(new Intent(getActivity(), AddOfferActivity.class));
+                startActivity(new Intent(getActivity(), OfferSaveActivity.class));
                 return true;
 
             case R.id.action_map_offers:
@@ -146,16 +146,20 @@ public class OfferListFragment extends VolontuloBaseFragment {
         final SharedPreferences preferences = getContext().getSharedPreferences(preferenceFile, Context.MODE_PRIVATE);
         if (preferences.getBoolean(offersRefresh, false)) {
             int position = preferences.getInt(offersPosition, -1);
-            if (position >= -1) {
+            if (position > -1) {
                 final long id = adapter.getItemId(position);
                 final Offer changed = realm.where(Offer.class).equalTo("id", id).findFirst();
                 if (changed != null) {
                     adapter.refreshItem(position, changed);
                 }
+            } else {
+                final Offer last = realm.where(Offer.class).findAll().last();
+                adapter.add(last);
             }
         }
-        preferences.edit().
-                putBoolean(offersRefresh, false)
+        preferences.edit()
+                .remove(offersPosition)
+                .remove(offersRefresh)
                 .apply();
     }
 }

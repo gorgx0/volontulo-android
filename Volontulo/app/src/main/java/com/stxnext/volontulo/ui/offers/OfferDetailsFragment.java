@@ -204,7 +204,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_offer_edit:
-                final Intent intent = new Intent(getActivity(), OfferEditActivity.class);
+                final Intent intent = new Intent(getActivity(), OfferSaveActivity.class);
                 intent.putExtra(Offer.OFFER_OBJECT, Parcels.wrap(offer));
                 startActivityForResult(intent, REQUEST_EDIT);
                 return true;

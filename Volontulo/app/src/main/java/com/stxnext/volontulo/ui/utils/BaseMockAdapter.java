@@ -77,4 +77,9 @@ public abstract class BaseMockAdapter<T, V extends BaseViewHolder<T>> extends Re
             notifyDataSetChanged();
         }
     }
+
+    public void add(T object) {
+        objects.add(object);
+        notifyDataSetChanged();
+    }
 }

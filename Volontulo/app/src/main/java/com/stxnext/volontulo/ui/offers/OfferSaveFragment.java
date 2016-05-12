@@ -1,14 +1,19 @@
+
 package com.stxnext.volontulo.ui.offers;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,9 +33,13 @@ import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
@@ -40,7 +49,6 @@ import com.stxnext.volontulo.api.SaveError;
 import com.stxnext.volontulo.api.SaveResponse;
 import com.stxnext.volontulo.api.UserProfile;
 import com.stxnext.volontulo.logic.session.SessionManager;
-import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.utils.BaseTextWatcher;
 
 import org.parceler.Parcels;
@@ -57,14 +65,16 @@ import retrofit2.Callback;
 import retrofit2.Converter;
 import retrofit2.Response;
 
-public class AddOfferFragment extends VolontuloBaseFragment {
+public class OfferSaveFragment extends VolontuloBaseFragment {
     private static final int REQUEST_IMAGE = 0x1011;
     private static final String KEY_OFFER_FORM = "offer-form";
     public static final LatLngBounds POLAND_BOUNDING_BOX = new LatLngBounds(
             new LatLng(49.0821066, 14.1972837),
             new LatLng(54.8263969, 23.6091250)
     );
-    private static final String TAG = "ADD-OFFER";
+    public static final String OFFER_EDIT = "OFFER-EDIT";
+    public static final String OFFER_ADD = "OFFER-ADD";
+    private static String TAG;
 
     @BindView(R.id.offer_name_layout) TextInputLayout offerNameLayout;
     @BindView(R.id.offer_name) EditText offerName;
@@ -82,11 +92,27 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     @BindView(R.id.place_autocomplete_result_switcher) ViewSwitcher placeAutocompleteResultSwitcher;
     private SupportPlaceAutocompleteFragment placeFragment;
 
-    private Ofer formState = new Ofer();
+    private Offer formState;
+    private FragmentActivity activity;
 
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_offer_add;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        final Bundle arguments = getArguments();
+        activity = getActivity();
+        if (arguments != null) {
+            final Parcelable offer = arguments.getParcelable(Offer.OFFER_OBJECT);
+            formState = Parcels.unwrap(offer);
+            TAG = OFFER_EDIT;
+        } else {
+            formState = new Offer();
+            TAG = OFFER_ADD;
+        }
     }
 
     @Override
@@ -105,7 +131,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         placeFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(final Place place) {
-                formState.setPlaceNameAndPosition(place);
+                formState.setLocationNameAndPosition(place);
                 mapFragment.getMapAsync(new ThumbnailMap(place.getLatLng(), place.getName()));
                 placeAutocompleteResultSwitcher.showNext();
             }
@@ -115,14 +141,16 @@ public class AddOfferFragment extends VolontuloBaseFragment {
                 Toast.makeText(getActivity(), String.format("Error@place selector: %s", status), Toast.LENGTH_LONG).show();
             }
         });
+
+        fillFormFrom(formState);
     }
 
     private static class OfferObjectUpdater extends BaseTextWatcher {
         @IdRes
         private final int editTextId;
-        private final Ofer updated;
+        private final Offer updated;
 
-        OfferObjectUpdater(@IdRes int id, Ofer model) {
+        OfferObjectUpdater(@IdRes int id, Offer model) {
             editTextId = id;
             updated = model;
         }
@@ -132,7 +160,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             final String result = s.toString();
             switch (editTextId) {
                 case R.id.offer_name:
-                    updated.setName(result);
+                    updated.setTitle(result);
                     break;
 
                 case R.id.offer_description:
@@ -144,7 +172,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
                     break;
 
                 case R.id.offer_time_requirement:
-                    updated.setTimeRequirement(result);
+                    updated.setTimeCommitment(result);
                     break;
 
                 case R.id.offer_requirements:
@@ -166,7 +194,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         if (requestCode == REQUEST_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
             final Uri selectedImage = data.getData();
             loadImageFromUri(selectedImage);
-            formState.setImagePath(selectedImage);
+            formState.applyImagePath(selectedImage);
             scrollView.post(new Runnable() {
                 @Override
                 public void run() {
@@ -200,28 +228,28 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            formState = Parcels.unwrap(savedInstanceState.getParcelable(KEY_OFFER_FORM));
+            formState = Parcels.unwrap(savedInstanceState.getParcelable(Offer.OFFER_OBJECT));
+            Log.d(TAG, "FROM-PARCEL " + formState.toString());
             fillFormFrom(formState);
         }
     }
 
-    private void fillFormFrom(final Ofer formState) {
-        offerName.setText(formState.getName());
-        placeFragment.setText(formState.getPlaceName());
-        placeFragment.setText(formState.getPlaceName());
+    private void fillFormFrom(final Offer formState) {
+        offerName.setText(formState.getTitle());
+        placeFragment.setText(formState.getLocation());
         offerDescription.setText(formState.getDescription());
-        offerTimeRequirement.setText(formState.getTimeRequirement());
+        offerTimeRequirement.setText(formState.getTimeCommitment());
         offerBenefits.setText(formState.getBenefits());
         offerRequirements.setText(formState.getRequirements());
-        if (!TextUtils.isEmpty(formState.getImagePath())) {
-            loadImageFromUri(Uri.parse(formState.getImagePath()));
+        if (!TextUtils.isEmpty(formState.retrieveImagePath())) {
+            loadImageFromUri(Uri.parse(formState.retrieveImagePath()));
         } else {
             unloadImage();
         }
-        if (!TextUtils.isEmpty(formState.getPlaceName())) {
-            final LatLng position = new LatLng(formState.getPlaceLatitude(), formState.getPlaceLongitude());
+        if (!TextUtils.isEmpty(formState.getLocation())) {
+            final LatLng position = new LatLng(formState.getLocationLatitude(), formState.getLocationLongitude());
             final SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-            mapFragment.getMapAsync(new ThumbnailMap(position, formState.getPlaceName()));
+            mapFragment.getMapAsync(new ThumbnailMap(position, formState.getLocation()));
             placeAutocompleteResultSwitcher.showNext();
         }
     }
@@ -250,7 +278,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         saveOffer(formState);
     }
 
-    private void saveOffer(Ofer formState) {
+    private void saveOffer(final Offer offer) {
         final SessionManager manager = SessionManager.getInstance(getActivity());
         final Realm realm = Realm.getDefaultInstance();
         final UserProfile userProfile = realm.where(UserProfile.class).equalTo("id", manager.getUserProfile().getId()).findFirst();
@@ -258,17 +286,13 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             return;
         }
         realm.close();
-        final Offer offer = new Offer();
-        offer.setTitle(formState.getName());
-        offer.setLocation(formState.getPlaceName());
-        offer.setTimeCommitment(formState.getTimeRequirement());
-        offer.setBenefits(formState.getBenefits());
-        offer.setDescription(formState.getDescription());
-        offer.setRequirements(formState.getRequirements());
-        offer.setLocationLongitude(formState.getPlaceLongitude());
-        offer.setLocationLatitude(formState.getPlaceLatitude());
-        offer.setOrganization(userProfile.getOrganizations().first());
-        final Call<SaveResponse> call = VolontuloApp.api.createOffer(manager.getSessionToken(), offer.getParams());
+        Call<SaveResponse> call;
+        if (TAG.equals(OFFER_EDIT)) {
+            call = VolontuloApp.api.updateOffer(manager.getSessionToken(), offer.getId(), offer.getParams());
+        } else {
+            offer.setOrganization(userProfile.getOrganizations().first());
+            call = VolontuloApp.api.createOffer(manager.getSessionToken(), offer.getParams());
+        }
         call.enqueue(new Callback<SaveResponse>() {
             @Override
             public void onResponse(Call<SaveResponse> call, Response<SaveResponse> response) {
@@ -278,13 +302,14 @@ public class AddOfferFragment extends VolontuloBaseFragment {
                     final SaveResponse created = response.body();
                     offer.setId(created.getId());
                     offer.setUrl(created.getUrl());
+                    offer.setRequirements(created.getRequirements());
                     offer.setTimePeriod(created.getTimePeriod());
                     offer.setStatusOld(created.getStatusOld());
                     offer.setRecruitmentStatus(created.getRecruitmentStatus());
                     offer.setActionStatus(created.getActionStatus());
                     final Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
-                    realm.copyToRealm(offer);
+                    realm.copyToRealmOrUpdate(offer);
                     realm.commitTransaction();
                     realm.close();
                 } else {
@@ -296,13 +321,24 @@ public class AddOfferFragment extends VolontuloBaseFragment {
                         Log.d(TAG, "EXCEPTION: " + e.getMessage());
                     }
                 }
-                getActivity().finish();
+                final String preferenceFile = activity.getString(R.string.preference_file_name);
+                final String offersRefresh = activity.getString(R.string.preference_offers_refresh);
+                final SharedPreferences preferences = activity.getSharedPreferences(preferenceFile, Context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor = preferences.edit();
+                if (TAG.equals(OFFER_ADD)) {
+                    final String offersPosition = activity.getString(R.string.preference_offers_position);
+                    editor.remove(offersPosition);
+                }
+                editor.putBoolean(offersRefresh, true);
+                editor.apply();
+                activity.setResult(Activity.RESULT_OK, new Intent());
+                activity.finish();
             }
 
             @Override
             public void onFailure(Call<SaveResponse> call, Throwable t) {
                 Log.d(TAG, "FAILURE");
-                getActivity().finish();
+                activity.finish();
             }
         });
     }
@@ -313,7 +349,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             offerNameLayout.setError(getString(R.string.offer_name_validate));
             result = false;
         }
-        if (TextUtils.isEmpty(formState.getPlaceName())) {
+        if (TextUtils.isEmpty(formState.getLocation())) {
             Toast.makeText(getActivity(), getString(R.string.offer_place_validate), Toast.LENGTH_LONG).show();
             result = false;
         }
@@ -361,20 +397,20 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     }
 }
 
-//class ThumbnailMap implements OnMapReadyCallback {
-//    private LatLng position;
-//    private CharSequence positionTitle;
-//
-//    ThumbnailMap(LatLng marker, CharSequence markerTitle) {
-//        position = marker;
-//        positionTitle = markerTitle;
-//    }
-//
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15));
-//        googleMap.addMarker(new MarkerOptions()
-//            .position(position)
-//            .title(String.valueOf(positionTitle)));
-//    }
-//}
+class ThumbnailMap implements OnMapReadyCallback {
+    private LatLng position;
+    private CharSequence positionTitle;
+
+    ThumbnailMap(LatLng marker, CharSequence markerTitle) {
+        position = marker;
+        positionTitle = markerTitle;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15));
+        googleMap.addMarker(new MarkerOptions()
+                .position(position)
+                .title(String.valueOf(positionTitle)));
+    }
+}
