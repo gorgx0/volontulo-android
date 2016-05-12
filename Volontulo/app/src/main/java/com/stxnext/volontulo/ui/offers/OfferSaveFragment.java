@@ -97,7 +97,7 @@ public class OfferSaveFragment extends VolontuloBaseFragment {
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_offer_add;
+        return R.layout.fragment_offer_save;
     }
 
     @Override

@@ -16,12 +16,13 @@ public class OfferSaveActivity extends VolontuloBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nodrawer);
-        init(R.string.edit_offer);
+        init(null);
         if (savedInstanceState == null) {
             final FragmentManager fragmentManager = getSupportFragmentManager();
             final OfferSaveFragment fragment = new OfferSaveFragment();
             final Bundle extras = getIntent().getExtras();
             if (extras != null) {
+                setTitle(R.string.edit_offer);
                 int imageResource = extras.getInt(Offer.IMAGE_RESOURCE, 0);
                 int id = extras.getInt(Offer.OFFER_ID, 0);
                 final Parcelable offer = extras.getParcelable(Offer.OFFER_OBJECT);
@@ -35,6 +36,8 @@ public class OfferSaveActivity extends VolontuloBaseActivity {
                     args.putParcelable(Offer.OFFER_OBJECT, offer);
                     fragment.setArguments(args);
                 }
+            } else {
+                setTitle(R.string.add_offer);
             }
             fragmentManager.beginTransaction()
                     .add(R.id.content, fragment)
