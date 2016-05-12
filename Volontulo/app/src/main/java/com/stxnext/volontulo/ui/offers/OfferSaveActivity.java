@@ -19,9 +19,10 @@ public class OfferSaveActivity extends VolontuloBaseActivity {
         init(null);
         if (savedInstanceState == null) {
             final FragmentManager fragmentManager = getSupportFragmentManager();
-            final OfferSaveFragment fragment = new OfferSaveFragment();
+            final OfferSaveFragment fragment;
             final Bundle extras = getIntent().getExtras();
             if (extras != null) {
+                fragment = new OfferEditFragment();
                 setTitle(R.string.edit_offer);
                 int imageResource = extras.getInt(Offer.IMAGE_RESOURCE, 0);
                 int id = extras.getInt(Offer.OFFER_ID, 0);
@@ -37,6 +38,7 @@ public class OfferSaveActivity extends VolontuloBaseActivity {
                     fragment.setArguments(args);
                 }
             } else {
+                fragment = new OfferCreateFragment();
                 setTitle(R.string.add_offer);
             }
             fragmentManager.beginTransaction()

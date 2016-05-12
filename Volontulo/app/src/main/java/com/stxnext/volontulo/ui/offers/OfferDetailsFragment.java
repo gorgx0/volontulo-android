@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -64,17 +63,12 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     @BindView(R.id.text_organization)
     TextView organization;
 
-    @DrawableRes
-    private int imageResource;
-
     private String imagePath;
-    private MenuItem itemJoined, itemEdit;
+    private MenuItem itemJoined;
     private Realm realm;
-    private int id;
     private Offer offer;
     private boolean joinedVisible = false, editVisible;
     private UserProfile profile;
-    private Bundle args;
 
     @Override
     public String getImagePath() {
@@ -84,11 +78,6 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_offers_details;
-    }
-
-    @Override
-    public int getImageResource() {
-        return imageResource;
     }
 
     private void fillData(Offer offer) {
@@ -103,7 +92,6 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         organization.setText(offer.getOrganization().getName());
         if (offer.hasImage()) {
             imagePath = offer.retrieveImagePath();
-            imageResource = 0;
         }
         if (offer.isUserJoined(profile.getUser().getId())) {
             joinedVisible = true;
@@ -127,20 +115,18 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         inflater.inflate(R.menu.offer_details_menu, menu);
         itemJoined = menu.findItem(R.id.action_offer_joined);
         itemJoined.setVisible(joinedVisible);
-        itemEdit = menu.findItem(R.id.action_offer_edit);
+        MenuItem itemEdit = menu.findItem(R.id.action_offer_edit);
         itemEdit.setVisible(editVisible);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        args = getArguments();
-        id = args.getInt(Offer.OFFER_ID, 0);
+        Bundle args = getArguments();
         offer = Parcels.unwrap(args.getParcelable(Offer.OFFER_OBJECT));
         if (offer != null) {
             Log.d(TAG, "FROM-PARCEL " + offer.toString());
             if (offer.hasImage()) {
-                imageResource = args.getInt(Offer.IMAGE_RESOURCE, 0);
                 if (args.containsKey(Offer.IMAGE_PATH)) {
                     imagePath = args.getString(Offer.IMAGE_PATH);
                 }

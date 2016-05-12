@@ -73,4 +73,5 @@
     <string name="error_connection">Problemy z połączeniem...</string>
     <string name="error_something_wrong">Coś poszło nie tak...</string>
     <string name="offer_joined_message">"Zgłosiłeś się!!! "</string>
+    <string name="error_organization_lack">Wolontariusz musi być przypisany do organizacji</string>
 </resources>
