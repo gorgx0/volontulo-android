@@ -12,8 +12,6 @@ import retrofit2.Call;
 
 public class OfferCreateFragment extends OfferSaveFragment {
 
-//    public static final String TAG = OFFER_CREATE;
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
