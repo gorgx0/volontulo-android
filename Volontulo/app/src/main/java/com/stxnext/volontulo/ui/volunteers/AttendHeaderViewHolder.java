@@ -38,7 +38,7 @@ public class AttendHeaderViewHolder extends AttendViewHolder {
     @BindView(R.id.image)
     ImageView image;
 
-    @Bind(R.id.list_header)
+    @BindView(R.id.list_header)
     LinearLayout listHeaderLayout;
 
     private UserProfile userProfile;
