@@ -39,7 +39,6 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
 
     public static final String TAG = "RETROFIT-TEST";
     public static final int REQUEST_EDIT = 1;
-    public static final int REQUEST_DETAIL = 2;
 
     @Bind(R.id.text_title)
     TextView title;
@@ -75,6 +74,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     private Offer offer;
     private boolean joinedVisible = false, editVisible;
     private UserProfile profile;
+    private Bundle args;
 
     @Override
     public String getImagePath() {
@@ -131,26 +131,30 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         itemEdit.setVisible(editVisible);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        args = getArguments();
+        id = args.getInt(Offer.OFFER_ID, 0);
+        offer = Parcels.unwrap(args.getParcelable(Offer.OFFER_OBJECT));
+        if (offer != null) {
+            Log.d(TAG, "FROM-PARCEL " + offer.toString());
+            if (offer.hasImage()) {
+                imageResource = args.getInt(Offer.IMAGE_RESOURCE, 0);
+                if (args.containsKey(Offer.IMAGE_PATH)) {
+                    imagePath = args.getString(Offer.IMAGE_PATH);
+                }
+            }
+        }
+    }
 
     @Override
     protected void onPostCreateView(View root) {
         realm = Realm.getDefaultInstance();
-        final Bundle arguments = getArguments();
-        id = arguments.getInt(Offer.OFFER_ID, 0);
-        offer = Parcels.unwrap(arguments.getParcelable(Offer.OFFER_OBJECT));
         offer.load();
         int userProfileId = SessionManager.getInstance(getActivity()).getUserProfile().getId();
         profile = realm.where(UserProfile.class).equalTo("id", userProfileId).findFirst();
         profile.load();
-        if (offer != null) {
-            Log.d(TAG, "FROM-PARCEL " + offer.toString());
-            if (offer.hasImage()) {
-                imageResource = arguments.getInt(Offer.IMAGE_RESOURCE, 0);
-                if (arguments.containsKey(Offer.IMAGE_PATH)) {
-                    imagePath = arguments.getString(Offer.IMAGE_PATH);
-                }
-            }
-        }
         fillData(offer);
     }
 
