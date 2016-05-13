@@ -26,5 +26,12 @@ notifications:
   email: false
 
 script:
-  - ./Volontulo/gradlew -p ./Volontulo assembleRelease
+        - ./Volontulo/gradlew -p ./Volontulo assembleDebug
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: ./Volontulo/gradlew assembleDebug crashlyticsUploadDistributionRelease
+    on:
+        branch: develop
 
