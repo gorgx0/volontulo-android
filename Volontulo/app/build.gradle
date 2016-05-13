@@ -33,7 +33,7 @@ android {
         }
 
         release {
-            Properties props = loadProjectProperties("StxNextKeys.repo", "VolontuloAndroid.properties")
+            Properties props = loadProjectProperties("StxNextKeys.repo", "VolontuloAndroid.properties", true)
             storeFile file(file(project.property("StxNextKeys.repo") + props['RELEASE_STORE_FILE']))
             storePassword props['RELEASE_STORE_PASS']
             keyAlias props['RELEASE_ALIAS']
