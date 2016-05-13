@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import io.palaima.debugdrawer.timber.data.LumberYard;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
@@ -25,6 +26,7 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 public class VolontuloApp extends Application {
 
@@ -88,5 +90,10 @@ public class VolontuloApp extends Application {
                 .client(httpClient)
                 .build();
         cachedApi = cachedRetrofit.create(VolontuloApi.class);
+
+        LumberYard lumberYard = LumberYard.getInstance(this);
+        lumberYard.cleanUp();
+        Timber.plant(lumberYard.tree());
+        Timber.plant(new Timber.DebugTree());
     }
 }

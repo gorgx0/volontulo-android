@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.stxnext.volontulo.R;
@@ -18,8 +17,9 @@ import com.stxnext.volontulo.logic.im.LocalMessage;
 
 import org.parceler.Parcels;
 
+import timber.log.Timber;
+
 public class MessagingActivity extends VolontuloBaseActivity implements MessagesListFragment.InstantMessagingViewCallback {
-    public static final String TAG = "Volontulo-Im";
     private static final String KEY_CONVERSATION = "conversation-storage";
 
     private ImService.InstantMessaging instantMessaging;
@@ -84,7 +84,7 @@ public class MessagingActivity extends VolontuloBaseActivity implements Messages
         if (instantMessaging != null) {
             instantMessaging.sendMessage(recipient, body, conversation);
         } else {
-            Log.w(TAG, "Try to compose message when not connected to IM service");
+            Timber.w("Try to compose message when not connected to IM service");
         }
     }
 

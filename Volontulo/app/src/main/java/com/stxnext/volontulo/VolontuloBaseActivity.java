@@ -28,6 +28,7 @@ import io.palaima.debugdrawer.commons.SettingsModule;
 import io.palaima.debugdrawer.location.LocationModule;
 import io.palaima.debugdrawer.picasso.PicassoModule;
 import io.palaima.debugdrawer.scalpel.ScalpelModule;
+import io.palaima.debugdrawer.timber.TimberModule;
 
 public abstract class VolontuloBaseActivity extends AppCompatActivity implements CollapsibleImage {
 
@@ -63,6 +64,7 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
                 .modules(
                         new LocationModule(this),
                         new ScalpelModule(this),
+                        new TimberModule(),
                         new PicassoModule(Picasso.with(this)),
                         new DeviceModule(this),
                         new BuildModule(this),

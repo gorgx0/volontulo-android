@@ -7,7 +7,6 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.sinch.android.rtc.ClientRegistration;
 import com.sinch.android.rtc.PushPair;
@@ -33,9 +32,9 @@ import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
+import timber.log.Timber;
 
 public class ImService extends Service implements SinchClientListener, SessionManager.OnSessionStateChanged {
-    private static final String TAG = "Volontulo-Service-Im";
     private ImConfiguration configuration = ImConfigFactory.create();
     private final InstantMessaging serviceInterface = new InstantMessaging();
     private SinchClient client = null;
@@ -94,7 +93,7 @@ public class ImService extends Service implements SinchClientListener, SessionMa
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "Exiting ImService");
+        Timber.d("Exiting ImService");
         if (realm != null) {
             realm.close();
         }
@@ -115,7 +114,7 @@ public class ImService extends Service implements SinchClientListener, SessionMa
         messageClient.addMessageClientListener(new MessageClientListener() {
             @Override
             public void onIncomingMessage(MessageClient messageClient, Message message) {
-                Log.i(TAG, String.format("Incoming message %s [from %s, to %s]", message.getMessageId(), message.getSenderId(), message.getRecipientIds()));
+                Timber.i("Incoming message %s [from %s, to %s]", message.getMessageId(), message.getSenderId(), message.getRecipientIds());
                 final String headerConversationId = message.getHeaders().get(LocalMessage.KEY_HEADER_CONVERSATION_ID);
                 Conversation conversation = realm.where(Conversation.class).equalTo(Conversation.FIELD_CONVERSATION_ID, headerConversationId).findFirst();
                 if (conversation == null) {
@@ -138,12 +137,12 @@ public class ImService extends Service implements SinchClientListener, SessionMa
 
             @Override
             public void onMessageSent(MessageClient messageClient, Message message, String s) {
-                Log.i(TAG, String.format("Outcoming message %s [to %s, from %s]", message.getMessageId(), message.getRecipientIds(), message.getSenderId()));
+                Timber.i("Outcoming message %s [to %s, from %s]", message.getMessageId(), message.getRecipientIds(), message.getSenderId());
             }
 
             @Override
             public void onMessageFailed(MessageClient messageClient, Message message, MessageFailureInfo messageFailureInfo) {
-                Log.e(TAG, String.format("Sending message %s failed [%s]", message.getMessageId(), messageFailureInfo.getSinchError()));
+                Timber.e("Sending message %s failed [%s]", message.getMessageId(), messageFailureInfo.getSinchError());
                 final LocalMessage localMessage = realm.where(LocalMessage.class).equalTo(LocalMessage.FIELD_MESSAGE_ID, message.getMessageId()).findFirst();
                 realm.beginTransaction();
                 localMessage.setDirection(LocalMessage.Direction.FAILED);
@@ -155,7 +154,7 @@ public class ImService extends Service implements SinchClientListener, SessionMa
 
             @Override
             public void onMessageDelivered(MessageClient messageClient, MessageDeliveryInfo messageDeliveryInfo) {
-                Log.d(TAG, String.format("LocalMessage %s delivered [to %s]", messageDeliveryInfo.getMessageId(), messageDeliveryInfo.getRecipientId()));
+                Timber.d("LocalMessage %s delivered [to %s]", messageDeliveryInfo.getMessageId(), messageDeliveryInfo.getRecipientId());
                 final LocalMessage localMessage = realm.where(LocalMessage.class).equalTo(LocalMessage.FIELD_MESSAGE_ID, messageDeliveryInfo.getMessageId()).findFirst();
                 realm.beginTransaction();
                 localMessage.setDirection(LocalMessage.Direction.DELIVERED);
@@ -167,7 +166,7 @@ public class ImService extends Service implements SinchClientListener, SessionMa
 
             @Override
             public void onShouldSendPushData(MessageClient messageClient, Message message, List<PushPair> list) {
-                Log.i(TAG, String.format("Should send push data %s [%s]", message.getMessageId(), list));
+                Timber.i("Should send push data %s [%s]", message.getMessageId(), list);
             }
         });
         broadcastIntent.putExtra(EXTRA_KEY_HAS_CONNECTED, true);
@@ -181,7 +180,7 @@ public class ImService extends Service implements SinchClientListener, SessionMa
 
     @Override
     public void onClientFailed(SinchClient sinchClient, SinchError sinchError) {
-        Log.e(TAG, String.format("Client: %s, Error: %d [%s@%s]", sinchClient, sinchError.getCode(), sinchError.getErrorType(), sinchError.getMessage()));
+        Timber.e("Client: %s, Error: %d [%s@%s]", sinchClient, sinchError.getCode(), sinchError.getErrorType(), sinchError.getMessage());
         client = null;
         broadcastIntent.putExtra(EXTRA_KEY_HAS_CONNECTED, false);
         localBroadcastManager.sendBroadcast(broadcastIntent);
@@ -189,12 +188,12 @@ public class ImService extends Service implements SinchClientListener, SessionMa
 
     @Override
     public void onRegistrationCredentialsRequired(SinchClient sinchClient, ClientRegistration clientRegistration) {
-        Log.i(TAG, String.format("Registration credentials required %s", clientRegistration));
+        Timber.i("Registration credentials required %s", clientRegistration);
     }
 
     @Override
     public void onLogMessage(int i, String s, String s1) {
-        Log.i(TAG, String.format("Log message: %d | %s | %s", i, s, s1));
+        Timber.i("Log message: %d | %s | %s", i, s, s1);
     }
 
     public void sendMessage(String recipientUser, String messageBody, Conversation conversation) {
@@ -209,16 +208,16 @@ public class ImService extends Service implements SinchClientListener, SessionMa
                 final LocalMessage localMessage = LocalMessage.createFrom(client, transformFrom(message), conversation);
                 realm.copyToRealmOrUpdate(localMessage);
                 realm.commitTransaction();
-                Log.i(TAG, String.format("Sending message %s with conversation %s", localMessage, conversation));
+                Timber.i("Sending message %s with conversation %s", localMessage, conversation);
                 messageClient.send(message);
                 if (messageListener != null) {
                     messageListener.onMessageSent(localMessage);
                 }
             } else {
-                Log.w(TAG, "Trying to send message without conversation, something goes wrong");
+                Timber.w("Trying to send message without conversation, something goes wrong");
             }
         } else {
-            Log.w(TAG, "Trying to send message when IM client not connected");
+            Timber.w("Trying to send message when IM client not connected");
         }
     }
 
@@ -266,16 +265,16 @@ public class ImService extends Service implements SinchClientListener, SessionMa
 
     @Override
     public void onSessionStateChanged(Session session) {
-        Log.d(TAG, String.format("Session state: %s", session));
+        Timber.d("Session state: %s", session);
         if (session.isAuthenticated() && session.getUserProfile().getId() > 0) {
             final String currentUserId = String.valueOf(session.getUserProfile().getUser().getId());
-            Log.d(TAG, String.format("IM service initializing with user [%s]", currentUserId));
+            Timber.d("IM service initializing with user [%s]", currentUserId);
             if (!TextUtils.isEmpty(currentUserId) && !isIMClientStarted()) {
-                Log.i(TAG, "IM service not started, so init it.");
+                Timber.i("IM service not started, so init it.");
                 startIMClient(currentUserId);
             }
         } else {
-            Log.d(TAG, "Waiting for user availablity in session");
+            Timber.d("Waiting for user availability in session");
         }
     }
 
