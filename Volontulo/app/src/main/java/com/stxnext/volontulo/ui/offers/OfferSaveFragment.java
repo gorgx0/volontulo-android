@@ -2,6 +2,7 @@
 package com.stxnext.volontulo.ui.offers;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -30,13 +31,9 @@ import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
@@ -97,14 +94,22 @@ public abstract class OfferSaveFragment extends VolontuloBaseFragment {
 
     protected abstract Call<SaveResponse> prepareCall(Offer offer, String token);
 
+    public abstract void onPostAttach();
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_offer_save;
     }
 
     @Override
-    protected void onPostCreateView(View root) {
+    public void onAttach(Context context) {
+        super.onAttach(context);
         activity = getActivity();
+        onPostAttach();
+    }
+
+    @Override
+    protected void onPostCreateView(View root) {
         setHasOptionsMenu(true);
         offerName.addTextChangedListener(new OfferObjectUpdater(offerName.getId(), formState));
         offerDescription.addTextChangedListener(new OfferObjectUpdater(offerDescription.getId(), formState));
@@ -310,7 +315,7 @@ public abstract class OfferSaveFragment extends VolontuloBaseFragment {
                         final SaveError error = converter.convert(response.errorBody());
                         Log.d(TAG, "ERROR: " + error.getDetail());
                     } catch (IOException e) {
-                        Log.d(TAG, "EXCEPTION: " + e.getMessage());
+                        Log.d(TAG, "EXCEPTION: " + e.getMessage(), e);
                     }
                 }
                 prepareRefresh();
@@ -380,20 +385,3 @@ public abstract class OfferSaveFragment extends VolontuloBaseFragment {
     }
 }
 
-class ThumbnailMap implements OnMapReadyCallback {
-    private LatLng position;
-    private CharSequence positionTitle;
-
-    ThumbnailMap(LatLng marker, CharSequence markerTitle) {
-        position = marker;
-        positionTitle = markerTitle;
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15));
-        googleMap.addMarker(new MarkerOptions()
-                .position(position)
-                .title(String.valueOf(positionTitle)));
-    }
-}

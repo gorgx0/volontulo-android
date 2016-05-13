@@ -17,8 +17,7 @@ import retrofit2.Call;
 public class OfferEditFragment extends OfferSaveFragment {
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onPostAttach() {
         final Bundle arguments = getArguments();
         if (arguments != null) {
             final Parcelable offer = arguments.getParcelable(Offer.OFFER_OBJECT);

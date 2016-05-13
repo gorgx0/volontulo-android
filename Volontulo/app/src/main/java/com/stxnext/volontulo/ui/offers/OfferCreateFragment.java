@@ -13,8 +13,7 @@ import retrofit2.Call;
 public class OfferCreateFragment extends OfferSaveFragment {
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onPostAttach() {
         formState = new Offer();
         TAG = OFFER_CREATE;
     }
