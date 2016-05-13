@@ -29,8 +29,8 @@ script:
   - ./Volontulo/gradlew -p ./Volontulo assembleRelease
 
 deploy:
-  skip_cleanup: true
   - provider: script
+    skip_cleanup: true
     script: ./Volontulo/gradlew assembleDebug crashlyticsUploadDistributionRelease
     on:
         branch: develop
