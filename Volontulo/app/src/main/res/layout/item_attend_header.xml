@@ -12,12 +12,18 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/header_data"
         android:baselineAligned="false"
         android:orientation="horizontal"
+        android:layout_alignParentTop="true"
         android:padding="6dp"
         android:weightSum="3">
 
@@ -113,5 +119,28 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:id="@+id/list_header"
+        android:layout_below="@+id/header_data"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:padding="5dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:text="Lista akcji w których uczestniczysz "/>
+
+    </LinearLayout>
+
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

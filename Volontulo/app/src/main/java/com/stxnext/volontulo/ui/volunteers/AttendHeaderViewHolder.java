@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -37,10 +38,18 @@ public class AttendHeaderViewHolder extends AttendViewHolder {
     @BindView(R.id.image)
     ImageView image;
 
+    @BindView(R.id.list_header)
+    LinearLayout listHeaderLayout;
+
     private UserProfile userProfile;
+    private boolean hasOffers;
 
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
+    }
+
+    public void setHasOffers(boolean hasOffers) {
+        this.hasOffers = hasOffers;
     }
 
     public AttendHeaderViewHolder(View itemView) {
@@ -59,6 +68,9 @@ public class AttendHeaderViewHolder extends AttendViewHolder {
                     .centerCrop()
                     .placeholder(R.drawable.ic_user_placeholder)
                     .into(image);
+        }
+        if (hasOffers) {
+            listHeaderLayout.setVisibility(View.VISIBLE);
         }
     }
 

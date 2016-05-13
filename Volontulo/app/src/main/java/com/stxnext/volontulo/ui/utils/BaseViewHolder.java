@@ -6,7 +6,10 @@ import android.view.View;
 import butterknife.ButterKnife;
 
 public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
+    public static final String POSITION = "POSITION";
+
     protected T objectBinded;
+    protected int position;
 
     public BaseViewHolder(View itemView) {
         super(itemView);
@@ -25,6 +28,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
 
     public final void bind(T model) {
         objectBinded = model;
+        position = getAdapterPosition();
         onBind(model);
-    }
+                                                                                                                                                                                                   }
 }

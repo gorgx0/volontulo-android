@@ -1,6 +1,8 @@
+
 package com.stxnext.volontulo.ui.offers;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -9,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,23 +31,19 @@ import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
-import com.stxnext.volontulo.api.CreateError;
-import com.stxnext.volontulo.api.CreateResponse;
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.Organization;
+import com.stxnext.volontulo.api.SaveError;
+import com.stxnext.volontulo.api.SaveResponse;
 import com.stxnext.volontulo.api.UserProfile;
 import com.stxnext.volontulo.logic.session.SessionManager;
-import com.stxnext.volontulo.model.Ofer;
 import com.stxnext.volontulo.ui.utils.BaseTextWatcher;
 
 import org.parceler.Parcels;
@@ -61,14 +60,16 @@ import retrofit2.Callback;
 import retrofit2.Converter;
 import retrofit2.Response;
 
-public class AddOfferFragment extends VolontuloBaseFragment {
+public abstract class OfferSaveFragment extends VolontuloBaseFragment {
     private static final int REQUEST_IMAGE = 0x1011;
     private static final String KEY_OFFER_FORM = "offer-form";
     public static final LatLngBounds POLAND_BOUNDING_BOX = new LatLngBounds(
             new LatLng(49.0821066, 14.1972837),
             new LatLng(54.8263969, 23.6091250)
     );
-    private static final String TAG = "ADD-OFFER";
+    public static final String OFFER_EDIT = "OFFER-EDIT";
+    public static final String OFFER_CREATE = "OFFER-CREATE";
+    protected static String TAG;
 
     @BindView(R.id.offer_name_layout) TextInputLayout offerNameLayout;
     @BindView(R.id.offer_name) EditText offerName;
@@ -78,6 +79,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     @BindView(R.id.offer_time_requirement) EditText offerTimeRequirement;
     @BindView(R.id.offer_benefits_layout) TextInputLayout offerBenefitsLayout;
     @BindView(R.id.offer_benefits) EditText offerBenefits;
+    @BindView(R.id.offer_requirements) EditText offerRequirements;
     @BindView(R.id.offer_thumbnail_card) View offerThumbnailCard;
     @BindView(R.id.offer_thumbnail) ImageView offerThumbnail;
     @BindView(R.id.offer_thumbnail_name) TextView offerThumbnailName;
@@ -85,11 +87,25 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     @BindView(R.id.place_autocomplete_result_switcher) ViewSwitcher placeAutocompleteResultSwitcher;
     private SupportPlaceAutocompleteFragment placeFragment;
 
-    private Ofer formState = new Ofer();
+    protected Offer formState;
+    protected FragmentActivity activity;
+
+    protected abstract void prepareRefresh();
+
+    protected abstract Call<SaveResponse> prepareCall(Offer offer, String token);
+
+    public abstract void onPostAttach();
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_offer_add;
+        return R.layout.fragment_offer_save;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = getActivity();
+        onPostAttach();
     }
 
     @Override
@@ -99,6 +115,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         offerDescription.addTextChangedListener(new OfferObjectUpdater(offerDescription.getId(), formState));
         offerBenefits.addTextChangedListener(new OfferObjectUpdater(offerBenefits.getId(), formState));
         offerTimeRequirement.addTextChangedListener(new OfferObjectUpdater(offerTimeRequirement.getId(), formState));
+        offerRequirements.addTextChangedListener(new OfferObjectUpdater(offerRequirements.getId(), formState));
         final SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         placeFragment = (SupportPlaceAutocompleteFragment) getChildFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         placeFragment.setHint(getString(R.string.offer_place));
@@ -107,34 +124,35 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         placeFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(final Place place) {
-                formState.setPlaceNameAndPosition(place);
+                formState.setLocationNameAndPosition(place);
                 mapFragment.getMapAsync(new ThumbnailMap(place.getLatLng(), place.getName()));
                 placeAutocompleteResultSwitcher.showNext();
             }
 
             @Override
             public void onError(Status status) {
-                Toast.makeText(getActivity(), String.format("Error@place selector: %s", status), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, String.format("Error@place selector: %s", status), Toast.LENGTH_LONG).show();
             }
         });
-    }
 
+        fillFormFrom(formState);
+    }
     private static class OfferObjectUpdater extends BaseTextWatcher {
         @IdRes
         private final int editTextId;
-        private final Ofer updated;
 
-        OfferObjectUpdater(@IdRes int id, Ofer model) {
+        private final Offer updated;
+
+        OfferObjectUpdater(@IdRes int id, Offer model) {
             editTextId = id;
             updated = model;
         }
-
         @Override
         public void afterTextChanged(Editable s) {
             final String result = s.toString();
             switch (editTextId) {
                 case R.id.offer_name:
-                    updated.setName(result);
+                    updated.setTitle(result);
                     break;
 
                 case R.id.offer_description:
@@ -146,10 +164,15 @@ public class AddOfferFragment extends VolontuloBaseFragment {
                     break;
 
                 case R.id.offer_time_requirement:
-                    updated.setTimeRequirement(result);
+                    updated.setTimeCommitment(result);
+                    break;
+
+                case R.id.offer_requirements:
+                    updated.setRequirements(result);
                     break;
             }
         }
+
     }
 
     @Override
@@ -164,7 +187,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
         if (requestCode == REQUEST_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
             final Uri selectedImage = data.getData();
             loadImageFromUri(selectedImage);
-            formState.setImagePath(selectedImage);
+            formState.applyImagePath(selectedImage);
             scrollView.post(new Runnable() {
                 @Override
                 public void run() {
@@ -198,27 +221,28 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            formState = Parcels.unwrap(savedInstanceState.getParcelable(KEY_OFFER_FORM));
+            formState = Parcels.unwrap(savedInstanceState.getParcelable(Offer.OFFER_OBJECT));
+            Log.d(TAG, "FROM-PARCEL " + formState.toString());
             fillFormFrom(formState);
         }
     }
 
-    private void fillFormFrom(final Ofer formState) {
-        offerName.setText(formState.getName());
-        placeFragment.setText(formState.getPlaceName());
-        placeFragment.setText(formState.getPlaceName());
+    private void fillFormFrom(final Offer formState) {
+        offerName.setText(formState.getTitle());
+        placeFragment.setText(formState.getLocation());
         offerDescription.setText(formState.getDescription());
-        offerTimeRequirement.setText(formState.getTimeRequirement());
+        offerTimeRequirement.setText(formState.getTimeCommitment());
         offerBenefits.setText(formState.getBenefits());
-        if (!TextUtils.isEmpty(formState.getImagePath())) {
-            loadImageFromUri(Uri.parse(formState.getImagePath()));
+        offerRequirements.setText(formState.getRequirements());
+        if (!TextUtils.isEmpty(formState.retrieveImagePath())) {
+            loadImageFromUri(Uri.parse(formState.retrieveImagePath()));
         } else {
             unloadImage();
         }
-        if (!TextUtils.isEmpty(formState.getPlaceName())) {
-            final LatLng position = new LatLng(formState.getPlaceLatitude(), formState.getPlaceLongitude());
+        if (!TextUtils.isEmpty(formState.getLocation())) {
+            final LatLng position = new LatLng(formState.getLocationLatitude(), formState.getLocationLongitude());
             final SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-            mapFragment.getMapAsync(new ThumbnailMap(position, formState.getPlaceName()));
+            mapFragment.getMapAsync(new ThumbnailMap(position, formState.getLocation()));
             placeAutocompleteResultSwitcher.showNext();
         }
     }
@@ -245,60 +269,64 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             return;
         }
         saveOffer(formState);
-        getActivity().finish();
     }
 
-    private void saveOffer(Ofer formState) {
-        final SessionManager manager = SessionManager.getInstance(getActivity());
+    private void saveOffer(final Offer offer) {
+        final SessionManager manager = SessionManager.getInstance(activity);
         final Realm realm = Realm.getDefaultInstance();
         final UserProfile userProfile = realm.where(UserProfile.class).equalTo("id", manager.getUserProfile().getId()).findFirst();
         if (userProfile == null || userProfile.getOrganizations().size() == 0) {
             return;
         }
         realm.close();
-        final Offer offer = new Offer();
-        offer.setTitle(formState.getName());
-        offer.setLocation(formState.getPlaceName());
-        offer.setTimeCommitment(formState.getTimeRequirement());
-        offer.setBenefits(formState.getBenefits());
-        offer.setDescription(formState.getDescription());
-        offer.setLocationLongitude(formState.getPlaceLongitude());
-        offer.setLocationLatitude(formState.getPlaceLatitude());
-        offer.setOrganization(userProfile.getOrganizations().first());
-        final Call<CreateResponse> call = VolontuloApp.api.createOffer(manager.getSessionToken(), offer.getParams());
-        call.enqueue(new Callback<CreateResponse>() {
+
+        final Organization organization = userProfile.getOrganizations().first();
+        if (organization == null) {
+            Toast.makeText(activity, R.string.error_organization_lack, Toast.LENGTH_LONG).show();
+        } else {
+            if (offer.getOrganization() == null) {
+                offer.setOrganization(organization);
+            }
+        }
+        offer.setOrganization(organization);
+        Call<SaveResponse> call = prepareCall(offer, manager.getSessionToken());
+        call.enqueue(new Callback<SaveResponse>() {
             @Override
-            public void onResponse(Call<CreateResponse> call, Response<CreateResponse> response) {
+            public void onResponse(Call<SaveResponse> call, Response<SaveResponse> response) {
                 Log.d(TAG, "RESPONSE");
                 if (response.isSuccessful()) {
                     Log.d(TAG, "SUCCESSFUL");
-                    final CreateResponse created = response.body();
-                    offer.setId(created.getId());
-                    offer.setUrl(created.getUrl());
-                    offer.setRequirements(created.getRequirements());
-                    offer.setTimePeriod(created.getTimePeriod());
-                    offer.setStatusOld(created.getStatusOld());
-                    offer.setRecruitmentStatus(created.getRecruitmentStatus());
-                    offer.setActionStatus(created.getActionStatus());
+                    final SaveResponse saved = response.body();
+                    offer.setId(saved.getId());
+                    offer.setUrl(saved.getUrl());
+                    offer.setRequirements(saved.getRequirements());
+                    offer.setTimePeriod(saved.getTimePeriod());
+                    offer.setStatusOld(saved.getStatusOld());
+                    offer.setRecruitmentStatus(saved.getRecruitmentStatus());
+                    offer.setActionStatus(saved.getActionStatus());
                     final Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
-                    realm.copyToRealm(offer);
+                    realm.copyToRealmOrUpdate(offer);
                     realm.commitTransaction();
                     realm.close();
                 } else {
-                    Converter<ResponseBody, CreateError> converter = VolontuloApp.retrofit.responseBodyConverter(CreateError.class, new Annotation[0]);
+                    Converter<ResponseBody, SaveError> converter = VolontuloApp.retrofit.responseBodyConverter(SaveError.class, new Annotation[0]);
                     try {
-                        final CreateError error = converter.convert(response.errorBody());
+                        final SaveError error = converter.convert(response.errorBody());
                         Log.d(TAG, "ERROR: " + error.getDetail());
                     } catch (IOException e) {
-                        Log.d(TAG, "EXCEPTION: " + e.getMessage());
+                        Log.d(TAG, "EXCEPTION: " + e.getMessage(), e);
                     }
                 }
+                prepareRefresh();
+                activity.setResult(Activity.RESULT_OK, new Intent());
+                activity.finish();
             }
 
             @Override
-            public void onFailure(Call<CreateResponse> call, Throwable t) {
+            public void onFailure(Call<SaveResponse> call, Throwable t) {
                 Log.d(TAG, "FAILURE");
+                activity.finish();
             }
         });
     }
@@ -309,8 +337,8 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             offerNameLayout.setError(getString(R.string.offer_name_validate));
             result = false;
         }
-        if (TextUtils.isEmpty(formState.getPlaceName())) {
-            Toast.makeText(getActivity(), getString(R.string.offer_place_validate), Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty(formState.getLocation())) {
+            Toast.makeText(activity, getString(R.string.offer_place_validate), Toast.LENGTH_LONG).show();
             result = false;
         }
         if (TextUtils.isEmpty(offerDescription.getText())) {
@@ -329,7 +357,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     }
 
     private void loadImageFromUri(Uri selectedImage) {
-        Picasso.with(getActivity())
+        Picasso.with(activity)
                 .load(selectedImage)
                 .fit()
                 .into(offerThumbnail);
@@ -342,7 +370,7 @@ public class AddOfferFragment extends VolontuloBaseFragment {
             return selectedImage.getLastPathSegment();
         } else if ("content".equals(selectedImage.getScheme())) {
             final String[] projection = {MediaStore.Images.Media.TITLE};
-            final Cursor cursor = getActivity().getContentResolver().query(selectedImage, projection, null, null, null);
+            final Cursor cursor = activity.getContentResolver().query(selectedImage, projection, null, null, null);
             try {
                 if (cursor != null && cursor.moveToFirst()) {
                     return cursor.getString(cursor.getColumnIndexOrThrow(projection[0]));
@@ -357,20 +385,3 @@ public class AddOfferFragment extends VolontuloBaseFragment {
     }
 }
 
-class ThumbnailMap implements OnMapReadyCallback {
-    private LatLng position;
-    private CharSequence positionTitle;
-
-    ThumbnailMap(LatLng marker, CharSequence markerTitle) {
-        position = marker;
-        positionTitle = markerTitle;
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15));
-        googleMap.addMarker(new MarkerOptions()
-            .position(position)
-            .title(String.valueOf(positionTitle)));
-    }
-}

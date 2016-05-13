@@ -1,11 +1,14 @@
 package com.stxnext.volontulo.ui.offers;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +37,7 @@ import retrofit2.Response;
 public class OfferDetailsFragment extends VolontuloBaseFragment {
 
     public static final String TAG = "RETROFIT-TEST";
+    public static final int REQUEST_EDIT = 1;
 
     @BindView(R.id.text_title)
     TextView title;
@@ -59,15 +63,12 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     @BindView(R.id.text_organization)
     TextView organization;
 
-    @DrawableRes
-    private int imageResource;
-
     private String imagePath;
     private MenuItem itemJoined;
     private Realm realm;
-    private int id;
     private Offer offer;
-    private boolean joinedVisible = false;
+    private boolean joinedVisible = false, editVisible;
+    private UserProfile profile;
 
     @Override
     public String getImagePath() {
@@ -77,25 +78,6 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_offers_details;
-    }
-
-    @Override
-    public int getImageResource() {
-        return imageResource;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        realm = Realm.getDefaultInstance();
-        final Bundle arguments = getArguments();
-        id = arguments.getInt(Offer.OFFER_ID, 0);
-        offer = Parcels.unwrap(arguments.getParcelable(Offer.OFFER_OBJECT));
-        Log.d(TAG, "FROM-PARCEL " + offer.toString());
-        imageResource = arguments.getInt(Offer.IMAGE_RESOURCE, R.drawable.ice);
-        if (arguments.containsKey(Offer.IMAGE_PATH)) {
-            imagePath = arguments.getString(Offer.IMAGE_PATH);
-        }
     }
 
     private void fillData(Offer offer) {
@@ -109,14 +91,15 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         timeCommitment.setText(offer.getTimeCommitment());
         organization.setText(offer.getOrganization().getName());
         if (offer.hasImage()) {
-            imagePath = offer.getImagePath();
-            imageResource = 0;
+            imagePath = offer.retrieveImagePath();
         }
-        UserProfile profile = SessionManager.getInstance(getActivity()).getUserProfile();
         if (offer.isUserJoined(profile.getUser().getId())) {
             joinedVisible = true;
         } else if (offer.canBeJoined(profile)) {
             requestFloatingActionButton();
+        }
+        if (offer.canBeEdit(profile)) {
+            editVisible = true;
         }
     }
 
@@ -132,17 +115,38 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         inflater.inflate(R.menu.offer_details_menu, menu);
         itemJoined = menu.findItem(R.id.action_offer_joined);
         itemJoined.setVisible(joinedVisible);
+        MenuItem itemEdit = menu.findItem(R.id.action_offer_edit);
+        itemEdit.setVisible(editVisible);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Bundle args = getArguments();
+        offer = Parcels.unwrap(args.getParcelable(Offer.OFFER_OBJECT));
+        if (offer != null) {
+            Log.d(TAG, "FROM-PARCEL " + offer.toString());
+            if (offer.hasImage()) {
+                if (args.containsKey(Offer.IMAGE_PATH)) {
+                    imagePath = args.getString(Offer.IMAGE_PATH);
+                }
+            }
+        }
+    }
 
     @Override
     protected void onPostCreateView(View root) {
+        realm = Realm.getDefaultInstance();
+        offer.load();
+        int userProfileId = SessionManager.getInstance(getActivity()).getUserProfile().getId();
+        profile = realm.where(UserProfile.class).equalTo("id", userProfileId).findFirst();
+        profile.load();
         fillData(offer);
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onDestroyView() {
+        super.onDestroyView();
         realm.close();
     }
 
@@ -180,5 +184,32 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
                 Log.d(TAG, msg);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_offer_edit:
+                final Intent intent = new Intent(getActivity(), OfferSaveActivity.class);
+                intent.putExtra(Offer.OFFER_OBJECT, Parcels.wrap(offer));
+                startActivityForResult(intent, REQUEST_EDIT);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_EDIT) {
+            final FragmentActivity activity = getActivity();
+            final Parcelable offer = data.getParcelableExtra(Offer.OFFER_OBJECT);
+            Intent intent = new Intent();
+            intent.putExtra(Offer.OFFER_OBJECT, offer);
+            activity.setResult(Activity.RESULT_OK, intent);
+            activity.finish();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

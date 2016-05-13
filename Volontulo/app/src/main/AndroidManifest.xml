@@ -45,7 +45,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.main.MainHostActivity" />
         <activity
-            android:name=".ui.offers.AddOfferActivity"
+            android:name=".ui.offers.OfferSaveActivity"
             android:parentActivityName=".ui.main.MainHostActivity"
             android:theme="@style/AppTheme.BorderlessButtons"
             android:windowSoftInputMode="stateHidden">
