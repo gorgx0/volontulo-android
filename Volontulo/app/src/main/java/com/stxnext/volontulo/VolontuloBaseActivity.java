@@ -20,6 +20,14 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.palaima.debugdrawer.DebugDrawer;
+import io.palaima.debugdrawer.commons.BuildModule;
+import io.palaima.debugdrawer.commons.DeviceModule;
+import io.palaima.debugdrawer.commons.NetworkModule;
+import io.palaima.debugdrawer.commons.SettingsModule;
+import io.palaima.debugdrawer.location.LocationModule;
+import io.palaima.debugdrawer.picasso.PicassoModule;
+import io.palaima.debugdrawer.scalpel.ScalpelModule;
 
 public abstract class VolontuloBaseActivity extends AppCompatActivity implements CollapsibleImage {
 
@@ -43,9 +51,24 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
     @BindView(R.id.fab)
     protected FloatingActionButton floatingActionButton;
 
+    protected DebugDrawer debugDrawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    private void initDebugDrawer() {
+        debugDrawer = new DebugDrawer.Builder(this)
+                .modules(
+                        new LocationModule(this),
+                        new ScalpelModule(this),
+                        new PicassoModule(Picasso.with(this)),
+                        new DeviceModule(this),
+                        new BuildModule(this),
+                        new NetworkModule(this),
+                        new SettingsModule(this)
+                ).build();
     }
 
     protected final void init(int resourceTitle) {
@@ -91,6 +114,7 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
         setupFloatingActionButton();
+        initDebugDrawer();
     }
 
     private void setupFloatingActionButton() {
@@ -160,4 +184,27 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
         appbar.setActivated(false);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        debugDrawer.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        debugDrawer.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        debugDrawer.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        debugDrawer.onStop();
+    }
 }
