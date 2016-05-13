@@ -26,6 +26,7 @@ import io.palaima.debugdrawer.commons.DeviceModule;
 import io.palaima.debugdrawer.commons.NetworkModule;
 import io.palaima.debugdrawer.commons.SettingsModule;
 import io.palaima.debugdrawer.location.LocationModule;
+import io.palaima.debugdrawer.okhttp3.OkHttp3Module;
 import io.palaima.debugdrawer.picasso.PicassoModule;
 import io.palaima.debugdrawer.scalpel.ScalpelModule;
 import io.palaima.debugdrawer.timber.TimberModule;
@@ -66,6 +67,7 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
                         new ScalpelModule(this),
                         new TimberModule(),
                         new PicassoModule(Picasso.with(this)),
+                        new OkHttp3Module(VolontuloApp.okHttpClient),
                         new DeviceModule(this),
                         new BuildModule(this),
                         new NetworkModule(this),

@@ -30,10 +30,10 @@ import timber.log.Timber;
 
 public class VolontuloApp extends Application {
 
-    public static final String API_ENDPOINT = "http://volontuloapp.stxnext.local";
     public static VolontuloApi api;
     public static VolontuloApi cachedApi;
     public static Retrofit retrofit;
+    public static OkHttpClient okHttpClient;
 
     @Override
     public void onCreate() {
@@ -59,11 +59,16 @@ public class VolontuloApp extends Application {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         clientBuilder.addInterceptor(loggingInterceptor);
+        clientBuilder.cache(new Cache(new File(getCacheDir(), String.valueOf(UUID.randomUUID())), 1024 * 1024 * 10));
+//        clientBuilder.readTimeout(10, TimeUnit.SECONDS);
+//        clientBuilder.writeTimeout(10, TimeUnit.SECONDS);
+//        clientBuilder.connectTimeout(10, TimeUnit.SECONDS);
 
+        okHttpClient = clientBuilder.build();
         final Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
-                .baseUrl(API_ENDPOINT)
+                .baseUrl(VolontuloApi.ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(clientBuilder.build());
+                .client(okHttpClient);
 
         retrofit = retrofitBuilder.build();
         api = retrofit.create(VolontuloApi.class);

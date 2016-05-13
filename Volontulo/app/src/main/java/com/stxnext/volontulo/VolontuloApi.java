@@ -21,6 +21,8 @@ import retrofit2.http.Path;
 
 public interface VolontuloApi {
 
+    public static final String ENDPOINT = "http://volontuloapp.stxnext.local";
+
     @GET("api/users_profiles/{id}.json")
     Call<UserProfile> getVolunteer(@Path("id") int id);
 
