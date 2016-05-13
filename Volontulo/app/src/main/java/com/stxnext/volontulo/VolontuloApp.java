@@ -3,6 +3,7 @@ package com.stxnext.volontulo;
 import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
@@ -41,7 +42,10 @@ public class VolontuloApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        CrashlyticsCore core = new CrashlyticsCore.Builder()
+                .disabled(BuildConfig.DEBUG)
+                .build();
+        Fabric.with(this, new Crashlytics.Builder().core(core).build());
         JodaTimeAndroid.init(this);
         final RealmConfiguration.Builder realmBuilder = new RealmConfiguration.Builder(this);
         Realm.setDefaultConfiguration(RealmConfigurator.prepare(realmBuilder));

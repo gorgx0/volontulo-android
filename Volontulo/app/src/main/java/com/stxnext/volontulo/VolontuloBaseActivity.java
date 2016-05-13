@@ -191,24 +191,32 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        debugDrawer.onStart();
+        if (debugDrawer != null) {
+            debugDrawer.onStart();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        debugDrawer.onResume();
+        if (debugDrawer != null) {
+            debugDrawer.onResume();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        debugDrawer.onPause();
+        if (debugDrawer != null) {
+            debugDrawer.onPause();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        debugDrawer.onStop();
+        if (debugDrawer != null) {
+            debugDrawer.onStop();
+        }
     }
 }
