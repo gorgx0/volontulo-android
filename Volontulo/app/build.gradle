@@ -100,11 +100,7 @@ def loadProjectProperties(String repoKeyName, String propertiesFilename, boolean
         }
     } else {
         def message = "Please configure compilation environment - ${repoKeyName} property is not found"
-        if (aggressiveStop) {
-            throw new StopActionException(message)
-        } else {
-            logger.log(LogLevel.WARN, message)
-        }
+        logger.log(LogLevel.WARN, message)
     }
     return props
 }
