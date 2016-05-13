@@ -44,6 +44,8 @@ class AttendsAdapter extends BaseMockAdapter<Offer, AttendViewHolder> {
         } else {
             final AttendHeaderViewHolder attendHeaderViewHolder = new AttendHeaderViewHolder(item);
             attendHeaderViewHolder.setUserProfile(userProfile);
+            boolean hasOffers = objects != null && objects.size() != 0;
+            attendHeaderViewHolder.setHasOffers(hasOffers);
             return attendHeaderViewHolder;
         }
     }

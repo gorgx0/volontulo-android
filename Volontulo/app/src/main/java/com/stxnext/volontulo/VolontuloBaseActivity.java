@@ -151,7 +151,6 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
 
     private void lockAppBarClosed() {
         final ViewGroup.LayoutParams layoutParams = appbar.getLayoutParams();
-        final int height = layoutParams.height;
         layoutParams.height = (int) getResources().getDimension(R.dimen.normal_height);
         appbar.setLayoutParams(layoutParams);
         collapsingToolbar.setTitleEnabled(false);

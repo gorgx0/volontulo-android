@@ -1,7 +1,10 @@
 package com.stxnext.volontulo.api;
 
+import android.net.Uri;
 import android.text.TextUtils;
 
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 import com.stxnext.volontulo.utils.realm.ImageParcelConverter;
 import com.stxnext.volontulo.utils.realm.UserParcelConverter;
@@ -15,6 +18,7 @@ import java.util.Map;
 import io.realm.OfferRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 @Parcel(implementations = {OfferRealmProxy.class},
@@ -78,6 +82,8 @@ public class Offer extends RealmObject {
     private RealmList<Image> images;
     private double locationLongitude;
     private double locationLatitude;
+    @Ignore
+    private int position;
 
     /**
      *
@@ -637,6 +643,14 @@ public class Offer extends RealmObject {
         this.locationLatitude = locationLatitude;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     @Override
     public String toString() {
         return "Offer " + id + ": '" + title + "' (" + location + ")";
@@ -677,8 +691,8 @@ public class Offer extends RealmObject {
         return images != null && images.size() > 0;
     }
 
-    public String getImagePath() {
-        return images.get(0).getPath();
+    public String retrieveImagePath() {
+        return hasImage() ? images.get(0).getPath() : null;
     }
 
     public Map<String, String> getParams() {
@@ -688,9 +702,31 @@ public class Offer extends RealmObject {
         map.put("location", location);
         map.put("description", description);
         map.put("benefits", benefits);
+        map.put("requirements", requirements);
         if (organization != null) {
             map.put("organization", String.valueOf(organization.getId()));
         }
         return map;
+    }
+
+    public boolean canBeEdit(UserProfile profile) {
+        final RealmList<Organization> organizations = profile.getOrganizations();
+        return !organizations.isEmpty() && organizations.first().getId() == organization.getId();
+    }
+
+    public void setLocationNameAndPosition(Place place) {
+        final LatLng position = place.getLatLng();
+        locationLongitude = position.longitude;
+        locationLatitude = position.latitude;
+        location = String.valueOf(place.getName());
+    }
+
+    public void applyImagePath(Uri selectedImage) {
+        if (selectedImage == null) {
+            return;
+        }
+        Image image = hasImage() ? images.first() : new Image();
+        image.setPath(selectedImage.getPath());
+        images.add(0, image);
     }
 }

@@ -70,4 +70,16 @@ public abstract class BaseMockAdapter<T, V extends BaseViewHolder<T>> extends Re
         selectedPosition = position;
         notifyItemChanged(position);
     }
+
+    public void refreshItem(int position, T object) {
+        if (position < objects.size()) {
+            objects.set(position, object);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void add(T object) {
+        objects.add(object);
+        notifyDataSetChanged();
+    }
 }

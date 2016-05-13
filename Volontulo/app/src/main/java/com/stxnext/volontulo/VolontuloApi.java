@@ -1,9 +1,9 @@
 package com.stxnext.volontulo;
 
-import com.stxnext.volontulo.api.CreateResponse;
 import com.stxnext.volontulo.api.JoinResponse;
 import com.stxnext.volontulo.api.LoginResponse;
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.SaveResponse;
 import com.stxnext.volontulo.api.UserProfile;
 
 import java.util.List;
@@ -16,6 +16,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface VolontuloApi {
@@ -39,6 +40,7 @@ public interface VolontuloApi {
     @POST("/rest-auth/login/")
     Call<LoginResponse> login(@Field("username") String username, @Field("password") String password);
 
+
     @POST("/rest-auth/logout/")
     Call<Void> logout(@Header("Authorization") String authorization);
 
@@ -48,6 +50,9 @@ public interface VolontuloApi {
 
     @FormUrlEncoded
     @POST("/api/offers/create/")
-    Call<CreateResponse> createOffer(@Header("Authorization") String authorization, @FieldMap(encoded = true) Map<String, String> params);
+    Call<SaveResponse> createOffer(@Header("Authorization") String authorization, @FieldMap(encoded = true) Map<String, String> params);
 
+    @FormUrlEncoded
+    @PUT("/api/offers/{id}/update/")
+    Call<SaveResponse> updateOffer(@Header("Authorization") String authorization, @Path("id") int id, @FieldMap(encoded = true) Map<String, String> params);
 }

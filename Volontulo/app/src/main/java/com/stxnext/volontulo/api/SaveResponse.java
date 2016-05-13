@@ -1,11 +1,10 @@
 package com.stxnext.volontulo.api;
 
-public class CreateResponse {
+public class SaveResponse {
 
     private String url;
     private Integer id;
     private Integer organization;
-//    private List<Object> volunteers = new ArrayList<Object>();
     private String requirements;
     private String timePeriod;
     private String statusOld;
@@ -66,24 +65,6 @@ public class CreateResponse {
     public void setOrganization(Integer organization) {
         this.organization = organization;
     }
-
-//    /**
-//     *
-//     * @return
-//     * The volunteers
-//     */
-//    public List<Object> getVolunteers() {
-//        return volunteers;
-//    }
-//
-//    /**
-//     *
-//     * @param volunteers
-//     * The volunteers
-//     */
-//    public void setVolunteers(List<Object> volunteers) {
-//        this.volunteers = volunteers;
-//    }
 
     /**
      *

@@ -37,4 +37,11 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
         objects.addAll(offers);
         notifyDataSetChanged();
     }
+
+    @Override
+    public long getItemId(int position) {
+        Offer offer = objects.get(position);
+        return offer != null ? offer.getId() : -1;
+    }
+
 }
