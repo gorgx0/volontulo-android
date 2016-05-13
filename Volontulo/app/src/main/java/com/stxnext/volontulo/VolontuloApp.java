@@ -13,6 +13,7 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import io.palaima.debugdrawer.timber.data.LumberYard;
 import io.realm.Realm;
@@ -60,9 +61,9 @@ public class VolontuloApp extends Application {
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         clientBuilder.addInterceptor(loggingInterceptor);
         clientBuilder.cache(new Cache(new File(getCacheDir(), String.valueOf(UUID.randomUUID())), 1024 * 1024 * 10));
-//        clientBuilder.readTimeout(10, TimeUnit.SECONDS);
-//        clientBuilder.writeTimeout(10, TimeUnit.SECONDS);
-//        clientBuilder.connectTimeout(10, TimeUnit.SECONDS);
+        clientBuilder.readTimeout(10, TimeUnit.SECONDS);
+        clientBuilder.writeTimeout(10, TimeUnit.SECONDS);
+        clientBuilder.connectTimeout(10, TimeUnit.SECONDS);
 
         okHttpClient = clientBuilder.build();
         final Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
