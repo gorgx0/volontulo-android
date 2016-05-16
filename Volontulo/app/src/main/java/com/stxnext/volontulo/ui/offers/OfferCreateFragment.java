@@ -15,7 +15,6 @@ public class OfferCreateFragment extends OfferSaveFragment {
     @Override
     public void onPostAttach() {
         formState = new Offer();
-        TAG = OFFER_CREATE;
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.stxnext.volontulo.logic.im;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.logic.session.SessionManager;
@@ -20,12 +19,12 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import timber.log.Timber;
 
 @Parcel(implementations = {ConversationRealmProxy.class},
     value = Parcel.Serialization.BEAN,
     analyze = {Conversation.class})
 public class Conversation extends RealmObject {
-    private static final String TAG = "Conversation";
     public static final String FIELD_CONVERSATION_ID = "conversationId";
     public static final String FIELD_CREATOR_ID = "creatorId";
     public static final String FIELD_RECIPIENTS_IDS = "recipientsIds";
@@ -85,9 +84,9 @@ public class Conversation extends RealmObject {
                 .findFirst();
         if (conversation == null) {
             conversation = Conversation.create(resolveCurrentUserName(context), new RealmList<>(new RealmString(participantId)));
-            Log.d(TAG, String.format("No conversation found, so we create new one: %s", conversation));
+            Timber.d("No conversation found, so we create new one: %s", conversation);
         } else {
-            Log.d(TAG, String.format("Conversation found: %s", conversation));
+            Timber.d("Conversation found: %s", conversation);
         }
         realm.close();
         return conversation;

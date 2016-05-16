@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,10 +32,10 @@ import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class OfferDetailsFragment extends VolontuloBaseFragment {
 
-    public static final String TAG = "RETROFIT-TEST";
     public static final int REQUEST_EDIT = 1;
 
     @BindView(R.id.text_title)
@@ -125,7 +124,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         Bundle args = getArguments();
         offer = Parcels.unwrap(args.getParcelable(Offer.OFFER_OBJECT));
         if (offer != null) {
-            Log.d(TAG, "FROM-PARCEL " + offer.toString());
+            Timber.d("FROM-PARCEL %s", offer.toString());
             if (offer.hasImage()) {
                 if (args.containsKey(Offer.IMAGE_PATH)) {
                     imagePath = args.getString(Offer.IMAGE_PATH);
@@ -181,7 +180,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
             public void onFailure(Call<JoinResponse> call, Throwable t) {
                 String msg = "[FAILURE] message - " + t.getMessage();
                 Toast.makeText(getContext(), R.string.error_connection, Toast.LENGTH_SHORT).show();
-                Log.d(TAG, msg);
+                Timber.d(msg);
             }
         });
     }

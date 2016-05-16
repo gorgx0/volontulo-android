@@ -23,7 +23,6 @@ public class OfferEditFragment extends OfferSaveFragment {
             final Parcelable offer = arguments.getParcelable(Offer.OFFER_OBJECT);
             formState = Parcels.unwrap(offer);
         }
-        TAG = OFFER_EDIT;
     }
 
     @Override

@@ -14,7 +14,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -59,6 +58,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Converter;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public abstract class OfferSaveFragment extends VolontuloBaseFragment {
     private static final int REQUEST_IMAGE = 0x1011;
@@ -67,9 +67,6 @@ public abstract class OfferSaveFragment extends VolontuloBaseFragment {
             new LatLng(49.0821066, 14.1972837),
             new LatLng(54.8263969, 23.6091250)
     );
-    public static final String OFFER_EDIT = "OFFER-EDIT";
-    public static final String OFFER_CREATE = "OFFER-CREATE";
-    protected static String TAG;
 
     @BindView(R.id.offer_name_layout) TextInputLayout offerNameLayout;
     @BindView(R.id.offer_name) EditText offerName;
@@ -222,7 +219,7 @@ public abstract class OfferSaveFragment extends VolontuloBaseFragment {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             formState = Parcels.unwrap(savedInstanceState.getParcelable(Offer.OFFER_OBJECT));
-            Log.d(TAG, "FROM-PARCEL " + formState.toString());
+            Timber.d("FROM-PARCEL %s", formState.toString());
             fillFormFrom(formState);
         }
     }
@@ -293,9 +290,9 @@ public abstract class OfferSaveFragment extends VolontuloBaseFragment {
         call.enqueue(new Callback<SaveResponse>() {
             @Override
             public void onResponse(Call<SaveResponse> call, Response<SaveResponse> response) {
-                Log.d(TAG, "RESPONSE");
+                Timber.d("RESPONSE");
                 if (response.isSuccessful()) {
-                    Log.d(TAG, "SUCCESSFUL");
+                    Timber.d("SUCCESSFUL");
                     final SaveResponse saved = response.body();
                     offer.setId(saved.getId());
                     offer.setUrl(saved.getUrl());
@@ -313,9 +310,9 @@ public abstract class OfferSaveFragment extends VolontuloBaseFragment {
                     Converter<ResponseBody, SaveError> converter = VolontuloApp.retrofit.responseBodyConverter(SaveError.class, new Annotation[0]);
                     try {
                         final SaveError error = converter.convert(response.errorBody());
-                        Log.d(TAG, "ERROR: " + error.getDetail());
+                        Timber.d("ERROR: %s", error.getDetail());
                     } catch (IOException e) {
-                        Log.d(TAG, "EXCEPTION: " + e.getMessage(), e);
+                        Timber.d(e, "EXCEPTION: %s", e.getMessage());
                     }
                 }
                 prepareRefresh();
@@ -325,7 +322,7 @@ public abstract class OfferSaveFragment extends VolontuloBaseFragment {
 
             @Override
             public void onFailure(Call<SaveResponse> call, Throwable t) {
-                Log.d(TAG, "FAILURE");
+                Timber.d("FAILURE");
                 activity.finish();
             }
         });

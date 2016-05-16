@@ -3,7 +3,6 @@ package com.stxnext.volontulo.logic.session;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.api.LoginResponse;
@@ -20,6 +19,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class SessionManager {
     public interface OnSessionStateChanged {
@@ -30,8 +30,6 @@ public class SessionManager {
     private volatile Session session;
     private Realm realm;
     private final List<OnSessionStateChanged> listeners;
-
-    private static final String TAG = "Volontulo-SessionMgr";
 
     private static final String PREF_USER_PROFILE_ID = "PREF-USER-PROFILE-ID";
     private static final String PREF_SESSION_AUTH = "PREF-USER-IS-LOGGED";
@@ -53,7 +51,7 @@ public class SessionManager {
         preferences = applicationContext.getSharedPreferences(preferenceFilename, Context.MODE_PRIVATE);
         listeners = new ArrayList<>();
         session = restoreFromPreferences();
-        Log.d(TAG, String.format("Restored last session [%s]", session));
+        Timber.d("Restored last session [%s]", session);
     }
 
     public void addOnStateChangedListener(final OnSessionStateChanged callback) {
@@ -75,7 +73,7 @@ public class SessionManager {
 
     public void authenticate(final String email, final String secret) {
         initializeRealmIfNecessary();
-        Log.d(TAG, String.format("Authentication started [status=%s]", session));
+        Timber.d("Authentication started [status=%s]", session);
         final Call<LoginResponse> loginResponseCall = VolontuloApp.api.login(email, secret);
         loginResponseCall.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -88,21 +86,21 @@ public class SessionManager {
                         if (profile == null) {
                             session = new Session.Builder(loginResponse.getKey(), Boolean.TRUE)
                                 .build();
-                            Log.i(TAG, String.format("Authentication success, but some info is incomplete [%s]", session));
+                            Timber.i("Authentication success, but some info is incomplete [%s]", session);
                             storeInPreferences(session);
                             fetchProfiles(email);
                         } else {
                             session = new Session.Builder(loginResponse.getKey(), Boolean.TRUE)
                                 .withProfile(profile)
                                 .build();
-                            Log.i(TAG, String.format("Authentication success complete [%s]", session));
+                            Timber.i("Authentication success complete [%s]", session);
                             storeInPreferences(session);
                         }
                     } else {
-                        Log.w(TAG, String.format("Authentication failed: bad response [%s]", loginResponse));
+                        Timber.i("Authentication failed: bad response [%s]", loginResponse);
                     }
                 } else {
-                    Log.w(TAG, String.format("Authentication failed %s [%d %s]", session, response.code(), bodyToString(response.errorBody())));
+                    Timber.i("Authentication failed %s [%d %s]", session, response.code(), bodyToString(response.errorBody()));
                 }
                 notifyListeners(session);
             }
@@ -118,7 +116,7 @@ public class SessionManager {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Log.e(TAG, "Authentication failed due to connection problem", t);
+                Timber.e(t, "Authentication failed due to connection problem");
                 session = Session.UNAUTHENTICATED;
                 notifyListeners(session);
             }
@@ -132,7 +130,7 @@ public class SessionManager {
     }
 
     private void fetchProfiles(final String email) {
-        Log.d(TAG, String.format("Authentication: fetching user profiles started [%s]", session));
+        Timber.d("Authentication: fetching user profiles started [%s]", session);
         final Call<List<UserProfile>> userProfileCall = VolontuloApp.api.listVolunteers();
         userProfileCall.enqueue(new Callback<List<UserProfile>>() {
             @Override
@@ -143,7 +141,7 @@ public class SessionManager {
                     realm.copyToRealmOrUpdate(profiles);
                     realm.commitTransaction();
 
-                    Log.d(TAG, String.format("Authentication: user profiles count %d fetched", profiles.size()));
+                    Timber.d("Authentication: user profiles count %d fetched", profiles.size());
 
                     final UserProfile profile = findProfile(email);
                     if (profile != null) {
@@ -166,9 +164,9 @@ public class SessionManager {
             .equalTo(String.format("%s.%s", UserProfile.FIELD_USER, User.FIELD_EMAIL), email)
             .findFirst();
         if (profile == null) {
-            Log.w(TAG, String.format("Not found user profile with email %s", email));
+            Timber.w("Not found user profile with email %s", email);
         } else {
-            Log.d(TAG, String.format("Found user profile %s", profile));
+            Timber.d("Found user profile %s", profile);
         }
         return profile;
     }
@@ -180,7 +178,7 @@ public class SessionManager {
                     listener.onSessionStateChanged(session);
                 }
             }
-            Log.d(TAG, "All listeners notified about session state change");
+            Timber.d("All listeners notified about session state change");
         }
     }
 

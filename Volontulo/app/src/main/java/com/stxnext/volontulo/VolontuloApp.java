@@ -3,6 +3,7 @@ package com.stxnext.volontulo;
 import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
@@ -14,8 +15,10 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import io.fabric.sdk.android.Fabric;
+import io.palaima.debugdrawer.timber.data.LumberYard;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
@@ -27,18 +30,22 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 public class VolontuloApp extends Application {
 
-    public static final String API_ENDPOINT = "http://volontuloapp.stxnext.local";
     public static VolontuloApi api;
     public static VolontuloApi cachedApi;
     public static Retrofit retrofit;
+    public static OkHttpClient okHttpClient;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        CrashlyticsCore core = new CrashlyticsCore.Builder()
+                .disabled(BuildConfig.DEBUG)
+                .build();
+        Fabric.with(this, new Crashlytics.Builder().core(core).build());
         JodaTimeAndroid.init(this);
         final RealmConfiguration.Builder realmBuilder = new RealmConfiguration.Builder(this);
         Realm.setDefaultConfiguration(RealmConfigurator.prepare(realmBuilder));
@@ -60,11 +67,16 @@ public class VolontuloApp extends Application {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         clientBuilder.addInterceptor(loggingInterceptor);
+        clientBuilder.cache(new Cache(new File(getCacheDir(), String.valueOf(UUID.randomUUID())), 1024 * 1024 * 10));
+        clientBuilder.readTimeout(10, TimeUnit.SECONDS);
+        clientBuilder.writeTimeout(10, TimeUnit.SECONDS);
+        clientBuilder.connectTimeout(10, TimeUnit.SECONDS);
 
+        okHttpClient = clientBuilder.build();
         final Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
-                .baseUrl(API_ENDPOINT)
+                .baseUrl(VolontuloApi.ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(clientBuilder.build());
+                .client(okHttpClient);
 
         retrofit = retrofitBuilder.build();
         api = retrofit.create(VolontuloApi.class);
@@ -91,5 +103,10 @@ public class VolontuloApp extends Application {
                 .client(httpClient)
                 .build();
         cachedApi = cachedRetrofit.create(VolontuloApi.class);
+
+        LumberYard lumberYard = LumberYard.getInstance(this);
+        lumberYard.cleanUp();
+        Timber.plant(lumberYard.tree());
+        Timber.plant(new Timber.DebugTree());
     }
 }

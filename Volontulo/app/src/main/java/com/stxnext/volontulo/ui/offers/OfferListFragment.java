@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,10 +28,10 @@ import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class OfferListFragment extends VolontuloBaseFragment {
 
-    public static final String TAG = "RETROFIT-TEST";
     private OfferAdapter adapter;
 
     @BindView(R.id.list)
@@ -70,11 +69,9 @@ public class OfferListFragment extends VolontuloBaseFragment {
 
     private void retrieveData() {
         final RealmResults<Offer> offerResults = realm.where(Offer.class).findAll();
-        if (offerResults != null) {
-            Log.d(TAG, "[REALM] Offers count: " + offerResults.size());
-            adapter.swap(offerResults);
-            Log.d(TAG, "[REALM] Offers UI PUT");
-        }
+        Timber.d("[REALM] Offers count: %d", offerResults.size());
+        adapter.swap(offerResults);
+        Timber.d("[REALM] Offers UI PUT");
         final Call<List<Offer>> call = VolontuloApp.api.listOffers();
         call.enqueue(new Callback<List<Offer>>() {
             @Override
@@ -90,18 +87,18 @@ public class OfferListFragment extends VolontuloBaseFragment {
                         }
                         realm.copyToRealmOrUpdate(offer);
                     }
-                    Log.d(TAG, "[RETRO] Offers count: " + offerList.size());
-                    Log.d(TAG, "[REALM] Offers COPY/UPDATE");
+                    Timber.d("[RETRO] Offers count: %d", offerList.size());
+                    Timber.d("[REALM] Offers COPY/UPDATE");
                     realm.commitTransaction();
                     adapter.swap(offerList);
-                    Log.d(TAG, "[RETRO] Offers UI SWAP");
+                    Timber.d("[RETRO] Offers UI SWAP");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Offer>> call, Throwable t) {
                 String msg = "[FAILURE] message - " + t.getMessage();
-                Log.d(TAG, msg);
+                Timber.d(msg);
             }
         });
     }
