@@ -10,13 +10,16 @@ repositories {
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
+    def gitVersionCode = Integer.parseInt("git rev-list --all --count".execute().text.trim())
+    def gitTag = "git describe --tags".execute().text.trim()
+    def gitHash = "git rev-parse --short HEAD".execute().text.trim()
 
     defaultConfig {
         applicationId "com.stxnext.volontulo"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode gitVersionCode
+        versionName gitTag ?: "0.0.1"
     }
 
     sourceSets.main {
@@ -48,6 +51,7 @@ android {
             debuggable true
             minifyEnabled false
             signingConfig signingConfigs.debug
+            versionNameSuffix gitTag ? "" : "-" + gitHash
         }
 
         release {

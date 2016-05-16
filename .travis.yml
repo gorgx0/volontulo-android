@@ -31,7 +31,7 @@ script:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: ./Volontulo/gradlew assembleDebug crashlyticsUploadDistributionRelease
+    script: ./Volontulo/gradlew assembleDebug crashlyticsUploadDistributionDebug
     on:
         branch: develop
 
