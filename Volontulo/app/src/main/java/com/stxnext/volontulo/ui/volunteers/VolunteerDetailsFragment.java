@@ -12,6 +12,7 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.api.UserProfile;
 
 import org.parceler.Parcels;
@@ -76,7 +77,8 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
 
     private void retrieveData() {
         final int userId = userProfile.getUser().getId();
-        final RealmResults<Offer> offerResults = realm.where(Offer.class).equalTo("volunteers.id", userId).findAll();
+        final String fieldVolunteersId = Offer.FIELD_VOLUNTEERS + "." + User.FIELD_ID;
+        final RealmResults<Offer> offerResults = realm.where(Offer.class).equalTo(fieldVolunteersId, userId).findAll();
         Timber.d("[REALM] Attends count: %d", offerResults.size());
         adapter.swap(offerResults);
         Timber.d("[REALM] Attends UI PUT");

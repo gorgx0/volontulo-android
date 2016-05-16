@@ -20,6 +20,7 @@ import io.realm.annotations.PrimaryKey;
 public class UserProfile extends RealmObject {
     public static final String USER_PROFILE_ID = "USER-PROFILE-ID";
     public static final String USER_PROFILE_OBJECT = "USER-PROFILE-OBJECT";
+    public static final String FIELD_ID= "id";
     public static final String FIELD_USER = "user";
 
     private String url;

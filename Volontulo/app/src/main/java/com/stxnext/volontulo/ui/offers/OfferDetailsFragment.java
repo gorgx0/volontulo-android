@@ -138,7 +138,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         realm = Realm.getDefaultInstance();
         offer.load();
         int userProfileId = SessionManager.getInstance(getActivity()).getUserProfile().getId();
-        profile = realm.where(UserProfile.class).equalTo("id", userProfileId).findFirst();
+        profile = realm.where(UserProfile.class).equalTo(UserProfile.FIELD_ID, userProfileId).findFirst();
         profile.load();
         fillData(offer);
     }
@@ -162,7 +162,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
                 if (response.isSuccessful()) {
                     button.setVisibility(View.GONE);
                     itemJoined.setVisible(true);
-                    final User user = realm.where(User.class).equalTo("id", sessionManager.getUserProfile().getUser().getId()).findFirst();
+                    final User user = realm.where(User.class).equalTo(User.FIELD_ID, sessionManager.getUserProfile().getUser().getId()).findFirst();
                     offer.getVolunteers().add(user);
                     realm.beginTransaction();
                     realm.copyToRealmOrUpdate(offer);

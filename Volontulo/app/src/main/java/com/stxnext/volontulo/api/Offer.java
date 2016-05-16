@@ -31,6 +31,9 @@ public class Offer extends RealmObject {
     public static final String IMAGE_PATH = "IMAGE-PATH";
     public static final String IMAGE_RESOURCE = "IMAGE-RESOURCE";
 
+    public static final String FIELD_ID = "id";
+    public static final String FIELD_VOLUNTEERS = "volunteers";
+
     private String url;
     @PrimaryKey
     private int id;

@@ -80,7 +80,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
                     final List<Offer> offerList = response.body();
                     realm.beginTransaction();
                     for (Offer offer : offerList) {
-                        final Offer stored = realm.where(Offer.class).equalTo("id", offer.getId()).findFirst();
+                        final Offer stored = realm.where(Offer.class).equalTo(Offer.FIELD_ID, offer.getId()).findFirst();
                         if (stored != null) {
                             offer.setLocationLatitude(stored.getLocationLatitude());
                             offer.setLocationLongitude(stored.getLocationLongitude());
@@ -145,7 +145,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
             int position = preferences.getInt(offersPosition, -1);
             if (position > -1) {
                 final long id = adapter.getItemId(position);
-                final Offer changed = realm.where(Offer.class).equalTo("id", id).findFirst();
+                final Offer changed = realm.where(Offer.class).equalTo(Offer.FIELD_ID, id).findFirst();
                 if (changed != null) {
                     adapter.refreshItem(position, changed);
                 }
