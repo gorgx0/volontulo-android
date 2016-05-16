@@ -65,7 +65,8 @@ public class OfferListFragment extends VolontuloBaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         realm = Realm.getDefaultInstance();
-        adapter = new OfferAdapter(getContext(), SessionManager.getInstance(getActivity()).getUserProfile().getUser().getId());
+        adapter = new OfferAdapter(getContext(), SessionManager.getInstance(getActivity()).getUserProfile());
+        adapter.setRealm(realm);
     }
 
     private void retrieveData() {

@@ -5,21 +5,25 @@ import android.view.View;
 
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.UserProfile;
 import com.stxnext.volontulo.ui.utils.BaseMockAdapter;
 
 import java.util.List;
 
+import io.realm.Realm;
+
 public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
 
-    private int userId;
+    private UserProfile profile;
+    private Realm realm;
 
     public OfferAdapter(Context context) {
         super(context);
     }
 
-    public OfferAdapter(Context context, int userId) {
+    public OfferAdapter(Context context, UserProfile profile) {
         this(context);
-        this.userId = userId;
+        this.profile = profile;
     }
 
     @Override
@@ -29,7 +33,9 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
 
     @Override
     protected OfferViewHolder createViewHolder(View item, int viewType) {
-        return new OfferViewHolder(item, userId);
+        final OfferViewHolder offerViewHolder = new OfferViewHolder(item, profile);
+        offerViewHolder.setRealm(realm);
+        return offerViewHolder;
     }
 
     public void swap(List<Offer> offers) {
@@ -44,4 +50,11 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
         return offer != null ? offer.getId() : -1;
     }
 
+    public void setRealm(Realm realm) {
+        this.realm = realm;
+    }
+
+    public Realm getRealm() {
+        return realm;
+    }
 }
