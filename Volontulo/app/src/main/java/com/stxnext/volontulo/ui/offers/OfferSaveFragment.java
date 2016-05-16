@@ -271,7 +271,7 @@ public abstract class OfferSaveFragment extends VolontuloBaseFragment {
     private void saveOffer(final Offer offer) {
         final SessionManager manager = SessionManager.getInstance(activity);
         final Realm realm = Realm.getDefaultInstance();
-        final UserProfile userProfile = realm.where(UserProfile.class).equalTo("id", manager.getUserProfile().getId()).findFirst();
+        final UserProfile userProfile = realm.where(UserProfile.class).equalTo(UserProfile.FIELD_ID, manager.getUserProfile().getId()).findFirst();
         if (userProfile == null || userProfile.getOrganizations().size() == 0) {
             return;
         }

@@ -9,20 +9,25 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.UserProfile;
+import com.stxnext.volontulo.logic.offer.JoinOffer;
+import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.utils.BaseViewHolder;
 
 import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.realm.Realm;
+import timber.log.Timber;
 
-class OfferViewHolder extends BaseViewHolder<Offer> {
+class OfferViewHolder extends BaseViewHolder<Offer> implements JoinOffer.JoinOfferResult {
 
-    private int id;
     private String imagePath;
 
     @BindView(R.id.offer_avatar)
@@ -42,15 +47,16 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
 
     @BindView(R.id.offer_end_time)
     protected TextView offerEnd;
-    private int userId;
+    private UserProfile profile;
+    private Realm realm;
 
     public OfferViewHolder(View itemView) {
         super(itemView);
     }
 
-    public OfferViewHolder(View itemView, int userId) {
+    public OfferViewHolder(View itemView, UserProfile userProfile) {
         this(itemView);
-        this.userId = userId;
+        profile = userProfile;
     }
 
     @OnClick(R.id.offer_content)
@@ -63,7 +69,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
                 putInt(offersPosition, position)
                 .apply();
         Intent intent = new Intent(context, OfferDetailsActivity.class);
-        intent.putExtra(Offer.OFFER_ID, id);
+        intent.putExtra(Offer.OFFER_ID, objectBinded.getId());
         intent.putExtra(Offer.OFFER_OBJECT, Parcels.wrap(objectBinded));
         if (!TextUtils.isEmpty(imagePath)) {
             intent.putExtra(Offer.IMAGE_PATH, imagePath);
@@ -73,7 +79,28 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
 
     @OnClick(R.id.offer_join)
     void onJoinClick(View clicked) {
-        Snackbar.make(clicked.getRootView(), "JOIN OFFER", Snackbar.LENGTH_SHORT).show();
+        SessionManager sessionManager = SessionManager.getInstance(clicked.getContext());
+
+        JoinOffer joinOffer = new JoinOffer(realm, sessionManager.getSessionToken());
+        joinOffer.registerJoinOfferResult(this);
+        joinOffer.execute(profile, objectBinded);
+    }
+
+    @Override
+    public void onOfferJoined(boolean result, String message) {
+        final Context context = offerJoinButton.getContext();
+        if (result) {
+            offerJoinButton.setImageResource(R.drawable.ic_offered_joined_white);
+            offerJoinButton.setEnabled(false);
+            final View view = offerJoinButton.getRootView();
+            if (view != null) {
+                Snackbar.make(view, context.getString(R.string.offer_joined_message), Snackbar.LENGTH_LONG).show();
+            }
+        } else {
+            final String error = context.getString(R.string.error_something_wrong) + " '" + message + "'";
+            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+            Timber.e(error);
+        }
     }
 
     @Override
@@ -92,7 +119,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
         offerPlace.setText(item.getLocation());
         offerStart.setText(item.getStartedAt());
         offerEnd.setText(item.getFinishedAt());
-        if (item.isUserJoined(userId)) {
+        if (item.isUserJoined(profile.getUser().getId())) {
             offerJoinButton.setImageResource(R.drawable.ic_offered_joined_white);
             offerJoinButton.setEnabled(false);
         } else {
@@ -100,5 +127,13 @@ class OfferViewHolder extends BaseViewHolder<Offer> {
             offerJoinButton.setEnabled(true);
         }
         item.setPosition(getAdapterPosition());
+    }
+
+    public void setRealm(Realm realm) {
+        this.realm = realm;
+    }
+
+    public Realm getRealm() {
+        return realm;
     }
 }

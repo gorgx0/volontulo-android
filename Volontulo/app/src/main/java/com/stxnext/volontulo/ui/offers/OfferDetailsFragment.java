@@ -17,24 +17,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stxnext.volontulo.R;
-import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
-import com.stxnext.volontulo.api.JoinResponse;
 import com.stxnext.volontulo.api.Offer;
-import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.api.UserProfile;
+import com.stxnext.volontulo.logic.offer.JoinOffer;
 import com.stxnext.volontulo.logic.session.SessionManager;
 
 import org.parceler.Parcels;
 
 import butterknife.BindView;
 import io.realm.Realm;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import timber.log.Timber;
 
-public class OfferDetailsFragment extends VolontuloBaseFragment {
+public class OfferDetailsFragment extends VolontuloBaseFragment implements JoinOffer.JoinOfferResult {
 
     public static final int REQUEST_EDIT = 1;
 
@@ -68,6 +63,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
     private Offer offer;
     private boolean joinedVisible = false, editVisible;
     private UserProfile profile;
+    private FloatingActionButton joinButton;
 
     @Override
     public String getImagePath() {
@@ -138,7 +134,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
         realm = Realm.getDefaultInstance();
         offer.load();
         int userProfileId = SessionManager.getInstance(getActivity()).getUserProfile().getId();
-        profile = realm.where(UserProfile.class).equalTo("id", userProfileId).findFirst();
+        profile = realm.where(UserProfile.class).equalTo(UserProfile.FIELD_ID, userProfileId).findFirst();
         profile.load();
         fillData(offer);
     }
@@ -151,39 +147,31 @@ public class OfferDetailsFragment extends VolontuloBaseFragment {
 
     @Override
     protected void onFabClick(final FloatingActionButton button) {
+        joinButton = button;
         final SessionManager sessionManager = SessionManager.getInstance(getActivity());
 
-        final UserProfile userProfile = sessionManager.getUserProfile();
-        final Call<JoinResponse> call = VolontuloApp.api.joinOffer(offer.getId(), sessionManager.getSessionToken(), userProfile.getEmail(), userProfile.getPhoneNo(), userProfile.getUser().getUsername());
-        call.enqueue(new Callback<JoinResponse>() {
-            @Override
-            public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {
-                final Context context = getContext();
-                if (response.isSuccessful()) {
-                    button.setVisibility(View.GONE);
-                    itemJoined.setVisible(true);
-                    final User user = realm.where(User.class).equalTo("id", sessionManager.getUserProfile().getUser().getId()).findFirst();
-                    offer.getVolunteers().add(user);
-                    realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(offer);
-                    realm.commitTransaction();
-                    View view = getView();
-                    if (view != null) {
-                        Snackbar.make(view, context.getString(R.string.offer_joined_message), Snackbar.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(context, context.getString(R.string.error_something_wrong) + " '" + response.message() + "'", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JoinResponse> call, Throwable t) {
-                String msg = "[FAILURE] message - " + t.getMessage();
-                Toast.makeText(getContext(), R.string.error_connection, Toast.LENGTH_SHORT).show();
-                Timber.d(msg);
-            }
-        });
+        JoinOffer joinOffer = new JoinOffer(realm, sessionManager.getSessionToken());
+        joinOffer.registerJoinOfferResult(this);
+        joinOffer.execute(sessionManager.getUserProfile(), offer);
     }
+
+    @Override
+    public void onOfferJoined(boolean result, String message) {
+        final Context context = getContext();
+        if (result) {
+            joinButton.setVisibility(View.GONE);
+            itemJoined.setVisible(true);
+            View view = getView();
+            if (view != null) {
+                Snackbar.make(view, context.getString(R.string.offer_joined_message), Snackbar.LENGTH_SHORT).show();
+            }
+        } else {
+            final String error = context.getString(R.string.error_something_wrong) + " '" + message + "'";
+            Toast.makeText(context, error, Toast.LENGTH_LONG).show();
+            Timber.e(error);
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

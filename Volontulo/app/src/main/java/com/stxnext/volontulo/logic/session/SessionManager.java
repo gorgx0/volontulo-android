@@ -194,7 +194,7 @@ public class SessionManager {
         initializeRealmIfNecessary();
         final String key = preferences.getString(PREF_SESSION_KEY, "");
         final boolean isAuthenticated = preferences.getBoolean(PREF_SESSION_AUTH, Boolean.FALSE);
-        final UserProfile profile = realm.where(UserProfile.class).equalTo("id", preferences.getInt(PREF_USER_PROFILE_ID, -1)).findFirst();
+        final UserProfile profile = realm.where(UserProfile.class).equalTo(UserProfile.FIELD_ID, preferences.getInt(PREF_USER_PROFILE_ID, -1)).findFirst();
         return new Session.Builder(key, isAuthenticated).withProfile(profile).build();
     }
 

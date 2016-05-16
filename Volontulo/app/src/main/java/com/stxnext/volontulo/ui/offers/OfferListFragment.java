@@ -24,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.realm.Realm;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,11 +65,14 @@ public class OfferListFragment extends VolontuloBaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         realm = Realm.getDefaultInstance();
-        adapter = new OfferAdapter(getContext(), SessionManager.getInstance(getActivity()).getUserProfile().getUser().getId());
+        adapter = new OfferAdapter(getContext(), SessionManager.getInstance(getActivity()).getUserProfile());
+        adapter.setRealm(realm);
     }
 
     private void retrieveData() {
-        final RealmResults<Offer> offerResults = realm.where(Offer.class).findAll();
+        final RealmQuery<Offer> queryFindOffers = realm.where(Offer.class).
+                equalTo(Offer.FIELD_OFFER_STATUS, Offer.OFFER_STATUS_PUBLISHED);
+        final RealmResults<Offer> offerResults = queryFindOffers.findAll();
         Timber.d("[REALM] Offers count: %d", offerResults.size());
         adapter.swap(offerResults);
         Timber.d("[REALM] Offers UI PUT");
@@ -80,7 +84,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
                     final List<Offer> offerList = response.body();
                     realm.beginTransaction();
                     for (Offer offer : offerList) {
-                        final Offer stored = realm.where(Offer.class).equalTo("id", offer.getId()).findFirst();
+                        final Offer stored = realm.where(Offer.class).equalTo(Offer.FIELD_ID, offer.getId()).findFirst();
                         if (stored != null) {
                             offer.setLocationLatitude(stored.getLocationLatitude());
                             offer.setLocationLongitude(stored.getLocationLongitude());
@@ -90,7 +94,8 @@ public class OfferListFragment extends VolontuloBaseFragment {
                     Timber.d("[RETRO] Offers count: %d", offerList.size());
                     Timber.d("[REALM] Offers COPY/UPDATE");
                     realm.commitTransaction();
-                    adapter.swap(offerList);
+                    final RealmResults<Offer> updatedList = queryFindOffers.findAll();
+                    adapter.swap(updatedList);
                     Timber.d("[RETRO] Offers UI SWAP");
                 }
             }
@@ -145,7 +150,7 @@ public class OfferListFragment extends VolontuloBaseFragment {
             int position = preferences.getInt(offersPosition, -1);
             if (position > -1) {
                 final long id = adapter.getItemId(position);
-                final Offer changed = realm.where(Offer.class).equalTo("id", id).findFirst();
+                final Offer changed = realm.where(Offer.class).equalTo(Offer.FIELD_ID, id).findFirst();
                 if (changed != null) {
                     adapter.refreshItem(position, changed);
                 }
