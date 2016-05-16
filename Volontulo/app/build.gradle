@@ -66,7 +66,6 @@ android {
     android.applicationVariants.all { variant ->
         task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
             description "Generates Javadoc for $variant.name."
-            dependsOn assemble
             source = variant.javaCompile.source
             ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
             classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
@@ -74,6 +73,7 @@ android {
             options.links("http://d.android.com/reference/");
             exclude '**/BuildConfig.java'
             exclude '**/R.java'
+            dependsOn assemble
         }
     }
 }
