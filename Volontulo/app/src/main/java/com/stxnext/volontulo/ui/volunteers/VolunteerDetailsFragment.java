@@ -21,6 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.realm.Realm;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -78,7 +79,10 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
     private void retrieveData() {
         final int userId = userProfile.getUser().getId();
         final String fieldVolunteersId = Offer.FIELD_VOLUNTEERS + "." + User.FIELD_ID;
-        final RealmResults<Offer> offerResults = realm.where(Offer.class).equalTo(fieldVolunteersId, userId).findAll();
+        final RealmQuery<Offer> queryFindAttends = realm.where(Offer.class)
+                .equalTo(fieldVolunteersId, userId)
+                .equalTo(Offer.FIELD_OFFER_STATUS, Offer.OFFER_STATUS_PUBLISHED);
+        final RealmResults<Offer> offerResults = queryFindAttends.findAll();
         Timber.d("[REALM] Attends count: %d", offerResults.size());
         adapter.swap(offerResults);
         Timber.d("[REALM] Attends UI PUT");
@@ -90,12 +94,18 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
                     final List<Offer> offerList = response.body();
                     Timber.d("[RETRO] Attends count: %d", offerList.size());
                     realm.beginTransaction();
-                    realm.delete(Offer.class);
-                    Timber.d("[REALM] Attends CLEAR");
-                    realm.copyToRealmOrUpdate(offerList);
+                    for (Offer offer : offerList) {
+                        final Offer stored = realm.where(Offer.class).equalTo(Offer.FIELD_ID, offer.getId()).findFirst();
+                        if (stored != null) {
+                            offer.setLocationLatitude(stored.getLocationLatitude());
+                            offer.setLocationLongitude(stored.getLocationLongitude());
+                        }
+                        realm.copyToRealmOrUpdate(offer);
+                    }
                     Timber.d("[REALM] Attends COPY/UPDATE");
                     realm.commitTransaction();
-                    adapter.swap(offerList);
+                    final RealmResults<Offer> updatedList = queryFindAttends.findAll();
+                    adapter.swap(updatedList);
                     Timber.d("[RETRO] Attends UI SWAP");
                 }
             }

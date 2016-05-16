@@ -33,6 +33,8 @@ public class Offer extends RealmObject {
 
     public static final String FIELD_ID = "id";
     public static final String FIELD_VOLUNTEERS = "volunteers";
+    public static final String FIELD_OFFER_STATUS = "offerStatus";
+    public static final String OFFER_STATUS_PUBLISHED = "published";
 
     private String url;
     @PrimaryKey

@@ -24,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.realm.Realm;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,7 +69,9 @@ public class OfferListFragment extends VolontuloBaseFragment {
     }
 
     private void retrieveData() {
-        final RealmResults<Offer> offerResults = realm.where(Offer.class).findAll();
+        final RealmQuery<Offer> queryFindOffers = realm.where(Offer.class).
+                equalTo(Offer.FIELD_OFFER_STATUS, Offer.OFFER_STATUS_PUBLISHED);
+        final RealmResults<Offer> offerResults = queryFindOffers.findAll();
         Timber.d("[REALM] Offers count: %d", offerResults.size());
         adapter.swap(offerResults);
         Timber.d("[REALM] Offers UI PUT");
@@ -90,7 +93,8 @@ public class OfferListFragment extends VolontuloBaseFragment {
                     Timber.d("[RETRO] Offers count: %d", offerList.size());
                     Timber.d("[REALM] Offers COPY/UPDATE");
                     realm.commitTransaction();
-                    adapter.swap(offerList);
+                    final RealmResults<Offer> updatedList = queryFindOffers.findAll();
+                    adapter.swap(updatedList);
                     Timber.d("[RETRO] Offers UI SWAP");
                 }
             }
