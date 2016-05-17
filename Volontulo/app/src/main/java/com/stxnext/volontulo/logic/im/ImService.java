@@ -34,6 +34,9 @@ import java.util.Map;
 import io.realm.Realm;
 import timber.log.Timber;
 
+/**
+ * Instant messaging service for listening and sending messages.
+ */
 public class ImService extends Service implements SinchClientListener, SessionManager.OnSessionStateChanged {
     private ImConfiguration configuration = ImConfigFactory.create();
     private final InstantMessaging serviceInterface = new InstantMessaging();
@@ -67,7 +70,7 @@ public class ImService extends Service implements SinchClientListener, SessionMa
         return client != null && client.isStarted();
     }
 
-    public void startIMClient(String userId) {
+    private void startIMClient(String userId) {
         client = Sinch.getSinchClientBuilder()
             .context(this)
             .userId(userId)
@@ -196,6 +199,13 @@ public class ImService extends Service implements SinchClientListener, SessionMa
         Timber.i("Log message: %d | %s | %s", i, s, s1);
     }
 
+    /**
+     * Sending message within specified conversation to recipient. Message is saved to local database
+     * and notify registered subscribers.
+     * @param recipientUser specified recipient user id
+     * @param messageBody text message
+     * @param conversation conversation within message will be sent, cannot be empty nor {@code null}
+     */
     public void sendMessage(String recipientUser, String messageBody, Conversation conversation) {
         if (messageClient != null) {
             if (!Conversation.isEmpty(conversation)) {
@@ -255,10 +265,21 @@ public class ImService extends Service implements SinchClientListener, SessionMa
         };
     }
 
+    /**
+     * Adding instant messaging listener for catch changing message status.
+     * @param messageClientListener
+     *
+     * @see #removeMessageClientListener()
+     */
     public void addMessageClientListener(ImMessageListener messageClientListener) {
         messageListener = messageClientListener;
     }
 
+    /**
+     * Removes previously added instant messaging listener.
+     *
+     * @see #addMessageClientListener(ImMessageListener)
+     */
     public void removeMessageClientListener() {
         messageListener = null;
     }
@@ -300,13 +321,32 @@ public class ImService extends Service implements SinchClientListener, SessionMa
         }
     }
 
+    /**
+     * Callback that notifies about sent message status or incoming message.
+     */
     public interface ImMessageListener {
+        /**
+         * Called when message from someone to current user is received.
+         * @param incoming
+         */
         void onMessageIncoming(LocalMessage incoming);
 
+        /**
+         * Called when message from current user is sent to someone.
+         * @param outgoing
+         */
         void onMessageSent(LocalMessage outgoing);
 
+        /**
+         * Called when some error during sending is occured.
+         * @param failed
+         */
         void onMessageFailed(LocalMessage failed);
 
+        /**
+         * Called when message is delivered to someone.
+         * @param delivered
+         */
         void onMessageDelivered(LocalMessage delivered);
     }
 }
