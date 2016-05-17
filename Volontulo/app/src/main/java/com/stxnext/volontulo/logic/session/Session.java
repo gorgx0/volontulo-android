@@ -17,7 +17,7 @@ public final class Session {
     private final boolean isAuthenticated;
 
     /**
-     * Builder for proper construct {@code Session} object.
+     * Builder for proper construct {@link Session} object.
      */
     public static class Builder {
         private UserProfile profile;
@@ -62,7 +62,7 @@ public final class Session {
 
     /**
      * Returns assigned {@code UserProfile} to current session.
-     * @return {@code UserProfile} binded to session or empty {@code UserProfile} if user information is unavailable.
+     * @return {@link UserProfile} binded to session or empty {@code UserProfile} if user information is unavailable.
      */
     public UserProfile getUserProfile() {
         return UserProfile.copyObject(profile);
@@ -86,6 +86,8 @@ public final class Session {
 
     /**
      * {@inheritDoc}
+     *
+     * Returns readable string.
      */
     @Override
     public String toString() {
