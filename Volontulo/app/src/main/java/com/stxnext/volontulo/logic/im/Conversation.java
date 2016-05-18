@@ -21,6 +21,9 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import timber.log.Timber;
 
+/**
+ * Representation conversation between multiple users.
+ */
 @Parcel(implementations = {ConversationRealmProxy.class},
     value = Parcel.Serialization.BEAN,
     analyze = {Conversation.class})
@@ -34,6 +37,13 @@ public class Conversation extends RealmObject {
     private String creatorId;
     private RealmList<RealmString> recipientsIds;
 
+    /**
+     * Creates conversation based on external id, creator id and recipients list.
+     * @param id Provided conversation id from remote user.
+     * @param creator User id which is created this conversation.
+     * @param recipients List of participating in conversation users.
+     * @return newly created conversation
+     */
     public static Conversation create(String id, String creator, RealmList<RealmString> recipients) {
         final Conversation conversation = new Conversation();
         conversation.conversationId = id;
@@ -42,10 +52,22 @@ public class Conversation extends RealmObject {
         return conversation;
     }
 
+    /**
+     * Creates conversation based on creator id and recipients list.
+     * Conversation id is created by {@link java.util.UUID UUID}.
+     * @param creator User id which is created this conversation.
+     * @param recipients List of participating in conversation users.
+     * @return newly created conversation with random id
+     */
     public static Conversation create(String creator, RealmList<RealmString> recipients) {
         return create(UUID.randomUUID().toString(), creator, recipients);
     }
 
+    /**
+     * Test if provided conversation is empty or null.
+     * @param object conversation for test
+     * @return {@code true} if conversation is empty or null, {@code false} otherwise.
+     */
     public static boolean isEmpty(final Conversation object) {
         return object == null ||
             TextUtils.isEmpty(object.conversationId) ||
@@ -57,6 +79,12 @@ public class Conversation extends RealmObject {
         return recipientsIds == null || recipientsIds.isEmpty();
     }
 
+    /**
+     * Finding recipient based on conversation.
+     * @param context
+     * @param conversation
+     * @return Resolved user id depends who create conversation.
+     */
     public static String resolveRecipientId(Context context, Conversation conversation) {
         final String currentUser = resolveCurrentUserName(context);
         final String recipient = conversation.getRecipientsIds().get(0).getValue();
@@ -64,6 +92,11 @@ public class Conversation extends RealmObject {
         return (currentUser.equals(recipient)) ? creator : recipient;
     }
 
+    /**
+     * Finding user based on id.
+     * @param userId user id
+     * @return found username or empty string
+     */
     public static String resolveName(String userId) {
         final Realm realm = Realm.getDefaultInstance();
         final User found = realm.where(User.class).equalTo(User.FIELD_ID, Integer.parseInt(userId)).findFirst();
@@ -75,6 +108,12 @@ public class Conversation extends RealmObject {
         return String.valueOf(SessionManager.getInstance(context).getUserProfile().getUser().getId());
     }
 
+    /**
+     * Creates or updates found conversation with specified user.
+     * @param context context needed for resolving username
+     * @param user user which create conversation with someone
+     * @return newly created conversation or existing one.
+     */
     public static Conversation createOrUpdate(final Context context, final User user) {
         final Realm realm = Realm.getDefaultInstance();
         final String participantId = String.valueOf(user.getId());
@@ -92,27 +131,51 @@ public class Conversation extends RealmObject {
         return conversation;
     }
 
+    /**
+     * Sets this conversation id.
+     * @param conversationId
+     */
     public void setConversationId(String conversationId) {
         this.conversationId = conversationId;
     }
 
+    /**
+     * Sets this conversation user id which creates conversation.
+     * @param creatorId
+     */
     public void setCreatorId(String creatorId) {
         this.creatorId = creatorId;
     }
 
+    /**
+     * Sets this conversation recipient list.
+     * @param recipientsIds
+     */
     @ParcelPropertyConverter(RealmStringParcelConverter.class)
     public void setRecipientsIds(RealmList<RealmString> recipientsIds) {
         this.recipientsIds = recipientsIds;
     }
 
+    /**
+     * Returns conversation id.
+     * @return
+     */
     public String getConversationId() {
         return conversationId;
     }
 
+    /**
+     * Returns creator id.
+     * @return
+     */
     public String getCreatorId() {
         return creatorId;
     }
 
+    /**
+     * Returns recipient ids list.
+     * @return
+     */
     public RealmList<RealmString> getRecipientsIds() {
         return recipientsIds;
     }
