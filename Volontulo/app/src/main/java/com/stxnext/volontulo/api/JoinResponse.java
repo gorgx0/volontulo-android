@@ -3,6 +3,9 @@ package com.stxnext.volontulo.api;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for interpreting response of join to offer (action) operation
+ */
 public class JoinResponse {
 
     private String info;
@@ -12,6 +15,7 @@ public class JoinResponse {
     private String detail;
 
     /**
+     * Returns info about result of operation when all parameters are valid.
      *
      * @return
      * The info
@@ -21,6 +25,7 @@ public class JoinResponse {
     }
 
     /**
+     * Sets info about result of operation when all parameters are valid.
      *
      * @param info
      * The info
@@ -30,6 +35,9 @@ public class JoinResponse {
     }
 
     /**
+     * Returns list of errors connected with email.
+     *
+     * It's used when there is no email filled in request.
      *
      * @return
      * The email
@@ -39,6 +47,9 @@ public class JoinResponse {
     }
 
     /**
+     * Sets list of errors connected with email.
+     *
+     * It's used when there is no email filled in request.
      *
      * @param email
      * The email
@@ -48,6 +59,9 @@ public class JoinResponse {
     }
 
     /**
+     * Returns list of errors connected with phone number.
+     *
+     * It's used when there is no phoneNumber filled in request.
      *
      * @return
      * The phoneNo
@@ -57,6 +71,9 @@ public class JoinResponse {
     }
 
     /**
+     * Sets list of errors connected with phone number.
+     *
+     * It's used when there is no phoneNumber filled in request.
      *
      * @param phoneNo
      * The phone_no
@@ -66,6 +83,9 @@ public class JoinResponse {
     }
 
     /**
+     * Returns list of errors connected with full name.
+     *
+     * It's used when there is no fullname filled in request.
      *
      * @return
      * The fullname
@@ -75,6 +95,9 @@ public class JoinResponse {
     }
 
     /**
+     * Sets list of errors connected with full name.
+     *
+     * It's used when there is no fullname filled in request.
      *
      * @param fullname
      * The fullname
@@ -84,6 +107,9 @@ public class JoinResponse {
     }
 
     /**
+     * Returns potential problems appeared during processing request.
+     *
+     * For example: authorization data problem
      *
      * @return
      * The detail
@@ -93,6 +119,9 @@ public class JoinResponse {
     }
 
     /**
+     * Sets potential problems appeared during processing request.
+     *
+     * For example: authorization data problem
      *
      * @param detail
      * The detail

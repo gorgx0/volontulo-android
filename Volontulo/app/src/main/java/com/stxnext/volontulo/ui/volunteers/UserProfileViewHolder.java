@@ -37,7 +37,7 @@ public class UserProfileViewHolder extends BaseViewHolder<UserProfile> {
     public void onBind(UserProfile userProfile) {
         id = userProfile.getId();
         profile = userProfile;
-        volunteerName.setText(userProfile.resolveName());
+        volunteerName.setText(userProfile.retrieveName());
         Picasso.with(volunteerAvatar.getContext())
                 .load(userProfile.getImage())
                 .fit()

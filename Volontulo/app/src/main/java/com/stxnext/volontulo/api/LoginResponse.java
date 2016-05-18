@@ -3,6 +3,9 @@ package com.stxnext.volontulo.api;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for interpreting login response
+ */
 public class LoginResponse {
 
     private String key;
@@ -10,6 +13,9 @@ public class LoginResponse {
     private List<String> password = new ArrayList<>();
 
     /**
+     * Returns authorization key.
+     *
+     * It's filled when login operation goes right.
      *
      * @return
      * The key
@@ -19,6 +25,9 @@ public class LoginResponse {
     }
 
     /**
+     * Sets authorization key.
+     *
+     * It's filled when login operation goes right.
      *
      * @param key
      * The key
@@ -28,6 +37,9 @@ public class LoginResponse {
     }
 
     /**
+     * Returns list of general errors.
+     *
+     * It's filled when something goes wrong.
      *
      * @return
      * The nonFieldErrors
@@ -37,6 +49,9 @@ public class LoginResponse {
     }
 
     /**
+     * Sets list of general errors.
+     *
+     * It's filled when something goes wrong.
      *
      * @param nonFieldErrors
      * The non_field_errors
@@ -46,6 +61,9 @@ public class LoginResponse {
     }
 
     /**
+     * Returns list of errors connected with password
+     *
+     * It's used when there is no password filled in request.
      *
      * @return
      * The password
@@ -55,6 +73,9 @@ public class LoginResponse {
     }
 
     /**
+     * Sets list of errors connected with password
+     *
+     * It's used when there is no password filled in request.
      *
      * @param password
      * The password

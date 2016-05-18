@@ -1,5 +1,8 @@
 package com.stxnext.volontulo.api;
 
+/**
+ * Class for interpreting response of create or update an @see Offer
+ */
 public class SaveResponse {
 
     private String url;
@@ -13,6 +16,7 @@ public class SaveResponse {
     private String actionStatus;
 
     /**
+     * Returns url of a REST request for an offer data.
      *
      * @return
      * The url
@@ -22,6 +26,7 @@ public class SaveResponse {
     }
 
     /**
+     * Sets url of a REST request for an offer data.
      *
      * @param url
      * The url
@@ -31,6 +36,7 @@ public class SaveResponse {
     }
 
     /**
+     * Returns id in database.
      *
      * @return
      * The id
@@ -40,6 +46,7 @@ public class SaveResponse {
     }
 
     /**
+     * Sets id in database.
      *
      * @param id
      * The id
@@ -49,6 +56,7 @@ public class SaveResponse {
     }
 
     /**
+     * Returns id of an organization which an offer belongs to.
      *
      * @return
      * The organization
@@ -58,6 +66,7 @@ public class SaveResponse {
     }
 
     /**
+     * Sets id of an organization which an offer belongs to.
      *
      * @param organization
      * The organization
@@ -67,6 +76,7 @@ public class SaveResponse {
     }
 
     /**
+     * Returns requirements for a volunteer.
      *
      * @return
      * The requirements
@@ -76,6 +86,7 @@ public class SaveResponse {
     }
 
     /**
+     * Sets requirements for a volunteer.
      *
      * @param requirements
      * The requirements
@@ -85,6 +96,7 @@ public class SaveResponse {
     }
 
     /**
+     * Returns time period.
      *
      * @return
      * The timePeriod
@@ -94,6 +106,7 @@ public class SaveResponse {
     }
 
     /**
+     * Sets time period.
      *
      * @param timePeriod
      * The time_period
@@ -103,6 +116,7 @@ public class SaveResponse {
     }
 
     /**
+     * Returns status old.
      *
      * @return
      * The statusOld
@@ -112,6 +126,7 @@ public class SaveResponse {
     }
 
     /**
+     * Sets status old.
      *
      * @param statusOld
      * The status_old
@@ -121,6 +136,7 @@ public class SaveResponse {
     }
 
     /**
+     * Returns offer status.
      *
      * @return
      * The offerStatus
@@ -130,6 +146,7 @@ public class SaveResponse {
     }
 
     /**
+     * Sets offer status.
      *
      * @param offerStatus
      * The offer_status
@@ -139,6 +156,7 @@ public class SaveResponse {
     }
 
     /**
+     * Returns recruitment status.
      *
      * @return
      * The recruitmentStatus
@@ -148,6 +166,7 @@ public class SaveResponse {
     }
 
     /**
+     * Sets recruitment status.
      *
      * @param recruitmentStatus
      * The recruitment_status
@@ -157,6 +176,7 @@ public class SaveResponse {
     }
 
     /**
+     * Returns action status.
      *
      * @return
      * The actionStatus
@@ -166,6 +186,7 @@ public class SaveResponse {
     }
 
     /**
+     * Sets action status.
      *
      * @param actionStatus
      * The action_status

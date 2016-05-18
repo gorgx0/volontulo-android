@@ -14,10 +14,16 @@ import io.realm.RealmObject;
 import io.realm.UserProfileRealmProxy;
 import io.realm.annotations.PrimaryKey;
 
+/**
+ * Representation of a user profile entity in local environment.
+ *
+ * Object can be pass between activities or fragments.
+ */
 @Parcel(implementations = {UserProfileRealmProxy.class},
         value = Parcel.Serialization.BEAN,
         analyze = {UserProfile.class})
 public class UserProfile extends RealmObject {
+
     public static final String USER_PROFILE_ID = "USER-PROFILE-ID";
     public static final String USER_PROFILE_OBJECT = "USER-PROFILE-OBJECT";
     public static final String FIELD_ID= "id";
@@ -34,37 +40,8 @@ public class UserProfile extends RealmObject {
     private String phoneNo;
     private RealmList<Image> images;
 
-    public static UserProfile copyObject(final UserProfile profile) {
-        if (profile != null) {
-            final UserProfile newCopy = new UserProfile();
-            newCopy.setId(profile.getId());
-            newCopy.setIsAdministrator(profile.getIsAdministrator());
-            newCopy.setImages(profile.getImages());
-            newCopy.setUrl(profile.getUrl());
-            newCopy.setUser(profile.getUser());
-            newCopy.setOrganizations(profile.getOrganizations());
-            newCopy.setPhoneNo(profile.getPhoneNo());
-            return newCopy;
-        }
-        return UserProfile.createEmpty();
-    }
-
-    public static UserProfile createEmpty() {
-        final UserProfile profile = new UserProfile();
-        profile.setUser(User.createEmpty());
-        profile.setUrl("");
-        profile.setOrganizations(new RealmList<Organization>());
-        profile.setImages(new RealmList<Image>());
-        profile.setPhoneNo("");
-        return profile;
-    }
-
-    @Override
-    public String toString() {
-        return "User " + id + " [" + url + "]: " + phoneNo + (isAdministrator ? " ADMIN" : "");
-    }
-
     /**
+     * Returns url of a REST request for a user profile data.
      *
      * @return
      * The url
@@ -74,6 +51,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Sets url of a REST request for a user profile data.
      *
      * @param url
      * The url
@@ -83,6 +61,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Returns identifier key.
      *
      * @return
      * The id
@@ -92,6 +71,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Sets identifier key.
      *
      * @param id
      * The id
@@ -101,6 +81,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Returns user.
      *
      * @return
      * The user
@@ -110,6 +91,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Sets user.
      *
      * @param user
      * The user
@@ -119,6 +101,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Returns list of organizations which user belongs to.
      *
      * @return
      * The organizations
@@ -128,6 +111,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Sets list of organizations which user belongs to.
      *
      * @param organizations
      * The organizations
@@ -138,6 +122,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Returns is administrator.
      *
      * @return
      * The isAdministrator
@@ -147,6 +132,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Sets is administrator.
      *
      * @param isAdministrator
      * The is_administrator
@@ -156,6 +142,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Returns phone number.
      *
      * @return
      * The phoneNo
@@ -165,6 +152,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Sets phone number.
      *
      * @param phoneNo
      * The phone_no
@@ -174,6 +162,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Returns list of organizations.
      *
      * @return
      * The images
@@ -183,6 +172,7 @@ public class UserProfile extends RealmObject {
     }
 
     /**
+     * Sets list of organizations.
      *
      * @param images
      * The images
@@ -192,7 +182,20 @@ public class UserProfile extends RealmObject {
         this.images = images;
     }
 
-    public String resolveName() {
+    @Override
+    /**
+     * {@inheritDoc}
+     */
+    public String toString() {
+        return "User " + id + " [" + url + "]: " + phoneNo + (isAdministrator ? " ADMIN" : "");
+    }
+
+    /**
+     * Returns embedded user's name.
+     *
+     * @return
+     */
+    public String retrieveName() {
         String name;
         boolean hasFirstName = !TextUtils.isEmpty(user.getFirstName());
         boolean hasLastName = !TextUtils.isEmpty(user.getLastName());
@@ -214,19 +217,72 @@ public class UserProfile extends RealmObject {
         return name;
     }
 
+    /**
+     * Returns embedded user's email.
+     *
+     * @return
+     */
     public String getEmail() {
         return user.getEmail();
     }
 
+    /**
+     * Returns is there any profile image .
+     *
+     * @return
+     */
     public boolean hasImage() {
         return images.size() > 0;
     }
 
+    /**
+     * Returns a profile image.
+     *
+     * It's first element of list (with 0 index)
+     *
+     * @return
+     */
     public String getImage() {
         String image = null;
         if (hasImage()) {
             image = images.get(0).getImage();
         }
         return image;
+    }
+
+    /**
+     * Copy object
+     *
+     * @param profile
+     * @return
+     */
+    public static UserProfile copyObject(final UserProfile profile) {
+        if (profile != null) {
+            final UserProfile newCopy = new UserProfile();
+            newCopy.setId(profile.getId());
+            newCopy.setIsAdministrator(profile.getIsAdministrator());
+            newCopy.setImages(profile.getImages());
+            newCopy.setUrl(profile.getUrl());
+            newCopy.setUser(profile.getUser());
+            newCopy.setOrganizations(profile.getOrganizations());
+            newCopy.setPhoneNo(profile.getPhoneNo());
+            return newCopy;
+        }
+        return UserProfile.createEmpty();
+    }
+
+    /**
+     * Create empty UserProfile
+     *
+     * @return
+     */
+    public static UserProfile createEmpty() {
+        final UserProfile profile = new UserProfile();
+        profile.setUser(User.createEmpty());
+        profile.setUrl("");
+        profile.setOrganizations(new RealmList<Organization>());
+        profile.setImages(new RealmList<Image>());
+        profile.setPhoneNo("");
+        return profile;
     }
 }

@@ -59,7 +59,7 @@ public class AttendHeaderViewHolder extends AttendViewHolder {
     @Override
     public void onBind(Offer model) {
         if (userProfile != null) {
-            name.setText(userProfile.resolveName());
+            name.setText(userProfile.retrieveName());
             email.setText(userProfile.getEmail());
             phone.setText(userProfile.getPhoneNo());
             Picasso.with(image.getContext())

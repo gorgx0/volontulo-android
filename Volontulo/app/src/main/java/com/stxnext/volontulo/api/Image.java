@@ -8,6 +8,11 @@ import io.realm.ImageRealmProxy;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+/**
+ * Representation of an image entity in local environment.
+ *
+ * Object can be pass between activities or fragments.
+ */
 @Parcel(implementations = {ImageRealmProxy.class},
         value = Parcel.Serialization.BEAN,
         analyze = {Image.class})
@@ -23,6 +28,7 @@ public class Image extends RealmObject {
     private boolean isMain;
 
     /**
+     * Returns identifier key
      *
      * @return
      * The id
@@ -32,6 +38,7 @@ public class Image extends RealmObject {
     }
 
     /**
+     * Sets identifier key
      *
      * @param id
      * The id
@@ -41,8 +48,11 @@ public class Image extends RealmObject {
     }
 
     /**
+     * Returns url for image.
      *
-     * @return
+     * Used for @see UserProfile
+     *
+     * @return image
      * The image
      */
     public String getImage() {
@@ -50,6 +60,9 @@ public class Image extends RealmObject {
     }
 
     /**
+     * Sets url for image.
+     *
+     * Used for @see UserProfile
      *
      * @param image
      * The image
@@ -59,6 +72,9 @@ public class Image extends RealmObject {
     }
 
     /**
+     * Returns is avatar
+     *
+     * Used for @see UserProfile
      *
      * @return
      * The isAvatar
@@ -68,6 +84,9 @@ public class Image extends RealmObject {
     }
 
     /**
+     * Sets is avatar
+     *
+     * Used for @see UserProfile
      *
      * @param isAvatar
      * The is_avatar
@@ -77,6 +96,9 @@ public class Image extends RealmObject {
     }
 
     /**
+     * Returns address for image
+     *
+     * Used for @see Offer
      *
      * @return
      * The path
@@ -86,6 +108,9 @@ public class Image extends RealmObject {
     }
 
     /**
+     * Sets address for image
+     *
+     * Used for @see Offer
      *
      * @param path
      * The path
@@ -95,6 +120,9 @@ public class Image extends RealmObject {
     }
 
     /**
+     * Returns is main
+     *
+     * Used for @see Offer
      *
      * @return
      * The isMain
@@ -104,6 +132,9 @@ public class Image extends RealmObject {
     }
 
     /**
+     * Sets is main
+     *
+     * Used for @see Offer
      *
      * @param isMain
      * The is_main

@@ -6,6 +6,11 @@ import io.realm.OrganizationRealmProxy;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+/**
+ * Representation of an organization entity in local environment.
+ *
+ * Object can be pass between activities or fragments.
+ */
 @Parcel(implementations = {OrganizationRealmProxy.class},
         value = Parcel.Serialization.BEAN,
         analyze = {Organization.class})
@@ -19,6 +24,7 @@ public class Organization extends RealmObject {
     private String description;
 
     /**
+     * Returns url of a REST request for an organization data.
      *
      * @return
      * The url
@@ -28,6 +34,7 @@ public class Organization extends RealmObject {
     }
 
     /**
+     * Sets url of a REST request for an organization data.
      *
      * @param url
      * The url
@@ -37,6 +44,7 @@ public class Organization extends RealmObject {
     }
 
     /**
+     * Returns identifier key.
      *
      * @return
      * The id
@@ -46,6 +54,7 @@ public class Organization extends RealmObject {
     }
 
     /**
+     * Sets identifier key.
      *
      * @param id
      * The id
@@ -55,6 +64,7 @@ public class Organization extends RealmObject {
     }
 
     /**
+     * Returns name.
      *
      * @return
      * The name
@@ -64,6 +74,7 @@ public class Organization extends RealmObject {
     }
 
     /**
+     * Sets name.
      *
      * @param name
      * The name
@@ -73,6 +84,7 @@ public class Organization extends RealmObject {
     }
 
     /**
+     * Returns address.
      *
      * @return
      * The address
@@ -82,6 +94,7 @@ public class Organization extends RealmObject {
     }
 
     /**
+     * Sets address.
      *
      * @param address
      * The address
@@ -91,6 +104,7 @@ public class Organization extends RealmObject {
     }
 
     /**
+     * Returns description.
      *
      * @return
      * The description
@@ -100,6 +114,7 @@ public class Organization extends RealmObject {
     }
 
     /**
+     * Sets description.
      *
      * @param description
      * The description
