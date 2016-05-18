@@ -2,7 +2,14 @@ package com.stxnext.volontulo.logic.im.config;
 
 import com.stxnext.volontulo.BuildConfig;
 
+/**
+ * Factory class used for instancing {@link ImConfiguration}.
+ */
 public final class ImConfigFactory {
+    /**
+     * Creates {@link ImConfiguration} object based on configuration build type.
+     * @return new instance of {@link ImConfiguration}
+     */
     public static ImConfiguration create() {
         if (BuildConfig.DEBUG) {
             return new SinchDebugConfiguration();
