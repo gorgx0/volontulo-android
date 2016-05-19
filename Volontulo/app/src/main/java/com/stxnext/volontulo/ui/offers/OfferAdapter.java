@@ -16,6 +16,8 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
 
     private UserProfile profile;
     private Realm realm;
+    private boolean highlightUserOffer;
+    private int organizationId;
 
     public OfferAdapter(Context context) {
         super(context);
@@ -24,6 +26,7 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
     public OfferAdapter(Context context, UserProfile profile) {
         this(context);
         this.profile = profile;
+        organizationId = profile.getOrganizations().get(0).getId();
     }
 
     @Override
@@ -35,6 +38,7 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
     protected OfferViewHolder createViewHolder(View item, int viewType) {
         final OfferViewHolder offerViewHolder = new OfferViewHolder(item, profile);
         offerViewHolder.setRealm(realm);
+        offerViewHolder.setHighlightUserOffers(isHighlightUserOffer());
         return offerViewHolder;
     }
 
@@ -56,5 +60,13 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
 
     public Realm getRealm() {
         return realm;
+    }
+
+    public boolean isHighlightUserOffer() {
+        return highlightUserOffer;
+    }
+
+    public void setHighlightUserOffer(boolean highlightUserOffer) {
+        this.highlightUserOffer = highlightUserOffer;
     }
 }

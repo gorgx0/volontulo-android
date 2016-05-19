@@ -16,6 +16,8 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.Organization;
+import com.stxnext.volontulo.api.UserProfile;
 import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.map.MapOffersActivity;
 import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
@@ -39,6 +41,8 @@ public class OfferListFragment extends VolontuloBaseFragment {
     protected RecyclerView offers;
 
     private Realm realm;
+    private int organizationId;
+    private SharedPreferences preferences;
 
     @Override
     protected int getLayoutResource() {
@@ -64,14 +68,27 @@ public class OfferListFragment extends VolontuloBaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        preferences = retrievePreferences();
+        final String preferenceHighlightUsersOffer = getString(R.string.preference_highlight_users_offer);
+        final boolean highlightUserOffers = preferences.getBoolean(preferenceHighlightUsersOffer, false);
         realm = Realm.getDefaultInstance();
-        adapter = new OfferAdapter(getContext(), SessionManager.getInstance(getActivity()).getUserProfile());
+        final int userProfileId = SessionManager.getInstance(getActivity()).getUserProfile().getId();
+        final UserProfile userProfile = realm.where(UserProfile.class).equalTo(UserProfile.FIELD_ID, userProfileId).findFirst();
+        adapter = new OfferAdapter(getContext(), userProfile);
+        adapter.setHighlightUserOffer(highlightUserOffers);
+        if (userProfile != null) {
+            organizationId = userProfile.getOrganizations().get(0).getId();
+            Timber.i("[onAttach] organizationId: %d ", organizationId);
+        }
         adapter.setRealm(realm);
     }
 
     private void retrieveData() {
+        final String fieldOrganizationId = Offer.FIELD_ORGANIZATION + "." + Organization.FIELD_ID;
         final RealmQuery<Offer> queryFindOffers = realm.where(Offer.class).
-                equalTo(Offer.FIELD_OFFER_STATUS, Offer.OFFER_STATUS_PUBLISHED);
+                equalTo(Offer.FIELD_OFFER_STATUS, Offer.OFFER_STATUS_PUBLISHED)
+                .or()
+                .equalTo(fieldOrganizationId, organizationId);
         final RealmResults<Offer> offerResults = queryFindOffers.findAll();
         Timber.d("[REALM] Offers count: %d", offerResults.size());
         adapter.swap(offerResults);
@@ -142,10 +159,9 @@ public class OfferListFragment extends VolontuloBaseFragment {
         if (adapter == null || adapter.getItemCount() == 0) {
             return;
         }
-        final String preferenceFile = getString(R.string.preference_file_name);
+
         final String offersPosition = getString(R.string.preference_offers_position);
         final String offersRefresh = getString(R.string.preference_offers_refresh);
-        final SharedPreferences preferences = getContext().getSharedPreferences(preferenceFile, Context.MODE_PRIVATE);
         if (preferences.getBoolean(offersRefresh, false)) {
             int position = preferences.getInt(offersPosition, -1);
             if (position > -1) {
@@ -163,5 +179,10 @@ public class OfferListFragment extends VolontuloBaseFragment {
                 .remove(offersPosition)
                 .remove(offersRefresh)
                 .apply();
+    }
+
+    private SharedPreferences retrievePreferences() {
+        final String preferenceFile = getString(R.string.preference_file_name);
+        return getContext().getSharedPreferences(preferenceFile, Context.MODE_PRIVATE);
     }
 }

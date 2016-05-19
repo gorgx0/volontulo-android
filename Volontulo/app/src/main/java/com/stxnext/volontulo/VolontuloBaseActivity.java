@@ -1,5 +1,7 @@
 package com.stxnext.volontulo;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
@@ -21,6 +23,8 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.palaima.debugdrawer.DebugDrawer;
+import io.palaima.debugdrawer.actions.ActionsModule;
+import io.palaima.debugdrawer.actions.SwitchAction;
 import io.palaima.debugdrawer.commons.BuildModule;
 import io.palaima.debugdrawer.commons.DeviceModule;
 import io.palaima.debugdrawer.commons.NetworkModule;
@@ -61,16 +65,27 @@ public abstract class VolontuloBaseActivity extends AppCompatActivity implements
     }
 
     private void initDebugDrawer() {
+        SwitchAction  switchAction = new SwitchAction("Highlights user's actions", new SwitchAction.Listener() {
+            @Override
+            public void onCheckedChanged(boolean value) {
+                final String preferenceFile = getString(R.string.preference_file_name);
+                final String preferenceHighlightUsersOffer = getString(R.string.preference_highlight_users_offer);
+                final SharedPreferences preferences = getSharedPreferences(preferenceFile, Context.MODE_PRIVATE);
+                preferences.edit().putBoolean(preferenceHighlightUsersOffer, value).apply();
+            }
+        });
+
         debugDrawer = new DebugDrawer.Builder(this)
                 .modules(
-                        new LocationModule(this),
                         new ScalpelModule(this),
                         new TimberModule(),
                         new PicassoModule(Picasso.with(this)),
+                        new ActionsModule(switchAction),
                         new OkHttp3Module(VolontuloApp.okHttpClient),
-                        new DeviceModule(this),
                         new BuildModule(this),
                         new NetworkModule(this),
+                        new LocationModule(this),
+                        new DeviceModule(this),
                         new SettingsModule(this)
                 ).build();
     }

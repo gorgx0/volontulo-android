@@ -3,6 +3,7 @@ package com.stxnext.volontulo.ui.offers;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -49,6 +50,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> implements JoinOffer.JoinOff
     protected TextView offerEnd;
     private UserProfile profile;
     private Realm realm;
+    private boolean highlightUserOffers;
 
     public OfferViewHolder(View itemView) {
         super(itemView);
@@ -90,7 +92,12 @@ class OfferViewHolder extends BaseViewHolder<Offer> implements JoinOffer.JoinOff
     public void onOfferJoined(boolean result, String message) {
         final Context context = offerJoinButton.getContext();
         if (result) {
-            offerJoinButton.setImageResource(R.drawable.ic_offered_joined_white);
+            boolean published = Offer.OFFER_STATUS_PUBLISHED.equals(objectBinded.getOfferStatus());
+            if (published) {
+                offerJoinButton.setImageResource(R.drawable.ic_offered_joined_white);
+            } else {
+                offerJoinButton.setImageResource(R.drawable.ic_offer_joined);
+            }
             offerJoinButton.setEnabled(false);
             final View view = offerJoinButton.getRootView();
             if (view != null) {
@@ -119,11 +126,26 @@ class OfferViewHolder extends BaseViewHolder<Offer> implements JoinOffer.JoinOff
         offerPlace.setText(item.getLocation());
         offerStart.setText(item.getStartedAt());
         offerEnd.setText(item.getFinishedAt());
+        if (item.canBeEdit(profile) && isHighlightUserOffers()) {
+            offerName.setTextColor(Color.RED);
+            offerName.setText(">>> " + item.getTitle());
+        } else {
+            offerName.setTextColor(Color.BLACK);
+        }
+        boolean published = Offer.OFFER_STATUS_PUBLISHED.equals(item.getOfferStatus());
         if (item.isUserJoined(profile.getUser().getId())) {
-            offerJoinButton.setImageResource(R.drawable.ic_offered_joined_white);
+            if (published) {
+                offerJoinButton.setImageResource(R.drawable.ic_offered_joined_white);
+            } else {
+                offerJoinButton.setImageResource(R.drawable.ic_offer_joined);
+            }
             offerJoinButton.setEnabled(false);
         } else {
-            offerJoinButton.setImageResource(R.drawable.ic_offer_join_white);
+            if (published) {
+                offerJoinButton.setImageResource(R.drawable.ic_offer_join_white);
+            } else {
+                offerJoinButton.setImageResource(R.drawable.ic_offer_join);
+            }
             offerJoinButton.setEnabled(true);
         }
     }
@@ -134,5 +156,13 @@ class OfferViewHolder extends BaseViewHolder<Offer> implements JoinOffer.JoinOff
 
     public Realm getRealm() {
         return realm;
+    }
+
+    public void setHighlightUserOffers(boolean highlightUserOffers) {
+        this.highlightUserOffers = highlightUserOffers;
+    }
+
+    public boolean isHighlightUserOffers() {
+        return highlightUserOffers;
     }
 }

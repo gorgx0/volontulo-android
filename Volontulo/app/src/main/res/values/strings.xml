@@ -69,6 +69,7 @@
     <string name="preference_file_name">com.stxnext.volontulo:preference_file_name</string>
     <string name="preference_offers_position">OFFERS-POSITION</string>
     <string name="preference_offers_refresh">OFFERS-REFRESH</string>
+    <string name="preference_highlight_users_offer">HIGHLIGHT-USERS-OFFERS</string>
     <string name="logout_title">Wyloguj</string>
     <string name="error_connection">Problemy z połączeniem...</string>
     <string name="error_something_wrong">Coś poszło nie tak...</string>
