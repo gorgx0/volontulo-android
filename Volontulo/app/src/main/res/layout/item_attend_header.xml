@@ -137,7 +137,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:textSize="20sp"
-            android:text="Lista akcji w których uczestniczysz "/>
+            android:text="@string/attend_list_header"/>
 
     </LinearLayout>
 
