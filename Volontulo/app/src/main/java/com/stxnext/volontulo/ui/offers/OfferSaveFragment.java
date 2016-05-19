@@ -1,4 +1,3 @@
-
 package com.stxnext.volontulo.ui.offers;
 
 import android.app.Activity;
@@ -211,7 +210,7 @@ public abstract class OfferSaveFragment extends VolontuloBaseFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(KEY_OFFER_FORM, Parcels.wrap(formState));
+        outState.putParcelable(Offer.OFFER_OBJECT, Parcels.wrap(formState));
     }
 
     @Override

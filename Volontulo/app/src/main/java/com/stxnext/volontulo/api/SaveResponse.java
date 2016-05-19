@@ -1,5 +1,6 @@
 package com.stxnext.volontulo.api;
 
+import com.google.gson.annotations.SerializedName;
 /**
  * Class for interpreting response of create or update an @see Offer
  */
@@ -9,10 +10,15 @@ public class SaveResponse {
     private Integer id;
     private Integer organization;
     private String requirements;
+    @SerializedName("time_period")
     private String timePeriod;
+    @SerializedName("status_old")
     private String statusOld;
+    @SerializedName("offer_status")
     private String offerStatus;
+    @SerializedName("recruitment_status")
     private String recruitmentStatus;
+    @SerializedName("action_status")
     private String actionStatus;
 
     /**

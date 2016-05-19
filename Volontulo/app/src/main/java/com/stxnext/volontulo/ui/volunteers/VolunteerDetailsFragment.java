@@ -80,8 +80,7 @@ public class VolunteerDetailsFragment extends VolontuloBaseFragment {
         final int userId = userProfile.getUser().getId();
         final String fieldVolunteersId = Offer.FIELD_VOLUNTEERS + "." + User.FIELD_ID;
         final RealmQuery<Offer> queryFindAttends = realm.where(Offer.class)
-                .equalTo(fieldVolunteersId, userId)
-                .equalTo(Offer.FIELD_OFFER_STATUS, Offer.OFFER_STATUS_PUBLISHED);
+                .equalTo(fieldVolunteersId, userId);
         final RealmResults<Offer> offerResults = queryFindAttends.findAll();
         Timber.d("[REALM] Attends count: %d", offerResults.size());
         adapter.swap(offerResults);

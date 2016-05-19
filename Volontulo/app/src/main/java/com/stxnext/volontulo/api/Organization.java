@@ -16,6 +16,8 @@ import io.realm.annotations.PrimaryKey;
         analyze = {Organization.class})
 public class Organization extends RealmObject {
 
+    public static final String FIELD_ID = "id";
+
     private String url;
     @PrimaryKey
     private int id;

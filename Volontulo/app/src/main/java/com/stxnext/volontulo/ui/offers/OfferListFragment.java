@@ -16,6 +16,8 @@ import com.stxnext.volontulo.R;
 import com.stxnext.volontulo.VolontuloApp;
 import com.stxnext.volontulo.VolontuloBaseFragment;
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.Organization;
+import com.stxnext.volontulo.api.UserProfile;
 import com.stxnext.volontulo.logic.session.SessionManager;
 import com.stxnext.volontulo.ui.map.MapOffersActivity;
 import com.stxnext.volontulo.ui.utils.SimpleItemDivider;
@@ -39,6 +41,8 @@ public class OfferListFragment extends VolontuloBaseFragment {
     protected RecyclerView offers;
 
     private Realm realm;
+    private int userId;
+    private int organizationId;
 
     @Override
     protected int getLayoutResource() {
@@ -65,13 +69,28 @@ public class OfferListFragment extends VolontuloBaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         realm = Realm.getDefaultInstance();
-        adapter = new OfferAdapter(getContext(), SessionManager.getInstance(getActivity()).getUserProfile());
+        final UserProfile userProfile = SessionManager.getInstance(getActivity()).getUserProfile();
+        adapter = new OfferAdapter(getContext(), userProfile);
+        if (userProfile != null) {
+            userId = userProfile.getUser().getId();
+            final UserProfile first = realm.where(UserProfile.class).equalTo(UserProfile.FIELD_ID, userProfile.getId()).findFirst();
+            Timber.i("[onAttach] userId: %d ", userId);
+//            if (realm.isClosed()) {
+//                Timber.i("[onAttach] realm close");
+//                realm = Realm.getDefaultInstance();
+//            }
+            organizationId = first.getOrganizations().get(0).getId();
+            Timber.i("[onAttach] organizationId: %d ", organizationId);
+        }
         adapter.setRealm(realm);
     }
 
     private void retrieveData() {
+        final String fieldOrganizationId = Offer.FIELD_ORGANIZATION + "." + Organization.FIELD_ID;
         final RealmQuery<Offer> queryFindOffers = realm.where(Offer.class).
-                equalTo(Offer.FIELD_OFFER_STATUS, Offer.OFFER_STATUS_PUBLISHED);
+                equalTo(Offer.FIELD_OFFER_STATUS, Offer.OFFER_STATUS_PUBLISHED)
+                .or()
+                .equalTo(fieldOrganizationId, organizationId);
         final RealmResults<Offer> offerResults = queryFindOffers.findAll();
         Timber.d("[REALM] Offers count: %d", offerResults.size());
         adapter.swap(offerResults);
