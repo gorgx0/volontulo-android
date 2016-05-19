@@ -126,7 +126,6 @@ class OfferViewHolder extends BaseViewHolder<Offer> implements JoinOffer.JoinOff
             offerJoinButton.setImageResource(R.drawable.ic_offer_join_white);
             offerJoinButton.setEnabled(true);
         }
-        item.setPosition(getAdapterPosition());
     }
 
     public void setRealm(Realm realm) {

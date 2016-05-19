@@ -3,6 +3,9 @@ package com.stxnext.volontulo.api;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an error of processing create or update an @see Offer
+ */
 public class SaveError {
 
     private String detail;
@@ -14,6 +17,7 @@ public class SaveError {
     private List<String> benefits = new ArrayList<>();
 
     /**
+     * Returns error message.
      *
      * @return
      * The detail
@@ -23,6 +27,7 @@ public class SaveError {
     }
 
     /**
+     * Sets error message.
      *
      * @param detail
      * The detail
@@ -32,6 +37,9 @@ public class SaveError {
     }
 
     /**
+     * Returns list of errors connected with time commitment.
+     *
+     * It's used when there is no time commitment filled in request.
      *
      * @return
      * The timeCommitment
@@ -41,6 +49,9 @@ public class SaveError {
     }
 
     /**
+     * Sets list of errors connected with time commitment.
+     *
+     * It's used when there is no time_commitment filled in request.
      *
      * @param timeCommitment
      * The time_commitment
@@ -50,6 +61,9 @@ public class SaveError {
     }
 
     /**
+     * Returns list of errors connected with title.
+     *
+     * It's used when there is no title filled in request.
      *
      * @return
      * The title
@@ -59,6 +73,9 @@ public class SaveError {
     }
 
     /**
+     * Sets list of errors connected with title.
+     *
+     * It's used when there is no title filled in request.
      *
      * @param title
      * The title
@@ -68,6 +85,9 @@ public class SaveError {
     }
 
     /**
+     * Returns list of errors connected with location.
+     *
+     * It's used when there is no location filled in request.
      *
      * @return
      * The location
@@ -77,6 +97,9 @@ public class SaveError {
     }
 
     /**
+     * Sets list of errors connected with location.
+     *
+     * It's used when there is no location filled in request.
      *
      * @param location
      * The location
@@ -86,6 +109,9 @@ public class SaveError {
     }
 
     /**
+     * Returns list of errors connected with description.
+     *
+     * It's used when there is no description filled in request.
      *
      * @return
      * The description
@@ -95,6 +121,9 @@ public class SaveError {
     }
 
     /**
+     * Sets list of errors connected with description.
+     *
+     * It's used when there is no description filled in request.
      *
      * @param description
      * The description
@@ -104,6 +133,9 @@ public class SaveError {
     }
 
     /**
+     * Returns list of errors connected with organization.
+     *
+     * It's used when there is no organization filled in request.
      *
      * @return
      * The organization
@@ -113,6 +145,9 @@ public class SaveError {
     }
 
     /**
+     * Sets list of errors connected with organization.
+     *
+     * It's used when there is no organization filled in request.
      *
      * @param organization
      * The organization
@@ -122,6 +157,9 @@ public class SaveError {
     }
 
     /**
+     * Returns list of errors connected with benefits.
+     *
+     * It's used when there is no benefits filled in request.
      *
      * @return
      * The benefits
@@ -131,6 +169,9 @@ public class SaveError {
     }
 
     /**
+     * Sets list of errors connected with benefits.
+     *
+     * It's used when there is no benefits filled in request.
      *
      * @param benefits
      * The benefits

@@ -21,8 +21,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
+/**
+ * Manages user session state.
+ */
 public class SessionManager {
+
+    /**
+     * Session state change callback.
+     */
     public interface OnSessionStateChanged {
+        /**
+         * Called when user session changes state, ie. user logged in or logged out.
+         * @param session new session state.
+         */
         void onSessionStateChanged(Session session);
     }
 
@@ -37,6 +48,12 @@ public class SessionManager {
 
     private static final Object LOCK = new Object();
     private static SessionManager instance;
+
+    /**
+     * Returns instance of {@code SessionManager}. Creates manager if necessary.
+     * @param context Passed context of place its called.
+     * @return {@code SessionManager} instance
+     */
     public static SessionManager getInstance(Context context) {
         synchronized (LOCK) {
             if (instance == null) {
@@ -54,6 +71,14 @@ public class SessionManager {
         Timber.d("Restored last session [%s]", session);
     }
 
+    /**
+     * Subscribes callback for objects which may need information about changes user session state.
+     * If session is of this call authenticated with full user information is notify callback of user session state.
+     * @param callback {@link OnSessionStateChanged} callback subscriber
+     *
+     * @see #removeOnStateChangedListener(OnSessionStateChanged)
+     * @see #removeListeners()
+     */
     public void addOnStateChangedListener(final OnSessionStateChanged callback) {
         if (!listeners.contains(callback)) {
             listeners.add(callback);
@@ -63,14 +88,32 @@ public class SessionManager {
         }
     }
 
+    /**
+     * Removes previously added callback of user session state change.
+     * @param callback
+     *
+     * @see #addOnStateChangedListener(OnSessionStateChanged)
+     * @see #removeListeners()
+     */
     public void removeOnStateChangedListener(final OnSessionStateChanged callback) {
         listeners.remove(callback);
     }
 
+    /**
+     * Removes all attached callbacks on {@code OnSessionStateChanged} action.
+     *
+     * @see this#addOnStateChangedListener(OnSessionStateChanged)
+     * @see this#removeOnStateChangedListener(OnSessionStateChanged)
+     */
     public void removeListeners() {
         listeners.clear();
     }
 
+    /**
+     * Start authentication with provided user credentials.
+     * @param email user email
+     * @param secret user password
+     */
     public void authenticate(final String email, final String secret) {
         initializeRealmIfNecessary();
         Timber.d("Authentication started [status=%s]", session);
@@ -198,24 +241,49 @@ public class SessionManager {
         return new Session.Builder(key, isAuthenticated).withProfile(profile).build();
     }
 
+    /**
+     * Logout authenticated user and sets session to {@code Session.UNAUTHENTICATED}
+     */
     public void deauthenticate() {
         preferences.edit().clear().apply();
         session = Session.UNAUTHENTICATED;
         notifyListeners(session);
     }
 
+    /**
+     * Returns current user session status.
+     * @return {@code true} if user is authenticated, {@code false} otherwise.
+     */
     public boolean isAuthenticated() {
         return session.isAuthenticated();
     }
 
+    /**
+     * Returns authenticated user profile.
+     * @return {@link UserProfile}
+     *
+     * @see Session#getUserProfile()
+     */
     public UserProfile getUserProfile() {
         return session.getUserProfile();
     }
 
+    /**
+     * Returns token used for authentication user actions.
+     * @return session key formatted as token used for requests.
+     *
+     * @see #getSessionKey()
+     */
     public String getSessionToken() {
         return "Token " + session.getToken();
     }
 
+    /**
+     * Returns session key used for authentication user actions.
+     * @return session key string
+     *
+     * @see #getSessionToken()
+     */
     public String getSessionKey() {
         return session.getToken();
     }

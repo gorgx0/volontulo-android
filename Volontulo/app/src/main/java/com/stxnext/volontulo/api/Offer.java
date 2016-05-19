@@ -18,9 +18,13 @@ import java.util.Map;
 import io.realm.OfferRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
+/**
+ * Representation of an offer entity in local environment.
+ *
+ * Object can be pass between activities or fragments.
+ */
 @Parcel(implementations = {OfferRealmProxy.class},
         value = Parcel.Serialization.BEAN,
         analyze = {Offer.class})
@@ -87,10 +91,9 @@ public class Offer extends RealmObject {
     private RealmList<Image> images;
     private double locationLongitude;
     private double locationLatitude;
-    @Ignore
-    private int position;
 
     /**
+     * Returns url of a REST request for an offer data.
      *
      * @return
      * The url
@@ -100,6 +103,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets url of a REST request for an offer data.
      *
      * @param url
      * The url
@@ -109,6 +113,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns identifier key
      *
      * @return
      * The id
@@ -118,6 +123,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets identifier key
      *
      * @param id
      * The id
@@ -127,6 +133,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns organization which is owner of offer.
      *
      * @return
      * The organization
@@ -136,6 +143,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets organization which is owner of offer.
      *
      * @param organization
      * The organization
@@ -145,6 +153,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns list of @see User associated with an offer.
      *
      * @return
      * The volunteers
@@ -154,6 +163,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets list of @see User associated with an offer.
      *
      * @param volunteers
      * The volunteers
@@ -164,6 +174,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns description.
      *
      * @return
      * The description
@@ -173,6 +184,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets description.
      *
      * @param description
      * The description
@@ -182,6 +194,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns requirements.
      *
      * @return
      * The requirements
@@ -191,6 +204,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets requirements.
      *
      * @param requirements
      * The requirements
@@ -200,6 +214,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns time commitment.
      *
      * @return
      * The timeCommitment
@@ -209,6 +224,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets time commitment.
      *
      * @param timeCommitment
      * The time_commitment
@@ -218,6 +234,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns benefits.
      *
      * @return
      * The benefits
@@ -227,6 +244,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets benefits.
      *
      * @param benefits
      * The benefits
@@ -236,6 +254,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns location.
      *
      * @return
      * The location
@@ -245,6 +264,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets location.
      *
      * @param location
      * The location
@@ -254,6 +274,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns title.
      *
      * @return
      * The title
@@ -263,6 +284,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets title.
      *
      * @param title
      * The title
@@ -272,6 +294,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns started at.
      *
      * @return
      * The startedAt
@@ -281,6 +304,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets started at.
      *
      * @param startedAt
      * The started_at
@@ -290,6 +314,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns finished at.
      *
      * @return
      * The finishedAt
@@ -299,6 +324,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets finished at.
      *
      * @param finishedAt
      * The finished_at
@@ -308,6 +334,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns time period.
      *
      * @return
      * The timePeriod
@@ -317,6 +344,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets time period.
      *
      * @param timePeriod
      * The time_period
@@ -326,6 +354,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns status old.
      *
      * @return
      * The statusOld
@@ -335,6 +364,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets status old.
      *
      * @param statusOld
      * The status_old
@@ -344,6 +374,9 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns offer status.
+     *
+     * It should be set to {@code "published"} to be available for users.
      *
      * @return
      * The offerStatus
@@ -353,6 +386,9 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets offer status.
+     *
+     * It should be set to {@code "published"} to be available for users.
      *
      * @param offerStatus
      * The offer_status
@@ -362,6 +398,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns recruitment status.
      *
      * @return
      * The recruitmentStatus
@@ -371,6 +408,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets recruitment status.
      *
      * @param recruitmentStatus
      * The recruitment_status
@@ -380,6 +418,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns action status.
      *
      * @return
      * The actionStatus
@@ -389,6 +428,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets action status.
      *
      * @param actionStatus
      * The action_status
@@ -398,6 +438,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns is votes.
      *
      * @return
      * The votes
@@ -407,6 +448,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets votes.
      *
      * @param votes
      * The votes
@@ -416,6 +458,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns recruitment start date.
      *
      * @return
      * The recruitmentStartDate
@@ -425,6 +468,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets recruitment start date.
      *
      * @param recruitmentStartDate
      * The recruitment_start_date
@@ -434,6 +478,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns recruitment end date.
      *
      * @return
      * The recruitmentEndDate
@@ -443,6 +488,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets recruitment end date.
      *
      * @param recruitmentEndDate
      * The recruitment_end_date
@@ -452,6 +498,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns reserve recruitment.
      *
      * @return
      * The reserveRecruitment
@@ -461,6 +508,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets reserve recruitment.
      *
      * @param reserveRecruitment
      * The reserve_recruitment
@@ -470,6 +518,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns reserve recruitment start date.
      *
      * @return
      * The reserveRecruitmentStartDate
@@ -479,6 +528,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets reserve recruitment start date.
      *
      * @param reserveRecruitmentStartDate
      * The reserve_recruitment_start_date
@@ -488,6 +538,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns reserve recruitment end date.
      *
      * @return
      * The reserveRecruitmentEndDate
@@ -497,6 +548,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets reserve recruitment end date.
      *
      * @param reserveRecruitmentEndDate
      * The reserve_recruitment_end_date
@@ -506,6 +558,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns action on going.
      *
      * @return
      * The actionOngoing
@@ -515,6 +568,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets action on going.
      *
      * @param actionOngoing
      * The action_ongoing
@@ -524,6 +578,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns constant coop.
      *
      * @return
      * The constantCoop
@@ -533,6 +588,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets constant coop.
      *
      * @param constantCoop
      * The constant_coop
@@ -542,6 +598,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns action start date.
      *
      * @return
      * The actionStartDate
@@ -551,6 +608,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets action start date.
      *
      * @param actionStartDate
      * The action_start_date
@@ -560,6 +618,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns action end date.
      *
      * @return
      * The actionEndDate
@@ -569,6 +628,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets action end date.
      *
      * @param actionEndDate
      * The action_end_date
@@ -578,6 +638,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns volunteers limit.
      *
      * @return
      * The volunteersLimit
@@ -587,6 +648,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets volunteers limit.
      *
      * @param volunteersLimit
      * The volunteers_limit
@@ -596,6 +658,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns weight.
      *
      * @return
      * The weight
@@ -605,6 +668,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets weight.
      *
      * @param weight
      * The weight
@@ -614,6 +678,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns list of images.
      *
      * @return
      * The images
@@ -623,6 +688,7 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Sets list of images.
      *
      * @param images
      * The images
@@ -632,35 +698,59 @@ public class Offer extends RealmObject {
         this.images = images;
     }
 
+    /**
+     * Returns longitude.
+     *
+     * @return
+     */
     public double getLocationLongitude() {
         return locationLongitude;
     }
 
+    /**
+     * Sets longitude.
+     *
+     * @param locationLongitude
+     */
     public void setLocationLongitude(double locationLongitude) {
         this.locationLongitude = locationLongitude;
     }
 
+    /**
+     * Returns latitude.
+     *
+     * @return
+     */
     public double getLocationLatitude() {
         return locationLatitude;
     }
 
+    /**
+     * Sets latitude.
+     *
+     * @param locationLatitude
+     */
     public void setLocationLatitude(double locationLatitude) {
         this.locationLatitude = locationLatitude;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
     @Override
+    /**
+     * {@inheritDoc}
+     */
     public String toString() {
         return "Offer " + id + ": '" + title + "' (" + location + ")";
     }
 
+    /**
+     * Prepare range duration of an offer.
+     *
+     * Use {@code now} when {code startedAt} is null. Use {@code finishedAt} is null.
+     *
+     * @param now
+     * @param toSet
+     * @return
+     */
     public String getDuration(String now, String toSet) {
         StringBuilder sb = new StringBuilder();
         sb.append(TextUtils.isEmpty(startedAt) ? now : startedAt);
@@ -669,10 +759,12 @@ public class Offer extends RealmObject {
         return sb.toString();
     }
 
-    public boolean isUserJoined() {
-        return false;
-    }
-
+    /**
+     * Returns is user joined to an offer.
+     *
+     * @param userId
+     * @return
+     */
     public boolean isUserJoined(int userId) {
         for (User user : volunteers) {
             if (user.getId() == userId) {
@@ -682,6 +774,12 @@ public class Offer extends RealmObject {
         return false;
     }
 
+    /**
+     * Returns if user is able to join to a offer.
+     *
+     * @param profile
+     * @return
+     */
     public boolean canBeJoined(UserProfile profile) {
         int organizationId = organization.getId();
         for (Organization organization : profile.getOrganizations()) {
@@ -692,14 +790,31 @@ public class Offer extends RealmObject {
         return true;
     }
 
+    /**
+     * Returns is there any image in an offer.
+     *
+     * @return
+     */
     public boolean hasImage() {
         return images != null && images.size() > 0;
     }
 
+    /**
+     * Returns an image path of an offer.
+     *
+     * @return
+     */
     public String retrieveImagePath() {
         return hasImage() ? images.get(0).getPath() : null;
     }
 
+    /**
+     * Returns map of selected fields for create or update
+     *
+     * Contains list of all required params.
+     *
+     * @return
+     */
     public Map<String, String> getParams() {
         Map<String, String> map = new HashMap<>();
         map.put("title", title);
@@ -714,11 +829,22 @@ public class Offer extends RealmObject {
         return map;
     }
 
+    /**
+     * Returns is offer allowed to edit
+     *
+     * @param profile
+     * @return
+     */
     public boolean canBeEdit(UserProfile profile) {
         final RealmList<Organization> organizations = profile.getOrganizations();
         return !organizations.isEmpty() && organizations.first().getId() == organization.getId();
     }
 
+    /**
+     * Set location, longitude and latitude from {@code Place}
+     *
+     * @param place
+     */
     public void setLocationNameAndPosition(Place place) {
         final LatLng position = place.getLatLng();
         locationLongitude = position.longitude;
@@ -726,6 +852,11 @@ public class Offer extends RealmObject {
         location = String.valueOf(place.getName());
     }
 
+    /**
+     * Set image path of an offer
+     *
+     * @param selectedImage
+     */
     public void applyImagePath(Uri selectedImage) {
         if (selectedImage == null) {
             return;

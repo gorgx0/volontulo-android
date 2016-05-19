@@ -8,10 +8,16 @@ import io.realm.RealmObject;
 import io.realm.UserRealmProxy;
 import io.realm.annotations.PrimaryKey;
 
+/**
+ * Representation of a user entity in local environment.
+ *
+ * Object can be pass between activities or fragments.
+ */
 @Parcel(implementations = {UserRealmProxy.class},
         value = Parcel.Serialization.BEAN,
         analyze = {User.class})
 public class User extends RealmObject {
+
     public static final String USER_ID = "USER-ID";
     public static final String FIELD_ID = "id";
     public static final String FIELD_EMAIL = "email";
@@ -25,16 +31,8 @@ public class User extends RealmObject {
     private String lastName;
     private String email;
 
-    public static User createEmpty() {
-        final User user = new User();
-        user.setUsername("");
-        user.setEmail("");
-        user.setFirstName("");
-        user.setLastName("");
-        return user;
-    }
-
     /**
+     * Returns identifier key.
      *
      * @return
      * The id
@@ -44,6 +42,7 @@ public class User extends RealmObject {
     }
 
     /**
+     * Sets identifier key.
      *
      * @param id
      * The id
@@ -53,6 +52,7 @@ public class User extends RealmObject {
     }
 
     /**
+     * Returns user name.
      *
      * @return
      * The username
@@ -62,6 +62,7 @@ public class User extends RealmObject {
     }
 
     /**
+     * Sets user name.
      *
      * @param username
      * The username
@@ -71,6 +72,7 @@ public class User extends RealmObject {
     }
 
     /**
+     * Returns first name.
      *
      * @return
      * The firstName
@@ -80,6 +82,7 @@ public class User extends RealmObject {
     }
 
     /**
+     * Sets first name.
      *
      * @param firstName
      * The first_name
@@ -89,6 +92,7 @@ public class User extends RealmObject {
     }
 
     /**
+     * Return last name.
      *
      * @return
      * The lastName
@@ -98,6 +102,7 @@ public class User extends RealmObject {
     }
 
     /**
+     * Sets last name.
      *
      * @param lastName
      * The last_name
@@ -107,6 +112,7 @@ public class User extends RealmObject {
     }
 
     /**
+     * Returns email.
      *
      * @return
      * The email
@@ -116,12 +122,27 @@ public class User extends RealmObject {
     }
 
     /**
+     * Sets email.
      *
      * @param email
      * The email
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * Create empty user
+     *
+     * @return
+     */
+    public static User createEmpty() {
+        final User user = new User();
+        user.setUsername("");
+        user.setEmail("");
+        user.setFirstName("");
+        user.setLastName("");
+        return user;
     }
 
 }
