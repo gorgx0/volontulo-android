@@ -842,6 +842,16 @@ public class Offer extends RealmObject {
     }
 
     /**
+     * Returns is offer allowed to edit
+     *
+     * @param organizationId
+     * @return
+     */
+    public boolean belongTo(int organizationId) {
+        return organizationId == organization.getId();
+    }
+
+    /**
      * Set location, longitude and latitude from {@code Place}
      *
      * @param place

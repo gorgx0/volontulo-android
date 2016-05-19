@@ -90,7 +90,7 @@ public class OfferDetailsFragment extends VolontuloBaseFragment implements JoinO
         }
         if (offer.isUserJoined(profile.getUser().getId())) {
             joinedVisible = true;
-        } else if (offer.canBeJoined(profile)) {
+        } else {
             requestFloatingActionButton();
         }
         if (offer.canBeEdit(profile)) {

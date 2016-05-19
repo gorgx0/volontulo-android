@@ -41,8 +41,8 @@ public class OfferListFragment extends VolontuloBaseFragment {
     protected RecyclerView offers;
 
     private Realm realm;
-    private int userId;
     private int organizationId;
+    private SharedPreferences preferences;
 
     @Override
     protected int getLayoutResource() {
@@ -68,18 +68,16 @@ public class OfferListFragment extends VolontuloBaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        preferences = retrievePreferences();
+        final String preferenceHighlightUsersOffer = getString(R.string.preference_highlight_users_offer);
+        final boolean highlightUserOffers = preferences.getBoolean(preferenceHighlightUsersOffer, false);
         realm = Realm.getDefaultInstance();
-        final UserProfile userProfile = SessionManager.getInstance(getActivity()).getUserProfile();
+        final int userProfileId = SessionManager.getInstance(getActivity()).getUserProfile().getId();
+        final UserProfile userProfile = realm.where(UserProfile.class).equalTo(UserProfile.FIELD_ID, userProfileId).findFirst();
         adapter = new OfferAdapter(getContext(), userProfile);
+        adapter.setHighlightUserOffer(highlightUserOffers);
         if (userProfile != null) {
-            userId = userProfile.getUser().getId();
-            final UserProfile first = realm.where(UserProfile.class).equalTo(UserProfile.FIELD_ID, userProfile.getId()).findFirst();
-            Timber.i("[onAttach] userId: %d ", userId);
-//            if (realm.isClosed()) {
-//                Timber.i("[onAttach] realm close");
-//                realm = Realm.getDefaultInstance();
-//            }
-            organizationId = first.getOrganizations().get(0).getId();
+            organizationId = userProfile.getOrganizations().get(0).getId();
             Timber.i("[onAttach] organizationId: %d ", organizationId);
         }
         adapter.setRealm(realm);
@@ -161,10 +159,9 @@ public class OfferListFragment extends VolontuloBaseFragment {
         if (adapter == null || adapter.getItemCount() == 0) {
             return;
         }
-        final String preferenceFile = getString(R.string.preference_file_name);
+
         final String offersPosition = getString(R.string.preference_offers_position);
         final String offersRefresh = getString(R.string.preference_offers_refresh);
-        final SharedPreferences preferences = getContext().getSharedPreferences(preferenceFile, Context.MODE_PRIVATE);
         if (preferences.getBoolean(offersRefresh, false)) {
             int position = preferences.getInt(offersPosition, -1);
             if (position > -1) {
@@ -182,5 +179,10 @@ public class OfferListFragment extends VolontuloBaseFragment {
                 .remove(offersPosition)
                 .remove(offersRefresh)
                 .apply();
+    }
+
+    private SharedPreferences retrievePreferences() {
+        final String preferenceFile = getString(R.string.preference_file_name);
+        return getContext().getSharedPreferences(preferenceFile, Context.MODE_PRIVATE);
     }
 }
