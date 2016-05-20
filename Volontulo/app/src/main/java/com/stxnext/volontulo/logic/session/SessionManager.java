@@ -116,7 +116,41 @@ public class SessionManager {
      */
     public void authenticate(final String email, final String secret) {
         initializeRealmIfNecessary();
+        fetchProfiles(email, secret);
         Timber.d("Authentication started [status=%s]", session);
+    }
+
+    private void initializeRealmIfNecessary() {
+        if (realm == null || realm.isClosed()) {
+            realm = Realm.getDefaultInstance();
+        }
+    }
+
+    private void fetchProfiles(final String email, final String secret) {
+        Timber.d("Authentication: fetching user profiles started [%s]", session);
+        final Call<List<UserProfile>> userProfileCall = VolontuloApp.api.listVolunteers();
+        userProfileCall.enqueue(new Callback<List<UserProfile>>() {
+            @Override
+            public void onResponse(Call<List<UserProfile>> call, Response<List<UserProfile>> response) {
+                if (response.isSuccessful()) {
+                    final List<UserProfile> profiles = response.body();
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(profiles);
+                    realm.commitTransaction();
+
+                    Timber.d("Authentication: user profiles count %d fetched", profiles.size());
+                    login(email, secret);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UserProfile>> call, Throwable t) {
+            }
+        });
+    }
+
+    private void login(final String email, final String secret) {
         final Call<LoginResponse> loginResponseCall = VolontuloApp.api.login(email, secret);
         loginResponseCall.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -128,14 +162,14 @@ public class SessionManager {
                         final UserProfile profile = findProfile(email);
                         if (profile == null) {
                             session = new Session.Builder(loginResponse.getKey(), Boolean.TRUE)
-                                .build();
+                                    .build();
                             Timber.i("Authentication success, but some info is incomplete [%s]", session);
                             storeInPreferences(session);
-                            fetchProfiles(email);
+                            fetchProfiles(email, secret);
                         } else {
                             session = new Session.Builder(loginResponse.getKey(), Boolean.TRUE)
-                                .withProfile(profile)
-                                .build();
+                                    .withProfile(profile)
+                                    .build();
                             Timber.i("Authentication success complete [%s]", session);
                             storeInPreferences(session);
                         }
@@ -162,42 +196,6 @@ public class SessionManager {
                 Timber.e(t, "Authentication failed due to connection problem");
                 session = Session.UNAUTHENTICATED;
                 notifyListeners(session);
-            }
-        });
-    }
-
-    private void initializeRealmIfNecessary() {
-        if (realm == null || realm.isClosed()) {
-            realm = Realm.getDefaultInstance();
-        }
-    }
-
-    private void fetchProfiles(final String email) {
-        Timber.d("Authentication: fetching user profiles started [%s]", session);
-        final Call<List<UserProfile>> userProfileCall = VolontuloApp.api.listVolunteers();
-        userProfileCall.enqueue(new Callback<List<UserProfile>>() {
-            @Override
-            public void onResponse(Call<List<UserProfile>> call, Response<List<UserProfile>> response) {
-                if (response.isSuccessful()) {
-                    final List<UserProfile> profiles = response.body();
-                    realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(profiles);
-                    realm.commitTransaction();
-
-                    Timber.d("Authentication: user profiles count %d fetched", profiles.size());
-
-                    final UserProfile profile = findProfile(email);
-                    if (profile != null) {
-                        final String key = session.getToken();
-                        final boolean status = session.isAuthenticated();
-                        session = new Session.Builder(key, status).withProfile(profile).build();
-                        notifyListeners(session);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<UserProfile>> call, Throwable t) {
             }
         });
     }

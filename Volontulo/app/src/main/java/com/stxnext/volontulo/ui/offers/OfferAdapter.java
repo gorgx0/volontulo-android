@@ -17,7 +17,6 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
     private UserProfile profile;
     private Realm realm;
     private boolean highlightUserOffer;
-    private int organizationId;
 
     public OfferAdapter(Context context) {
         super(context);
@@ -26,7 +25,6 @@ public class OfferAdapter extends BaseMockAdapter<Offer, OfferViewHolder> {
     public OfferAdapter(Context context, UserProfile profile) {
         this(context);
         this.profile = profile;
-        organizationId = profile.getOrganizations().get(0).getId();
     }
 
     @Override
