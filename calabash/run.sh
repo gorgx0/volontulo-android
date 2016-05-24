@@ -1,4 +1,9 @@
 #!/bin/bash
-adb shell pm clear com.stxnext.volontulo
-adb uninstall com.stxnext.volontulo
-calabash-android run app-debug.apk
+
+if [[ ! -z "$1" ]]; then
+    adb -s $1 shell pm clear com.stxnext.volontulo
+    adb -s $1 uninstall com.stxnext.volontulo
+    ADB_DEVICE_ARG=$1 calabash-android run app-debug.apk
+else
+    echo "Please specify target Android device"
+fi
