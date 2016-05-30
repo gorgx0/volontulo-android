@@ -1,3 +1,20 @@
 Then /^I scroll recyclerview down$/ do
     scroll('recyclerView', :down)
 end
+
+Then /^I hide the keyboard$/ do
+    hide_soft_keyboard()
+end
+
+
+Then /^I login into app$/ do
+    wait_for_text("ZALOGUJ", timeout: 10)
+    enter_text("android.widget.EditText id:'edit_text_email'", "test")
+    enter_text("android.widget.EditText id:'edit_text_password'", "test")
+    tap_when_element_exists("android.widget.Button index:0")
+    wait_for_activity("MainHostActivity", timeout:5)
+end
+
+Then /^I tap on menu item with id "([^\"]*)" at toolbar$/ do |text|
+    tap_when_element_exists("android.support.v7.widget.Toolbar android.widget.TextView id:'#{text}'")
+end

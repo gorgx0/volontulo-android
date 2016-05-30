@@ -1,11 +1,7 @@
 Feature: Volunteers list, details
 
     Scenario: As valid user I can show list of volunteers and see its details
-        When I see "ZALOGUJ"
-        Then I enter text "test" into field with id "edit_text_email"
-        Then I enter text "test" into field with id "edit_text_password"
-        Then I press button number 1
-        And  I wait up to 10 seconds for the "MainHostActivity" screen to appear
+        When I login into app
 
         Then I swipe left
         * I wait for a second
