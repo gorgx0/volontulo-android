@@ -11,8 +11,7 @@ Feature: Volunteers list, details
         Then I touch the "Paweł Nowak" text
 
         * I wait for a second
-        Then I scroll recyclerview down
-        Then I scroll recyclerview down
+        Then I scroll until I see the "Uszczęśliw seniora" text
         Then I see the text "Uszczęśliw seniora"
         Then I touch the "Uszczęśliw seniora" text
 
