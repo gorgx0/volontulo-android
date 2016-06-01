@@ -4,14 +4,10 @@ Feature: Volunteers list, details
         When I login into app
 
         Then I swipe left
-        * I wait for a second
         Then I touch the "Lista wolontariuszy" text
         Then I see the text "Paweł Nowak"
-        * I wait for a second
         Then I touch the "Paweł Nowak" text
 
-        * I wait for a second
         Then I scroll until I see the "Uszczęśliw seniora" text
         Then I see the text "Uszczęśliw seniora"
-        Then I touch the "Uszczęśliw seniora" text
-
+		* I go back

@@ -22,6 +22,9 @@ Then /^I scroll until I see the "([^\"]*)" text$/ do |text|
     q = query("android.widget.TextView text:'#{text}'")
     while q.empty?
         scroll('recyclerView', :down)
-        q = query("android.widget.TextView text:'#{text}'")
+        q = query("android.widget.TextView text:'#{text}' timeout:10")
+		if element_exists("android.widget.TextView text:'#{text}'")
+			break
+		end
     end
 end
