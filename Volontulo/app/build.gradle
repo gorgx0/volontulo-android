@@ -59,6 +59,15 @@ android {
         }
     }
 
+    productFlavors {
+        fakeBackend {
+            applicationId "com.stxnext.volontulo"
+        }
+        realBackend {
+            applicationId "com.stxnext.volontulo"
+        }
+    }
+
     android.applicationVariants.all { variant ->
         task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
             description "Generates Javadoc for $variant.name."

@@ -42,6 +42,11 @@ public class VolontuloApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LumberYard lumberYard = LumberYard.getInstance(this);
+        lumberYard.cleanUp();
+        Timber.plant(lumberYard.tree());
+        Timber.plant(new Timber.DebugTree());
+
         CrashlyticsCore core = new CrashlyticsCore.Builder()
                 .disabled(BuildConfig.DEBUG)
                 .build();
@@ -67,6 +72,7 @@ public class VolontuloApp extends Application {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         clientBuilder.addInterceptor(loggingInterceptor);
+        clientBuilder.addInterceptor(new VolontuloInterceptor());
         clientBuilder.cache(new Cache(new File(getCacheDir(), String.valueOf(UUID.randomUUID())), 1024 * 1024 * 10));
         clientBuilder.readTimeout(10, TimeUnit.SECONDS);
         clientBuilder.writeTimeout(10, TimeUnit.SECONDS);
@@ -103,10 +109,5 @@ public class VolontuloApp extends Application {
                 .client(httpClient)
                 .build();
         cachedApi = cachedRetrofit.create(VolontuloApi.class);
-
-        LumberYard lumberYard = LumberYard.getInstance(this);
-        lumberYard.cleanUp();
-        Timber.plant(lumberYard.tree());
-        Timber.plant(new Timber.DebugTree());
     }
 }
