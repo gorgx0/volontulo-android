@@ -122,7 +122,7 @@ class OfferViewHolder extends BaseViewHolder<Offer> implements JoinOffer.JoinOff
         } else {
             offerImage.setImageResource(0);
         }
-        offerName.setText(item.getTitle());
+        offerName.setText("[" + item.getId() + "]: " + item.getTitle());
         offerPlace.setText(item.getLocation());
         offerStart.setText(item.getStartedAt());
         offerEnd.setText(item.getFinishedAt());

@@ -88,6 +88,9 @@ android {
             println "Version: ${autoVersionName()} (${autoVersionCode()})"
         }
     }
+    sourceSets {
+        fakeBackend { assets.srcDirs = ['src/fakeBackend/assets', 'src/fakeBackend/assets/'] }
+    }
 }
 
 dependencies {
@@ -129,7 +132,7 @@ dependencies {
     debugCompile 'io.palaima.debugdrawer:debugdrawer-location:0.7.0'
     debugCompile 'io.palaima.debugdrawer:debugdrawer-timber:0.7.0'
 
-    compile ('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
 }

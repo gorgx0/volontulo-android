@@ -72,7 +72,7 @@ public class VolontuloApp extends Application {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         clientBuilder.addInterceptor(loggingInterceptor);
-        clientBuilder.addInterceptor(new VolontuloInterceptor());
+        clientBuilder.addInterceptor(new VolontuloInterceptor(getApplicationContext()));
         clientBuilder.cache(new Cache(new File(getCacheDir(), String.valueOf(UUID.randomUUID())), 1024 * 1024 * 10));
         clientBuilder.readTimeout(10, TimeUnit.SECONDS);
         clientBuilder.writeTimeout(10, TimeUnit.SECONDS);

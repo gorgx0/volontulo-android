@@ -1,0 +1,628 @@
+[
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/1.json",
+    "id": 1,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/22.json",
+      "id": 22,
+      "name": "Origami",
+      "address": "Bajkowa 5",
+      "description": "Układamy różne kompozycje"
+    },
+    "volunteers": [
+      {
+        "id": 43,
+        "username": "radek1234@gmail.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "radek1234@gmail.com"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Czary Mary",
+    "requirements": "mocna głowa",
+    "time_commitment": "Twoja Stara",
+    "benefits": "To Twoj Stary",
+    "location": "uylica sezamkowa",
+    "title": "Hokus Pokus",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "unpublished",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": false,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 666,
+    "weight": 13,
+    "images": [
+      {
+        "id": 6,
+        "path": "file:///android_asset/images/cookie1.jpg",
+        "is_main": true
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/3.json",
+    "id": 3,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/3.json",
+      "id": 3,
+      "name": "Wielkopolska Rada Czytelnicza",
+      "address": "gosiaczek4228@wp.pl",
+      "description": "Od 10 lat promujemy czytelnictwo wśród dzieci, młodzieży, rodzin i seniorów."
+    },
+    "volunteers": [
+      {
+        "id": 8,
+        "username": "calineczka2016@op.pl",
+        "first_name": "Gosia",
+        "last_name": "Kowalska",
+        "email": "calineczka2016@op.pl"
+      }
+    ],
+    "description": "Każdego dnia w wybranych miejscach Poznania wolontariusze \"czytają na okrągło\", wraz z zaproszonymi gośćmi, zachęcają mieszkańców do udziału. \r\nKażdy dzień to inne zagadnienie/ motyw tematyczny  np. przyjaźń, bohater pozytywny czy negatywny. \r\nWolontariusze będą też wsparciem technicznym i logistycznym dla całego przedsięwzięcia.\r\nZakres szczegółowych zadań wolontariusza zostanie ustalony indywidualnie.",
+    "requirements": "- pozytywne nastawienie :)\r\n- zainteresowanie czytelnicze ze wskazaniem na typ literatury \r\n",
+    "time_commitment": "minimalne zaangażowanie 2h dziennie ",
+    "benefits": "- nawiązanie nowych kontaktów,\r\n- wymiana doświadczeń literackich,\r\n- zwiększenie kompetencji społecznych i komunikacyjnych,\r\n- otrzymanie referencji,\r\n- możliwość dalszej współpracy,",
+    "location": "Poznań",
+    "title": "Akcja społeczna \"Czytanie na okrągło\"",
+    "started_at": "2016-03-07T00:00:00Z",
+    "finished_at": "2016-03-13T00:00:00Z",
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "closed",
+    "action_status": "finished",
+    "votes": false,
+    "recruitment_start_date": "2016-02-17T00:00:00Z",
+    "recruitment_end_date": "2016-02-29T00:00:00Z",
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": "2016-03-01T00:00:00Z",
+    "reserve_recruitment_end_date": "2016-03-06T00:00:00Z",
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 10,
+    "weight": 5,
+    "images": [
+      {
+        "id": 2,
+        "path": "file:///android_asset/images/apple-256263_960_720.jpg",
+        "is_main": false
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/5.json",
+    "id": 5,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/4.json",
+      "id": 4,
+      "name": "Towarzystwo Pakowaczy Śniadaniowych",
+      "address": "Poznań",
+      "description": "Towarzystwo Pakowaczy Śniadaniowych zajmuje się promowaniem jedzenia śniadań przez dużych i małych."
+    },
+    "volunteers": [
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Codziennie rano pakujemy śniadanie i zabieramy je ze sobą do pracy. ",
+    "requirements": "brak",
+    "time_commitment": "raz dziennie",
+    "benefits": "zjedzone śniadanie",
+    "location": "cały kraj",
+    "title": "Pakowanie",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "rejected",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 0,
+    "weight": 16,
+    "images": [
+      {
+        "id": 1,
+        "path": "file:///android_asset/images/klanza.jpg",
+        "is_main": true
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/13.json",
+    "id": 13,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/9.json",
+      "id": 9,
+      "name": "Fundacja Taka Sytuacja",
+      "address": "Las Czechas, Rathattan",
+      "description": "Taka Sytuacja to fundacja ciekawa. Pomaga zrozumieć świat poprzez produkcję/dystrybucję domowego piwa. Fundacja leczy świat poprzez produkcję i kolportaż piwa domowego w różne rejony stolicy Wielkopolski"
+    },
+    "volunteers": [
+      {
+        "id": 5,
+        "username": "tomasz.magulski@stxnext.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "tomasz.magulski@stxnext.pl"
+      },
+      {
+        "id": 8,
+        "username": "calineczka2016@op.pl",
+        "first_name": "Gosia",
+        "last_name": "Kowalska",
+        "email": "calineczka2016@op.pl"
+      },
+      {
+        "id": 47,
+        "username": "karolinapetryk1@o2.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "karolinapetryk1@o2.pl"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Oferta przeznaczona dla osób, którym doskwiera nuda. ",
+    "requirements": "Umiejętność machania łyżką wielkości wiosła w kotle pełnym surowców; odporność na pokusę spróbowania świeżo uwarzonej brzeczki; poczucie humoru; znajomość podstaw chemii organicznej; ciekawość do procesu produkcji piw domowych; ",
+    "time_commitment": "10 h",
+    "benefits": "WolontariuszE stoją przed niepowtarzalną możliwością zobaczenia od kuchni (i zobaczenia kuchni w jednym z mieszkań na Rathattanie - plus to widok z 8.piętra na powstającą galerię handlową Posnanię) produkcję piwa domowego wraz z uwzględnieniem wszelkich walorów sensorycznych tego fascynującego procesu. ",
+    "location": "Las Czechas na Rathattanie. Poznań, Rataje.",
+    "title": "Uważne warzenie, czyli produkcja/dystrybucja domowego piwa",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "closed",
+    "action_status": "finished",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 2,
+    "weight": 18,
+    "images": [
+      {
+        "id": 8,
+        "path": "file:///android_asset/images/Desert.jpg",
+        "is_main": true
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/16.json",
+    "id": 16,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/9.json",
+      "id": 9,
+      "name": "Fundacja Taka Sytuacja",
+      "address": "Las Czechas, Rathattan",
+      "description": "Taka Sytuacja to fundacja ciekawa. Pomaga zrozumieć świat poprzez produkcję/dystrybucję domowego piwa. Fundacja leczy świat poprzez produkcję i kolportaż piwa domowego w różne rejony stolicy Wielkopolski"
+    },
+    "volunteers": [],
+    "description": "Oferta przeznaczona dla osób lubiących literaturę fantasy oraz mających nerwy ze stali. Współpraca polega na nieustannym motywowaniu studentki II roku studiów magisterskich do systematycznego pisania kolejnych rozdziałów, podrozdziałów. Dodatkowo zadanie obejmuje ewaluację poczynionych postępów oraz realizację zadań bieżących. Do obowiązków należy również monitorowanie postępów dotyczących gromadzenia bibliografii i  wypożyczanych książek. \r\nNie bądź obojętny! \r\nPomóż komuś obronić się w terminie!\r\nZostań motywatorem w dobie demotywatorów!",
+    "requirements": "Nieustanna kontrola bieżących plików znajdujących się w folderze \"Promotor płakał, gdy czytał, czyli mahisteriaaa!\" należącymi do studentki; silna osobowość; umiejętność mobilizowania; \"fokusowanie na targetach\", \"przestrzeganie dedlajnu\", czelendżowaniu decyzji\", skilowanie kejsa i takie tam. ",
+    "time_commitment": "12 godzin na tydzień",
+    "benefits": "Satysfakcja wynikająca z opieki psychologiczno-pedagogicznej niesubordynowanej studentki pięknego kierunku jakim jest filologia ojczysta; udoskonalenie warsztatu związanego z HR; kształtowanie perswazji oraz wypracowanie warsztatu metodologicznego ",
+    "location": "Las Czechas na Rathattanie. Poznań, Rataje.",
+    "title": "Pomoc studentce w napisaniu pracy magisterskiej w terminie",
+    "started_at": "2016-03-01T00:00:00Z",
+    "finished_at": "2016-03-30T00:00:00Z",
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "closed",
+    "action_status": "finished",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 2,
+    "weight": 7,
+    "images": [
+      {
+        "id": 12,
+        "path": "file:///android_asset/images/Lighthouse.jpg",
+        "is_main": true
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/29.json",
+    "id": 29,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/17.json",
+      "id": 17,
+      "name": "Happy People :)",
+      "address": "ul. Wesoła 3, Poznań",
+      "description": "Organizacja uszczęśliwiająca ludzi."
+    },
+    "volunteers": [
+      {
+        "id": 65,
+        "username": "ddd@ddd.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "ddd@ddd.pl"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Poszukujemy 20 wolontariuszy do towarzyszenia seniorom.",
+    "requirements": "Uśmiech :)",
+    "time_commitment": "2 x w tygodniu",
+    "benefits": "Satysfakcja z uszczęśliwiania innych.",
+    "location": "Poznań",
+    "title": "Uszczęśliw seniora :)",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": "2016-03-20T00:00:00Z",
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 20,
+    "weight": 3,
+    "images": [
+      {
+        "id": 18,
+        "path": "file:///android_asset/images/Jellyfish.jpg",
+        "is_main": true
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/30.json",
+    "id": 30,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/17.json",
+      "id": 17,
+      "name": "Happy People :)",
+      "address": "ul. Wesoła 3, Poznań",
+      "description": "Organizacja uszczęśliwiająca ludzi."
+    },
+    "volunteers": [],
+    "description": "Poszukujemy 20 wolontariuszy do towarzyszenia seniorom.",
+    "requirements": "Uśmiech :)",
+    "time_commitment": "2 x w tygodniu",
+    "benefits": "Satysfakcja z uszczęśliwiania innych.",
+    "location": "Poznań",
+    "title": "Uszczęśliw seniora :)",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": "2016-03-20T12:00:00Z",
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 20,
+    "weight": 4,
+    "images": [
+      {
+        "id": 18,
+        "path": "file:///android_asset/images/Jellyfish.jpg",
+        "is_main": true
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/31.json",
+    "id": 31,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/17.json",
+      "id": 17,
+      "name": "Happy People :)",
+      "address": "ul. Wesoła 3, Poznań",
+      "description": "Organizacja uszczęśliwiająca ludzi."
+    },
+    "volunteers": [],
+    "description": "Poszukujemy 20 wolontariuszy do towarzyszenia seniorom.",
+    "requirements": "Uśmiech :)",
+    "time_commitment": "2 x w tygodniu",
+    "benefits": "Satysfakcja z uszczęśliwiania innych.",
+    "location": "Poznań",
+    "title": "Uszczęśliw seniora :)",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": "2016-03-20T12:00:00Z",
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 20,
+    "weight": 4,
+    "images": [
+      {
+        "id": 18,
+        "path": "file:///android_asset/images/Jellyfish.jpg",
+        "is_main": true
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/32.json",
+    "id": 32,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/17.json",
+      "id": 17,
+      "name": "Happy People :)",
+      "address": "ul. Wesoła 3, Poznań",
+      "description": "Organizacja uszczęśliwiająca ludzi."
+    },
+    "volunteers": [],
+    "description": "Poszukujemy 20 wolontariuszy do towarzyszenia seniorom.",
+    "requirements": "Uśmiech :)",
+    "time_commitment": "2 x w tygodniu",
+    "benefits": "Satysfakcja z uszczęśliwiania innych.",
+    "location": "Poznań",
+    "title": "Uszczęśliw seniora :)",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "unpublished",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": false,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 20,
+    "weight": 4,
+    "images": [
+      {
+        "id": 18,
+        "path": "file:///android_asset/images/Jellyfish.jpg",
+        "is_main": true
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/33.json",
+    "id": 33,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/17.json",
+      "id": 17,
+      "name": "Happy People :)",
+      "address": "ul. Wesoła 3, Poznań",
+      "description": "Organizacja uszczęśliwiająca ludzi."
+    },
+    "volunteers": [],
+    "description": "Poszukujemy 20 wolontariuszy do towarzyszenia seniorom.",
+    "requirements": "Uśmiech :)",
+    "time_commitment": "2 x w tygodniu",
+    "benefits": "Satysfakcja z uszczęśliwiania innych.",
+    "location": "Poznań",
+    "title": "Uszczęśliw seniora :)",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "unpublished",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": false,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 20,
+    "weight": 4,
+    "images": [
+      {
+        "id": 18,
+        "path": "file:///android_asset/images/Jellyfish.jpg",
+        "is_main": true
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/37.json",
+    "id": 37,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/22.json",
+      "id": 22,
+      "name": "Origami",
+      "address": "Bajkowa 5",
+      "description": "Układamy różne kompozycje"
+    },
+    "volunteers": [
+      {
+        "id": 19,
+        "username": "z.wiler@gmail.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "z.wiler@gmail.com"
+      }
+    ],
+    "description": "Opis oferty",
+    "requirements": "",
+    "time_commitment": "Wymagania czasowe",
+    "benefits": "Korzyści",
+    "location": "Miejsce odbywania wolontariatu",
+    "title": "Tytuł oferty",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "rejected",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": false,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 0,
+    "weight": 0,
+    "images": [
+      {
+        "id": 18,
+        "path": "file:///android_asset/images/Jellyfish.jpg",
+        "is_main": true
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/39.json",
+    "id": 39,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/22.json",
+      "id": 22,
+      "name": "Origami",
+      "address": "Bajkowa 5",
+      "description": "Układamy różne kompozycje"
+    },
+    "volunteers": [
+      {
+        "id": 21,
+        "username": "123@123.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "123@123.pl"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Opis oferty",
+    "requirements": "",
+    "time_commitment": "Wymagania czasowe",
+    "benefits": "Korzyści",
+    "location": "Miejsce odbywania wolontariatu",
+    "title": "Tytuł oferty",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": false,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 0,
+    "weight": 0,
+    "images": [
+      {
+        "id": 18,
+        "path": "file:///android_asset/images/Jellyfish.jpg",
+        "is_main": true
+      }
+    ]
+  }
+]
