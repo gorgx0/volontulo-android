@@ -8,8 +8,8 @@ end
 
 Then /^I login into app$/ do
     wait_for_text("ZALOGUJ", timeout: 10)
-    enter_text("android.widget.EditText id:'edit_text_email'", "test")
-    enter_text("android.widget.EditText id:'edit_text_password'", "test")
+    enter_text("android.widget.EditText id:'edit_text_email'", "radoslaw.drewa@stxnext.pl")
+    enter_text("android.widget.EditText id:'edit_text_password'", "test123")
     tap_when_element_exists("android.widget.Button index:0")
     wait_for_activity("MainHostActivity", timeout:5)
 end

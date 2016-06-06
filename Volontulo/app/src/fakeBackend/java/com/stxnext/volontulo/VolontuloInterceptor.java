@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.stxnext.volontulo.api.Offer;
+import com.stxnext.volontulo.api.User;
 import com.stxnext.volontulo.api.UserProfile;
 
 import java.io.IOException;
@@ -45,8 +46,8 @@ public class VolontuloInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Timber.d("FAKE BACKEND FLAVOUR INTERCEPTOR TEST!");
         final String encodedPath = chain.request().url().encodedPath();
+        Timber.d("FAKE BACKEND FLAVOUR INTERCEPTOR TEST! %s", encodedPath);
         final Set<String> getRequests = new HashSet();
         getRequests.add("/api/offers.json");
         getRequests.add("/api/users_profiles.json");
@@ -58,14 +59,15 @@ public class VolontuloInterceptor implements Interceptor {
 
         if (getRequests.contains(encodedPath)) {
             responseString = readAsset(encodedPath);
-        } else if (encodedPath.equals("/rest-auth/login/")) {
+        } else if (encodedPath.equals("/rest-auth/" +
+                "login/")) {
             responseString = doLogin(body);
         } else if (encodedPath.equals("/api/offers/create/")) {
             responseString = doSave(body, 0);
         } else if (encodedPath.contains("/update/")) {
             final List<String> pathSegments = chain.request().url().encodedPathSegments();
             int id = Integer.parseInt(pathSegments.get(2));
-            doSave(body, id);
+            responseString = doSave(body, id);
         }
 
         response = new Response.Builder()
@@ -81,17 +83,19 @@ public class VolontuloInterceptor implements Interceptor {
 
     private String doLogin(FormBody body) {
         if (body == null || body.size() != 2
-                || body.encodedName(0).equals("username") || TextUtils.isEmpty(body.encodedValue(0))
-                || body.encodedName(0).equals("password") || TextUtils.isEmpty(body.encodedValue(1))) {
+                || !body.encodedName(0).equals("username") || TextUtils.isEmpty(body.encodedValue(0))
+                || !body.encodedName(1).equals("password") || TextUtils.isEmpty(body.encodedValue(1))) {
             return LOGIN_RESPONSE_FAIL;
         } else {
-            final String username = body.encodedValue(0);
-            final String password = body.encodedValue(1);
+            String username = body.encodedValue(0);
+            String password = body.encodedValue(1);
+            username = username.replace("%40", "@");
 
             if (realm == null || realm.isClosed()) {
                 realm = Realm.getDefaultInstance();
             }
-            final UserProfile profile = realm.where(UserProfile.class).equalTo("user.email", username).findFirst();
+            final String field = String.format("%s.%s", UserProfile.FIELD_USER, User.FIELD_EMAIL);
+            final UserProfile profile = realm.where(UserProfile.class).equalTo(field, username).findFirst();
             realm.close();
 
             if (TEST_PASSWORD.equals(password) && profile != null) {
@@ -114,15 +118,15 @@ public class VolontuloInterceptor implements Interceptor {
             for (i = 0; i < size; i++) {
                 response = response.replace("%%" + body.encodedName(i) + "%%", body.encodedValue(i));
             }
-            if (id != 0) {
-                id = findNextId();
+            if (id == 0) {
+                id = calculateNextId();
             }
             response = response.replace("%%id%%", String.valueOf(id));
         }
         return response;
     }
 
-    private int findNextId() {
+    private int calculateNextId() {
         if (realm == null || realm.isClosed()) {
             realm = Realm.getDefaultInstance();
         }
