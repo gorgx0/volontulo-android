@@ -1,0 +1,129 @@
+[
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/4/?format=json",
+    "id": 4,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/3/?format=json",
+      "id": 3,
+      "name": "Wielkopolska Rada Czytelnicza",
+      "address": "gosiaczek4228@wp.pl",
+      "description": "Od 10 lat promujemy czytelnictwo wśród dzieci, młodzieży, rodzin i seniorów."
+    },
+    "volunteers": [
+      {
+        "id": 9,
+        "username": "justyna.k.ochedzan@gmail.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "justyna.k.ochedzan@gmail.com"
+      },
+      {
+        "id": 12,
+        "username": "justyna.k.ochedzan@wrk.org.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "justyna.k.ochedzan@wrk.org.pl"
+      },
+      {
+        "id": 19,
+        "username": "z.wiler@gmail.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "z.wiler@gmail.com"
+      },
+      {
+        "id": 55,
+        "username": "agata.landzwojczak@stxnext.pl",
+        "first_name": "Agata",
+        "last_name": "Lan",
+        "email": "agata.landzwojczak@stxnext.pl"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Do zadań wolontariusza będzie należało, w szczególności\r\nredakcja merytoryczna tekstów, adiustacja, korekta językowa\r\n",
+    "requirements": "Mile widziani studenci II,IV,V r. filologii polskiej",
+    "time_commitment": "do uzgodnienia",
+    "benefits": "zdobycie doświadczenia\r\nnawiązania kontaktów\r\npraca w zespole uznanej na rynku redakcji",
+    "location": "Poznań",
+    "title": "Wolontariat kompetencyjny - korektor czasopisma ",
+    "started_at": "2016-02-26T00:00:00Z",
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "future",
+    "votes": false,
+    "recruitment_start_date": "2016-03-14T00:00:00Z",
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 2,
+    "weight": 17,
+    "images": []
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/72/?format=json",
+    "id": 72,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/22/?format=json",
+      "id": 22,
+      "name": "Origami",
+      "address": "Bajkowa 5",
+      "description": "Układamy różne kompozycje"
+    },
+    "volunteers": [
+      {
+        "id": 19,
+        "username": "z.wiler@gmail.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "z.wiler@gmail.com"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "VVVVVVVVVVVVVVVVV",
+    "requirements": "VVVVVVVVVVVVVVVVV",
+    "time_commitment": "VVVVVVVVVVVVVVVVV",
+    "benefits": "VVVVVVVVVVVVVVVVV",
+    "location": "Vincenta van Gogha",
+    "title": "vvvvv",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": false,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 0,
+    "weight": 0,
+    "images": []
+  }
+]

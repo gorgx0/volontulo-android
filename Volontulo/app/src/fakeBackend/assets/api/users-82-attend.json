@@ -1,0 +1,619 @@
+[
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/8/?format=json",
+    "id": 8,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/3/?format=json",
+      "id": 3,
+      "name": "Wielkopolska Rada Czytelnicza",
+      "address": "gosiaczek4228@wp.pl",
+      "description": "Od 10 lat promujemy czytelnictwo wśród dzieci, młodzieży, rodzin i seniorów."
+    },
+    "volunteers": [
+      {
+        "id": 23,
+        "username": "lord.voldemort@avadakedabra.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "lord.voldemort@avadakedabra.pl"
+      },
+      {
+        "id": 24,
+        "username": "tomcio.paluch.at.kurzałapka.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "tomcio.paluch.at.kurzałapka.pl"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Do zadań wolontariuszy należy:\r\n- organizacja spotkania\r\n- zaproszenie gości \r\n- mobilna rekrutacja wśród mieszkańców Poznania\r\n- przygotowanie poczęstunku \r\n",
+    "requirements": "- otwartość na nowe wyzwania\r\n- dyspozycyjność \r\n- mile widziane doświadczenie \"kelnerskie\"",
+    "time_commitment": "min 1,5-3h dziennie",
+    "benefits": "- tworzenie nowego przedsięwzięcia w mieście\r\n- zdobycie cennego doświadczenia\r\n- umowa wolontariacka\r\n- referencje",
+    "location": "Poznań",
+    "title": "Śniadania poetyckie",
+    "started_at": "2016-05-02T00:00:00Z",
+    "finished_at": "2016-05-08T00:00:00Z",
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "future",
+    "votes": false,
+    "recruitment_start_date": "2016-02-23T00:00:00Z",
+    "recruitment_end_date": "2016-03-14T00:00:00Z",
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 15,
+    "weight": 13,
+    "images": [
+      {
+        "id": 4,
+        "path": "http://volontuloapp.stxnext.local/media/offers/tapeciarnia.pl74361_epoka_lodowcowa_wiewior.jpg",
+        "is_main": false
+      },
+      {
+        "id": 5,
+        "path": "http://volontuloapp.stxnext.local/media/offers/tapeciarnia.pl74361_epoka_lodowcowa_wiewior_vBZEsn4.jpg",
+        "is_main": true
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/19/?format=json",
+    "id": 19,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/11/?format=json",
+      "id": 11,
+      "name": "SŁONECZNY ŚWIAT",
+      "address": "POZNAŃ",
+      "description": "MIŁOŚĆ I CIEPŁO DLA WSZYSTKICH"
+    },
+    "volunteers": [
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      },
+      {
+        "id": 83,
+        "username": "test@test.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "test@test.com"
+      }
+    ],
+    "description": "wspieranie i roztaczanie miłości i uśmiechu, wszyscy samotni, zagubieni znajdą \"tematy\" dla siebie ",
+    "requirements": "UŚMIECH",
+    "time_commitment": "6 godz",
+    "benefits": "poznanie wielu interesujących ludzi, zabawy, kiermasze, filmiki, zajęcia itp",
+    "location": "POZNAŃ - MALTA",
+    "title": "SŁOŃCE DLA WSZYSTKICH",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 0,
+    "weight": 4,
+    "images": []
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/34/?format=json",
+    "id": 34,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/15/?format=json",
+      "id": 15,
+      "name": "Fundacja ABCiD",
+      "address": "Poznańska 1/1, Poznań",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim magna, commodo sed tincidunt ac, mattis non purus. Nullam tempor risus eu neque pulvinar mattis. Aliquam erat volutpat. Aliquam pellentesque tempus diam vitae suscipit. Proin ut quam elementum felis pretium blandit. Integer placerat massa sed nulla dignissim convallis. Suspendisse sit amet justo sed nulla finibus euismod."
+    },
+    "volunteers": [
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultrices laoreet elit, non eleifend dolor tempus non. Sed facilisis quam id purus ullamcorper efficitur. Aenean quis lectus ac purus cursus laoreet eget et nulla. Morbi ultrices ex id porta dictum.",
+    "requirements": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultrices laoreet elit, non eleifend dolor tempus non. Sed facilisis quam id purus ullamcorper efficitur. Aenean quis lectus ac purus cursus laoreet eget et nulla. Morbi ultrices ex id porta dictum.",
+    "time_commitment": "10h",
+    "benefits": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultrices laoreet elit, non eleifend dolor tempus non. Sed facilisis quam id purus ullamcorper efficitur. Aenean quis lectus ac purus cursus laoreet eget et nulla. Morbi ultrices ex id porta dictum.",
+    "location": "Ulica Sezamkowa",
+    "title": "Nowy kosz dla Oscara",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 10,
+    "weight": 2,
+    "images": [
+      {
+        "id": 21,
+        "path": "http://volontuloapp.stxnext.local/media/offers/oscar.jpg",
+        "is_main": false
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/4/?format=json",
+    "id": 4,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/3/?format=json",
+      "id": 3,
+      "name": "Wielkopolska Rada Czytelnicza",
+      "address": "gosiaczek4228@wp.pl",
+      "description": "Od 10 lat promujemy czytelnictwo wśród dzieci, młodzieży, rodzin i seniorów."
+    },
+    "volunteers": [
+      {
+        "id": 55,
+        "username": "agata.landzwojczak@stxnext.pl",
+        "first_name": "Agata",
+        "last_name": "Lan",
+        "email": "agata.landzwojczak@stxnext.pl"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Do zadań wolontariusza będzie należało, w szczególności\r\nredakcja merytoryczna tekstów, adiustacja, korekta językowa\r\n",
+    "requirements": "Mile widziani studenci II,IV,V r. filologii polskiej",
+    "time_commitment": "do uzgodnienia",
+    "benefits": "zdobycie doświadczenia\r\nnawiązania kontaktów\r\npraca w zespole uznanej na rynku redakcji",
+    "location": "Poznań",
+    "title": "Wolontariat kompetencyjny - korektor czasopisma ",
+    "started_at": "2016-02-26T00:00:00Z",
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "future",
+    "votes": false,
+    "recruitment_start_date": "2016-03-14T00:00:00Z",
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 2,
+    "weight": 17,
+    "images": []
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/18/?format=json",
+    "id": 18,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/10/?format=json",
+      "id": 10,
+      "name": "Fundacja Małych Wielkich Rzeczy",
+      "address": "bohater@gmail.com",
+      "description": "Istniejemy dla i wokół Małych i wielkich spraw, wartościowych ludzi. Lubimy podejmować wyzwania i ... zło zamieniać w dobro"
+    },
+    "volunteers": [
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Tworzymy cykl niepowtarzalnych historii \"małych bohaterów\" wsi, miasteczek i dużych miast. \r\nPoszukujemy wytrwałych, ciekawych ludzi i świata- wolontariuszy, mających łatwość formułowania myśli w słowie i na piśmie.\r\nZadania obejmują m.in. spotkania z \"małymi bohaterami\",  przeprowadzenie wywiadu (wg scenariusza) , przygotowanie tekstu do publikacji.\r\n",
+    "requirements": "umiejętności komunikacyjne\r\ndoświadczenie w pisaniu artykułów\r\nposiadanie własnego sprzętu komputerowego i dostępu do Internetu ",
+    "time_commitment": "do uzgodnienia",
+    "benefits": "- elastyczny czas pracy\r\n- możliwość poznania ciekawych osób\r\n- udział w tworzeniu \"Mapy małych ludzi i ich wielkich spraw\"\r\n- porozumienie o wolontariacie\r\n- referencje",
+    "location": "Wielkopolska",
+    "title": "Mali bohaterowie wśród nas",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 20,
+    "weight": 1,
+    "images": []
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/14/?format=json",
+    "id": 14,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/6/?format=json",
+      "id": 6,
+      "name": "Wiler.org",
+      "address": "ul. Obi-Wana Kenobiego 007, 60-239 Poznań",
+      "description": "To jest moja organizacja zajmująca się organizowaniem"
+    },
+    "volunteers": [
+      {
+        "id": 34,
+        "username": "victor666@op.pl",
+        "first_name": "Kacper",
+        "last_name": "Markowicz",
+        "email": "victor666@op.pl"
+      },
+      {
+        "id": 36,
+        "username": "b728200@trbvn.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "b728200@trbvn.com"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Organizujemy kiermasz",
+    "requirements": "Brak",
+    "time_commitment": "Niewiele",
+    "benefits": "Same",
+    "location": "Poznań",
+    "title": "Kiermasz",
+    "started_at": null,
+    "finished_at": "2016-03-12T00:00:00Z",
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": "2016-03-01T00:00:00Z",
+    "recruitment_end_date": "2016-03-10T00:00:00Z",
+    "reserve_recruitment": false,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 10,
+    "weight": 9,
+    "images": [
+      {
+        "id": 7,
+        "path": "http://volontuloapp.stxnext.local/media/offers/wallpaperstock.net-inspirational-poster_wallpapers_34434_2560x1600.jpg",
+        "is_main": true
+      },
+      {
+        "id": 11,
+        "path": "http://volontuloapp.stxnext.local/media/offers/Desert.jpg",
+        "is_main": false
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/2/?format=json",
+    "id": 2,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/1/?format=json",
+      "id": 1,
+      "name": "Yog AArt",
+      "address": "kosowska 4",
+      "description": "piekę ciasteczka, które kradną twą tożsamość"
+    },
+    "volunteers": [
+      {
+        "id": 43,
+        "username": "radek1234@gmail.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "radek1234@gmail.com"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "wystartuj w konkursie zjem ile sie da",
+    "requirements": "mocna głowa",
+    "time_commitment": "ile dasz, tyle zjesz",
+    "benefits": "pełny brzuch",
+    "location": "uylica sezamkowa",
+    "title": "Coooookieees i like",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "future",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": false,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 666,
+    "weight": 16,
+    "images": []
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/29/?format=json",
+    "id": 29,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/17/?format=json",
+      "id": 17,
+      "name": "Happy People :)",
+      "address": "ul. Wesoła 3, Poznań",
+      "description": "Organizacja uszczęśliwiająca ludzi."
+    },
+    "volunteers": [
+      {
+        "id": 65,
+        "username": "ddd@ddd.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "ddd@ddd.pl"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Poszukujemy 20 wolontariuszy do towarzyszenia seniorom.",
+    "requirements": "Uśmiech :)",
+    "time_commitment": "2 x w tygodniu",
+    "benefits": "Satysfakcja z uszczęśliwiania innych.",
+    "location": "Poznań",
+    "title": "Uszczęśliw seniora :)",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": "2016-03-20T00:00:00Z",
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 20,
+    "weight": 3,
+    "images": [
+      {
+        "id": 18,
+        "path": "http://volontuloapp.stxnext.local/media/offers/dolacz-do-nas.png",
+        "is_main": true
+      }
+    ]
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/27/?format=json",
+    "id": 27,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/15/?format=json",
+      "id": 15,
+      "name": "Fundacja ABCiD",
+      "address": "Poznańska 1/1, Poznań",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim magna, commodo sed tincidunt ac, mattis non purus. Nullam tempor risus eu neque pulvinar mattis. Aliquam erat volutpat. Aliquam pellentesque tempus diam vitae suscipit. Proin ut quam elementum felis pretium blandit. Integer placerat massa sed nulla dignissim convallis. Suspendisse sit amet justo sed nulla finibus euismod."
+    },
+    "volunteers": [
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      },
+      {
+        "id": 85,
+        "username": "maciekz",
+        "first_name": "Maciej",
+        "last_name": "Zięba",
+        "email": "maciej.zieba@stxnext.pl"
+      }
+    ],
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim magna, commodo sed tincidunt ac, mattis non purus. Nullam tempor risus eu neque pulvinar mattis. Aliquam erat volutpat. Aliquam pellentesque tempus diam vitae suscipit. Proin ut quam elementum felis pretium blandit. Integer placerat massa sed nulla dignissim convallis. Suspendisse sit amet justo sed nulla finibus euismod.",
+    "requirements": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim magna, commodo sed tincidunt ac, mattis non purus. Nullam tempor risus eu neque pulvinar mattis. Aliquam erat volutpat. Aliquam pellentesque tempus diam vitae suscipit. Proin ut quam elementum felis pretium blandit. Integer placerat massa sed nulla dignissim convallis. Suspendisse sit amet justo sed nulla finibus euismod.",
+    "time_commitment": "10h",
+    "benefits": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim magna, commodo sed tincidunt ac, mattis non purus. Nullam tempor risus eu neque pulvinar mattis. Aliquam erat volutpat. Aliquam pellentesque tempus diam vitae suscipit. Proin ut quam elementum felis pretium blandit. Integer placerat massa sed nulla dignissim convallis. Suspendisse sit amet justo sed nulla finibus euismod.",
+    "location": "Poznań",
+    "title": "Zbiórka materiałów szkolnych",
+    "started_at": "2016-05-01T00:00:00Z",
+    "finished_at": "2016-05-08T00:00:00Z",
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "future",
+    "votes": false,
+    "recruitment_start_date": "2016-03-01T00:00:00Z",
+    "recruitment_end_date": "2016-03-30T00:00:00Z",
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 25,
+    "weight": 1,
+    "images": []
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/39/?format=json",
+    "id": 39,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/22/?format=json",
+      "id": 22,
+      "name": "Origami",
+      "address": "Bajkowa 5",
+      "description": "Układamy różne kompozycje"
+    },
+    "volunteers": [
+      {
+        "id": 21,
+        "username": "123@123.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "123@123.pl"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Opis oferty",
+    "requirements": "",
+    "time_commitment": "Wymagania czasowe",
+    "benefits": "Korzyści",
+    "location": "Miejsce odbywania wolontariatu",
+    "title": "Tytuł oferty",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": false,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 0,
+    "weight": 0,
+    "images": []
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/72/?format=json",
+    "id": 72,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/22/?format=json",
+      "id": 22,
+      "name": "Origami",
+      "address": "Bajkowa 5",
+      "description": "Układamy różne kompozycje"
+    },
+    "volunteers": [
+      {
+        "id": 19,
+        "username": "z.wiler@gmail.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "z.wiler@gmail.com"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "VVVVVVVVVVVVVVVVV",
+    "requirements": "VVVVVVVVVVVVVVVVV",
+    "time_commitment": "VVVVVVVVVVVVVVVVV",
+    "benefits": "VVVVVVVVVVVVVVVVV",
+    "location": "Vincenta van Gogha",
+    "title": "vvvvv",
+    "started_at": null,
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": null,
+    "recruitment_end_date": null,
+    "reserve_recruitment": false,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 0,
+    "weight": 0,
+    "images": []
+  }
+]

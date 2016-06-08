@@ -3,6 +3,8 @@ Feature: Add action feature
     Scenario: Empty form add
         When I login into app
         Then I tap on menu item with id "action_add_offer" at toolbar
+
+				* I wait for 1 seconds
         Then I press the "ZAPISZ" button 
         Then I see "Określ, jak oferta będzie nazywać się w systemie, staraj się być dokładnym"
         And I see "Określ, w jakim miejscu odbywać się będzie wolontariat"

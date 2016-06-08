@@ -1,64 +1,5 @@
 [
   {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/1.json",
-    "id": 1,
-    "user": {
-      "id": 1,
-      "username": "tomasz.magulski@gmail.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "tomasz.magulski@gmail.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": [
-      {
-        "id": 1,
-        "image": "http://volontuloapp.stxnext.local/media/profile/5575308.png",
-        "is_avatar": true
-      }
-    ]
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/2.json",
-    "id": 2,
-    "user": {
-      "id": 2,
-      "username": "agata_lan@o2.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "agata_lan@o2.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/3.json",
-    "id": 3,
-    "user": {
-      "id": 3,
-      "username": "lol@lol.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "lol@lol.pl"
-    },
-    "organizations": [
-      {
-        "url": "http://volontuloapp.stxnext.local/api/organizations/1.json",
-        "id": 1,
-        "name": "Yog AArt",
-        "address": "kosowska 4",
-        "description": "piekę ciasteczka, które kradną twą tożsamość"
-      }
-    ],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
     "url": "http://volontuloapp.stxnext.local/api/users_profiles/4.json",
     "id": 4,
     "user": {
@@ -130,36 +71,6 @@
     ]
   },
   {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/6.json",
-    "id": 6,
-    "user": {
-      "id": 6,
-      "username": "jan.kowalski@test.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "jan.kowalski@test.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/7.json",
-    "id": 7,
-    "user": {
-      "id": 7,
-      "username": "wiktor.bakalarski@stxnext.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "wiktor.bakalarski@stxnext.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
     "url": "http://volontuloapp.stxnext.local/api/users_profiles/8.json",
     "id": 8,
     "user": {
@@ -201,30 +112,13 @@
     "organizations": [],
     "is_administrator": false,
     "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/10.json",
-    "id": 10,
-    "user": {
-      "id": 12,
-      "username": "justyna.k.ochedzan@wrk.org.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "justyna.k.ochedzan@wrk.org.pl"
-    },
-    "organizations": [
+    "images": [
       {
-        "url": "http://volontuloapp.stxnext.local/api/organizations/4.json",
-        "id": 4,
-        "name": "Towarzystwo Pakowaczy Śniadaniowych",
-        "address": "Poznań",
-        "description": "Towarzystwo Pakowaczy Śniadaniowych zajmuje się promowaniem jedzenia śniadań przez dużych i małych."
+        "id": 3,
+        "image": "http://volontuloapp.stxnext.local/media/profile/2808448-funny-cartoon-boys-facebook-profile-pictures.jpg",
+        "is_avatar": true
       }
-    ],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
+    ]
   },
   {
     "url": "http://volontuloapp.stxnext.local/api/users_profiles/11.json",
@@ -239,22 +133,13 @@
     "organizations": [],
     "is_administrator": false,
     "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/12.json",
-    "id": 12,
-    "user": {
-      "id": 17,
-      "username": "Makuszyński ",
-      "first_name": "",
-      "last_name": "",
-      "email": "Makuszyński "
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
+    "images": [
+      {
+        "id": 3,
+        "image": "http://volontuloapp.stxnext.local/media/profile/beer_wikia_com.jpg",
+        "is_avatar": true
+      }
+    ]
   },
   {
     "url": "http://volontuloapp.stxnext.local/api/users_profiles/13.json",
@@ -294,7 +179,7 @@
     "images": [
       {
         "id": 16,
-        "image": "http://volontuloapp.stxnext.local/media/profile/_MG_0614.JPG",
+        "image": "http://volontuloapp.stxnext.local/media/profile/photo.jpg",
         "is_avatar": true
       }
     ]
@@ -312,97 +197,13 @@
     "organizations": [],
     "is_administrator": false,
     "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/15.json",
-    "id": 15,
-    "user": {
-      "id": 21,
-      "username": "123@123.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "123@123.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/16.json",
-    "id": 16,
-    "user": {
-      "id": 22,
-      "username": "aaa@oooooodooosod.com.pl/eu",
-      "first_name": "",
-      "last_name": "",
-      "email": "aaa@oooooodooosod.com.pl/eu"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/17.json",
-    "id": 17,
-    "user": {
-      "id": 23,
-      "username": "lord.voldemort@avadakedabra.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "lord.voldemort@avadakedabra.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/18.json",
-    "id": 18,
-    "user": {
-      "id": 24,
-      "username": "tomcio.paluch.at.kurzałapka.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "tomcio.paluch.at.kurzałapka.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/19.json",
-    "id": 19,
-    "user": {
-      "id": 25,
-      "username": "jroznowskaa@gmail.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "jroznowskaa@gmail.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/20.json",
-    "id": 20,
-    "user": {
-      "id": 26,
-      "username": "asdasd@gmail.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "asdasd@gmail.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
+    "images": [
+      {
+        "id": 3,
+        "image": "http://volontuloapp.stxnext.local/media/profile/profile-pics-17.png",
+        "is_avatar": true
+      }
+    ]
   },
   {
     "url": "http://volontuloapp.stxnext.local/api/users_profiles/21.json",
@@ -428,7 +229,7 @@
     "images": [
       {
         "id": 12,
-        "image": "http://volontuloapp.stxnext.local/media/profile/beer_wikia_com.jpg",
+        "image": "http://volontuloapp.stxnext.local/media/profile/profile-of-an-italian-woman.jpg",
         "is_avatar": true
       }
     ]
@@ -446,7 +247,13 @@
     "organizations": [],
     "is_administrator": false,
     "phone_no": "",
-    "images": []
+    "images": [
+      {
+        "id": 3,
+        "image": "http://volontuloapp.stxnext.local/media/profile/dYyOCeoprhk.jpg",
+        "is_avatar": true
+      }
+    ]
   },
   {
     "url": "http://volontuloapp.stxnext.local/api/users_profiles/23.json",
@@ -470,29 +277,6 @@
     ]
   },
   {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/24.json",
-    "id": 24,
-    "user": {
-      "id": 35,
-      "username": "bohater@gmail.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "bohater@gmail.com"
-    },
-    "organizations": [
-      {
-        "url": "http://volontuloapp.stxnext.local/api/organizations/10.json",
-        "id": 10,
-        "name": "Fundacja Małych Wielkich Rzeczy",
-        "address": "bohater@gmail.com",
-        "description": "Istniejemy dla i wokół Małych i wielkich spraw, wartościowych ludzi. Lubimy podejmować wyzwania i ... zło zamieniać w dobro"
-      }
-    ],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
     "url": "http://volontuloapp.stxnext.local/api/users_profiles/25.json",
     "id": 25,
     "user": {
@@ -513,7 +297,13 @@
     ],
     "is_administrator": false,
     "phone_no": "",
-    "images": []
+    "images": [
+      {
+        "id": 3,
+        "image": "http://volontuloapp.stxnext.local/media/profile/IMG_9217.JPG",
+        "is_avatar": true
+      }
+    ]
   },
   {
     "url": "http://volontuloapp.stxnext.local/api/users_profiles/26.json",
@@ -528,30 +318,13 @@
     "organizations": [],
     "is_administrator": false,
     "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/27.json",
-    "id": 27,
-    "user": {
-      "id": 38,
-      "username": "piatek26@gmail.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "piatek26@gmail.com"
-    },
-    "organizations": [
+    "images": [
       {
-        "url": "http://volontuloapp.stxnext.local/api/organizations/11.json",
-        "id": 11,
-        "name": "SŁONECZNY ŚWIAT",
-        "address": "POZNAŃ",
-        "description": "MIŁOŚĆ I CIEPŁO DLA WSZYSTKICH"
+        "id": 3,
+        "image": "http://volontuloapp.stxnext.local/media/profile/soigner-son-image-1.jpg",
+        "is_avatar": true
       }
-    ],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
+    ]
   },
   {
     "url": "http://volontuloapp.stxnext.local/api/users_profiles/28.json",
@@ -566,75 +339,13 @@
     "organizations": [],
     "is_administrator": false,
     "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/29.json",
-    "id": 29,
-    "user": {
-      "id": 41,
-      "username": "1234hello@gmai.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "1234hello@gmai.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/30.json",
-    "id": 30,
-    "user": {
-      "id": 42,
-      "username": "bernadetanegra@gmail.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "bernadetanegra@gmail.com"
-    },
-    "organizations": [
+    "images": [
       {
-        "url": "http://volontuloapp.stxnext.local/api/organizations/13.json",
-        "id": 13,
-        "name": "CodingRoom",
-        "address": "Wielkopolska",
-        "description": "Programming for everybody"
+        "id": 3,
+        "image": "http://volontuloapp.stxnext.local/media/profile/0320_breaking-bad-1-225x300.jpg",
+        "is_avatar": true
       }
-    ],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/31.json",
-    "id": 31,
-    "user": {
-      "id": 43,
-      "username": "radek1234@gmail.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "radek1234@gmail.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/32.json",
-    "id": 32,
-    "user": {
-      "id": 44,
-      "username": "milzah@wp.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "milzah@wp.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
+    ]
   },
   {
     "url": "http://volontuloapp.stxnext.local/api/users_profiles/33.json",
@@ -702,369 +413,10 @@
     "images": [
       {
         "id": 17,
-        "image": "http://volontuloapp.stxnext.local/media/profile/comment_R80IGkAIi9Cu2S4oTpV3AP1uyr0yEpPsw400.jpg",
+        "image": "http://volontuloapp.stxnext.local/media/profile/1788282.png",
         "is_avatar": true
       }
     ]
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/36.json",
-    "id": 36,
-    "user": {
-      "id": 50,
-      "username": "lukasz.kwasniewski@ic.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "lukasz.kwasniewski@ic.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/37.json",
-    "id": 37,
-    "user": {
-      "id": 53,
-      "username": "test@test.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "test@test.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/38.json",
-    "id": 38,
-    "user": {
-      "id": 55,
-      "username": "agata.landzwojczak@stxnext.pl",
-      "first_name": "Agata",
-      "last_name": "Lan",
-      "email": "agata.landzwojczak@stxnext.pl"
-    },
-    "organizations": [
-      {
-        "url": "http://volontuloapp.stxnext.local/api/organizations/15.json",
-        "id": 15,
-        "name": "Fundacja ABCiD",
-        "address": "Poznańska 1/1, Poznań",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim magna, commodo sed tincidunt ac, mattis non purus. Nullam tempor risus eu neque pulvinar mattis. Aliquam erat volutpat. Aliquam pellentesque tempus diam vitae suscipit. Proin ut quam elementum felis pretium blandit. Integer placerat massa sed nulla dignissim convallis. Suspendisse sit amet justo sed nulla finibus euismod."
-      },
-      {
-        "url": "http://volontuloapp.stxnext.local/api/organizations/18.json",
-        "id": 18,
-        "name": "Fundacja ABCiD",
-        "address": "Poznańska 1/1, Poznań",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultrices laoreet elit, non eleifend dolor tempus non. Sed facilisis quam id purus ullamcorper efficitur. Aenean quis lectus ac purus cursus laoreet eget et nulla. Morbi ultrices ex id porta dictum."
-      }
-    ],
-    "is_administrator": false,
-    "phone_no": "500600700",
-    "images": [
-      {
-        "id": 15,
-        "image": "http://volontuloapp.stxnext.local/media/profile/images_6sANDPv.jpg",
-        "is_avatar": true
-      }
-    ]
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/39.json",
-    "id": 39,
-    "user": {
-      "id": 56,
-      "username": "WKHDL",
-      "first_name": "",
-      "last_name": "",
-      "email": "WKHDL"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/40.json",
-    "id": 40,
-    "user": {
-      "id": 57,
-      "username": "lukaszkarbownik@gmail.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "lukaszkarbownik@gmail.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/41.json",
-    "id": 41,
-    "user": {
-      "id": 59,
-      "username": "mateusz.sobas@gmail.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "mateusz.sobas@gmail.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/42.json",
-    "id": 42,
-    "user": {
-      "id": 61,
-      "username": "test_pila@onet.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "test_pila@onet.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/43.json",
-    "id": 43,
-    "user": {
-      "id": 62,
-      "username": "jakub.st@gmail.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "jakub.st@gmail.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/44.json",
-    "id": 44,
-    "user": {
-      "id": 63,
-      "username": "1234@gmail.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "1234@gmail.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/45.json",
-    "id": 45,
-    "user": {
-      "id": 64,
-      "username": "wiktor.bakalarski@php4u.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "wiktor.bakalarski@php4u.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/46.json",
-    "id": 46,
-    "user": {
-      "id": 65,
-      "username": "ddd@ddd.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "ddd@ddd.pl"
-    },
-    "organizations": [
-      {
-        "url": "http://volontuloapp.stxnext.local/api/organizations/16.json",
-        "id": 16,
-        "name": "                         ",
-        "address": "                              ",
-        "description": "                               "
-      },
-      {
-        "url": "http://volontuloapp.stxnext.local/api/organizations/21.json",
-        "id": 21,
-        "name": "      ",
-        "address": "                              ",
-        "description": "         "
-      }
-    ],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/47.json",
-    "id": 47,
-    "user": {
-      "id": 66,
-      "username": "dagny.laniecka@wrk.org.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "dagny.laniecka@wrk.org.pl"
-    },
-    "organizations": [
-      {
-        "url": "http://volontuloapp.stxnext.local/api/organizations/17.json",
-        "id": 17,
-        "name": "Happy People :)",
-        "address": "ul. Wesoła 3, Poznań",
-        "description": "Organizacja uszczęśliwiająca ludzi."
-      }
-    ],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/48.json",
-    "id": 48,
-    "user": {
-      "id": 67,
-      "username": "test@stxnext.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "test@stxnext.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/49.json",
-    "id": 49,
-    "user": {
-      "id": 69,
-      "username": "dominik.soczewka@stxnext.pl",
-      "first_name": "Dominik",
-      "last_name": "Soczewka",
-      "email": "dominik.soczewka@stxnext.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "65467",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/50.json",
-    "id": 50,
-    "user": {
-      "id": 72,
-      "username": "test36357@stxnext.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "test36357@stxnext.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/51.json",
-    "id": 51,
-    "user": {
-      "id": 73,
-      "username": "343erkn@sdgh.gsdh",
-      "first_name": "",
-      "last_name": "",
-      "email": "343erkn@sdgh.gsdh"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/52.json",
-    "id": 52,
-    "user": {
-      "id": 74,
-      "username": "towcalenieimie@test.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "towcalenieimie@test.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/53.json",
-    "id": 53,
-    "user": {
-      "id": 75,
-      "username": "niemie2@test.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "niemie2@test.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/54.json",
-    "id": 54,
-    "user": {
-      "id": 76,
-      "username": "testin@testin.testin",
-      "first_name": "",
-      "last_name": "",
-      "email": "testin@testin.testin"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/55.json",
-    "id": 55,
-    "user": {
-      "id": 78,
-      "username": "exorades@gmail.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "exorades@gmail.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/56.json",
-    "id": 56,
-    "user": {
-      "id": 81,
-      "username": "volontulo.test@mailinator.com",
-      "first_name": "",
-      "last_name": "",
-      "email": "volontulo.test@mailinator.com"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
   },
   {
     "url": "http://volontuloapp.stxnext.local/api/users_profiles/57.json",
@@ -1116,67 +468,12 @@
     ],
     "is_administrator": false,
     "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/59.json",
-    "id": 59,
-    "user": {
-      "id": 85,
-      "username": "maciekz",
-      "first_name": "Maciej",
-      "last_name": "Zięba",
-      "email": "maciej.zieba@stxnext.pl"
-    },
-    "organizations": [
+    "images": [
       {
-        "url": "http://volontuloapp.stxnext.local/api/organizations/8.json",
-        "id": 8,
-        "name": "Organizacja 1",
-        "address": "Losowy adres ",
-        "description": "Losowy opis organizacji"
+        "id": 3,
+        "image": "http://volontuloapp.stxnext.local/media/profile/drfate_zps9ea5bf0f.jpg",
+        "is_avatar": true
       }
-    ],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/60.json",
-    "id": 60,
-    "user": {
-      "id": 86,
-      "username": "test@test.tst",
-      "first_name": "",
-      "last_name": "",
-      "email": "test@test.tst"
-    },
-    "organizations": [
-      {
-        "url": "http://volontuloapp.stxnext.local/api/organizations/22.json",
-        "id": 22,
-        "name": "Origami",
-        "address": "Bajkowa 5",
-        "description": "Układamy różne kompozycje"
-      }
-    ],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
-  },
-  {
-    "url": "http://volontuloapp.stxnext.local/api/users_profiles/61.json",
-    "id": 61,
-    "user": {
-      "id": 87,
-      "username": "mateusz.kazmierczak@stxnext.pl",
-      "first_name": "",
-      "last_name": "",
-      "email": "mateusz.kazmierczak@stxnext.pl"
-    },
-    "organizations": [],
-    "is_administrator": false,
-    "phone_no": "",
-    "images": []
+    ]
   }
 ]

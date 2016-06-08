@@ -27,15 +27,22 @@ import timber.log.Timber;
 
 public class VolontuloInterceptor implements Interceptor {
 
-    String LOGIN_RESPONSE_PASS = "{\n" +
+    static final String LOGIN_RESPONSE_PASS = "{\n" +
             "  \"key\": \"49af5f39b96e48e0575804dae37eb3abfa235e71\"\n" +
             "}";
 
-    String LOGIN_RESPONSE_FAIL = "{\n" +
+    static final String LOGIN_RESPONSE_FAIL = "{\n" +
             "  \"non_field_errors\": \"Podane dane uwierzytelniające nie pozwalają na zalogowanie.\"\n" +
             "}";
 
-    String TEST_PASSWORD = "test123";
+    static final String TEST_PASSWORD = "test123";
+
+    static final String EMPTY_RESPONSE = "[]";
+
+    static final String REMOTE_IMAGE_PATH = "http://volontuloapp.stxnext.local/media/offers/";
+    static final String REMOTE_PROFILE_PATH = "http://volontuloapp.stxnext.local/media/profile/";
+    static final String LOCAL_IMAGE_PATH = "file:///android_asset/images/";
+    static final String LOCAL_PROFILE_PATH = "file:///android_asset/profile/";
 
     private Context context;
     private Realm realm;
@@ -68,6 +75,13 @@ public class VolontuloInterceptor implements Interceptor {
             final List<String> pathSegments = chain.request().url().encodedPathSegments();
             int id = Integer.parseInt(pathSegments.get(2));
             responseString = doSave(body, id);
+        } else if (encodedPath.contains("/attend")) {
+            responseString = EMPTY_RESPONSE;
+        }
+
+        if (!TextUtils.isEmpty(responseString)) {
+            responseString = responseString.replace(REMOTE_IMAGE_PATH, LOCAL_IMAGE_PATH);
+            responseString = responseString.replace(REMOTE_PROFILE_PATH, LOCAL_PROFILE_PATH);
         }
 
         response = new Response.Builder()
