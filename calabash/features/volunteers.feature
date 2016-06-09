@@ -5,9 +5,19 @@ Feature: Volunteers list, details
 
         Then I swipe left
         Then I touch the "Lista wolontariuszy" text
-        Then I see the text "Paweł Nowak"
-        Then I touch the "Paweł Nowak" text
+        Then I scroll until I see the "Radosław Drewa" text
+        Then I press "Radosław Drewa"
 
-        Then I scroll until I see the "Uszczęśliw seniora" text
-        Then I see the text "Uszczęśliw seniora"
-		* I go back
+        Then I scroll until I see the "Zbiórka materiałów szkolnych" text
+				* I wait up to 3 seconds for the "VolunteerDetailsActivity" screen to appear
+        Then I see the text "Zbiórka materiałów szkolnych"
+				* I wait for 3 seconds
+				* I go back
+
+	     	Then I swipe left
+        Then I touch the "Wyloguj" text
+				* I wait for 1 seconds
+				Then I enter text "zw65623@st.amu.edu.pl" into field with id "edit_text_email"
+				Then I enter text "test123" into field with id "edit_text_password"
+				Then I press button number 1
+    		And I wait up to 5 seconds for the "MainHostActivity" screen to appear

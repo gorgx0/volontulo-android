@@ -76,7 +76,9 @@ public class VolontuloInterceptor implements Interceptor {
             int id = Integer.parseInt(pathSegments.get(2));
             responseString = doSave(body, id);
         } else if (encodedPath.contains("/attend")) {
-            responseString = EMPTY_RESPONSE;
+            final List<String> pathSegments = chain.request().url().encodedPathSegments();
+            int id = Integer.parseInt(pathSegments.get(2));
+            responseString = doAttend(id);
         }
 
         if (!TextUtils.isEmpty(responseString)) {
@@ -93,6 +95,22 @@ public class VolontuloInterceptor implements Interceptor {
                 .addHeader("content-type", "application/json")
                 .build();
         return response;
+    }
+
+    private String doAttend(int id) throws IOException {
+        String version;
+        if (id == 82) {
+            version = "82";
+        } else if (id < 10) {
+            version = "09";
+        } else if (id < 20) {
+            version = "19";
+        } else if (id < 30) {
+            version = "34";
+        } else {
+            version = "55";
+        }
+        return readAsset("/api/users-"+ version + "-attend.json");
     }
 
     private String doLogin(FormBody body) {
