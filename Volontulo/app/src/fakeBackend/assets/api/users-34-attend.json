@@ -1,0 +1,73 @@
+[
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/14/?format=json",
+    "id": 14,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/6/?format=json",
+      "id": 6,
+      "name": "Wiler.org",
+      "address": "ul. Obi-Wana Kenobiego 007, 60-239 Poznań",
+      "description": "To jest moja organizacja zajmująca się organizowaniem"
+    },
+    "volunteers": [
+      {
+        "id": 34,
+        "username": "victor666@op.pl",
+        "first_name": "Kacper",
+        "last_name": "Markowicz",
+        "email": "victor666@op.pl"
+      },
+      {
+        "id": 36,
+        "username": "b728200@trbvn.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "b728200@trbvn.com"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Organizujemy kiermasz",
+    "requirements": "Brak",
+    "time_commitment": "Niewiele",
+    "benefits": "Same",
+    "location": "Poznań",
+    "title": "Kiermasz",
+    "started_at": null,
+    "finished_at": "2016-03-12T00:00:00Z",
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "ongoing",
+    "votes": false,
+    "recruitment_start_date": "2016-03-01T00:00:00Z",
+    "recruitment_end_date": "2016-03-10T00:00:00Z",
+    "reserve_recruitment": false,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 10,
+    "weight": 9,
+    "images": [
+      {
+        "id": 7,
+        "path": "http://volontuloapp.stxnext.local/media/offers/wallpaperstock.net-inspirational-poster_wallpapers_34434_2560x1600.jpg",
+        "is_main": true
+      },
+      {
+        "id": 11,
+        "path": "http://volontuloapp.stxnext.local/media/offers/Desert.jpg",
+        "is_main": false
+      }
+    ]
+  }
+]

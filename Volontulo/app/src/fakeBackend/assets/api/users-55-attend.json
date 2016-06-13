@@ -1,0 +1,168 @@
+[
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/4/?format=json",
+    "id": 4,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/3/?format=json",
+      "id": 3,
+      "name": "Wielkopolska Rada Czytelnicza",
+      "address": "gosiaczek4228@wp.pl",
+      "description": "Od 10 lat promujemy czytelnictwo wśród dzieci, młodzieży, rodzin i seniorów."
+    },
+    "volunteers": [
+      {
+        "id": 9,
+        "username": "justyna.k.ochedzan@gmail.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "justyna.k.ochedzan@gmail.com"
+      },
+      {
+        "id": 12,
+        "username": "justyna.k.ochedzan@wrk.org.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "justyna.k.ochedzan@wrk.org.pl"
+      },
+      {
+        "id": 19,
+        "username": "z.wiler@gmail.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "z.wiler@gmail.com"
+      },
+      {
+        "id": 55,
+        "username": "agata.landzwojczak@stxnext.pl",
+        "first_name": "Agata",
+        "last_name": "Lan",
+        "email": "agata.landzwojczak@stxnext.pl"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Do zadań wolontariusza będzie należało, w szczególności\r\nredakcja merytoryczna tekstów, adiustacja, korekta językowa\r\n",
+    "requirements": "Mile widziani studenci II,IV,V r. filologii polskiej",
+    "time_commitment": "do uzgodnienia",
+    "benefits": "zdobycie doświadczenia\r\nnawiązania kontaktów\r\npraca w zespole uznanej na rynku redakcji",
+    "location": "Poznań",
+    "title": "Wolontariat kompetencyjny - korektor czasopisma ",
+    "started_at": "2016-02-26T00:00:00Z",
+    "finished_at": null,
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "future",
+    "votes": false,
+    "recruitment_start_date": "2016-03-14T00:00:00Z",
+    "recruitment_end_date": null,
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 2,
+    "weight": 17,
+    "images": []
+  },
+  {
+    "url": "http://volontuloapp.stxnext.local/api/offers/8/?format=json",
+    "id": 8,
+    "organization": {
+      "url": "http://volontuloapp.stxnext.local/api/organizations/3/?format=json",
+      "id": 3,
+      "name": "Wielkopolska Rada Czytelnicza",
+      "address": "gosiaczek4228@wp.pl",
+      "description": "Od 10 lat promujemy czytelnictwo wśród dzieci, młodzieży, rodzin i seniorów."
+    },
+    "volunteers": [
+      {
+        "id": 22,
+        "username": "aaa@oooooodooosod.com.pl/eu",
+        "first_name": "",
+        "last_name": "",
+        "email": "aaa@oooooodooosod.com.pl/eu"
+      },
+      {
+        "id": 23,
+        "username": "lord.voldemort@avadakedabra.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "lord.voldemort@avadakedabra.pl"
+      },
+      {
+        "id": 24,
+        "username": "tomcio.paluch.at.kurzałapka.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "tomcio.paluch.at.kurzałapka.pl"
+      },
+      {
+        "id": 53,
+        "username": "test@test.pl",
+        "first_name": "",
+        "last_name": "",
+        "email": "test@test.pl"
+      },
+      {
+        "id": 55,
+        "username": "agata.landzwojczak@stxnext.pl",
+        "first_name": "Agata",
+        "last_name": "Lan",
+        "email": "agata.landzwojczak@stxnext.pl"
+      },
+      {
+        "id": 82,
+        "username": "radoslaw.drewa@stxnext.pl",
+        "first_name": "Radosław",
+        "last_name": "Drewa",
+        "email": "radoslaw.drewa@stxnext.pl"
+      }
+    ],
+    "description": "Do zadań wolontariuszy należy:\r\n- organizacja spotkania\r\n- zaproszenie gości \r\n- mobilna rekrutacja wśród mieszkańców Poznania\r\n- przygotowanie poczęstunku \r\n",
+    "requirements": "- otwartość na nowe wyzwania\r\n- dyspozycyjność \r\n- mile widziane doświadczenie \"kelnerskie\"",
+    "time_commitment": "min 1,5-3h dziennie",
+    "benefits": "- tworzenie nowego przedsięwzięcia w mieście\r\n- zdobycie cennego doświadczenia\r\n- umowa wolontariacka\r\n- referencje",
+    "location": "Poznań",
+    "title": "Śniadania poetyckie",
+    "started_at": "2016-05-02T00:00:00Z",
+    "finished_at": "2016-05-08T00:00:00Z",
+    "time_period": "",
+    "status_old": "NEW",
+    "offer_status": "published",
+    "recruitment_status": "open",
+    "action_status": "future",
+    "votes": false,
+    "recruitment_start_date": "2016-02-23T00:00:00Z",
+    "recruitment_end_date": "2016-03-14T00:00:00Z",
+    "reserve_recruitment": true,
+    "reserve_recruitment_start_date": null,
+    "reserve_recruitment_end_date": null,
+    "action_ongoing": false,
+    "constant_coop": false,
+    "action_start_date": null,
+    "action_end_date": null,
+    "volunteers_limit": 15,
+    "weight": 13,
+    "images": [
+      {
+        "id": 4,
+        "path": "http://volontuloapp.stxnext.local/media/offers/tapeciarnia.pl74361_epoka_lodowcowa_wiewior.jpg",
+        "is_main": false
+      },
+      {
+        "id": 5,
+        "path": "http://volontuloapp.stxnext.local/media/offers/tapeciarnia.pl74361_epoka_lodowcowa_wiewior_vBZEsn4.jpg",
+        "is_main": true
+      }
+    ]
+  }
+]
