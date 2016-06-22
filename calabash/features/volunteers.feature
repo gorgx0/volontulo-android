@@ -4,6 +4,7 @@ Feature: Volunteers list, details
         When I login into app
 
         Then I swipe left
+				* I wait for 1 seconds
         Then I touch the "Lista wolontariuszy" text
         Then I scroll until I see the "Radosław Drewa" text
         Then I press "Radosław Drewa"
@@ -15,9 +16,16 @@ Feature: Volunteers list, details
 				* I go back
 
 	     	Then I swipe left
+				* I wait for 1 seconds
         Then I touch the "Wyloguj" text
 				* I wait for 1 seconds
 				Then I enter text "zw65623@st.amu.edu.pl" into field with id "edit_text_email"
 				Then I enter text "test123" into field with id "edit_text_password"
+				* I wait for 1 seconds
 				Then I press button number 1
     		And I wait up to 5 seconds for the "MainHostActivity" screen to appear
+
+
+
+#Then I press button number 1
+#    And I wait up to 5 seconds for the "MainHostActivity" screen to appear

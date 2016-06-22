@@ -12,6 +12,7 @@ Feature: Login feature
 
   Scenario: As a invalid user I cannot log in into application
 	* I swipe left
+	* I wait for 1 seconds
   Then I touch the "Wyloguj" text
 	* I wait for 1 seconds
     When I see "ZALOGUJ"
