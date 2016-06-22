@@ -19,10 +19,10 @@
       },
       {
         "id": 82,
-        "username": "radoslaw.drewa@stxnext.pl",
-        "first_name": "Radosław",
-        "last_name": "Drewa",
-        "email": "radoslaw.drewa@stxnext.pl"
+        "username": "january.blefuje@supermaczo.pl",
+        "first_name": "January",
+        "last_name": "Blefuje",
+        "email": "january.blefuje@supermaczo.pl"
       }
     ],
     "description": "Czary Mary",
@@ -35,7 +35,7 @@
     "finished_at": null,
     "time_period": "",
     "status_old": "NEW",
-    "offer_status": "unpublished",
+    "offer_status": "published",
     "recruitment_status": "open",
     "action_status": "ongoing",
     "votes": false,
@@ -123,10 +123,10 @@
     "volunteers": [
       {
         "id": 82,
-        "username": "radoslaw.drewa@stxnext.pl",
-        "first_name": "Radosław",
-        "last_name": "Drewa",
-        "email": "radoslaw.drewa@stxnext.pl"
+        "username": "january.blefuje@supermaczo.pl",
+        "first_name": "January",
+        "last_name": "Blefuje",
+        "email": "january.blefuje@supermaczo.pl"
       }
     ],
     "description": "Codziennie rano pakujemy śniadanie i zabieramy je ze sobą do pracy. ",
@@ -134,12 +134,12 @@
     "time_commitment": "raz dziennie",
     "benefits": "zjedzone śniadanie",
     "location": "cały kraj",
-    "title": "Pakowanie",
-    "started_at": null,
-    "finished_at": null,
+    "title": "Uśmiech dla dzieci",
+    "started_at": "2016-06-01",
+    "finished_at": "2016-08-10",
     "time_period": "",
     "status_old": "NEW",
-    "offer_status": "rejected",
+    "offer_status": "published",
     "recruitment_status": "open",
     "action_status": "ongoing",
     "votes": false,
@@ -196,20 +196,20 @@
       },
       {
         "id": 82,
-        "username": "radoslaw.drewa@stxnext.pl",
-        "first_name": "Radosław",
-        "last_name": "Drewa",
-        "email": "radoslaw.drewa@stxnext.pl"
+        "username": "january.blefuje@supermaczo.pl",
+        "first_name": "January",
+        "last_name": "Blefuje",
+        "email": "january.blefuje@supermaczo.pl"
       }
     ],
     "description": "Oferta przeznaczona dla osób, którym doskwiera nuda. ",
     "requirements": "Umiejętność machania łyżką wielkości wiosła w kotle pełnym surowców; odporność na pokusę spróbowania świeżo uwarzonej brzeczki; poczucie humoru; znajomość podstaw chemii organicznej; ciekawość do procesu produkcji piw domowych; ",
     "time_commitment": "10 h",
     "benefits": "WolontariuszE stoją przed niepowtarzalną możliwością zobaczenia od kuchni (i zobaczenia kuchni w jednym z mieszkań na Rathattanie - plus to widok z 8.piętra na powstającą galerię handlową Posnanię) produkcję piwa domowego wraz z uwzględnieniem wszelkich walorów sensorycznych tego fascynującego procesu. ",
-    "location": "Las Czechas na Rathattanie. Poznań, Rataje.",
-    "title": "Uważne warzenie, czyli produkcja/dystrybucja domowego piwa",
-    "started_at": null,
-    "finished_at": null,
+    "location": "Poznań, Warszawa.",
+    "title": "Podróż za uśmiech",
+    "started_at": "2016-08-02",
+    "finished_at": "2016-11-11",
     "time_period": "",
     "status_old": "NEW",
     "offer_status": "published",
@@ -299,10 +299,10 @@
       },
       {
         "id": 82,
-        "username": "radoslaw.drewa@stxnext.pl",
-        "first_name": "Radosław",
-        "last_name": "Drewa",
-        "email": "radoslaw.drewa@stxnext.pl"
+        "username": "january.blefuje@supermaczo.pl",
+        "first_name": "January",
+        "last_name": "Blefuje",
+        "email": "january.blefuje@supermaczo.pl"
       }
     ],
     "description": "Poszukujemy 20 wolontariuszy do towarzyszenia seniorom.",
@@ -491,7 +491,7 @@
     "finished_at": null,
     "time_period": "",
     "status_old": "NEW",
-    "offer_status": "unpublished",
+    "offer_status": "published",
     "recruitment_status": "open",
     "action_status": "ongoing",
     "votes": false,
@@ -586,10 +586,10 @@
       },
       {
         "id": 82,
-        "username": "radoslaw.drewa@stxnext.pl",
-        "first_name": "Radosław",
-        "last_name": "Drewa",
-        "email": "radoslaw.drewa@stxnext.pl"
+        "username": "january.blefuje@supermaczo.pl",
+        "first_name": "January",
+        "last_name": "Blefuje",
+        "email": "january.blefuje@supermaczo.pl"
       }
     ],
     "description": "Opis oferty",

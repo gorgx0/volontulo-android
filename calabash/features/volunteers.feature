@@ -6,8 +6,8 @@ Feature: Volunteers list, details
         Then I swipe left
 				* I wait for 1 seconds
         Then I touch the "Lista wolontariuszy" text
-        Then I scroll until I see the "Radosław Drewa" text
-        Then I press "Radosław Drewa"
+        Then I scroll until I see the "January Blefuje" text
+        Then I press "January Blefuje"
 
         Then I scroll until I see the "Zbiórka materiałów szkolnych" text
 				* I wait up to 3 seconds for the "VolunteerDetailsActivity" screen to appear
